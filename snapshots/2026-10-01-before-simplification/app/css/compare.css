@@ -1,0 +1,1471 @@
+/* =============================================================================
+   compare.css — P18. Two plates, one screen, and the difference in words.
+   Owned by the compare agent. Consumes tokens.css and the shared chrome
+   classes in chrome.css; it defines no colour of its own and no font of its own.
+
+   GEOMETRY, AND WHY IT IS INSIDE docs/LAYOUT_BUDGET.md
+   The surface lives in `.stage__over` — the one rectangle rule B5 exempts by
+   name, because this is not a panel standing on the plate: it is the plate,
+   drawn twice by the map's own renderer. The colour ribbon underneath stays on
+   screen and is the key to both plates. The masthead, the lede band, the time
+   bar and the rail are untouched, so B1–B4 measure the same geometry they
+   measured before this file existed.
+
+   THAT LAST CLAIM WAS CHECKED IN ROUND 6 RATHER THAN REPEATED. Measured at
+   390x844 inside beat 9 with the comparison up: `.app__stage` is 390x482 at
+   y=178, `.stage__over` and `.cmp` are 390x450 at y=178, and `.stage__key` —
+   the ribbon, with "Settler assembly 36" and "+5 more" on it — is 390x32 at
+   y=628, wholly below this surface and wholly visible. The header said so for
+   four rounds without a measurement beside it, which is how a sentence that
+   happens to be true becomes indistinguishable from one that is not.
+
+   Two things this file deliberately does NOT do: it declares nothing on `.app`
+   (rule B9), and it never becomes a set of tabs under 62rem (FEATURE_SPEC §2,
+   rule 2) — the plates stack, both labelled, both drawn.
+
+   DISCLOSURE LEVEL (LAYOUT_BUDGET §3), for every part of this surface,
+   including the three added in round 3 — the counterparty line on each row,
+   the mechanism tally under each list head, and the strip that says the list
+   is off screen. All of them are LEVEL 3: they exist only inside a surface the
+   reader opened, they cannot appear at `plate` (the masthead's way in is
+   `hidden` there, and the surface itself only exists while `state.compareYear`
+   is set), and none of them adds a control, a word or a font size to first
+   paint. The strip is the one that takes geometry — a 38px grid row of this
+   surface, never of the shell's — and it takes it only while no named place is
+   on screen, which is the state it exists to end.
+   ========================================================================== */
+
+/* The one shell element this file touches, and only while a comparison is open.
+   `.stage__over` sits at --z-map-overlay (10), below the deferred apparatus
+   column at 20; a comparison has to be above it, and it has to reclaim the
+   apparatus gutter, or the left-hand plate is drawn 24rem narrower than the
+   right one. Both revert the moment the class comes off. */
+.stage__over.cmp-host {
+  z-index: calc(var(--z-panel, 20) + 1);
+  inset-inline-start: 0;
+}
+
+/* THE ONE CROSS-MODULE RULE IN THIS FILE, DECLARED LOUDLY.
+   The map piece floats its own furniture — the definition dial, the zoom
+   cluster, "Other ways to draw this" — into `.app__overlay`, which is a
+   stacking context at --z-modal (70). Nothing rendered inside the stage can be
+   drawn above it, so without this the dial stands on the left-hand compare
+   plate and its buttons still take the pointer, while controlling a map the
+   reader cannot see. Those controls belong to the single plate and mean nothing
+   while two plates are on screen, so they stand down for as long as a
+   comparison is open, and the deferred apparatus column with them.
+
+   `visibility: hidden`, deliberately, not `display: none`: it takes the
+   controls out of the tab order and out of hit-testing without changing one
+   pixel of the map module's own layout, so nothing it has measured goes stale
+   and everything returns exactly as it was when the class comes off. If P02
+   moves its furniture back inside the plate, this rule costs nothing and can be
+   deleted; it is the coordination point between the two pieces. */
+#app:has(.stage__over.cmp-host) .map__furniture,
+#app:has(.stage__over.cmp-host) .stage__apparatus,
+/* AND THE PHONE CASE. On a viewport under 820px the map watches how much of
+   its plate other panels have taken and, past 40%, moves its whole plate into
+   `.app__overlay` and enlarges — which is the right answer to a dossier sheet
+   and the wrong one to a comparison, because the thing covering it is two
+   copies of itself. It is correct that it is covered; it is not correct to
+   draw over the thing covering it. Same treatment, same restoration.
+   A DESCENDANT SELECTOR, not a child one: RESPONSIVE_LAW §7 has P02 lifting
+   that plate into a strip of its own at phone width, and a strip is one more
+   element between `.app__overlay` and `.map` than `>` can see. Measured today
+   the plate stays in `.stage__map`, behind this surface at z 21, and this rule
+   matches nothing — which is the condition it is written for. */
+#app:has(.stage__over.cmp-host) .app__overlay .map { visibility: hidden; }
+
+/* AND THE SLOT'S OTHER TENANTS. `map-overlay` is shared: P06's pressure layer
+   draws its haze and its "this layer is an argument, not a measurement" caption
+   into the same element, and while a comparison is up they land on the 1914
+   plate and cover its totals. The rule is generic on purpose — it names no
+   other piece's classes, so it keeps working as neighbours come and go — and it
+   says the only thing that needs saying: while two plates own the stage,
+   nothing else stands on them. Restored the instant the class comes off. */
+.stage__over.cmp-host > *:not(.cmp) { visibility: hidden; }
+
+/* ================================================ the docked band ========= */
+/* RESPONSIVE_LAW §1 — below 62rem nothing floats inside the map rectangle —
+   and §7's two instructions to this piece. Both are answered here, and the
+   answer to the first is that this surface has no floating control to dock:
+   every control it owns is a ROW OF ITS OWN GRID, declared once at the top of
+   this file and unchanged since. Stated as the law asks, measured inside a
+   mounted beat:
+
+     .cmp__bar        35px at 900x700 and at 768x1024; 91px at 390x844, where
+                      it is three rows — the line that says the lesson is held,
+                      then the two verbs, then the five comparisons on a
+                      sideways scroller under a fade (§"the bar wraps rather
+                      than cuts"). Grid row 1. Overlaps neither plate.
+     .cmp__jumphost   38px, grid row 3, and `hidden` unless the first named
+                      place is genuinely off screen. Overlaps neither plate.
+
+   The measured overlap between every painting element on screen and either
+   compare plate is 0 px2 at 390x844, 768x1024, 900x700 and 844x390, cold and
+   inside a beat, in the ask phase and the revealed one, light and dark — rule
+   C9 and C10 of `tools/scenarios/p18r4-accept.js`, which samples the topmost
+   element on an 8px grid over each plate rather than trusting a box list.
+
+   §7's second instruction — read `#app[data-path]` rather than deriving "is a
+   lesson running" from the tours bus — is answered in index.js `_pathOn`.
+
+   AND THE ONE THING THE LAW MOVED INTO THIS FILE'S WAY. The map's definition
+   dial and its zoom cluster no longer live only in `.map__furniture`: the law
+   sends them to `data-mount="dock-foot"` (`.stage__dock`) and to the ribbon's
+   trailing end, which are the shell's elements and outside the reach of the
+   `.map__furniture` rule above. A dial that changes what "British" means on a
+   map nobody can see is worse than a dial that is missing, so both stand down
+   for as long as a comparison is up — by the same `visibility: hidden` on the
+   CHILDREN, so the shell's own strip keeps its measured height and `--dock-h`,
+   `--map-min` and `--rail-top-min` do not move under a surface that is drawing.
+   The moment P02 has adopted the slots this rule is what keeps them quiet; it
+   costs nothing until then. */
+#app:has(.stage__over.cmp-host) .stage__dock > *,
+#app:has(.stage__over.cmp-host) .stage__key .map__zooms { visibility: hidden; }
+
+.cmp {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  /* bar · the two plates and the difference · the strip that says there is more
+     below. The third row is `auto`, and the strip is `hidden` whenever the head
+     of the first list is already on screen, so it collapses to nothing rather
+     than standing over a sentence. It is a ROW, not a sticky overlay: a sticky
+     footer inside the scroller covered the last line of the verdict at 900x700,
+     and a region that clips its own text is the one thing LAYOUT_BUDGET §4
+     opens by refusing. */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  /* The depth of the sticky plates block in the REVEALED phase below 46rem.
+     Declared here rather than in that media block because the ask phase sizes
+     itself from it (`--cmp-rev / 2 + the card`) so that the drawn plate is the
+     same height before and after the commit, and a custom property used in one
+     block and declared in another is one edit away from resolving to `unset`.
+     `--cmp-h` is the surface's own measured height, written by index.js
+     `_stickyDepth`; the 999px fallback is the pre-measurement first frame. */
+  --cmp-rev: min(14.5rem, calc(var(--cmp-h, 999px) * .55));
+  background: var(--surface-page, #f8f5f0);
+  color: var(--text-body, #241f19);
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+.cmp[hidden] { display: none; }
+/* The rows are placed by name, not by document order — see index.js `_build`. */
+.cmp > .cmp__bar { grid-row: 1; }
+.cmp > .cmp__grid { grid-row: 2; }
+.cmp > .cmp__jumphost { grid-row: 3; min-width: 0; }
+/* Above 62rem the difference is a column, so its footer is the width of that
+   column and not of the whole surface — the same track the grid declares for
+   `delta`, restated here because a grid row cannot inherit a column's width. */
+@media (min-width: 62.001rem) {
+  .cmp > .cmp__jumphost {
+    justify-self: end;
+    inline-size: min(23rem, 27%);
+    min-inline-size: 14rem;
+  }
+}
+
+/* ------------------------------------------------------------------- bar -- */
+
+.cmp__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, .5rem);
+  min-width: 0;
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  background: var(--surface-panel, #fdfbf7);
+  border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  overflow: hidden;
+}
+/* WHAT THE COMPARISON DID TO THE LESSON. Present only while this surface is
+   holding a beat (index.js `_holdOutside`), and when it is present it displaces
+   the eyebrow rather than being added to it: "Two dates, one screen" is a label
+   for a surface the reader is looking at, and this is news about a surface that
+   has just gone. One line, two figures, both read off the lesson. */
+.cmp__held {
+  margin: 0;
+  min-width: 0;
+  flex: 0 1 auto;
+  font-size: var(--fs-micro, .75rem);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.55));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cmp[data-held="yes"] .cmp__eyebrow { display: none; }
+/* AND THE BAR IS A ROW OF CONTROLS, NEVER A FLOW OF PROSE. base.css line 91
+   gives any element following a `<p>` 16px of top margin; this bar is a flex
+   row where that margin is 16px taken straight off both plates, and it appeared
+   the moment a second text node joined the row. Stated once, here, rather than
+   depending on every future child being the right tag. */
+.cmp__bar > * { margin-block: 0; }
+
+.cmp__eyebrow {
+  font-size: var(--fs-micro, .75rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.55));
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.cmp__title {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-base, 1rem);
+  color: var(--text-heading, inherit);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  padding-inline-start: var(--space-sm, .5rem);
+  border-inline-start: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+}
+.cmp__barsp { flex: 1 1 auto; }
+
+/* THE FIVE SCRIPTED COMPARISONS, AND THE END OF THE ROW.
+   Round 5, at 390x844: "the preset chip row clips '1945' at the right edge with
+   no scroll affordance". Measured, the row was 366px wide holding 407px of
+   chips. Three things changed and they are stated here rather than in a
+   breakpoint, because all three are true at every width:
+     · it scrolls sideways, with snap, so a drag never leaves a chip half in;
+     · the fade is keyed to a MEASUREMENT (index.js `_pickerEdges` writes
+       `data-of`), so it appears at the end that actually has more and at no
+       other end, and paints nothing at all when the five chips fit;
+     · the pressed chip is scrolled into view (index.js `_renderPicker`), so
+       opening `1945 / 1965` from a link no longer draws a pressed chip off the
+       side of a row that then looks like a row of four. */
+.cmp__picker {
+  display: flex;
+  gap: var(--space-2xs, .25rem);
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 0 1 auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+}
+.cmp__picker::-webkit-scrollbar { display: none; }
+.cmp__pick { scroll-snap-align: start; }
+/* THE CHIP ROW'S TWO CONTROLS. `display: contents` everywhere except the band
+   where the row is a full-width row of its own, so above 46rem the picker stays
+   a direct flex child of the bar and every rule written for it still applies.
+   The buttons themselves are drawn only where the row can overflow. */
+.cmp__pickrow { display: contents; }
+.cmp__picknav { display: none; }
+@supports (mask-image: linear-gradient(#000, #000)) {
+  .cmp__picker[data-of="end"] {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+  }
+  .cmp__picker[data-of="start"] {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+    mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+  }
+  .cmp__picker[data-of="both"] {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 2rem calc(100% - 2rem), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 2rem calc(100% - 2rem), transparent);
+  }
+}
+.cmp__pick,
+.cmp__toggle,
+.cmp__close,
+.cmp__launch {
+  font: inherit;
+  font-size: var(--fs-micro, .75rem);
+  font-weight: var(--w-semibold, 600);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+  background: none;
+  border: var(--rule-hair, .5px) solid var(--border-default, rgba(0,0,0,.14));
+  border-radius: var(--radius-sm, 2px);
+  padding: .28em .6em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cmp__pick:hover, .cmp__toggle:hover, .cmp__close:hover, .cmp__launch:hover {
+  background: var(--surface-well, rgba(0,0,0,.04));
+  color: var(--text-body, inherit);
+}
+.cmp__pick[aria-pressed="true"],
+.cmp__toggle[aria-pressed="true"] {
+  color: var(--accent-ink, #8a2b26);
+  border-color: var(--accent-ink, #8a2b26);
+  background: var(--surface-well, rgba(0,0,0,.04));
+}
+.cmp__close { border-color: var(--border-firm, rgba(0,0,0,.24)); }
+
+/* The way in, in the masthead. It is not on screen at data-stage="plate". */
+.cmp__launch { display: inline-flex; align-items: center; gap: .45em; }
+.cmp__launch[hidden] { display: none; }
+/* Two plates, drawn. The glyph is the affordance on a phone, where the word and
+   the key chip do not fit in a masthead that is already over its width. */
+.cmp__launch-i { display: inline-flex; gap: 1.5px; flex: 0 0 auto; }
+.cmp__launch-i i {
+  display: block;
+  inline-size: 5px;
+  block-size: 10px;
+  border: var(--rule-hair, .5px) solid currentColor;
+  opacity: .8;
+}
+.cmp__launch-i i:last-child { background: currentColor; opacity: .45; border-color: transparent; }
+.cmp__launch-k {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: var(--fs-micro, .75rem);
+  line-height: 1;
+  padding: .12em .32em;
+  color: var(--text-min, rgba(0,0,0,.55));
+  border: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.12));
+  border-radius: var(--radius-sm, 2px);
+}
+
+/* ------------------------------------------------------------------ grid -- */
+
+.cmp__grid { display: grid; min-width: 0; min-height: 0; }
+/* The wrapper exists for the phone alone. Everywhere else it must not be a box
+   at all, or the three grid areas below become two. */
+.cmp__plates { display: contents; }
+
+.cmp[data-phase="revealed"] .cmp__grid {
+  /* The difference column is capped in BOTH directions: never under 14rem,
+     because a mechanism sentence has to fit on two lines, and never over 27%
+     of the stage, because at 1024x640 a fixed 23rem was 36% of the window and
+     the two plates it exists to explain were 328px each. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(14rem, min(23rem, 27%));
+  grid-template-areas: "a b delta";
+}
+/* THE ASK PHASE HAS THE SAME THREE TRACKS AS THE REVEAL, AND THAT IS THE WHOLE
+   POINT OF IT. It used to be two — one plate and a question column — so the
+   reveal re-laid the surface out: the drawn plate halved in width, the second
+   appeared where nothing had been, and the question column became the
+   difference column, all at once. A reader who has just committed to an answer
+   is then reading a screen they have not seen before, at the exact moment they
+   are meant to be checking a prediction against a map.
+
+   Same tracks, same widths, same places. Committing turns ONE CARD OVER. */
+.cmp[data-phase="ask"] .cmp__grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(14rem, min(23rem, 27%));
+  grid-template-areas: "a b ask";
+}
+.cmp__side[data-side="a"] { grid-area: a; }
+.cmp__side[data-side="b"] { grid-area: b; }
+.cmp__delta { grid-area: delta; }
+.cmp__ask { grid-area: ask; }
+.cmp[data-phase="ask"] .cmp__delta { display: none; }
+.cmp[data-phase="revealed"] .cmp__ask { display: none; }
+
+/* ------------------------------------------------------------- face down -- */
+/* The second plate before it is drawn. It is not a placeholder and not a
+   spinner: it is a card that is deliberately face down, it says so, and it says
+   what turns it over. The hatch is the paper's own rule at 4px, the same device
+   the map uses for a claim it will not colour in. */
+.cmp__facedown {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs, .25rem);
+  text-align: center;
+  padding: var(--space-sm, .5rem);
+  background:
+    repeating-linear-gradient(135deg,
+      var(--border-soft, rgba(0,0,0,.08)) 0 1px,
+      transparent 1px 7px),
+    var(--surface-well, rgba(0,0,0,.035));
+  color: var(--text-min, rgba(0,0,0,.55));
+}
+.cmp[data-phase="ask"] .cmp__side[data-side="b"] .cmp__facedown { display: flex; }
+.cmp__facedown-w {
+  font-size: var(--fs-caption, .8125rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+}
+.cmp__facedown-s {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-caption, .8125rem);
+  color: var(--text-secondary, rgba(0,0,0,.6));
+  max-width: 22ch;
+}
+.cmp__facedown-k {
+  font-size: var(--fs-micro, .75rem);
+  font-style: italic;
+  color: var(--text-min, rgba(0,0,0,.5));
+}
+/* A face-down plate is not a map, so nothing on it pretends to be one: no
+   pointer, no focus ring around a blank canvas, no camera. */
+.cmp[data-phase="ask"] .cmp__side[data-side="b"] { cursor: default; }
+
+/* --------------------------------------------------- more below, faded ----
+   A scroller in this surface that has more below fades its last 20px. See
+   index.js `_edges`: the attribute is written from a measurement and removed
+   the moment the reader reaches the end, so it never dims a genuine last line.
+   It is the optical half of the answer to round 5's "sliced clean through the
+   x-height"; the compositional half is that the ANSWER is the first thing in
+   the difference column under 62rem. */
+@supports (mask-image: linear-gradient(#000, #000)) {
+  .cmp__delta[data-more="yes"],
+  .cmp__grid[data-more="yes"],
+  .cmp__ask[data-more="yes"] {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.25rem), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 1.25rem), transparent);
+  }
+}
+
+/* ----------------------------------------------------------------- plate -- */
+
+.cmp__side {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 0;
+  border-inline-end: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+.cmp__side:focus { outline: none; }
+.cmp__side:focus-visible { outline: var(--rule-mid, 1.5px) solid var(--focus-ring, #8a2b26); outline-offset: -2px; }
+
+.cmp__lab {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs, .375rem);
+  margin: 0;
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  min-width: 0;
+  background: var(--surface-panel, #fdfbf7);
+  border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+  font-weight: var(--w-regular, 400);
+}
+.cmp__hand {
+  font-size: var(--fs-micro, .75rem);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.5));
+  flex: 0 0 auto;
+}
+.cmp__year {
+  font-size: var(--fs-h4, 1.375rem);
+  font-weight: var(--w-semibold, 600);
+  color: var(--text-heading, inherit);
+  letter-spacing: var(--tr-heading, -.009em);
+}
+.cmp__def {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-prose, 1.0625rem);
+  font-style: italic;
+  color: var(--text-secondary, rgba(0,0,0,.7));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmp__plate { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.cmp__plate canvas { position: absolute; inset-block-start: 0; inset-inline-start: 0; display: block; }
+
+.cmp__totals {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2xs, .25rem) var(--space-xs, .375rem);
+  margin: 0;
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  font-size: var(--fs-caption, .8125rem);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+  background: var(--surface-panel, #fdfbf7);
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+  min-width: 0;
+}
+.cmp__fig { white-space: nowrap; }
+.cmp__totals .num { color: var(--text-body, inherit); font-weight: var(--w-medium, 500); }
+.cmp__sep { color: var(--text-min, rgba(0,0,0,.4)); }
+
+/* ------------------------------------------------------------------ ask --- */
+
+.cmp__ask {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  padding: var(--space-lg, 1rem);
+  background: var(--surface-panel, #fdfbf7);
+}
+.cmp__askbox { max-width: var(--measure-narrow, 48ch); }
+.cmp__askbox .cx-ask__q { margin-block: var(--space-xs, .375rem) var(--space-sm, .5rem); }
+.cmp__choice {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-prose, 1.0625rem);
+  text-align: start;
+  color: var(--text-body, inherit);
+  background: var(--surface-page, #f8f5f0);
+  border: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.24));
+  border-radius: var(--radius-sm, 2px);
+  padding: .42em .8em;
+  cursor: pointer;
+}
+.cmp__choice:hover {
+  border-color: var(--accent-ink, #8a2b26);
+  color: var(--accent-ink, #8a2b26);
+}
+.cmp__askbox .cx-note { margin-block-start: var(--space-md, .75rem); max-width: var(--measure-narrow, 48ch); }
+
+/* ---------------------------------------------------------------- delta --- */
+
+.cmp__delta {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  background: var(--surface-panel, #fdfbf7);
+  border-inline-start: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+/* ONE SCROLL, AND NO SENTENCE IS EVER CUT.
+   Round 2 split this column into a capped answer pane over a scrolling list, to
+   guarantee the list was on screen. It guaranteed instead that the answer was
+   clipped mid-word — the exact fault LAYOUT_BUDGET §4 opens with. The fix was
+   editorial rather than geometric: the reveal is now four short sentences, so
+   at 1366x768 the answer and the head of the first list both fit in 427px
+   without a cap, and everything below is one ordinary scroll under sticky
+   section heads. A sentence a reader cannot finish teaches nothing. */
+.cmp__top, .cmp__lists { min-width: 0; }
+
+.cmp__head { padding: var(--space-sm, .5rem) var(--space-md, .75rem); border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14)); }
+.cmp__head .cx-panel__head { margin: 0 0 var(--space-sm, .5rem); }
+.cmp__figs { display: flex; gap: var(--space-lg, 1rem); flex-wrap: wrap; align-items: baseline; }
+.cmp__f { flex-direction: row; align-items: baseline; gap: .35em; }
+.cmp__f .cx-fig__l { white-space: nowrap; }
+.cmp__f[data-kind="gain"] .cx-fig__v { color: var(--ok, #3f6b45); }
+.cmp__f[data-kind="loss"] .cx-fig__v { color: var(--danger, #99342b); }
+.cmp__f[data-kind="shift"] .cx-fig__v { color: var(--accent-2-ink, #244b69); }
+/* The count read against its own grain. It is the only editorial sentence in
+   the head, so it gets the head's own rule above it and nothing else. */
+.cmp__grain {
+  margin: var(--space-sm, .5rem) 0 0;
+  padding-block-start: var(--space-xs, .375rem);
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+}
+.cmp__grain-k {
+  display: block;
+  font-size: var(--fs-micro, .75rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.55));
+}
+.cmp__grain b { font-weight: var(--w-semibold, 600); color: var(--text-body, inherit); }
+.cmp__net {
+  margin: var(--space-sm, .5rem) 0 0;
+  font-size: var(--fs-caption, .8125rem);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+}
+
+.cmp__answer {
+  padding: var(--space-sm, .5rem) var(--space-md, .75rem) var(--space-md, .75rem);
+  border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  border-inline-start: var(--rule-heavy, 3px) solid var(--accent-2-ink, #244b69);
+}
+.cmp__guess {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35em;
+  margin: 0 0 var(--space-sm, .5rem);
+  font-size: var(--fs-caption, .8125rem);
+}
+.cmp__guess-k { color: var(--text-min, rgba(0,0,0,.55)); }
+.cmp__guess-v {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-base, 1rem);
+  color: var(--text-body, inherit);
+  border-bottom: var(--rule-mid, 1.5px) solid var(--danger, #99342b);
+}
+.cmp__guess[data-correct="yes"] .cmp__guess-v { border-bottom-color: var(--ok, #3f6b45); }
+.cmp__guess-a {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-base, 1rem);
+  color: var(--text-heading, inherit);
+  font-weight: var(--w-semibold, 600);
+}
+.cmp__verdict {
+  margin: 0;
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-base, 1rem);
+  line-height: var(--lh-ui, 1.42);
+  color: var(--text-body, inherit);
+}
+.cmp__caution { border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1)); padding-bottom: var(--space-sm, .5rem); }
+.cmp__caution, .cmp__cite, .cmp__gap {
+  margin: var(--space-sm, .5rem) var(--space-md, .75rem) var(--space-md, .75rem);
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.42);
+}
+.cmp__answer .cmp__caution { margin-inline: 0; }
+.cmp__cite {
+  color: var(--text-min, rgba(0,0,0,.55));
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+  padding-top: var(--space-sm, .5rem);
+  font-style: italic;
+}
+
+.cmp__sec { padding-block-end: var(--space-xs, .375rem); }
+.cmp__sec .cx-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm, .5rem);
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--space-xs, .375rem) var(--space-md, .75rem);
+  background: var(--surface-panel, #fdfbf7);
+}
+.cmp__sec[data-kind="gain"] .cx-panel__head { box-shadow: inset 3px 0 0 var(--ok, #3f6b45); }
+.cmp__sec[data-kind="loss"] .cx-panel__head { box-shadow: inset 3px 0 0 var(--danger, #99342b); }
+.cmp__sec[data-kind="shift"] .cx-panel__head { box-shadow: inset 3px 0 0 var(--accent-2-ink, #244b69); }
+.cmp__count { color: var(--text-min, rgba(0,0,0,.5)); }
+
+.cmp__list { list-style: none; margin: 0; padding: 0; }
+.cmp__row {
+  display: grid;
+  gap: 0;
+  width: 100%;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.08));
+  padding: var(--space-xs, .375rem) var(--space-md, .75rem);
+  color: var(--text-body, inherit);
+}
+.cmp__row:hover { background: var(--surface-well, rgba(0,0,0,.04)); }
+.cmp__row[aria-pressed="true"] {
+  background: var(--surface-well, rgba(0,0,0,.05));
+  box-shadow: inset 3px 0 0 var(--accent, #ae3d35);
+}
+.cmp__row-name {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-prose, 1.0625rem);
+  line-height: var(--lh-snug, 1.28);
+  color: var(--text-heading, inherit);
+}
+.cmp__row-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .1em .55em;
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.42);
+}
+.cmp__row-mech { color: var(--text-secondary, rgba(0,0,0,.7)); }
+/* ---- who the other party was ---------------------------------------------
+   The row's third line, and the answer to "whose history is this". It is set
+   quieter than the mechanism and louder than nothing, because a student should
+   be able to read the column and find Tipu Sultan, the Lahore Durbar and Kwame
+   Nkrumah in it without pressing anything. No colour of its own; the key word
+   is small caps so the name beside it reads as the content. */
+.cmp__row-who {
+  display: block;
+  margin-block-start: .1em;
+  font-size: var(--fs-micro, .75rem);
+  line-height: var(--lh-ui, 1.42);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+}
+.cmp__row-wk {
+  margin-inline-end: .45em;
+  font-size: var(--fs-micro, .75rem);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.5));
+}
+
+/* ---- how, counted --------------------------------------------------------
+   One line under a section head: the shape of forty rows before the forty rows.
+   It sits inside the scroller, under the sticky head, so it scrolls away once
+   the reader is inside the list it summarises. */
+.cmp__tally {
+  margin: 0;
+  padding: 0 var(--space-md, .75rem) var(--space-2xs, .25rem);
+  font-size: var(--fs-micro, .75rem);
+  line-height: var(--lh-ui, 1.42);
+  color: var(--text-min, rgba(0,0,0,.55));
+}
+.cmp__tally-s { margin-inline: .4em; }
+.cmp__tally-i .num { color: var(--text-secondary, rgba(0,0,0,.7)); }
+
+/* ---- what happened in between -------------------------------------------- */
+.cmp__evlist { list-style: none; margin: 0; padding: 0; }
+.cmp__ev {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: 0 var(--space-sm, .5rem);
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.08));
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.42);
+}
+.cmp__ev-y { color: var(--text-min, rgba(0,0,0,.5)); }
+.cmp__ev-t { color: var(--text-body, inherit); }
+.cmp__evmore { margin: var(--space-xs, .375rem) var(--space-md, .75rem); }
+
+/* ---- the strip that says there is more below -----------------------------
+   Stuck to the bottom edge of whichever element is the scrollport: the
+   difference column above 62rem, the whole grid below it. It is the last child
+   of the column, so `position: sticky; inset-block-end: 0` pins it to the
+   bottom of the visible scrollport and lets it settle into flow at the end.
+   It is hidden by script the moment the head of the first list is on screen,
+   so it never points at something already visible. */
+.cmp__jump {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 var(--space-sm, .5rem);
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  background: var(--surface-panel, #fdfbf7);
+  border-top: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.24));
+  font-size: var(--fs-caption, .8125rem);
+}
+.cmp__jump[hidden] { display: none; }
+.cmp__jump-a { color: var(--accent-ink, #8a2b26); font-weight: var(--w-semibold, 600); }
+.cmp__jump-b {
+  font: inherit;
+  padding: .25em 0;
+  min-block-size: 2.2em;
+  background: none;
+  border: 0;
+  border-bottom: var(--rule-mid, 1.5px) solid var(--accent-ink, #8a2b26);
+  color: var(--accent-ink, #8a2b26);
+  cursor: pointer;
+}
+.cmp__jump-b:hover { background: var(--surface-well, rgba(0,0,0,.04)); }
+.cmp__row-y, .cmp__row-n { color: var(--text-min, rgba(0,0,0,.5)); font-size: var(--fs-micro, .75rem); }
+.cmp__row-y { font-family: var(--font-mono, ui-monospace, Menlo, monospace); }
+/* An absence renders as an absence, and it does not look like a fact. */
+.cmp__row-mech[data-none="true"] { font-style: italic; color: var(--text-min, rgba(0,0,0,.55)); }
+.cmp__hint { color: var(--text-min, rgba(0,0,0,.5)); }
+.cmp__empty {
+  margin: 0;
+  padding: var(--space-xs, .375rem) var(--space-md, .75rem) var(--space-md, .75rem);
+  font-size: var(--fs-caption, .8125rem);
+  font-style: italic;
+  color: var(--text-min, rgba(0,0,0,.55));
+}
+
+/* ============================================================ narrow ====== */
+/* Under 62rem the two plates STACK. Both keep their year, their definition and
+   their own totals, and the difference list keeps its own scroll underneath
+   them. They never become tabs: a comparison you can only see one half of at a
+   time is the thing print already does better. */
+
+@media (max-width: 62rem) {
+  .cmp[data-phase="revealed"] .cmp__grid,
+  .cmp[data-phase="ask"] .cmp__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(6rem, 1.15fr) minmax(6rem, 1.15fr) minmax(0, 1fr);
+    grid-template-areas: "a" "b" "delta";
+  }
+  .cmp[data-phase="ask"] .cmp__grid {
+    grid-template-areas: "a" "b" "ask";
+  }
+
+  /* UNDER 62REM THE REVEAL IS ONE SCROLLER, AND THE PLATES ARE STUCK TO ITS TOP.
+     Measured on the round-2 build, with the reveal up:
+       390x844   plates 2 x 154 · difference 390x133, first row at y=799
+       900x700   plates 2 x 222 · difference 900x152, first row at y=538
+     Both windows ended 153px and 133px short of ever showing a row, because the
+     counted head and the verdict take about 180px before the first name — so on
+     the two viewports a school actually owns, the twenty-eight named places and
+     the instrument that moved each one were invisible unless the reader
+     happened to drag inside a strip with no scrollbar.
+
+     Three fixed regions in 400px was the wrong shape. One scroller is the right
+     one: the plates hold the top and never leave, so pointing at a line still
+     rings the same place on both maps, and the verdict and the list run at
+     their natural height underneath. Nothing is clipped, nothing scrolls the
+     document (rule B4 — the scroll is inside the region), and the two plates
+     keep their years, their definitions and their own totals (AT3). */
+  .cmp__grid {
+    display: block;
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cmp__plates {
+    display: block;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background: var(--surface-page, #f8f5f0);
+    /* The seam has to read as a seam, or a name passing under the 1922 plate
+       looks like a name that has been cut off. A rule and the shallowest of the
+       shared shadows: this is a surface the reader is currently under, which is
+       the one case DESIGN.md §5 allows a shadow for. */
+    border-bottom: var(--rule-mid, 1.5px) solid var(--border-firm, rgba(0,0,0,.24));
+    box-shadow: var(--shadow-raised, 0 1px 2px rgba(0,0,0,.14));
+  }
+  .cmp__delta { overflow: visible; border-top: 0; }
+
+  /* ------------------------------------------------ the plates stand back --
+     THE PAYLOAD'S OWN LETTERBOX, AND THE ONE RULE THAT ENDS IT.
+     Measured at 390x844 inside beat 9 with the reveal up, before this rule:
+     the scroller is 343px, the sticky plates take 232 of it, and the difference
+     — the verdict the reader has just bet against, then fifty-eight named
+     places with the instrument and the counterparty of each, 5,529px of it —
+     was read through 111px. Nine hundred pixels of sticky map per screenful of
+     list. The round-6 panel found the same 16:1 shape in the beat panel next
+     door and wrote the remedy for it: give the reading surface the majority of
+     the band and drop the map to a strip the reader can bring back.
+
+     So the sticky block has two heights and the reader's own scroll chooses.
+     At the top of the scroller both plates are whole (232). One flick into the
+     list and they drop to a peek — both years, both definitions, both totals,
+     both maps, at 144 — and the window on the list goes from 109px to 234, a
+     115% gain, with both plates still on screen. Scrolling back to the top
+     restores them, and so does pressing any named row, because that press is
+     the gesture that needs the map: sampled off the canvas, a peeked plate
+     draws a 119x50 world — a thumbnail, and honestly a thumbnail, which holds
+     where a place is and not what is around it. The answer to that is to give
+     the plates their full depth back, which a press on any named row does, and
+     not to pretend 50px is a map.
+
+     9rem, not 8. Measured at both: 8rem leaves 250px of list and a 42px band of
+     map, 9rem leaves 234 and 50. The list keeps the majority of the surface
+     either way (52% against 56%), and because the plate is contain-fit those
+     eight pixels of height are 19% more drawn world (119x50 against 100x42),
+     which is the whole difference between a thumbnail and a smear.
+
+     It is written here and not on the phone alone because it is true of the
+     whole docked band: at 768x1024 the same rule turns a 577px scroller with
+     260px of sticky plates into one with 128, which is +48% of list at the one
+     viewport the panel called the worst in the app. index.js `_peek` writes the
+     attribute, measures `position: sticky` before it does, and never writes it
+     in a layout where the plates are not stuck (the three-column short band,
+     the sideways phone), so no media condition is restated in JavaScript. */
+  .cmp[data-phase="revealed"][data-peek="on"] .cmp__plates {
+    block-size: min(9rem, calc(var(--cmp-h, 999px) * .32));
+    /* A SHALLOW PLATE NEEDS A HARDER BOTTOM EDGE THAN A DEEP ONE. At 232px the
+       plate below the seam is obviously a map and the 1.5px rule is enough; at
+       128 the lower plate is a 42px band of sea and, without a firm edge, the
+       first caps line of the difference reads as a label lying on the water.
+       Measured in the seam crop at 390x844: the rule at 2px and the raised
+       shadow put 3px of paper between the map and the type. */
+    border-bottom-width: 2px;
+    box-shadow: var(--shadow-panel, 0 2px 6px rgba(0,0,0,.16));
+  }
+  /* THE ANSWERS TAKE THE WIDTH THEY ARE GIVEN. `.cmp__askbox` is capped at a
+     48ch measure, which is right for the 352px column this question is in above
+     62rem and wrong for the full-width band it is in below it: measured at
+     900x700 the three answers wrapped 2 + 1 inside a 500px box in an 876px
+     band, and the third — "About the same" — ran 26px past the foot of the
+     scroller. The MEASURE belongs to the prose; the row of controls does not
+     have one. */
+  .cmp__askbox { max-width: none; }
+  .cmp__askbox .cx-ask__q { max-width: var(--measure-narrow, 48ch); }
+  /* AND THE QUESTION IS IN THE SAME SCROLLER, WHICH IS THE WHOLE OF ROUND 5's
+     OTHER PHONE DEFECT. `.cmp__ask` was a region of its own with `overflow:
+     hidden auto`, sized by a grid row. Measured at 390x844 inside beat 9: the
+     row gave it 188px and the question it holds is 322px tall, so the THIRD
+     answer — "About the same" — sat at y=638 in a box that ended at 628, and
+     the note under it was 118px past the edge, inside a scroller with no
+     scrollbar and no cue. A student on a phone was offered two of three answers
+     to the app's own commit-before-you-look question.
+
+     One scroller, the same one the reveal already uses. Nothing is clipped,
+     everything is one thumb-drag away, and the fade at the foot says so. */
+  .cmp__ask { overflow: visible; }
+  /* `grid-area: a` and `grid-area: b` name lines that exist only in the
+     three-region desktop grid. Inside the plates block they are unknown
+     custom-idents, and an unknown ident does not fall back to auto placement —
+     it opens implicit tracks, which put the 1914 plate at x=620 in a 900px
+     window. Hand the sides back to normal flow here. */
+  .cmp__plates > .cmp__side { grid-area: auto; }
+  /* One sticky layer, not two: the maps are the thing that must stay. */
+  .cmp__sec .cx-panel__head { position: static; }
+  /* A row scrolled to by `scrollIntoView` — pressing a place on either plate,
+     or tabbing to it — otherwise lands UNDER the sticky maps, which is the
+     classic sticky-header bug and would have made the map-to-list wire look
+     broken on exactly the viewports it was just repaired for.
+     `--cmp-sticky` is the measured depth of the sticky block, published by
+     index.js `_stickyDepth` on every resize. It replaced two hard rem values,
+     which were right only while the plates were two hard heights: the block is
+     now a share of the scroller (below), so it is 143px at 900x700 and 260px at
+     768x1024 and no constant is right for both. The rem is the pre-measurement
+     fallback for the first frame. */
+  .cmp__row,
+  .cmp__sec,
+  .cmp__askbox,
+  .cmp__answer {
+    scroll-margin-block-start: calc(var(--cmp-sticky, 11.5rem) + var(--space-xs, .375rem));
+  }
+  /* THE ANSWER FIRST, AT EVERY WIDTH UNDER 62REM — not only on a phone.
+     Measured at 900x700 inside beat 9 with the reveal up: the sticky plates
+     take 168 of a 282px scroller, so the difference gets 114px, and in it the
+     counted head (three figures and the net line, 115px) came first and pushed
+     the verdict — "You said More in 1770, the dataset says More in 1820" —
+     exactly onto the bottom edge, where it was drawn with the lower half of
+     every letter removed. The reader had just bet against that sentence.
+     The counts are not wrong there, they are second: each plate carries its own
+     units and territories one line above, and the difference figures are
+     restated by the strip at the foot. */
+  .cmp__top { display: flex; flex-direction: column-reverse; }
+  .cmp__answer { border-bottom: 0; border-top: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14)); }
+  .cmp__head { border-bottom: 0; }
+  /* One strip per plate instead of two: the year, the definition and the
+     totals share a line, and the 21px saved goes to the map. On a 390x844
+     phone that is the difference between a 88px world and a 110px one. */
+  .cmp__side {
+    border-inline-end: 0;
+    border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "lab tot" "plate plate";
+  }
+  .cmp__lab { grid-area: lab; border-bottom: 0; }
+  .cmp__plate { grid-area: plate; }
+  .cmp__totals { grid-area: tot; justify-content: flex-end; border-top: 0; flex-wrap: nowrap; overflow: hidden; }
+  .cmp__delta { border-inline-start: 0; border-top: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.18)); }
+  .cmp__lab { padding-block: 1px; }
+  .cmp__year { font-size: var(--fs-base, 1rem); }
+  .cmp__def { font-size: var(--fs-caption, .8125rem); }
+  .cmp__totals { padding-block: 1px; font-size: var(--fs-micro, .75rem); }
+  /* The five comparisons stay reachable on a phone; the title goes, because
+     both plates already carry their year two lines below it. The held line
+     stays: it is the only thing on this surface that says where the lesson
+     went and how to get back to it. */
+  .cmp__eyebrow, .cmp__title { display: none; }
+  /* AND THE HELD LINE IS NEVER THE THING THAT GIVES WAY. Measured at 900x700
+     inside a beat, with the line added and everything in this row still
+     shrinking equally: the bar printed "LESSON HELD · CLOSE PUTS I..." and the
+     fifth comparison printed "19". A sentence cut mid-word teaches nothing
+     (LAYOUT_BUDGET §4) and a chip cut mid-number is a wrong label, not a short
+     one. So this line takes its width and the PICKER yields — the picker is a
+     sideways scroller with a fade that says there is more, which is this app's
+     published answer to a row of chips too long for its line, and it is the
+     only child of this bar that has one. */
+  .cmp__held { flex: 0 0 auto; letter-spacing: var(--tr-caps, .08em); }
+  .cmp__picker { flex: 1 1 auto; }
+  .cmp__hint { display: none; }
+  .cmp__figs { gap: var(--space-md, .75rem); }
+  .cmp__row-name { font-size: var(--fs-base, 1rem); }
+}
+
+/* ====================================================== the phone ========= */
+/* THE PHONE IS ONE COLUMN AND ONE SCROLL, AND THE PLATES DO NOT LEAVE.
+   Measured at 390x844 on the round-2 build: the two plates took 308 of the 441
+   px the stage had left, and the difference — the whole content of this piece,
+   28 named places with the instrument that moved each one — was given 133 px
+   whose first 170 belonged to the counted head and the verdict. The first row
+   sat at y=799 inside a box that ended at 632. Nobody scrolls a 133px window
+   they cannot see the bottom of; in practice a phone reader met two thumbnails
+   and no list.
+
+   So under 46rem the surface stops being three fixed regions and becomes one
+   scroller with the plates STUCK to the top of it. The plates are 7.25rem each
+   and never leave the screen, which is the entire premise of a comparison —
+   point at a line, watch two maps ring the same place — and the verdict and the
+   list below them run at their natural height and are read by scrolling, which
+   is the one gesture a phone is actually good at. Nothing is clipped, nothing
+   is a tab, and both years stay labelled (AT3). */
+@media (max-width: 46rem) {
+  /* Stacked, and 7.25rem each: 232px of sticky map leaves 209 of the stage for
+     the verdict and the first names, and the rest is one thumb-drag away. */
+  /* THE STICKY BLOCK IS A SHARE OF THE SCROLLER, NOT A CONSTANT.
+     7.25rem a side was measured against one window — 390x844 with no lesson
+     mounted, where the scroller is 343px and 232px of plates leaves 111 for the
+     verdict and the first names. In any shorter scroller the same constant is a
+     larger share, and past about 300px it is the whole of it: measured at
+     844x390 (a phone turned sideways) the two plates took 232 of a 172px
+     scroller and the difference list had nothing at all. The cap stays exactly
+     where it was measured; the share is the floor under it, so the list can
+     never be squeezed to nothing by a window this file has not seen. */
+  /* 14.5rem, not 14: the note above this rule says "7.25rem each ... 232px of
+     sticky map", and 14rem is 224, which drew the first plate's canvas at 90px
+     against a harness that has asked for more than 90 since round 3. Eight
+     pixels, and they were always meant to be there. */
+  .cmp[data-phase="revealed"] .cmp__plates { block-size: var(--cmp-rev); }
+  .cmp[data-phase="revealed"] .cmp__side { block-size: 50%; }
+  .cmp[data-phase="revealed"] .cmp__side[data-side="b"] { border-bottom: 0; }
+
+  /* A DIGIT MAY NOT BE CUT. On one strip the label reads "1860 claimed" and on
+     the other "1860 influenced", so the wider word pushed the totals under
+     `overflow: hidden` and the second plate reported "L49 units" — a count with
+     its hundreds column shaved off, which is worse than no count. The label
+     column now yields first (its definition word already ellipsises and the
+     YEAR never moves), and the km² figure — the one of the three the
+     difference head restates two lines below — leaves the strip at this width
+     rather than taking a digit with it. */
+  .cmp__side { grid-template-columns: minmax(3.5rem, auto) minmax(0, max-content); }
+  /* If it ever still does not fit, what goes is the trailing word, never the
+     leading digit — the reverse of what `justify-content: flex-end` did. */
+  .cmp__totals { justify-content: flex-start; }
+  .cmp__totals > :nth-child(4), .cmp__totals > :nth-child(5) { display: none; }
+
+  /* THE BAR WRAPS RATHER THAN CUTS. At 390 the five chips plus Close plus
+     "Only what changed" measured 318px of a 390px line, and the third chip
+     printed as "18" — a control cut mid-number, which is the one thing
+     LAYOUT_BUDGET §4 opens by refusing. Two rows: the two verbs on the first,
+     the five comparisons on the second, scrolling sideways under a fade that
+     says there is more. */
+  .cmp__bar { flex-wrap: wrap; row-gap: var(--space-2xs, .25rem); overflow: visible; }
+  /* THE ROW OF COMPARISONS IS A ROW OF ITS OWN HERE, AND IT HAS TWO CONTROLS.
+     Round 5 keyed its fade to the measurement; round 6's panel looked again and
+     said what a fade cannot say: "cuts '1945' at the right edge with no scroll
+     affordance". A fade is a cue. These are controls. 366px of row holding
+     407px of chips, so `_pickerEdges` draws the one that has somewhere to go —
+     never both when there is only one end, never either when the row fits —
+     and each press moves the row on by exactly one comparison. */
+  .cmp__pickrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs, .25rem);
+    order: 3;
+    flex: 1 0 100%;
+    min-width: 0;
+    padding-block-start: var(--space-2xs, .25rem);
+    border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+  }
+  .cmp__picker {
+    order: 0;
+    flex: 1 1 auto;
+    /* the fade is declared once for the whole docked band, above */
+  }
+  .cmp__pick { flex: 0 0 auto; }
+  .cmp__picknav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    padding: 0;
+    font-size: var(--fs-base, 1rem);
+    line-height: 1;
+    color: var(--text-secondary, rgba(0,0,0,.6));
+    background: var(--surface-page, #f8f5f0);
+    border: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.24));
+    border-radius: var(--radius-sm, 2px);
+    cursor: pointer;
+  }
+  .cmp__picknav[hidden] { display: none; }
+  .cmp__picknav:hover { color: var(--accent-ink, #8a2b26); border-color: var(--accent-ink, #8a2b26); }
+  .cmp__barsp { display: none; }
+  /* THE HELD LINE SHARES ITS ROW, AND THE 22px IT USED TO COST GOES TO THE
+     QUESTION. It had a row of its own because the first row was measured with
+     "Only what changed" in it — 214px, plus 178 for the held line, over a 390px
+     bar. But "Only what changed" does not exist in the ask phase (index.js
+     hides it until the reveal), and in the revealed phase the bar wraps on its
+     own. So: no forced row. It leads the row, Close is pushed to the far end by
+     its own auto margin, and if the three of them ever do not fit, the flex
+     wrap that was always there puts the toggle and Close on a second line
+     rather than cutting a sentence — which is the outcome the forced row was
+     buying, at the price of paying for it in every state. */
+  .cmp__held { flex: 0 0 auto; order: -1; }
+  /* "LESSON HELD ·" and then the button. See index.js. */
+  .cmp__held-t { display: none; }
+  .cmp__toggle, .cmp__close { margin-inline-start: auto; }
+  .cmp__toggle + .cmp__close { margin-inline-start: var(--space-2xs, .25rem); }
+
+  /* The answer-first order is declared once for the whole docked band, above:
+     it was measured on a phone and it turned out to be true at 900x700 too.
+     The net line restates the two plate strips directly above it. */
+  .cmp__net { display: none; }
+
+  /* THE ASK PHASE ON A PHONE: BOTH PLATES ON ONE ROW, ONE OF THEM FACE DOWN.
+     The arithmetic, at 390x844 inside a mounted beat, where this surface has
+     450px and the bar takes 69 of them:
+
+       plates    112   <- 2 x 195, one drawn 1770, one face-down 1820 card
+       question  269   <- eyebrow 18 - the question 104 - THREE answers 96
+                 ---
+                 381   the whole scroller
+
+     Stacked at the revealed phase's own height the plates take 224 and the
+     question gets 157, which is where round 5's third answer went: measured,
+     "About the same" sat at y=638 in a box that ended at 628. Side by side they
+     take 112 and every answer is on screen; the reveal then lays them out full
+     width, one above the other, which is the moment this surface exists for.
+     Nothing here is a tab and both years are labelled throughout. */
+  /* THE ASK PHASE ON A PHONE, AFTER ROUND 6: STACKED, LIKE THE REVEAL.
+     Round 5 put the two plates SIDE BY SIDE here — 195px each — to buy the
+     question the height it needed, and round 6's panel opened the surface on a
+     phone and said the obvious thing about it: "the two plates are 195px wide
+     each — a world map 195px across. Below 62rem the two plates should stack."
+     FEATURE_SPEC §2 rule 3 says the same, and it says it about both phases.
+
+     They were right, and the arithmetic that forced the compromise had a
+     mistake in it: it costed the face-down card as a PLATE. It is not one. It
+     draws nothing, it counts nothing, and it needs exactly the room to say what
+     it is and which year it is — one strip, 3.5rem, the same depth as the
+     labelled strip on the plate above it. What that buys, at 390x844 inside a
+     beat where the surface is 450px:
+
+       plate A     116   <- full width: 390 x 94 of drawn world
+       the card     56   <- "1820 claimed · FACE DOWN · commit and it is drawn"
+       question    171   <- eyebrow, the question, all three answers
+                   ---
+                   343   the whole scroller
+
+     Plate A's 116 is `--cmp-rev / 2` — the exact height it has after the
+     commit — so the drawn plate does not move by a pixel between the phases and
+     round 5's rule P5 still holds where it can. What changes is the card: it
+     grows downward into the plate it was standing in for, which is the reveal.
+     And the gain is in the HEIGHT. The plate is contain-fit — sampled off the
+     canvas at 390x844, a 390x93 box draws a 222x93 world and a 390x49 box draws
+     117x49, so the drawn width is 2.39x the box's height and the box's own
+     width only decides how much sea is beside it. Side by side the pair had 70
+     of height each and drew 167x70; stacked, plate A has 93 and draws 222x93 —
+     1.8x the world, bought by not spending a plate's worth of height on a card
+     with nothing to draw. Stacking is also what FEATURE_SPEC §2 rule 3 asks
+     for, and at this width the two agree. */
+  .cmp[data-phase="ask"] .cmp__plates {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    block-size: min(calc(var(--cmp-rev) / 2 + 3.5rem), calc(var(--cmp-h, 999px) * .44));
+  }
+  .cmp[data-phase="ask"] .cmp__side { block-size: auto; min-block-size: 0; border-inline-end: 0; }
+  .cmp[data-phase="ask"] .cmp__side[data-side="b"] { block-size: 3.5rem; border-bottom: 0; }
+  /* The card is one line at this width: the word, then the sentence, beside it.
+     Stacked they are 34px of type in a 34px box and the second line is cut. */
+  .cmp[data-phase="ask"] .cmp__side[data-side="b"] .cmp__facedown {
+    flex-direction: row;
+    gap: var(--space-sm, .5rem);
+    padding-block: 0;
+  }
+  .cmp[data-phase="ask"] .cmp__side[data-side="b"] .cmp__facedown-s { max-width: none; }
+  /* The question is the payload here, so it takes the room the desktop spends
+     on air: the 17px serif holds, the frame around it does not. */
+  .cmp__ask { padding: var(--space-sm, .5rem) var(--space-md, .75rem) var(--space-lg, 1rem); }
+  .cmp__askbox .cx-note { font-size: var(--fs-micro, .75rem); }
+  /* THREE ANSWERS, ONE ROW, AND EVERY ONE OF THEM WHOLE AND AT REST.
+     Round 5's rule P2 was bought with a side-by-side pair of plates; the plates
+     stack now (above), so the 48px the answers were spending on a second flex
+     line has to come back. Measured at 390x844: two rows of choices are 104px
+     and one row is 56, and 56 is what the arithmetic above leaves. They are
+     equal columns rather than a wrapped flex row so that no answer is wider
+     than another — "About the same" is not a lesser answer than "More in 1770"
+     and it should not look like one — and each column is 116px, which at
+     17px serif takes "About the same" on two lines and clears WCAG 2.2 SC
+     2.5.8's 24px in both directions three times over. */
+  .cmp__askbox .cx-ask__choices {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2xs, .25rem);
+  }
+  .cmp__askbox .cmp__choice { text-align: center; padding-inline: .3em; }
+  /* The question sets one step down at this width. It is the same sentence and
+     the same measure; it is three lines instead of four, and the line it saves
+     is the one the third answer stands on. */
+  .cmp__askbox .cx-ask__q { font-size: var(--fs-base, 1rem); }
+
+  /* THE WAY IN, IN THE SHELL'S OWN PANEL. In the sheet band the masthead's two
+     strips stop being strips and become a panel of full-width rows under the
+     bar (layout.css, `.bar__tools`), which is where this control now lives. So
+     it stops being an 86px word competing for a line that was 60px short, and
+     becomes a row like its neighbours: the glyph, the word, and a target a
+     thumb can hit. The keystroke chip goes — there is no `v` to press on a
+     phone, and printing one is furniture pretending to be help. */
+  .cmp__launch { justify-content: flex-start; padding-block: .5em; min-block-size: 2.75rem; }
+  .cmp__launch-k { display: none; }
+}
+
+/* ---- 46rem to 62rem: two up, difference underneath -----------------------
+   A 900x700 window is too narrow for three columns and much too wide to stack:
+   stacking gave each plate 900 x 109, and a plate that shape draws a 218px
+   world with 340px of empty sea on either side of it. Side by side with the
+   difference list beneath is the honest use of that page — 450 x 260 of map
+   each — and it is still two plates and a list, never a tab. */
+@media (min-width: 46rem) and (max-width: 62rem) {
+  /* Side by side inside the sticky block: 900x700 gives 450 x 165 of map each,
+     which is a world, and the difference underneath gets the rest of the
+     scroller instead of a 152px window with its first row 28px below the cut. */
+  .cmp[data-phase="revealed"] .cmp__plates {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* THE SAME SHARE RULE, AND HERE IT BUYS RATHER THAN PROTECTS. 10.5rem was
+       measured in a 900x700 window, where the scroller is 318px and 168px of
+       plates leaves 150 for the list. The band also holds 768x1024, where the
+       scroller is 577px and the same constant drew two 383x118 letterboxes with
+       409px of list under them — a 3.2:1 strip of world on a tablet with height
+       to spare. 45% is 143px at 900x700 (within a rounding of what was there)
+       and 260px at 768x1024, which is 383x210 of map each: the same shape at
+       both, decided by the window rather than by one of them. */
+    block-size: clamp(10.5rem, calc(var(--cmp-h, 0px) * .42), 18rem);
+  }
+  .cmp[data-phase="revealed"] .cmp__side { block-size: 100%; }
+  .cmp[data-phase="revealed"] .cmp__side[data-side="b"] { border-inline-end: 0; }
+  /* The same block, shallower, because in this phase one of the two plates is a
+     card: 900x700 gives 2 x 449 x ~106 of world over a ~190px question, and
+     every answer is on screen without a scroll. The reveal deepens the block to
+     its 168 and the plates do not move sideways at all. */
+  /* THE PLATES TAKE WHAT THE QUESTION DOES NOT, RATHER THAN A SHARE GUESSED IN
+     ADVANCE. A fixed share of the surface was measured against 900x700 and is
+     wrong on the other viewport in this band: at 768x1024 it drew two 383x145
+     plates over a 330px question and left 250px of white paper under it, on the
+     one device with height to spare. Two rows instead — the question at its own
+     height, the plates take the rest, with 8rem under them so a short window
+     cannot squeeze them out — and the plates come out at 383x230 with nothing
+     left over. If the question is ever taller than the surface it keeps its own
+     scroll, which is the case the `minmax(0, auto)` is for. */
+  .cmp[data-phase="ask"] .cmp__grid {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(8rem, 1fr) minmax(0, auto);
+    grid-template-areas: "a" "ask";
+  }
+  .cmp[data-phase="ask"] .cmp__plates {
+    grid-area: a;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    position: static;
+    block-size: auto;
+    min-block-size: 0;
+  }
+  .cmp[data-phase="ask"] .cmp__ask { grid-area: ask; overflow: hidden auto; }
+  .cmp[data-phase="ask"] .cmp__side { block-size: auto; min-block-size: 0; }
+  .cmp[data-phase="ask"] .cmp__side[data-side="b"] { border-inline-end: 0; }
+  .cmp__side {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "lab" "plate" "tot";
+    border-inline-end: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+    border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  }
+  .cmp__lab { border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1)); }
+  .cmp__totals { justify-content: flex-start; border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1)); }
+  .cmp__totals > :nth-child(2), .cmp__totals > :nth-child(3) { display: revert; }
+  /* The title comes back at this width — except while the lesson is held, when
+     the line saying so is in the row instead and both plates are still carrying
+     their own years one line below. Measured at 900x700: with both in the row,
+     the bar wanted 950px of a 900px line. */
+  .cmp:not([data-held="yes"]) .cmp__title { display: revert; }
+  .cmp__year { font-size: var(--fs-h4, 1.375rem); }
+  .cmp__def { font-size: var(--fs-prose, 1.0625rem); }
+  /* The head earns its keep in one line here; the hint stays off, because the
+     answer under it must not be the thing that gets cut. */
+  .cmp__head { padding-block: var(--space-2xs, .25rem); }
+  .cmp__answer { padding-block: var(--space-2xs, .25rem); }
+}
+
+/* ---- 46rem to 62rem AND SHORT: the difference is a column again ---------
+   THE ONE VIEWPORT THE BRIEF NAMES BY HAND, MEASURED BOTH WAYS.
+
+   900x700 is in the band above, and the band above lays the two plates side by
+   side with the difference underneath them in one scroller. Measured inside a
+   mounted beat, that gives:
+
+     plates      2 x 449 x 117 box  ->  2 x 234 x 117 of DRAWN world  (55k px2)
+     difference  900 x 114, of which the strip that says the list is off screen
+                 takes 38, so the list itself has 76px — about one row.
+
+   The same window as three columns, which is what every wider viewport already
+   does, gives:
+
+     plates      2 x 290 x 282 box  ->  2 x 290 x 145 of DRAWN world  (84k px2)
+     difference  320 x 282, its own scroller, about ten lines of list under the
+                 verdict instead of one.
+
+   MORE map and two and a half times the reading window, from the same 900x700,
+   because a world map is 2:1 and a box 449 wide by 117 tall can only draw 234
+   of its 449 pixels. The band's own note said this window was "too narrow for
+   three columns"; it was measured against a 23rem column, and the column that
+   fits here is 20.
+
+   It is keyed on HEIGHT, not width, because the other viewport in this band —
+   768x1024 — wants the opposite and already has it: a 768px-wide pair of plates
+   over a 579px scroller is the right answer to a tall page, and three columns
+   there would draw 244px plates on a tablet with height to spare. 46rem of
+   height is the line between them: 700 is under it, 1024 is over. */
+@media (min-width: 46rem) and (max-width: 62rem)
+   and (min-height: 34.001rem) and (max-height: 46rem) {
+  .cmp[data-phase="revealed"] .cmp__grid,
+  .cmp[data-phase="ask"] .cmp__grid {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(13rem, 20rem);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: "a b delta";
+  }
+  .cmp[data-phase="ask"] .cmp__grid { grid-template-areas: "a b ask"; }
+  /* No box, no sticky block, no shadow: the three regions are the grid's own. */
+  .cmp[data-phase="ask"] .cmp__plates,
+  .cmp[data-phase="revealed"] .cmp__plates {
+    display: contents;
+    position: static;
+    block-size: auto;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+  .cmp__plates > .cmp__side[data-side="a"] { grid-area: a; }
+  .cmp__plates > .cmp__side[data-side="b"] { grid-area: b; }
+  .cmp[data-phase="ask"] .cmp__side,
+  .cmp[data-phase="revealed"] .cmp__side { block-size: auto; }
+  .cmp__side[data-side="b"] { border-inline-end: 0; }
+  .cmp__side { border-bottom: 0; }
+  .cmp[data-phase="revealed"] .cmp__delta,
+  .cmp__delta {
+    overflow: hidden auto;
+    border-top: 0;
+    border-inline-start: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  }
+  .cmp__ask { overflow: hidden auto; }
+  .cmp__askbox { max-width: var(--measure-narrow, 48ch); }
+  /* Nothing is pinned over the list here, so a row reached by `scrollIntoView`
+     needs no clearance above it — and `--cmp-sticky` is unwritten in this
+     layout (the wrapper has no box), so the 11.5rem fallback would otherwise
+     throw every jump 184px past its target inside a 282px column. */
+  .cmp__row,
+  .cmp__sec,
+  .cmp__askbox,
+  .cmp__answer { scroll-margin-block-start: var(--space-sm, .5rem); }
+  /* The strip that says the list is off screen belongs to the column it points
+     into, not to the whole surface — the same rule the float band states. */
+  .cmp > .cmp__jumphost { justify-self: end; inline-size: min(20rem, 36%); min-inline-size: 13rem; }
+}
+
+/* ---- the float band, in a window with no height to spare -----------------
+   Measured at 1024x600 — the shortest window LAYOUT_BUDGET §0A lists — with the
+   comparison open inside beat 9: the question column is 276px wide, the
+   question wraps to three lines and is 109px tall, the three answers stack one
+   per row because two 130px buttons will not sit in 229px of measure, and the
+   third — "About the same" — ends at y=443 in a column that ends at 424. Two
+   students in three were offered two of three answers, which is round 5's rule
+   P2, in the one band round 5 did not measure it in.
+
+   A window that cannot give the question more height can give it more width,
+   and this one can: 34% of 1024 is 348 rather than 276, which takes the
+   question to two lines and puts two answers on a row. Measured after: the
+   whole question, all three answers and the first line of the note are on
+   screen at rest, and each plate is 334px wide instead of 370 — 10% of a plate
+   for the difference between two answers and three.
+
+   It is stated for BOTH phases, not just the ask, because round 5's rule P5 is
+   that committing turns a card over and does not re-lay the surface out: a
+   column that is 34% while the question is up and 27% after it would move both
+   plates sideways at the exact moment the reader is checking a prediction
+   against them. 42rem of height, so it covers 1024x600 and 1024x640 and stops
+   below 1366x768 (48rem), which has the height and does not need it. */
+@media (min-width: 62.001rem) and (max-height: 42rem) {
+  .cmp[data-phase="ask"] .cmp__grid,
+  .cmp[data-phase="revealed"] .cmp__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(16rem, min(26rem, 34%));
+  }
+  /* 16px of air above the eyebrow and below the note is 32px of a 289px column;
+     8 is enough to keep the frame off the type. */
+  .cmp__ask { padding-block: var(--space-sm, .5rem); }
+}
+
+/* ---- a window too short to hold a map AND a list at the same time -------
+   Measured at 844x390 — a phone turned sideways, and the one window the whole
+   sticky-plates design breaks in. The surface there is 844x208: the bar takes
+   35, which leaves a 173px scroller, and the smallest sticky block this file
+   can draw two legible plates in is 10.5rem. 168 of 173 is not a comparison,
+   it is two plates with the list underneath them off the bottom of the
+   surface and no way to reach it — measured before this rule, both plates were
+   outside `.cmp` and `scrollIntoView` on the first named place could not bring
+   it in.
+
+   So below 34rem of window the plates stop sticking and the surface becomes
+   what it already is on a phone in portrait — ONE SCROLL — with nothing pinned:
+   the plates first, at a height they can be read at, then the verdict, then the
+   names. "The plates never leave" is the right rule in every window that can
+   afford it; in a window that cannot, it means the list never arrives, and the
+   list is the payload. Nothing is clipped and nothing becomes a tab. */
+@media (max-height: 34rem) {
+  .cmp[data-phase="revealed"] .cmp__plates,
+  .cmp[data-phase="ask"] .cmp__plates {
+    position: static;
+    block-size: auto;
+    box-shadow: none;
+  }
+  /* A DEFINITE 7rem, and both halves of that matter. 7rem because at 844x390
+     the scroller is 135px once the strip that says the list is off screen has
+     taken its row, and a plate the reader cannot bring fully into the scroller
+     is one whose totals they can never read. Definite because `block-size:
+     auto` does not shrink it: `.cmp__plate` holds an absolutely-positioned
+     canvas, so its max-content height is whatever the plate last measured
+     itself at, and the plate measures itself against the box the row gives it —
+     a loop with no smallest solution. Measured with `auto`: the side stayed
+     167px in a 135px scroller and neither plate could be brought into view. */
+  .cmp[data-phase="revealed"] .cmp__side { block-size: 7rem; }
+  /* AND THE ASK PHASE IS THE SAME WINDOW WITH THE SAME PROBLEM. Its plates
+     block is sized from `--cmp-h` in the two bands above; at 844x390 that is
+     128px of a 173px scroller and the question gets 45. Here, as in the reveal,
+     nothing is pinned: the two plates run at 7rem each and the question follows
+     them at its own height, one thumb-drag away. */
+  .cmp[data-phase="ask"] .cmp__plates {
+    display: block;
+    block-size: auto;
+    grid-template-columns: none;
+    grid-template-rows: none;
+  }
+  .cmp[data-phase="ask"] .cmp__side { block-size: 7rem; }
+  .cmp[data-phase="ask"] .cmp__side[data-side="a"],
+  .cmp[data-phase="ask"] .cmp__side[data-side="b"] { block-size: 7rem; }
+  /* AND IN THIS WINDOW THE QUESTION COMES BEFORE THE PLATES. Measured at
+     844x390 — a phone turned sideways — the surface is 172px and the scroller
+     137: two plates at 7rem each are 225 of it, so a question laid out after
+     them starts 353px down and a student sees two maps and no answers. The
+     reveal already concedes this window (above): what is pinned there is
+     whatever the surface is FOR, and in the ask phase that is the question.
+     The plates follow it, at a height they can be read at, one drag away.
+     `flex` rather than `block` only so that `order` exists; the flow is the
+     same single column it is everywhere else in this band. */
+  .cmp[data-phase="ask"] .cmp__grid { display: flex; flex-direction: column; }
+  .cmp[data-phase="ask"] .cmp__grid > * { flex: 0 0 auto; }
+  .cmp[data-phase="ask"] .cmp__ask { order: -1; }
+  /* And it fits in the 137px this window leaves only if the frame gives way:
+     the eyebrow, the question and all three answers are 168px at the desktop's
+     own padding and measure, and 122 at these. Nothing is dropped and nothing
+     is cut; the prose sets one step smaller and runs the width of a window
+     that is 844px wide and 390 tall. */
+  .cmp__ask { padding-block: var(--space-2xs, .25rem); }
+  .cmp__askbox .cx-ask__q { max-width: none; font-size: var(--fs-base, 1rem); }
+  .cmp__askbox .cx-note { display: none; }
+  /* ONE STRIP PER PLATE, not two — the same move the phone already makes, for
+     the same reason and with the arithmetic of this window. The year, the
+     definition and the totals share a line, and the 26px that buys goes to the
+     map: measured at 844x390, 62px of world became 88px, which is the
+     difference between a band of sea and a map with the Atlantic in it. */
+  .cmp__side {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "lab tot" "plate plate";
+  }
+  .cmp__lab { border-bottom: 0; padding-block: 1px; }
+  .cmp__totals { justify-content: flex-end; border-top: 0; flex-wrap: nowrap; overflow: hidden; padding-block: 1px; }
+  .cmp__year { font-size: var(--fs-base, 1rem); }
+  .cmp__def { font-size: var(--fs-caption, .8125rem); }
+  /* Nothing is pinned, so a row scrolled to needs no clearance above it. */
+  .cmp__row,
+  .cmp__sec,
+  .cmp__askbox,
+  .cmp__answer { scroll-margin-block-start: var(--space-sm, .5rem); }
+}
+
+/* ============================================================= motion ===== */
+/* The reveal is a width change on a grid, so it settles rather than slides.
+   Paper does not bounce (DESIGN.md §5) and reduced motion removes it entirely. */
+.cmp__grid { transition: grid-template-columns var(--dur-deliberate, 560ms) var(--ease-settle, cubic-bezier(.22,1,.28,1)); }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .cmp__grid { transition: none; }
+}
+:root[data-motion="reduced"] .cmp__grid { transition: none; }
+
+/* ============================================================== print ===== */
+/* Both plates and the whole list on one page. The comparison is one of the
+   printable outputs FEATURE_SPEC §1 charge 14 concedes are the permanent ones. */
+@media print {
+  .cmp { position: static; background: none; }
+  .cmp__bar .cmp__pick, .cmp__toggle, .cmp__close, .cmp__jump { display: none; }
+  .cmp[data-phase="revealed"] .cmp__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "a b" "delta delta";
+  }
+  .cmp__delta { overflow: visible; border-inline-start: 0; }
+  .cmp__sec .cx-panel__head { position: static; }
+  .cmp__row { break-inside: avoid; }
+}

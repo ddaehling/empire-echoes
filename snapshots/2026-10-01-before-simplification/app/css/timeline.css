@@ -1,0 +1,1800 @@
+/* ============================================================================
+   timeline.css — P03, time control and playback.  Owned by the timeline piece.
+   Every colour is a token from tokens.css. No hex appears in this file.
+   ========================================================================== */
+
+.tl {
+  --tl-lane-h: 13px;
+  --tl-lane-gap: 3px;
+  --tl-rail-h: 34px;
+
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+
+  /* THE BAR IS THE HEIGHT THE SHELL GIVES IT AND NOT ONE PIXEL MORE.
+     docs/LAYOUT_BUDGET.md B3: 124 / 140 / 152 / 164 / 184 CSS px at the five
+     contract viewports, `height` and not `min-height`, and the region clips.
+     Measured before this pass, with the change deck and the rate rail in flow,
+     this element asked for 341px of a 140px region at 1366x768 and 365px of a
+     124px region at 1024x640 — and being clipped IS being over budget. Two
+     strata left the bar for good (the deck, the rate rail) and a third for the
+     lede band (the spine caption). What is here is the year, the transport that
+     moves it, the axis that carries it, and the four empires under it.
+
+     Nothing declares a grid on `.app` from this file (B9), and nothing here is
+     `position: fixed` over the plate (B5). */
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: minmax(10.5rem, 15rem) minmax(0, 1fr);
+  grid-template-areas: "deck body";
+  column-gap: var(--space-md);
+  row-gap: var(--space-2xs);
+  /* THE AXIS DOES NOT MOVE WHEN THE DECK GROWS.
+
+     LAYOUT_BUDGET P03: "the axis must not reflow: rule B3 means your height is
+     constant, so a cursor over a tick stays over that tick." It was still
+     reflowing, and the cause was this: one grid row, `align-content: center`,
+     so the row's height was the taller of the two columns — and at `working`
+     the deck gains a second rank of transport buttons and the route to the
+     ending, which pushed the row taller and slid the axis eight pixels up
+     under a stationary pointer. Measured at 1366x768: y=620 at `plate`, y=612
+     at `working`.
+
+     Both columns are the full height of the region now and each centres its
+     own contents inside it, so the axis's position is a fact about the axis
+     and the region — both constant — and nothing the deck does can move it.
+
+     WAVE 9: `align-content: stretch` STRETCHES AN AUTO ROW UP TO THE REGION.
+     IT DOES NOT STOP IT GROWING PAST IT. The row was still `auto`, so at
+     `apparatus` — where the deck gains the axis's key and the year block gains
+     its second route — the row took the deck's own content height and the body
+     was stretched to match. Measured with playback stopped, on the cold plate,
+     `plate` -> `apparatus`:
+
+       900x700    row 135 -> 150.9   axis y 552 -> 560   spine y 607 -> 615
+       1024x640   row 123 -> 145.9   axis y 493 -> 504   spine y 549 -> 560
+       1366x768   row 139 -> 145.9   axis y 608 -> 611   spine y 666 -> 669
+       390x844    rows 75.8/97.2 -> 99.5/96             axis 745 -> 767
+                                                        spine 777 -> 816
+
+     and the same growth clipped what it could not hold: 16px off the bottom of
+     the `Engines` button at 900x700, 23px off the year block at 1024x640, 19px
+     of the fourth lane below the window at 390x844. One defect, two faces.
+
+     The row is `minmax(0, 1fr)` now — in a grid whose own height is definite,
+     `1fr` IS the region and cannot exceed it — and both columns carry
+     `min-block-size: 0` so neither can bid the row up. The axis's y is now a
+     fact about the region alone. What the deck must then FIT in is arithmetic,
+     and it is written where each arrangement states it. */
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  align-content: stretch;
+  padding: var(--space-3xs) var(--space-lg) var(--space-2xs);
+  font-family: var(--font-sans);
+  color: var(--text-body);
+}
+
+/* the shell's [hidden] is not !important, and .chip sets display — say it here */
+.tl [hidden] { display: none !important; }
+
+/* ------------------------------------------------------------- the deck -- */
+
+.tl__deck {
+  grid-area: deck;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-width: 0;
+  /* it may not bid the row up; see `.tl`'s own note */
+  min-block-size: 0;
+  border-inline-end: var(--rule-hair) solid var(--border-soft);
+  padding-inline-end: var(--space-md);
+}
+
+/* base.css's `:where(p, ul, …) + * { margin-top: --space-lg }` put sixteen
+   pixels between the axis's key and the transport the first time the key was
+   a <p>. Nothing in this column carries a prose margin. */
+.tl__deck > * { margin-block: 0; }
+
+.tl__transport { display: flex; align-items: center; gap: var(--space-3xs); flex-wrap: wrap; row-gap: 2px; }
+
+.tl-btn {
+  min-height: 1.6rem;
+  /* WCAG 2.2 SC 2.5.8 IS A RULE ABOUT BOTH AXES, and round 3 measured this one
+     failing on the short one: the two jump buttons are a single glyph and were
+     22 CSS px wide at 390x844 against a floor of 24. `min-inline-size` rather
+     than padding, so the row of five keeps its rhythm and the deck's second
+     rank does not grow — measured after: 24x26, the deck still 76, the time
+     control still 184 against LAYOUT_BUDGET B3's 190. */
+  min-inline-size: 1.5rem;
+  padding: 0 var(--space-2xs);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+}
+.tl-btn--play { padding-inline: var(--space-xs); gap: var(--space-3xs); }
+.tl-btn--jump { font-size: var(--fs-small); line-height: 1; }
+.tl-btn__glyph {
+  display: inline-block; width: 0; height: 0;
+  border-inline-start: 6px solid currentColor;
+  border-block: 4px solid transparent;
+  margin-inline-end: 2px;
+}
+/* Reduced motion: the button says "Step" and the glyph is a play mark against a
+   stop bar, so a sighted mouse user is told what a screen-reader user is told. */
+.tl-btn--play[data-mode='step'] .tl-btn__glyph { position: relative; margin-inline-end: 5px; }
+.tl-btn--play[data-mode='step'] .tl-btn__glyph::after {
+  content: ''; position: absolute;
+  inset-block: -4px; inset-inline-start: 2px;
+  inline-size: 2px; background: currentColor;
+}
+.tl-btn--play[data-playing='true'] .tl-btn__glyph {
+  width: 6px; height: 8px; border: 0;
+  border-inline-start: 2px solid currentColor;
+  border-inline-end: 2px solid currentColor;
+  background: transparent;
+}
+.tl-btn__word { min-width: 2.6em; text-align: start; }
+
+.tl-speed {
+  margin-inline-start: auto;
+  font: inherit;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-3xs);
+}
+
+.tl__now { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+/* The same rule, and the same reason, as `.tl__deck > *` above: base.css §91
+   gives anything after a paragraph-level box a 16px flow margin, and this is a
+   fixed-height control, not a flow. Measured at 900x700 at `apparatus` before
+   this line: the block was 72.4px for 58.4px of type. */
+.tl__now > * { margin-block: 0; }
+.tl__yearline { display: flex; align-items: baseline; gap: 1px; }
+.tl__year {
+  font-family: var(--font-mono);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: var(--lh-solid);
+  letter-spacing: -0.01em;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+.tl__circa {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--warn);
+  align-self: flex-start;
+  padding-block-start: 2px;
+}
+.tl__count {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+/* ONE ROW, UP TO TWO ROUTES OUT. "Account disputed" and "How it ends" are both
+   `.cx-more` and both twelve pixels tall; they share one line under the count
+   and wrap to two only where the deck is wide enough to spare it. The bar's
+   height does not move for either. */
+.tl__more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  row-gap: 0;
+  margin-block-start: 2px;
+  min-width: 0;
+}
+.tl__warn,
+.tl__ends {
+  /* `.cx-more` supplies the type, the colour and the arrow. All this adds is
+     where it sits: on its own line under the count, aligned to the year. */
+  align-self: flex-start;
+  white-space: nowrap;
+  text-align: start;
+}
+/* The speed rides the route line rather than the transport, so five buttons
+   stay on one rank and the deck keeps the row the legend below needs. */
+.tl__more .tl-speed { margin-inline-start: auto; align-self: center; }
+
+/* ------------------------------------------------------- the axis's key --
+   Round 4: "The unlabelled numeral row that appears above the axis … has no
+   legend anywhere on screen. Label it or drop it." The numerals are dropped
+   (see `.tl-mark`), and this is the label: the rail's own two glyphs, drawn by
+   the same rules, at the top of the deck and level with the row they name. It
+   exists only at `apparatus`, which is the only level at which the row does.
+   Twelve pixels of type, one line, no box, no colour of its own. */
+.tl__key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-sm);
+  row-gap: 0;
+  margin: 0;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-min);
+}
+.tl__key-item { display: inline-flex; align-items: center; gap: var(--space-3xs); white-space: nowrap; }
+/* the glyphs are `.tl-mark__ring`, so they cannot drift from the rail's;
+   `data-kind` selects the same two textures the marks use */
+.tl__key-item[data-kind='what'] .tl-mark__ring {
+  border: 0; border-radius: 0;
+  inline-size: 3px; block-size: 4px;
+  background: var(--info);
+}
+
+/* ------------------------------------------------------------- the body -- */
+
+.tl__body { grid-area: body; position: relative; min-width: 0; min-block-size: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--space-2xs); }
+
+/* --------------------------------------------------------- the sheet --
+   Everything long this piece has now opens in the shell's rail: 410x716 with
+   its own scroll, beside a live map, guaranteed by LAYOUT_BUDGET B7/B8. This
+   used to be a third grid row inside a bar with a fixed height, and it resolved
+   to a box one pixel tall at y=772 carrying fourteen live historiographical
+   disputes and the app's only prediction question. */
+.tl-sheet {
+  display: grid;
+  gap: var(--space-md);
+  min-inline-size: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-body);
+}
+.tl-sheet > * { min-inline-size: 0; }
+.tl-sheet__go { justify-self: start; }
+/* it says out loud when there is more of it below the fold */
+.tl__drawer-more {
+  margin: 0;
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+
+/* the full list: nothing at a year is unreachable */
+.tl__all {
+  padding-block-end: var(--space-xs);
+}
+/* The sheet's own head carries the title, so the list opens with its count. */
+.tl-all__count { display: block; font-size: var(--fs-micro); color: var(--text-secondary); }
+.tl-all__order {
+  margin: var(--space-3xs) 0 var(--space-xs);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  max-width: var(--measure-wide, 46rem);
+}
+/* ONE COLUMN, ALWAYS. This list used to lay itself out for a drawer the width
+   of the window; it lives in a 410px rail now, where a three-column row
+   resolved to columns of four words printing over each other. Every child
+   states its column, so nothing can fall back into the 1rem glyph gutter. */
+.tl-all__list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.tl-all__row {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  column-gap: var(--space-xs);
+  row-gap: 2px;
+  align-items: baseline;
+  padding: var(--space-2xs) var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  cursor: pointer;
+}
+.tl-all__row:hover { background: var(--surface-well); }
+.tl-all__row:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: -1px; }
+.tl-all__dir { font-family: var(--font-mono); font-weight: 700; color: var(--text-secondary); }
+.tl-all__dir[data-dir='in']    { color: var(--accent-ink); }
+.tl-all__dir[data-dir='out']   { color: var(--accent-2-ink); }
+.tl-all__dir[data-dir='shift'] { color: var(--warn); }
+/* Direct children only — `.tl-all__also` is itself a grid and its own children
+   must not inherit the row's column assignments. */
+.tl-all__row > .tl-all__subject { grid-column: 2; }
+.tl-all__row > .tl-all__mech,
+.tl-all__row > .tl-all__how,
+.tl-all__row > .tl-all__meta,
+.tl-all__row > .tl-all__seam,
+.tl-all__row > .tl-all__lost,
+.tl-all__row > .tl-all__also { grid-column: 2; }
+.tl-all__subject { font-weight: 650; color: var(--text-heading); }
+.tl-all__mech { color: var(--accent-ink); font-size: var(--fs-micro); }
+.tl-all__how {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+  max-width: var(--measure-wide, 52rem);
+}
+.tl-all__how--gloss { font-style: italic; }
+.tl-all__row--event .tl-all__mech { color: var(--info); }
+.tl-all__row--event .tl-all__dir { color: var(--info); }
+.tl-all__why { color: var(--text-secondary); font-family: var(--font-serif); font-size: var(--fs-caption); }
+.tl-all__unsourced { color: var(--danger); font-weight: 700; }
+.tl-all__meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+/* ------------------------------------------------------------- the axis -- */
+
+.tl-ax { position: relative; }
+.tl-ax__rail {
+  position: relative;
+  cursor: ew-resize;
+  touch-action: none;
+  border-radius: var(--radius-sm);
+}
+/* The uncertainty rail gets its own band above the axis, 24px tall, because a
+   WCAG 2.2 AA target is 24 x 24 and the marks used to be 13 x 12 and overlapping.
+   The visible glyph sits at the bottom of the band, against the axis; the rest
+   of the target is empty space above it. */
+.tl-ax__marks { position: relative; height: var(--tl-marks-h, 24px); }
+
+/* THE AXIS DOES NOT MOVE WHEN THE UNCERTAINTY RAIL ARRIVES.
+
+   LAYOUT_BUDGET P03: "the axis must not reflow … a cursor over a tick stays
+   over that tick." The bar's height is constant, but the rail of marks is
+   drawn only at `apparatus`, and adding it in flow slid the ruling and the
+   four phase bands twelve pixels — under whatever the pointer happened to be
+   over — the moment a reader pressed a control on the far side of the screen.
+   The row's slot is reserved at every level instead: the rail keeps the
+   padding and the marks are laid into it absolutely, so `plate`, `working`
+   and `apparatus` all draw the ruling at the same y.
+
+   WAVE 9: AND IT IS RESERVED BELOW 46rem TOO. This block used to stop at
+   46.0625rem, on the reasoning that "below 46rem the deck and the spine are
+   both reshaped by the level anyway … there is nothing to hold still". Once
+   the deck stopped being reshaped — `.tl`'s row is the region now, and the
+   46rem block's own arithmetic holds the deck at 72px at every level — the
+   only thing still moving at 390x844 was this: measured with playback stopped,
+   the ruling fell 16px and the four phase bands 15px between `working` and
+   `apparatus`, because the 18px rail arrived in flow.
+
+   The 18px is paid for once, at every level, by the trace (§46rem below) — and
+   the four lanes get BIGGER at `apparatus` in the bargain, 11px back to 12,
+   because they no longer have to buy the rail out of their own leading.
+   Measured at 390x844 after: 180px of a 183px region at all three levels, the
+   ruling at one y and the four bands at one y. */
+:where(.tl) { --tl-marks-h: 24px; }
+.tl-ax__rail { position: relative; padding-block-start: var(--tl-marks-h, 24px); }
+.tl-ax__marks { position: absolute; inset-block-start: 0; inset-inline: 0; }
+.tl-ax__axis { position: relative; height: var(--tl-rail-h); }
+.tl-ax__rail:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 2px; }
+.tl-ax__rail[data-dragging] { cursor: grabbing; }
+.tl-ax__svg { position: absolute; inset-block-start: 0; inset-inline-start: 0; display: block; overflow: visible; }
+
+.tl-ax__base   { stroke: var(--border-firm); stroke-width: 1; }
+.tl-ax__minor  { stroke: var(--border-soft); stroke-width: 1; }
+.tl-ax__major  { stroke: var(--border-firm); stroke-width: 1; }
+.tl-ax__slash  { stroke: var(--text-min); stroke-width: 1; }
+.tl-ax__yr {
+  fill: var(--text-min);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  text-anchor: middle;
+  font-variant-numeric: tabular-nums;
+}
+.tl-ax__yr--head { text-anchor: start; }
+.tl-ax__ev { stroke: var(--ink-ghost); stroke-width: 1; }
+.tl-ax__ev--heavy { stroke: var(--accent-2-ink); stroke-width: 1.5; }
+
+/* the uncertainty rail: every date this atlas cannot settle, marked and answerable */
+.tl-mark {
+  position: absolute;
+  inset-block-end: 0;
+  inline-size: 24px; block-size: 24px;
+  transform: translateX(-12px);
+  padding: 0; margin: 0;
+  background: none; border: 0;
+  cursor: help;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  align-items: end;
+  gap: 1px;
+}
+/* NO NUMERAL ROW. Round 4 read the marks' cluster counts off the screen as
+   "4 3 3 3 2 … 10 5 8 4 9 8 5 2" and could find no key for them anywhere,
+   correctly: the figure counted how many years a 24px target had swallowed at
+   this window width, which is a fact about the rendering and changes when the
+   window does. It is gone. A cluster of more than one year draws a second,
+   fainter ring around the first — a shape, not a number — and states the count
+   in its title, its accessible name and the sheet it opens. */
+.tl-mark__ring { grid-row: 2; }
+.tl-mark:not([data-years='1']) .tl-mark__ring {
+  box-shadow: 0 0 0 2px var(--surface-panel), 0 0 0 3px var(--border-soft);
+}
+.tl-mark__ring {
+  inline-size: 7px; block-size: 7px;
+  border: var(--rule-fine) dotted var(--warn);
+  border-radius: var(--radius-pill);
+  background: var(--surface-panel);
+}
+/* Two textures, deliberately unequal. A soft *date* is a ring on the rail; a
+   disputed *account* is a low tick, because there are a hundred of them and a
+   hundred rings would read as damage rather than as information. */
+.tl-mark[data-kind='what'] .tl-mark__ring {
+  border: 0; border-radius: 0;
+  inline-size: 3px; block-size: 4px;
+  background: var(--info);
+  opacity: 0.5;
+}
+.tl-mark[data-kind='what']:hover .tl-mark__ring,
+.tl-mark[data-kind='what']:focus-visible .tl-mark__ring { opacity: 1; block-size: 7px; }
+.tl-mark[data-kind='both'] .tl-mark__ring { border-color: var(--warn); background: var(--warn-soft); border-style: solid; }
+.tl-mark:hover .tl-mark__ring,
+.tl-mark:focus-visible .tl-mark__ring { border-style: solid; background: var(--warn-soft); }
+.tl-mark:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; border-radius: var(--radius-sm); }
+
+.tl-ax__handle { position: absolute; inset-block: 0; inset-inline-start: 0; width: 0; will-change: transform; }
+.tl-ax__handle-stem {
+  position: absolute; inset-block: 2px 8px; inset-inline-start: -1px;
+  width: 2px; background: var(--accent);
+}
+.tl-ax__handle-cap {
+  position: absolute; inset-block-start: -1px; inset-inline-start: -4px;
+  width: 0; height: 0;
+  border-inline: 4px solid transparent;
+  border-block-start: 6px solid var(--accent);
+}
+.tl-ax__ghost { position: absolute; inset-block: 4px 10px; inset-inline-start: 0; width: 0; }
+.tl-ax__ghost-lbl { cursor: pointer; }
+.tl-ax__ghost-lbl:hover { border-color: var(--border-firm); }
+.tl-ax__ghost-lbl:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 2px; }
+.tl-ax__ghost-lbl {
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline-start: 3px;
+  font: inherit;
+  border: var(--rule-hair) solid var(--border-default);
+  min-block-size: 1.05rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-2-ink);
+  background: var(--surface-panel);
+  padding-inline: 1px;
+  line-height: 1;
+}
+.tl-ax__ghost-lbl.is-left { inset-inline-start: auto; inset-inline-end: 3px; }
+.tl-ax__ghost::before {
+  content: ''; position: absolute; inset-block: 0; inset-inline-start: -1px;
+  width: 2px; background: var(--accent-2-ink); opacity: 0.75;
+}
+
+/* ------------------------------------------------------- the spine band -- */
+
+.tl-spine { display: flex; flex-direction: column; gap: 2px; }
+.tl-spine__track {
+  position: relative;
+  height: calc(4 * var(--tl-lane-h) + 3 * var(--tl-lane-gap));
+}
+.tl-lane {
+  position: absolute;
+  inset-block-start: calc(var(--lane-i) * (var(--tl-lane-h) + var(--tl-lane-gap)));
+  block-size: var(--tl-lane-h);
+  display: flex; align-items: center; gap: var(--space-2xs);
+  padding: 0 var(--space-2xs);
+  font: inherit;
+  font-size: var(--fs-micro);
+  line-height: 1;
+  text-align: start;
+  color: var(--text-secondary);
+  background-color: var(--surface-panel);
+  background-image: none;                     /* texture is drawn only while it runs */
+  background-size: var(--lane-tex-size);
+  border: var(--rule-hair) solid var(--border-soft);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  overflow: hidden;
+}
+.tl-lane[data-on='true'] {
+  background-color: var(--lane-fill);
+  background-image: var(--lane-tex);
+  color: var(--lane-ink);
+  border-color: var(--border-firm);
+  box-shadow: var(--shadow-raised);
+}
+.tl-lane[data-on='true'] .tl-lane__name { font-weight: 700; }
+.tl-lane[data-soft-start='true'] { border-inline-start-style: dashed; border-inline-start-width: var(--rule-fine); }
+.tl-lane { border-color: var(--border-default); }
+.tl-lane:hover { border-color: var(--border-firm); background-color: var(--surface-margin); }
+.tl-lane[data-on='true']:hover { background-color: var(--lane-fill); }
+.tl-lane:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; z-index: var(--z-panel); }
+.tl-lane__label { display: inline-flex; align-items: baseline; gap: var(--space-2xs); min-width: 0; }
+.tl-lane__num { font-family: var(--font-mono); font-weight: 600; letter-spacing: 0.04em; }
+.tl-lane__name {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tl-lane__span {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* COHERENCE PASS — THE PHASE NAME IS NEVER CUT THROUGH A LETTER.
+   Measured with the full key open at 1440x900: this lane was 89px wide holding
+   96px of label, `overflow: hidden`, no ellipsis — so the fourth phase of the
+   spine, the one the whole second half of the atlas is about, was captioned
+   "IV Dissolutio". A lane narrow enough to be a problem gives up its padding
+   first (which buys back most of the shortfall) and its last letters second,
+   with an ellipsis, which is a mark a reader understands. */
+.tl-lane__short {
+  display: none; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap;
+  min-inline-size: 0; overflow: hidden; text-overflow: ellipsis;
+}
+.tl-lane.is-narrow { padding-inline: 2px; gap: 2px; }
+.tl-lane.is-tight .tl-lane__span { display: none; }
+.tl-lane.is-narrow .tl-lane__name { display: none; }
+.tl-lane.is-narrow .tl-lane__short { display: inline; }
+.tl-lane.is-bare .tl-lane__short { display: none; }
+.tl-lane[data-on='true'] .tl-lane__short { font-weight: 700; }
+.tl-lane[data-seen='true'] .tl-lane__num::after {
+  content: '·'; margin-inline-start: 2px; color: var(--accent);
+}
+
+.tl-spine__trace { position: relative; height: 3px; margin-block-start: 2px; }
+.tl-spine__been {
+  position: absolute; inset-block: 0;
+  background: var(--accent);
+  opacity: 0.55;
+  border-radius: var(--radius-pill);
+}
+
+/* The caption and the coverage tracker are not printed in the bar any more —
+   the shell speaks the phase clause in the lede band at 19px, and the tally
+   sits in the rate sheet beside the picture it is a tally of. These rules are
+   what they look like there. */
+.tl-spine__caption {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+  min-width: 0;
+}
+.tl-spine__lead { color: var(--text-heading); font-weight: 600; }
+.tl-spine__rest { color: var(--text-secondary); }
+.tl-spine__seen {
+  margin: 0;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-min);
+}
+.tl-spine__seen:empty { display: none; }
+.tl-spine__seen[data-done='true'] { color: var(--ok); }
+
+/* ---------------------------------------------------- popover and stops -- */
+
+.tl-pred { grid-column: 1 / -1; }
+.tl__pop {
+  /* The drawer is wide and short, so the popover sets itself in columns like a
+     printed page rather than one long ribbon a student has to scroll five
+     screens of. The head, the index and the sources span the full measure. */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: var(--space-2xs) var(--space-lg);
+  align-content: start;
+  padding-block-end: var(--space-xs);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.tl__pop > .tl-pop__head,
+.tl__pop > .tl-pop__count,
+.tl__pop > .tl-pop__index,
+
+.tl__pop > .tl-pop__foot { grid-column: 1 / -1; }
+.tl__pop > .tl-pop__head { max-inline-size: var(--measure-wide, 46rem); }
+.tl__pop .tl-pop__note { max-width: none; }
+.tl-pop__yeargroup { min-width: 0; break-inside: avoid; }
+.tl-pop__yeargroup .tl-pop__yearhead { margin-block: 0 2px; }
+.tl-pop__count {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+.tl-pop__idx { color: var(--text-min); font-weight: 400; font-size: var(--fs-micro); }
+.tl-pop__yearn { margin-inline-start: var(--space-2xs); font-size: var(--fs-micro); color: var(--text-min); }
+.tl-pop__index { display: flex; flex-wrap: wrap; gap: var(--space-3xs); margin-block-end: var(--space-2xs); }
+.tl-pop__ix {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  background: var(--surface-panel);
+  border: var(--rule-hair) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-2xs);
+  cursor: pointer;
+}
+.tl-pop__ix:hover { border-color: var(--border-firm); }
+.tl-pop__ix:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-pop__head {
+  display: flex; align-items: baseline; gap: var(--space-2xs); flex-wrap: wrap;
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-heading);
+}
+.tl-pop__kind { margin: 0 0 var(--space-2xs); }
+.tl-pop__numeral { color: var(--accent); font-weight: 600; }
+.tl-pop__span { color: var(--text-secondary); }
+.tl-pop__row { margin-block-start: var(--space-xs); }
+.tl-pop__what { display: block; font-size: var(--fs-caption); color: var(--text-heading); }
+.tl-pop__tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  margin-block-start: 1px;
+}
+.tl-pop__note {
+  margin: 2px 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+  max-width: var(--measure-narrow);
+}
+.tl-pop__foot {
+  margin: var(--space-sm) 0 0;
+  padding-block-start: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.tl-pop__srcs { list-style: none; margin: var(--space-3xs) 0 0; padding: 0; display: grid; gap: var(--space-2xs); }
+.tl-pop__src { display: grid; gap: 0; }
+.tl-pop__src-cite { color: var(--text-secondary); font-size: var(--fs-micro); }
+.tl-pop__src-for { color: var(--text-min); font-size: var(--fs-micro); font-style: italic; }
+.tl-pop__unsourced { color: var(--danger); font-weight: 700; }
+.tl__pop > .tl-pop__prov { grid-column: 1 / -1; }
+.tl-pop__prov {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  font-style: italic;
+}
+.tl-pop__ledger { margin: var(--space-xs) var(--space-xs) 0 0; font-size: var(--fs-micro); }
+.tl-pop__people { list-style: none; margin: 2px 0 0; padding: 0; display: grid; gap: 1px; }
+.tl-pop__people li { font-size: var(--fs-micro); color: var(--text-secondary); line-height: var(--lh-snug); }
+.tl-pop__row--mis { border-inline-start: var(--rule-heavy) solid var(--warn); padding-inline-start: var(--space-xs); }
+.tl-pop__row--thr { border-inline-start: var(--rule-heavy) solid var(--info); padding-inline-start: var(--space-xs); }
+.tl-pop__row--also { border-inline-start: var(--rule-heavy) solid var(--border-default); padding-inline-start: var(--space-xs); }
+.tl-pop__yearhead { margin: var(--space-xs) 0 0; }
+.tl-pop__yearbtn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-2xs);
+  min-height: 1.35rem;
+  cursor: pointer;
+}
+.tl-pop__yearbtn:hover { border-color: var(--border-firm); background: var(--surface-margin); }
+.tl-pop__yearbtn:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+
+/* The stop card is not a card any more. Playback stops itself at the moments
+   that matter — 1858, 1947, the widest year — and a stop pauses, so the band is
+   free to say why in one sentence at nineteen pixels with "Keep going" as its
+   one control (`showStopCard` in index.js). A stop that costs the map ninety
+   pixels of height to explain itself is a stop that punishes stopping. */
+
+/* -------------------------------------------------------------- short --
+   A 768-tall laptop gives this bar 140px and a 640-tall one gives it 124.
+   Nothing is squeezed to fit: the strata that could not fit have left the bar
+   for the band and the sheet, and what is left gives up leading, not type. */
+@media (max-height: 820px) {
+  .tl { padding-block: 0; row-gap: 1px; }
+}
+
+/* ------------------------------------------------------------- narrow -- */
+
+@media (max-width: 62rem) {
+  .tl {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "deck" "body";
+    /* the deck asks for what it needs and the body takes the rest — and the
+       pair of them can no longer exceed the region, because the second track
+       is `1fr` of a definite height. What the deck may ask for at `apparatus`
+       is the arithmetic in the `46rem` block below. */
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-2xs);
+    padding-inline: var(--space-md);
+    --tl-lane-h: 12px;
+    --tl-lane-gap: 2px;
+  }
+  .tl__body { grid-area: body; min-width: 0; }
+  /* TWO RANKS, AND THE SECOND ONE IS ALWAYS 26px TALL.
+
+     Under 62rem the deck is a row. Adding the axis's key as a third item in it
+     squeezed the transport to 67px and wrapped five buttons onto three ranks —
+     92px of a 92px deck — so the deck is now two deliberate ranks instead of
+     one improvised one:
+
+       rank 1   the year, its count and the one route out, across the full
+                width, which fits them in two lines rather than three
+       rank 2   the axis's key (only at `apparatus`) and the transport
+
+     Rank 1 is floored at its `apparatus` height and rank 2 is the button
+     height at every level, so the deck is 71px at `plate`, at `working` and at
+     `apparatus`, and the axis under it never moves when a level changes. */
+  .tl__deck {
+    flex-direction: row; align-items: center; justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: var(--space-sm); row-gap: 2px;
+    border-inline-end: 0; padding-inline-end: 0;
+  }
+  .tl__now {
+    flex-direction: row; align-items: baseline; gap: var(--space-xs);
+    flex-wrap: wrap; flex-basis: 100%; min-width: 0;
+    min-block-size: 2.75rem;
+  }
+  .tl__year { font-size: var(--fs-h4); }
+  .tl__key { order: 2; flex: 1 1 auto; }
+  .tl__transport { order: 3; flex: 0 0 auto; }
+  /* rank 2, beside the transport: the equivalent control for the four lanes */
+  .tl-btn--eng { order: 4; flex: 0 0 auto; }
+  .tl-speed { margin-inline-start: var(--space-2xs); }
+  .tl__pop { grid-template-columns: minmax(0, 1fr); }
+  .tl-rate__plot { block-size: 30px; margin-block: 9px 13px; }
+  .tl-rate__caption { font-size: var(--fs-micro); }
+  .tl-rate__eyebrow { display: none; }
+  .tl-rate__head { gap: var(--space-2xs); }
+}
+
+@media (max-width: 46rem) {
+  /* the count is the answer to "how much of the world"; it stays */
+  .tl__count { font-size: var(--fs-micro); }
+  /* Reserved space, not collapsing space: the disputed mark appears on some
+     years and not others, and the route to the ending appears at `working`.
+     The row they share is reserved at every stage, so the axis under the map
+     sits at the same y on second zero as it does after the first press.
+     Measured at 390x844: it was moving eight pixels. */
+  .tl__now { flex-wrap: wrap; align-items: baseline; row-gap: 0; }
+  .tl__warn, .tl__ends { margin-block: 0; }
+  .tl__more { margin-block-start: 0; column-gap: var(--space-xs); }
+  /* …AND THE DECK'S TRACK IS RESERVED TO THE PIXEL, NOT TO THE EIGHT ABOVE.
+     WAVE 9. The rule above took this rank from eight pixels of movement to
+     four tenths of one, and four tenths is still movement: the speed selector
+     joins this line at `apparatus` and is 21px where the route line alone is
+     18.45, so `.tl__now` went 44.00 -> 44.36, the deck's grid track went
+     71.59 -> 71.95, and the body — which centres what it holds — put the axis
+     and all four phase bands 0.18px lower than they had been a moment before.
+     Measured at 390x844, all three levels, before:
+
+       plate      deck 71.59   axis y 755.30   spine y 787.30
+       working    deck 71.59   axis y 755.30   spine y 787.30
+       apparatus  deck 71.95   axis y 755.50   spine y 787.50
+
+     The deck's arithmetic in this block already states the number — "deck 72
+     + 4 + axis (18 rail + 30 ruling) + 2 + spine 54 = 180 of 183" — so the
+     track is declared at 72 rather than measured at whatever the level makes
+     it. It is a floor and not a height: the deck may still ask for less and be
+     given 72, and if a future stratum needs more the `1fr` body below it will
+     say so by being clipped, which B3 already treats as over budget. After, at
+     all three levels: deck 72.00, axis y 755.50, spine y 787.50.
+
+     NOT IN READING MODE. `#app[data-timeband="line"]` is the 52px year line a
+     beat's prose leaves behind (§1559 below): its deck is one rank, there is
+     no axis under it to hold still, and 72px of reservation in a 52px band is
+     the very defect this rule exists to prevent — `read.js` R8 caught it as
+     `.tl__deck 783..855 in 792..844` on seventeen steps across five routes the
+     moment the reservation went in unscoped. The reservation belongs to the
+     band that has furniture to keep still. */
+  #app:not([data-timeband='line']) .tl__deck { min-block-size: 4.5rem; }
+  /* `baseline` aligned the transport's text baseline with the year's, which
+     hung the buttons below the year block and cost the deck fifteen pixels of
+     nothing. They are two blocks side by side; centre them. */
+  .tl__deck { align-items: center; }
+  /* The uncertainty rail keeps all 148 marks and all 148 counts; it gives up
+     the air above them, which is what the spine needs to print whole. The mark
+     itself is resized with its row so nothing bleeds over the colour ribbon.
+
+     WAVE 9: the row is RESERVED at every level here now (see `.tl-ax__rail`
+     above), so this is the height of a slot and not of an arrival, and it is
+     18 rather than 20 because 18 is what `apparatus` was already paying. */
+  .tl { --tl-marks-h: 18px; }
+  .tl-mark { block-size: 18px; }
+  /* AND THE TRACE LEAVES THE PHONE — AT EVERY LEVEL, NOT ONLY AT `apparatus`.
+
+     It used to leave at `apparatus` alone, which bought the 18px rail out of
+     the spine's own leading and made the spine two different heights: 61px at
+     `plate` and 47 at `apparatus`, which is fifteen pixels of four phase bands
+     sliding under a stationary pointer every time a reader pressed a control on
+     the far side of the screen. It leaves once instead, the rail's slot is
+     reserved once, and the arithmetic holds at every level:
+
+       deck 72 + 4 + axis (18 rail + 30 ruling) + 2 + spine 54 = 180 of 183
+
+     The trace is an aria-hidden shading of the years this reader has visited,
+     and the tally it illustrates is printed in words in the rate sheet, where
+     it has room to say what it is a tally of. Between 46rem and 62rem it has
+     been shed at every level since round 3, for the same 183px of band.
+
+     The lanes are 12px and 2px apart at EVERY level in exchange — `apparatus`
+     used to shrink them to 11 and 1 to pay for the rail, and does not need to
+     any more. The type gets bigger where it used to get smaller. */
+  .tl-spine__trace { display: none; }
+  /* AND THE AXIS'S KEY IS THE SECOND STRATUM TO SHED HERE, FOR THE SAME
+     ARITHMETIC AND BY THE SAME REMEDY. Measured at 390x844 at `apparatus`,
+     with playback stopped: the key is 207px wide and rank 2 of this deck is
+     366px, so `date not settled · account disputed` + the five-button
+     transport (151) + `Engines` (51) is 409 of 366 and `Engines` wrapped onto
+     a THIRD rank. The deck asked for 99.5px of the 85 the body could spare and
+     the fourth lane — Dissolution again — printed 19px below the bottom edge
+     of the window. B3: being clipped is being over budget; shed a stratum.
+
+     This is the stratum that costs least to lose, because it is the only one
+     of the four whose content is stated somewhere else on the same screen:
+     the marks rail is a `role="group"` whose accessible name is already
+     "Dates this atlas cannot settle. Left and right arrows move between
+     them.", and every mark is a button that opens the reason it is a mark.
+     What goes is the printed legend, at this width only; what stays is the
+     row, its name, and its route. 72px of 85 after. */
+  .tl[data-stage='apparatus'] .tl__key { display: none; }
+  /* nothing here is keyed on the level any more: the slot is the same slot and
+     the spine is the same spine at `plate`, at `working` and at `apparatus`. */
+  /* a hundred and twenty-five disputed-account ticks in 366px is a bar, not a
+     rail: keep them as texture and let the ring marks carry the axis */
+  .tl-mark[data-kind='what'] .tl-mark__ring { opacity: 0.5; }
+  .tl-btn__word { min-width: 0; }
+  .tl-lane__span { display: none; }
+  /* The ending's own reveal is set at reading size, and on a 390px sheet at
+     `--fs-prose` it took five lines and the whole first screen. One step down,
+     and it is still the largest thing in the sheet. */
+  .tl-close__verdict { font-size: var(--fs-base); }
+  .tl-close__figs { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+}
+
+/* ============================================ THE FOUR ENGINES, AS ROWS =====
+   WCAG 2.2 SC 2.5.8's "Equivalent" exception, and the phone's route to the
+   four lanes' arguments. Round 3 measured the lanes at 12x189, 12x192, 12x98
+   and 12x41 on a 14px pitch at 390x844: four targets in the 54px the spine
+   band gets, which cannot each be 24px and cannot have more room, because the
+   time control is capped at 190 by LAYOUT_BUDGET B3 and the lanes' widths ARE
+   their date ranges. So the function moves to a control that can be hit — the
+   deck's `Engines` button — and lands here, as four rows of 44px.
+   ========================================================================== */
+
+.tl-eng { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.tl-eng__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  inline-size: 100%;
+  min-block-size: 2.75rem;                      /* 44 — SC 2.5.5, not just 2.5.8 */
+  padding: var(--space-2xs) var(--space-xs);
+  text-align: start;
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-default);
+  border-inline-start: var(--rule-thick, 3px) solid var(--lane-fill, var(--border-firm));
+  border-radius: var(--radius-sm, 2px);
+  cursor: pointer;
+  color: var(--text-body);
+}
+.tl-eng__row:hover { background: var(--surface-margin); border-color: var(--border-firm); }
+.tl-eng__row:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-eng__row[data-on='true'] { background: var(--surface-margin); }
+.tl-eng__num {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-base);
+  color: var(--lane-ink, var(--text-body));
+  background: var(--lane-fill, transparent);
+  border-radius: var(--radius-sm, 2px);
+  padding: 1px 5px;
+  flex: 0 0 auto;
+}
+.tl-eng__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 auto; }
+.tl-eng__name { font-weight: var(--w-semibold); }
+.tl-eng__span { font-size: var(--fs-micro); color: var(--text-secondary); }
+.tl-eng__clause { font-size: var(--fs-micro); color: var(--text-secondary); }
+.tl-eng__go { flex: 0 0 auto; color: var(--accent-ink); align-self: center; }
+.tl-eng__note { margin-block-end: var(--space-sm); }
+
+/* The one line that explains the uncertainty rail, in the sheet the rail's own
+   chip opens. `.cx-note` carries the type; this only gives it the rule that
+   separates it from the reasons above it. */
+.tl-pop__rail-note {
+  grid-column: 1 / -1;
+  margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+
+/* --------------------------------------------------- motion and forced -- */
+
+/* Nothing in this bar animates: lit and unlit must be crisp at 16 frames a
+   second of scrubbing, and paper does not fade. */
+
+@media (forced-colors: active) {
+  .tl-mark__ring { border-color: ButtonText !important; background: ButtonFace !important; }
+  .tl-lane { forced-color-adjust: none; border: 1px solid ButtonBorder; background-color: ButtonFace; color: ButtonText; }
+  .tl-lane[data-on='true'] { background-color: Highlight; color: HighlightText; }
+  .tl-ax__handle-stem, .tl-ax__handle-cap { background: Highlight; border-block-start-color: Highlight; }
+  .tl-mark__ring { border-color: ButtonText; }
+}
+
+/* ------------------------------------------------------------- print -- */
+
+@media print {
+  .tl__transport, .tl-speed, .tl__drawer-more, .tl-pop__ix, .tl-pop__ledger { display: none !important; }
+  /* On paper nothing scrolls and nothing is clipped: every reason prints. */
+  .tl-sheet { display: block; }
+  .tl__pop { display: block; }
+  .tl-all__list { display: block; }
+  
+  .tl-lane { box-shadow: none; }
+  .tl-ax__marks { display: none; }
+}
+
+
+/* ------------------------------------------- the definition switch strip --
+   Move 1, rendered as an event in the year row. This is the ONLY place in the
+   atlas where "nothing was taken or given up" is a true sentence: the year has
+   not moved, no record has changed, and the set of places the map counts moved
+   because the reader changed the question. Rounds 2 and 3 printed that sentence
+   over the bombardment of Alexandria; it lives here now. */
+
+
+
+
+
+
+/* ONE COLUMN. This was a horizontal scroller for a strip the width of the
+   window; in a 410px rail it showed one and a half of forty-three places and
+   hid the rest behind a scrollbar nobody sees. Every place that crossed the
+   line is a row, and every row is a link into that place. */
+.tl-defsw__chips { display: grid; gap: 1px; padding-block-start: var(--space-2xs); }
+.tl-defsw__chip {
+  display: grid;
+  grid-template-columns: 0.9rem minmax(0, 1fr) auto;
+  align-items: baseline; gap: var(--space-2xs);
+  font: inherit;
+  font-size: var(--fs-micro);
+  padding: 2px var(--space-2xs);
+  background: none;
+  color: var(--text-body);
+  border: 0;
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+  cursor: pointer;
+  text-align: start;
+}
+.tl-defsw__chip:hover { background: var(--surface-well); }
+.tl-defsw__chip:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-defsw__glyph { font-family: var(--font-mono); font-weight: 700; }
+.tl-defsw__chip[data-dir='in'] .tl-defsw__glyph { color: var(--accent-ink); }
+.tl-defsw__chip[data-dir='out'] .tl-defsw__glyph { color: var(--accent-2-ink); }
+.tl-defsw__name { font-weight: 650; }
+.tl-defsw__status { color: var(--text-min); }
+
+
+/* a playback rest: one line in the head, so the map never jumps for it */
+
+
+/* THE SECOND GEAR HAS NO BUTTON. `⏮ ⏭` were two more unlabelled glyphs
+   beside `⇤ ⇥`, distinguishable only by tooltip, and they wrapped the
+   transport onto a second rank that cost the deck 23px. `bigJump` is
+   unchanged and still on Alt + ← / →, with its threshold and its year count
+   stated in the year rail's accessible name. */
+
+/* the threshold seam and the second record of one act, in the year sheet */
+.tl-all__seam {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.tl-all__seam--why { font-family: var(--font-serif); color: var(--text-secondary); }
+.tl-all__also {
+  display: grid;
+  gap: 1px;
+  margin-block-start: 2px;
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--border-default);
+}
+.tl-all__also-head { font-size: var(--fs-micro); font-weight: 600; color: var(--text-secondary); }
+
+
+/* ============================================================================
+   THE RATE RAIL — how much, and how fast.
+
+   Round 4's verdict: "The axis encodes when, never how much or how fast… the
+   chapter's single most memorable chronological fact — built over roughly 350
+   years and dismantled in roughly 35 — has no representation at all."
+
+   Gains above the line, losses below it, one bar a year, on the axis's own
+   scale so a shape on this rail sits under the year that made it. Colour is
+   never the only signal: gains rise and losses fall, and both are labelled.
+   ========================================================================== */
+
+/* THE RATE RAIL, IN THE SHEET. Its bars, its two extremes, its two measured
+   windows and its sentence are unchanged; what changed is that it no longer
+   stands sixty pixels under the axis it duplicates. It has room to breathe
+   here, which is what a chart of four hundred years needs. */
+.tl-rate {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  padding-block-end: var(--space-md);
+}
+/* IN THE SHEET THE RAIL HAS ROOM. Measured at 377px wide with the bar's old
+   42px plot: the tallest gain's label, the deepest loss's label and the "half
+   of everything" window label all printed on top of one another and on top of
+   the head. Four hundred years of bars need height, and the four labels need
+   the air above and below the plot to stand in. */
+.tl-sheet .tl-rate__head { display: block; }
+.tl-sheet .tl-rate__readout { display: block; }
+.tl-sheet .tl-rate__plot { block-size: 61px; margin-block: 30px 34px; }
+.tl-sheet .tl-rate__caption { font-size: var(--fs-caption); }
+.tl-sheet .tl-rate__ask { margin-block-start: var(--space-sm); justify-self: start; }
+
+/* the coverage tracker, beside the picture it is a tally of */
+.tl-rate__seen {
+  margin: 0;
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.tl-rate__seen:empty { display: none; }
+.tl-rate__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  min-block-size: 1.05rem;
+}
+.tl-rate__eyebrow {
+  display: none;                     /* the sheet's own head says this */
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.tl-rate__readout {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+}
+/* `.cx-more` supplies everything this needs. It was a dashed pill — one of the
+   eight affordances the shared chrome replaced with one. */
+.tl-rate__ask { justify-self: start; }
+.tl-rate__plot {
+  position: relative;
+  block-size: 38px;
+  margin-block: 9px 15px;   /* room for the two floating figures, outside the bars */
+  cursor: pointer;
+}
+.tl-rate__svg { position: absolute; inset-block-start: 0; inset-inline-start: 0; display: block; overflow: visible; }
+.tl-rate__base { stroke: var(--border-firm); stroke-width: 1; }
+.tl-rate__bar { shape-rendering: crispEdges; }
+.tl-rate__bar--in  { fill: var(--accent); }
+.tl-rate__bar--out { fill: var(--accent-2); }
+.tl-rate__labels { position: absolute; inset: 0; }
+
+/* the two extremes, labelled clear of the bars they name */
+.tl-rate__lbl {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  font: inherit;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+  white-space: nowrap;
+  padding: 0 3px;
+  background: var(--surface-page);
+  border: var(--rule-hair) solid var(--border-soft);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+.tl-rate__lbl[data-side='left'] { transform: translateX(-100%); }
+.tl-rate__lbl[data-dir='in']  { color: var(--accent-ink);   inset-block-end: calc(100% - 2px); }
+.tl-rate__lbl[data-dir='out'] { color: var(--accent-2-ink); inset-block-start: calc(100% - 2px); }
+.tl-rate__lbl:hover { border-color: var(--border-firm); }
+.tl-rate__lbl:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-rate__lbl-y { color: var(--text-min); }
+
+/* the measured windows: half of everything gained, half of everything lost.
+   Regions, not brackets — the width IS the fact. */
+.tl-rate__band {
+  position: absolute;
+  inset-block: 0;
+  display: block;
+  padding: 0;
+  font: inherit;
+  background: var(--accent-soft);
+  opacity: .55;
+  border: 0;
+  border-inline: var(--rule-mid) solid var(--accent);
+  border-radius: 0;
+  cursor: pointer;
+}
+.tl-rate__band[data-dir='out'] { border-inline-color: var(--accent-2); }
+.tl-rate__band[data-dir='in']  { inset-block: 0 50%; }
+.tl-rate__band[data-dir='out'] { inset-block: 50% 0; }
+.tl-rate__band[data-dir='out'] { background: var(--accent-2-soft); }
+.tl-rate__band:hover { opacity: .9; }
+.tl-rate__band:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-rate__band-n {
+  position: absolute;
+  inset-inline-start: 2px;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
+  color: var(--accent-ink);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tl-rate__band[data-dir='in'] .tl-rate__band-n  { inset-block-start: -1px; }
+.tl-rate__band[data-dir='out'] .tl-rate__band-n {
+  inset-block-end: -1px;
+  inset-inline-start: auto;
+  inset-inline-end: 2px;
+  color: var(--accent-2-ink);
+}
+
+.tl-rate__marker {
+  position: absolute;
+  inset-block: -4px;
+  inset-inline-start: 0;
+  inline-size: 0;
+  z-index: 3;
+  border-inline-start: var(--rule-mid) solid var(--ink);
+  will-change: transform;
+  pointer-events: none;
+}
+/* the student's own guess, hollow, beside the measured year */
+.tl-rate__ghost {
+  position: absolute;
+  inset-block: -4px;
+  inset-inline-start: 0;
+  inline-size: 0;
+  z-index: 3;
+  border-inline-start: var(--rule-mid) dashed var(--warn);
+  pointer-events: none;
+}
+.tl-rate__ghost::after {
+  content: 'your guess ' attr(data-label);
+  position: absolute;
+  inset-block-start: -0.1rem;
+  inset-inline-start: 3px;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
+  color: var(--warn);
+  background: var(--surface-page);
+  white-space: nowrap;
+}
+.tl-rate__caption {
+  margin: 0;
+  padding-block-start: 2px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+
+/* -------------------------------------------------- who lost, and what --
+   `counterparties[].lost` is in this dataset for every major acquisition and
+   was rendered nowhere in round 4. It is the cheapest multiperspectivity in
+   the atlas and it is already written. */
+.tl-pop__parties { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.tl-pop__party {
+  display: grid;
+  gap: 0;
+  padding-inline-start: var(--space-xs);
+  border-inline-start: var(--rule-mid) solid var(--accent-2);
+}
+.tl-pop__party-name { font-weight: 650; color: var(--text-heading); font-size: var(--fs-small); }
+.tl-pop__party-kind { font-size: var(--fs-micro); color: var(--text-min); font-family: var(--font-mono); }
+.tl-pop__party-lost {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.tl-pop__party-lost--none { color: var(--text-min); font-style: italic; }
+.tl-pop__party-note {
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  font-family: var(--font-serif);
+  line-height: var(--lh-snug);
+}
+.tl-pop__row--lost .tl-pop__what { color: var(--accent-2-ink); }
+.tl-all__lost {
+  display: grid;
+  gap: 1px;
+  margin-block-start: 2px;
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--accent-2);
+}
+.tl-all__party {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+
+/* a source that is cited for something else, kept and labelled rather than hidden */
+.tl-pop__srcnote { margin: 4px 0 0; font-size: var(--fs-micro); color: var(--text-min); }
+.tl-pop__srcs--weak { opacity: .78; }
+.tl-pop__src-for--none { color: var(--danger); }
+
+/* ---------------------------------------------------------- the question --
+   Two commitments, before the reveal. Same register as the rest of the drawer;
+   it is a question in a history bar, not a quiz show. */
+/* `.cx-ask` carries the box, the rule and the type. All this adds is the
+   layout of two questions inside it. */
+.tl-pred { display: grid; gap: var(--space-2xs); }
+.tl-pred__eyebrow { margin: 0; }
+.tl-pred__body {
+  /* One column: the sheet is 410px, and two questions side by side in it would
+     be two columns of four words. */
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+}
+.tl-pred__q2 { display: grid; gap: var(--space-2xs); align-content: start; }
+.tl-pred__q { margin: 0; }
+.tl-pred__q--done { font-size: var(--fs-micro); font-family: var(--font-sans); text-transform: uppercase; letter-spacing: .06em; color: var(--text-min); }
+.tl-pred__row { display: flex; gap: var(--space-xs); align-items: center; flex-wrap: wrap; }
+.tl-pred__year {
+  inline-size: 6.5rem;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-base);
+  padding: 2px var(--space-2xs);
+  color: var(--text-body);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+}
+.tl-pred__year:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-pred__choices { display: flex; gap: var(--space-2xs); flex-wrap: wrap; }
+.tl-pred__choice { font-size: var(--fs-micro); }
+.tl-pred__verdict {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose, var(--lh-snug));
+  color: var(--text-body);
+}
+.tl-pred__hint { margin: 0; font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-snug); }
+.tl-pred__on { justify-self: start; }
+
+/* --------------------------------------------- the rate rail, narrow --
+   Declared last so it wins over the rail's own block above. On a phone the
+   rail keeps its bars, its two figures and its readout; what it gives up is
+   the long form of its sentence, in favour of the short one — a complete
+   sentence, never a truncated one — and the eyebrow, which the readout beside
+   it already says. */
+@media (max-width: 62rem) {
+  .tl-rate__plot { block-size: 30px; margin-block: 9px 13px; }
+  .tl-rate__caption { font-size: var(--fs-micro); line-height: var(--lh-snug); }
+  .tl-rate__eyebrow { display: none; }
+  .tl-rate__head { gap: var(--space-2xs); row-gap: 0; }
+  .tl-rate__readout { flex: 1 1 auto; }
+}
+@media (max-height: 820px) {
+  .tl-rate__plot { block-size: 30px; margin-block: 7px 12px; }
+}
+@media (max-width: 46rem) {
+  /* the two window figures are on the rail's own label and in the caption
+     under it; at this width they would sit on top of the two extremes */
+  .tl-rate__band-n { display: none; }
+}
+
+/* ==================================================== the height budget ==
+   Measured before this pass on the two windows a school actually owns: at
+   1440x900 the stage was 329px and this bar 485; at 1366x768 the stage was 230
+   and this bar 451, and at 768 the change cards overprinted the axis tick
+   counts because the bar was asking for more rows than the grid had to give
+   and the row it lost was the axis's.
+
+   The answer is not smaller type. Three strata left the bar (the change deck,
+   the rate rail, the spine's caption and coverage foot) and the drawer went to
+   the sheet; every one of them is one press away and none of them is cut
+   short. What is left is a height that does not move, which is also why a
+   cursor resting on a tick stays on that tick.
+   ======================================================================= */
+@media (min-width: 62.0625rem) and (max-height: 940px) {
+  .tl { padding-block-start: 0; row-gap: 2px; }
+}
+@media (min-width: 62.0625rem) and (max-height: 820px) {
+  .tl__deck { padding-inline-end: var(--space-sm); }
+  .tl-spine { padding-block-start: 0; }
+  .tl { padding-block-end: 0; row-gap: 1px; --tl-rail-h: 30px; }
+}
+/* 1024x640 gives this bar 124px, and at `apparatus` — with the uncertainty
+   rail's own 24px row on the axis — it wanted 126. Measured, three pixels over,
+   which under B3 is over budget. The lanes give up a pixel of leading each and
+   the body gives up two: the type does not move, and nothing is hidden. */
+@media (max-height: 700px) {
+  .tl { --tl-lane-h: 12px; }
+  .tl__body { gap: 2px; }
+}
+/* AND THE DECK'S OWN ARITHMETIC ON THAT SAME 124px BAND, WHICH HAD NEVER BEEN
+   DONE. In the column arrangement the deck is four strata at `apparatus` — the
+   axis's key, the transport, the year block and `Engines` — and their bare type
+   is 15.4 + 25.6 + 63.4 + 25.6 = 130 before a single pixel of leading. The
+   region is 123. Measured at 1024x640 and at 1024x600 with playback stopped:
+   the deck asked for 146 of 123 and the bottom 23px of the year block — the
+   route out and the speed selector — was cut off below the window.
+
+   No amount of leading closes 23px, so a stratum sheds, and it is the same one
+   and for the same reason as at 46rem: the marks rail keeps its accessible name
+   and every mark keeps its press. 118.6 of 123 after, with the year block,
+   the transport, `Engines` and all four lanes whole.
+
+   Not below 62rem: 900x700 is a 135px band and holds all four (133 of 135). */
+@media (min-width: 62.0625rem) and (max-height: 700px) {
+  .tl[data-stage='apparatus'] .tl__key { display: none; }
+}
+/* Same arithmetic on a phone: 184px, and at `apparatus` the uncertainty rail
+   put it three over. The axis rule loses four pixels of air under it. */
+@media (max-width: 46rem) {
+  .tl { --tl-rail-h: 30px; }
+  .tl__body { gap: 2px; }
+}
+
+/* AND THE SAME ARITHMETIC AGAIN AT 768x1024, WHERE IT HAD NEVER BEEN DONE.
+   ROUND 3, measured on the COLD PLATE and inside a beat alike: `--time-h` is
+   11.5rem = 184 in the sheet band at every width, but between 46rem and 62rem
+   the axis keeps the 24px row reserved for the uncertainty marks AND the full
+   34px rail, so `.tl__deck` 72 + `.tl__body` 123 asked for 195 of 183 and the
+   FOURTH LANE — Dissolution, the phase a reader is most likely to be looking
+   for — was drawn 12px below the bottom edge of the region that owns it, on
+   first paint, at the app's default tablet size. LAYOUT_BUDGET B3: being
+   clipped is being over budget, and the remedy is to shed a stratum.
+
+   Three, and the type does not move: the rail's own leading (34 -> 30), the
+   body's gap (4 -> 2), and the trace — an aria-hidden shading of the years
+   this reader has visited, whose tally is printed in words in the rate sheet,
+   and which `apparatus` on a phone already sheds for exactly this reason.
+   183 of 183 after, with the marks row and its 24px targets untouched. */
+@media (min-width: 46.0625rem) and (max-width: 62rem) {
+  .tl { --tl-rail-h: 30px; padding-block: 0; row-gap: 2px; }
+  .tl__body { gap: 1px; }
+  .tl__now { min-block-size: 2.5rem; }
+  .tl-spine__trace { display: none; }
+}
+
+
+/* ==========================================================================
+   THE ENDING — `close.js`, rendered in the sheet.
+
+   Round 2: "Reaching 1997 currently yields a good payoff line and a contested-
+   dates register, but no close: no 'what is still British, what is still
+   disputed', no through-line sentence to complete, nothing to take away. This
+   is the C5 hole and the timeline owns the last beat."
+
+   None of it is in the bar. It is the sheet's — 410x716 with its own scroll,
+   beside a live map — and everything below is either a shared chrome class
+   (`.cx-panel`, `.cx-ask`, `.cx-fig`, `.cx-src`, `.cx-more`, `.cx-note`) or
+   spacing for one. No new box treatment, no new radius, no new type register.
+   ========================================================================== */
+
+.tl-close { display: flex; flex-direction: column; gap: var(--space-lg); }
+/* The sheet is outside `.tl`, so the bar's own `[hidden]` rule does not reach
+   here — and every block below sets `display`, which beats the UA's. The
+   figures and the list are held back until the question above them has been
+   answered, and "held back" has to mean it. */
+.tl-close [hidden] { display: none !important; }
+.tl-close__ask { margin: 0; }
+.tl-close__verdict {
+  margin: var(--space-sm) 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.tl-close__choice { font-size: var(--fs-caption); }
+
+/* the three figures, in `.cx-fig` and nothing else */
+.tl-close__figs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--space-md);
+  padding-block: var(--space-sm);
+  border-block: var(--rule-hair) solid var(--border-soft);
+}
+
+.tl-close__body { display: flex; flex-direction: column; gap: var(--space-lg); }
+.tl-close__sec { display: flex; flex-direction: column; gap: var(--space-xs); margin: 0; }
+.tl-close__lead {
+  margin: 0;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.tl-close__title { margin: var(--space-sm) 0 0; }
+.tl-close__prose {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-small);
+  line-height: var(--lh-relaxed);
+  color: var(--text-body);
+}
+.tl-close__why { color: var(--text-secondary); }
+.tl-close__src { margin: var(--space-2xs) 0 0; display: block; }
+.tl-close__for { display: block; color: var(--text-min); font-size: var(--fs-micro); font-style: normal; }
+
+/* what is still British: a name you can press, and its note one press behind it */
+.tl-close__grouphead {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min);
+}
+.tl-close__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.tl-close__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-xs);
+  padding-block: 3px;
+  border-block-end: var(--rule-hair) solid var(--border-soft);
+}
+.tl-close__name { flex: 0 0 auto; }
+.tl-close__meta {
+  flex: 1 1 8rem;
+  min-width: 0;
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  font-variant-numeric: tabular-nums;
+}
+.tl-close__note {
+  flex: 1 0 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-block: var(--space-2xs) var(--space-xs);
+}
+.tl-close__go { align-self: flex-start; }
+
+/* what has happened since the story ends */
+.tl-close__ev { display: flex; flex-direction: column; gap: var(--space-2xs); padding-block-start: var(--space-sm); }
+.tl-close__evhead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  font: inherit;
+  text-align: start;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-heading);
+}
+.tl-close__evhead:hover .tl-close__evtitle { text-decoration: underline; text-underline-offset: 0.18em; }
+.tl-close__evhead:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 2px; }
+.tl-close__evyear { font-size: var(--fs-caption); color: var(--accent-ink); }
+.tl-close__evtitle { font-family: var(--font-serif); font-size: var(--fs-h4); font-weight: var(--w-semibold); }
+
+/* the sentence to take away */
+.tl-close__line { margin: 0; }
+.tl-close__say,
+.tl-close__mine,
+.tl-close__ours {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-relaxed);
+  color: var(--text-heading);
+}
+.tl-close__ours { color: var(--text-secondary); }
+.tl-close__blank {
+  font: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  inline-size: 9.5rem;
+  max-inline-size: 100%;
+  padding: 1px var(--space-2xs);
+  color: var(--text-heading);
+  background: var(--surface-well);
+  border: 0;
+  border-block-end: var(--rule-mid) solid var(--accent-ink);
+  border-radius: 0;
+}
+.tl-close__blank::placeholder { color: var(--text-min); font-size: var(--fs-micro); }
+.tl-close__blank:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 1px; }
+.tl-close__commit { align-self: flex-start; margin-block-start: var(--space-sm); }
+.tl-close__minehead {
+  margin: var(--space-md) 0 0;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min);
+}
+.tl-close__filled { color: var(--accent-ink); font-weight: var(--w-semibold); }
+.tl-close__blankleft { color: var(--warn); }
+.tl-close__seen { margin-block-start: var(--space-sm); }
+
+
+/* ==================================================== READING MODE =========
+   docs/RESPONSIVE_LAW.md §11 and §11.10. Inside a mounted lesson surface whose
+   subject is not the time control, below 62rem in the sheet band, the shell
+   publishes `#app[data-timeband="line"]` and this control becomes A YEAR LINE.
+
+   IT IS KEYED ON `data-timeband` AND NOT ON `data-read`, AND ROUND 3 IS WHY.
+   `data-read` says the PLATE has stood down; it is `on` for two of the three
+   works, and one of those two is the beat whose evidence is the four lanes.
+   Measured at 390x844 on `#tour=core&step=2` — "Four engines, not one line",
+   whose own sentence is "the bands under the map overlap on purpose: in 1820
+   three" — with this block still keyed on `data-read`: the shell had given the
+   band its whole 184px back and this stylesheet drew the year line in it, so
+   the beat argued about four lanes that were not on the screen and 130px of
+   the band was empty. `data-timeband` is the shell's answer to the question
+   this block is actually asking, which is not "has the plate stood down" but
+   "is this control the subject of the page".
+
+   WHY THIS PIECE PAYS THE MOST. Measured at 390x844 on `#tour=thirty&step=18`
+   — Dyer and Tagore at Amritsar — before this block:
+
+     .app__time          390x184     21.8 % of the window
+       .tl__now          366x44      the year, the count, the route out
+       .tl__transport    147x26      Play, the two jumps, -1, +1
+       .tl-ax            366x30      the axis, which is the scrubber
+       .tl-spine         366x61      the four phases
+     .tr-panel__scroll   390x226     the lesson, holding 2,154px of prose
+
+   The control for time was 184px while the lesson was read through 226. On a
+   beat that is about one afternoon in one walled garden, `Play` — a 400-year
+   animation — and the four-phase spine are not what the student is doing, and
+   the year is not in question: the beat set it. What must survive is the two
+   things the student needs to keep their bearings, and they both do:
+
+     the YEAR, so they always know when they are; and
+     the AXIS, which is still the scrubber, still draggable, still keyboard-
+       reachable, so they can still move.
+
+   44px, one row, and nothing is clipped (LAYOUT_BUDGET B3: being clipped is
+   being over budget). Everything else stands down and comes back with the map,
+   in one press on `Map` in the beat panel's own foot — the same press, because
+   reading mode is ONE state and not two. `tools/scenarios/read.js` rule R5
+   asserts the year and the axis are both on screen and unclipped.
+   ========================================================================== */
+
+.tl__phase { display: none; }
+
+@media (max-width: 61.999rem) {
+  #app[data-timeband="line"] .tl {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "deck body";
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: var(--space-md);
+    row-gap: 0;
+    align-items: center;
+    align-content: center;
+    padding-block: 0;
+  }
+  /* The deck is the year and only the year. `flex-basis: 100%` on `.tl__now`
+     is what makes it rank 1 of two in the narrow band above; here there is one
+     rank, so it goes back to being an item. */
+  #app[data-timeband="line"] .tl__deck {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  #app[data-timeband="line"] .tl__now {
+    flex-direction: row;
+    align-items: baseline;
+    flex-basis: auto;
+    flex-wrap: nowrap;
+    min-block-size: 0;
+    gap: var(--space-2xs);
+  }
+  #app[data-timeband="line"] .tl-btn--eng,
+  #app[data-timeband="line"] .tl__transport,
+  #app[data-timeband="line"] .tl__key,
+  #app[data-timeband="line"] .tl__count,
+  #app[data-timeband="line"] .tl__more,
+  #app[data-timeband="line"] .tl-spine,
+  #app[data-timeband="line"] .tl-speed { display: none; }
+
+  /* AND THE SPINE'S READING TAKES ITS PLACE — timeline/index.js
+     `_paintPhaseReading`. FEATURE_SPEC P03 acceptance test 1 requires the
+     four-empire spine in every state of the app, and it is right to: T1 of
+     DIDACTIC_SPEC §3 is that at 1820 THREE engines are running at once, which
+     is the thing print cannot show. The band is 61px at 390x844 and the year
+     line is 52, so the band collapses and the reading does not: `I II III`
+     in the lanes' own colours, the last one named, the whole list in the
+     title and the accessible name, and one press on `Map` brings the band
+     itself back with the map and the colour ribbon. This is the identical
+     remedy RESPONSIVE_LAW §5 records for the definition dial at phone width.
+     Measured at 390x844 on step 18: 74px of a 366px row. */
+  #app[data-timeband="line"] .tl__phase {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    flex: 0 0 auto;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  #app[data-timeband="line"] .tl__phasenum {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    line-height: 1;
+    font-weight: 600;
+    color: var(--lane-ink, var(--text-body));
+    background: var(--lane-fill, transparent);
+    border-radius: var(--radius-sm, 2px);
+    padding: 2px 3px;
+  }
+  #app[data-timeband="line"] .tl__phasew,
+  #app[data-timeband="line"] .tl__phasenone {
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* The axis keeps its rail and its decade ticks and gives up the row of
+     uncertainty marks above them, which is apparatus and has a home at
+     `apparatus`. 26px of rail inside a 44px row leaves 9px of air above and
+     below, which is what stops a 44px strip reading as a seam. */
+  #app[data-timeband="line"] .tl__body { justify-content: center; gap: 0; }
+  #app[data-timeband="line"] .tl-ax__marks,
+  #app[data-timeband="line"] .tl-ax__key { display: none; }
+  /* AND THE ROW THE MARKS WERE RESERVED IN GOES WITH THEM. At 46rem and above
+     `.tl-ax__rail` carries `padding-block-start: 24px` so the ruling never
+     moves when the uncertainty marks arrive at `apparatus` — right in a 184px
+     bar, and 24 pixels of nothing in a 44px year line. Measured at 768x1024 on
+     step 18 before this rule: `.tl-ax` was 680x58 laid out from y=974 in a
+     region running 980 to 1024, so the axis was cut at BOTH edges and the
+     decade labels printed 10px below the bottom of the window. LAYOUT_BUDGET
+     B3: being clipped is being over budget. */
+  #app[data-timeband="line"] .tl-ax__rail { padding-block-start: 0; }
+  #app[data-timeband="line"] .tl { --tl-rail-h: 30px; }
+  #app[data-timeband="line"] .tl-ax { block-size: auto; }
+  #app[data-timeband="line"] .tl__year { font-size: var(--fs-h4); }
+}
+
+
+/* ==================================================== §LANDSCAPE ==========
+   docs/RESPONSIVE_LAW.md §12. A phone turned sideways is 844x390 and this bar
+   was 136px of it — 35 % of the window — while the beat's own action bar and
+   the through-line were laid out below the fold of a page that does not
+   scroll. Every height step in this file stopped at 700px.
+
+   MEASURED at 844x390 on `#tour=core&step=9`, before:
+
+     .app__time      0,356   540x136   bottom at 492 of a 390px window
+       .tl__deck    12,357   208x135   transport 26 · year block 70 · Engines 26
+       .tl__body   232,357   296x135   axis 54 · the four-lane spine 54
+
+   Below 460px of viewport height the band is 88px and it holds four ranks of
+   nothing: two deck ranks, the axis, and — this is the shed — no spine.
+
+     rank 1   the year, the spine's READING, the count, the one route out
+     rank 2   the transport, `Engines`, the speed
+     the axis, full width, still the scrubber, still keyboard-reachable
+
+     deck 50 + 2 + axis 30 + 6 of padding = 88
+
+   ONE STRATUM LEAVES AND IT IS THE ONE WITH A NAMED HOME. `.tl-spine` is 54px
+   of four overlapping lanes; `Engines` — the control RESPONSIVE_LAW §11.13
+   names as the four lanes' own WCAG 2.5.8 equivalent — is on rank 2 and opens
+   all four as 44px rows, and `.tl__phase` prints which engines are running in
+   this year, in the lanes' own colours, from the same `activePhases()` the
+   band lights from. It is the identical remedy §11.10 records for the year
+   line at 390x844, and unlike that one it is not a mode: the press that brings
+   the band back is the rotation of the phone.
+
+   The axis gives up the row reserved for the uncertainty marks (apparatus
+   only, and already shed on a phone for the same reason) and four pixels of
+   its rail's leading. No type moves and nothing is hidden that is not
+   reachable from rank 2.
+   ========================================================================== */
+
+@media (max-height: 460px) {
+  /* the deck is two ranks and neither of them is floored at a phone's 44px:
+     rank 1 is one line of 22 here, not two of 22 */
+  /* 88px of band, a 30px axis and a two-rank deck: the six pixels of padding
+     this rule used to spend were the difference between 89.6 asked and 87
+     given. Measured at 844x390 before: 3px over at `plate`, 6px at
+     `apparatus`. Two pixels of padding and one of row gap, and it is 84.6. */
+  .tl { padding: 0 var(--space-lg) 2px; row-gap: 1px; --tl-rail-h: 30px; }
+  .tl__now { min-block-size: 0; column-gap: var(--space-sm); }
+  /* Rank 1 is one line. `.tl__count` is the only elastic thing on it, so it is
+     the only thing allowed to shrink; the year, the reading and the route out
+     are `0 0 auto` and print whole. Measured at 740x360 with the rail open —
+     the narrowest window this band is stated for — rank 1 is 429 of 436. */
+  .tl__now { flex-wrap: nowrap; }
+  .tl__yearline, .tl__phase, .tl__more { flex: 0 0 auto; }
+  /* AND RANK 1 IS THE SAME HEIGHT AT EVERY LEVEL. `.tl__now` aligns its items
+     on their baselines, and the speed selector's baseline sits low inside a
+     21px box, so the rank grew from 22 to 27 the moment `apparatus` put the
+     selector on it — which slid the axis 2px down and squeezed the body's row
+     from 27.4 to 24.4 under a 30px axis. The route line rides the rank; it does
+     not set its baseline. Measured at 844x390 and 740x360 after: rank 1 is 22
+     at `plate`, at `working` and at `apparatus`, and the axis does not move. */
+  .tl__more { align-self: center; }
+  /* THE TALLY MAY STAND DOWN; THE READING MAY NOT — §12.5, and timeline.css's
+     twin in `index.js` `_paintCount`. This line is the only place the four
+     definitions of *British* are read out in the landscape band, because the
+     dial itself is not on the plate there. Measured at 740x360 with the rail
+     open, the deck's first rank has 412px and wants 436, and with the line as
+     one shrinking text node it printed "213 units · 150 territories …" — the
+     reading is what the ellipsis ate. The tally goes whole, and only where it
+     does not fit: 48rem is the width at which "year · reading · tally · the
+     one route out" stops fitting on one 26px rank (measured: it fits at 844
+     with the rail open, 436 of 508; it does not at 740, 436 of 412). */
+  .tl__count { flex: 0 0 auto; min-width: 0; white-space: nowrap; }
+  .tl__countdef { flex: 0 0 auto; }
+  .tl__more { margin-block-start: 0; }
+  /* THE SHED, AND ITS READING STAYS. */
+  .tl-spine { display: none; }
+  .tl__phase {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .tl__phasenum {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    line-height: 1;
+    font-weight: 600;
+    color: var(--lane-ink, var(--text-body));
+    background: var(--lane-fill, transparent);
+    border-radius: var(--radius-sm, 2px);
+    padding: 2px 3px;
+  }
+  .tl__phasew,
+  .tl__phasenone {
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* the axis: the marks row and its reserved padding go together, exactly as
+     they do in the year line (§11 above) */
+  .tl__body { justify-content: center; gap: 0; }
+  .tl-ax__marks, .tl-ax__key { display: none; }
+  .tl-ax__rail { padding-block-start: 0; }
+  .tl-ax { block-size: auto; }
+  .tl__year { font-size: var(--fs-h4); }
+  /* the year block and the transport are both centred on the rank they are on,
+     so a 22px line and a 26px button do not hang off each other's baseline */
+  .tl__deck { align-items: center; }
+  /* the drawer and the rate rail have no room to open into a 390px window and
+     they have the sheet, which is 304x346 here */
+  .tl-speed { margin-inline-start: var(--space-2xs); }
+}
+
+/* the narrow end of the landscape band: the tally stands down whole */
+@media (max-width: 48rem) and (max-height: 460px) {
+  .tl__counttally { display: none; }
+}

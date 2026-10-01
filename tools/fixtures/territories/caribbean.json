@@ -1,0 +1,3 @@
+[ { "id": "jamaica", "name": "Jamaica", "region": "caribbean", "units": ["JAM"],
+    "spans": [ { "start": 1655, "end": 1962, "status": "colony" }, { "start": 1962, "end": null, "status": "independent" } ] },
+  { "id": "bogus" } ]

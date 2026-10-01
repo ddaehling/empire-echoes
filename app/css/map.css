@@ -1,0 +1,1188 @@
+/* =============================================================================
+   map.css — the plate.  Owned by the map piece (P02).
+
+   Everything here is a token from css/tokens.css. There is no hex in this file
+   and there is no second grey. The map's own colours live on the canvas, drawn
+   from the same tokens by js/map/palette.js, so a theme change is one re-read.
+   ========================================================================== */
+
+/* THE MARGIN AND THE PLATE ARE TWO DIFFERENT THINGS, AND THAT IS THE ROUND-5
+   CHANGE. `.map` is the whole stage: it is the paper the atlas is printed on,
+   and it is the colour of paper, not of sea. `.map__frame` is the plate — the
+   engraved rectangle — and `_layout()` in index.js sizes it to exactly the
+   pixels the world occupies. Nothing this module draws stands on it: the rail
+   is placed on the margin beside it. */
+/* THE GROUND OF THE PLATE — a hue decision, not a palette change.
+
+   Round 6, dark theme, measured on the running app: the world's non-British
+   land (--map-never-british, a warm brown) and "held by the army"
+   (--map-occupied, a warm brown hatch) sat 1.73:1 apart in relative luminance
+   with the same hue, and at map scale the British occupation of Egypt and the
+   Sudan disappeared into the continent it was an occupation of. The status
+   colour may not move — P17 publishes it and the legend swatch has to match
+   the fill — so the GROUND moves instead. It is not a status: every unit this
+   map paints carries a fill from the ten-family palette, and the land layer
+   beneath them is the paper of the plate. In the night theme it is now mixed
+   toward the deep sea, which takes the brown out of it and leaves three
+   families a reader separates by hue as well as by value: navy sea, neutral
+   ground, brown army. No hex is introduced; both values are token mixes.
+   Declared on `.map` and read from `.map` by palette.js — nothing global
+   changes, and the published palette is untouched. */
+.map {
+  --map-ground: var(--map-never-british);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='paper']) .map {
+    --map-ground: color-mix(in oklab, var(--map-never-british) 68%, var(--map-sea-deep) 32%);
+  }
+}
+:root[data-theme='lamplit'] .map {
+  --map-ground: color-mix(in oklab, var(--map-never-british) 68%, var(--map-sea-deep) 32%);
+}
+
+.map {
+  position: absolute;
+  inset: 0;
+  /* Defensive: if a sibling panel ever stretches the stage row past the
+     viewport, the plate stays the size of the window rather than being drawn
+     mostly below the fold. A no-op whenever the shell's grid is behaving. */
+  max-block-size: calc(100dvh - var(--bar-h));
+  overflow: hidden;
+  background: var(--surface-margin);
+  contain: layout paint;
+  /* The switch sizes itself against the PLATE, not the window: opening the
+     dossier halves the map, and a panel that ignored that would cover the
+     place the student just selected. */
+  container-type: inline-size;
+  container-name: plate;
+}
+
+.map__frame {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  background: var(--map-sea);
+  box-shadow: var(--shadow-plate);
+  touch-action: none;
+  cursor: grab;
+}
+.map__frame.is-dragging { cursor: grabbing; }
+.map__frame.is-over { cursor: pointer; }
+
+/* THE PLATE FILLS THE WINDOW. `E`, or the Enlarge tile on the rail, lifts the
+   whole module into the shell's overlay layer, above the byline and the
+   legend, and gives it every pixel under the masthead. That is the one state
+   in which the drawn world is the full width of the screen. The same key and
+   Escape put it back. */
+/* Position and SIZE are set by `_sizeEnlarged()` in index.js: the block takes
+   the plate plus the rail and nothing else, so the timeline keeps whatever is
+   left under it, and it stops at the dossier's edge rather than covering the
+   panel the student just opened. */
+/* WHY THIS NUMBER. Both this module's rail and P17's byline are parented into
+   the shell's `overlay` mount so they can rise above `.stage__map`, which is a
+   stacking context at `z-index: 0`. The byline sits at 55. Enlarged, the plate
+   is the thing the student just asked to see, and a plate underneath a panel
+   about the plate is the round-4 defect in a new place — measured at 56% of
+   the phone plate covered — so the enlarged block and its own rail sit above
+   it. Docked, nothing changes: the rail stands on the margin, not on anyone. */
+.map.is-enlarged {
+  position: fixed;
+  inset: auto;
+  max-block-size: none;
+  background: var(--surface-page);
+  box-shadow: var(--shadow-lifted, 0 8px 32px rgba(0,0,0,.22));
+  z-index: 58;
+}
+
+.map__plate,
+.map__fade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.map__plate:focus { outline: none; }
+.map__plate:focus-visible {
+  outline: var(--rule-mid) solid var(--focus-ring);
+  outline-offset: calc(-1 * var(--rule-heavy));
+}
+.map__fade { pointer-events: none; opacity: 0; }
+.map__fade.is-on { opacity: 1; }
+
+/* --- the hit and focus layer ------------------------------------------- */
+/* One element per drawn unit, for the keyboard and the screen reader. It takes
+   no pointer events AT ALL: the canvas underneath owns the pointer, and picks
+   against the real outline with a 22px nearest-centre pass for the minimum
+   marks, so a 3.7 km² rock still answers a 44px target without a transparent
+   div sitting between the mouse and the map. */
+
+.map__targets { position: absolute; inset: 0; pointer-events: none; }
+.map__target {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  border-radius: var(--radius-sm);
+}
+.map__target:focus { outline: none; }
+.map__target:focus-visible {
+  outline: var(--rule-mid) solid var(--focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-halo);
+}
+
+/* --- the floating furniture --------------------------------------------- */
+/* THE MAP'S OWN FURNITURE, ABOVE EVERYTHING, AND OVER THE SEA.
+
+   `.stage__map` is `z-index: 0` and therefore a stacking context, so nothing
+   inside it can rise above the legend and the byline at `z-index: 20`. Round 3
+   set a z-index on this card anyway; it did nothing, and on a phone all five
+   of the map's controls returned BLOCKED from elementFromPoint. So they are
+   parented into the shell's full-screen overlay layer — which LAYOUT_BUDGET B5
+   exempts, and which is the only place this module is allowed to draw over the
+   plate — and pinned over it by JS.
+
+   The layer is exactly congruent with the plate and takes nothing from it: the
+   strip at the head, the zooms at the foot, both over water. */
+
+.map__furniture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* `size`, not `inline-size`: the plate is wide and short on a laptop and
+     tall and narrow on a phone, and both decide how the strip lays out. The
+     container is still named `rail` because that is what every query in this
+     file has always measured — it is now the plate itself. */
+  container-type: size;
+  container-name: rail;
+}
+.map__furniture.is-floating { position: fixed; z-index: var(--z-popover, 50); }
+.map__furniture.is-big { z-index: 59; }
+.map__furniture > * { pointer-events: auto; }
+
+/* --- THE STRIP AT THE HEAD OF THE PLATE --------------------------------
+
+   There is no rail. Round 5 put this module's furniture in a column beside
+   the world and compressed the world around it, which meant the column's
+   248px were paid for out of the map: measured with the dossier open at
+   1366 x 768, the drawn world fell to 714 x 301. The shell now guarantees
+   the whole rectangle and charges this module for all of it (LAYOUT_BUDGET
+   B5, B6), so the furniture floats over the plate — over the sea, at the
+   head and at the foot — and costs the world nothing at all.
+
+   Two objects. A four-segment strip that says what the word "British" means
+   here, which is a control over the whole map exactly as the year is; and
+   three zoom buttons. Everything else this module used to print is in the
+   sheet, on a named control, at full size. */
+
+/* WHY THE STRIP IS AT THE FOOT OF THE PLATE AND NOT AT ITS HEAD.
+
+   Round 6 pinned it to the head, and the head of a British Empire plate is
+   Canada: the reviewer's note reads "the floating 'British means' panel is
+   positioned over the map's top-left — on desktop it covers Canada/Alaska; on
+   mobile it overlaps the zoom stack and the dossier header". Measured at
+   1366 x 462 with the default framing, the world band runs from x=135 to
+   x=1231 and its lowest latitude is 56 S: the foot of the plate is the
+   Southern Ocean and the two corners beside it are off the world altogether.
+   That is the one strip of this plate that carries nothing British in any year
+   between 1600 and 1997, and it is where an engraved atlas puts its key. */
+/* ONE ROW, TWO ENDS, NO OVERLAP POSSIBLE.
+
+   Round 6 pinned the definition strip to the foot on the left and the mode row
+   to the foot on the right as two independently positioned boxes, each sized
+   by its own content. Below about 1200px they met. Measured on the running app
+   at 1024 x 768 with the modes open they overlapped by 13,436px², and
+   `document.elementFromPoint` over the centre of the "4 influenced" segment
+   returned `map__mode map__proj`: the app's signature control, occluded by
+   another live control. At 1280 x 600 the overlap was 11,150px².
+
+   They are now the two ends of one flex row. When the row runs out of width it
+   wraps — the modes take a line of their own, right-aligned, ABOVE the strip,
+   because the box is anchored by its foot and grows upward over the Southern
+   Ocean. Two boxes in one flex row cannot overlap at any width; that is the
+   whole reason for the change, and it needs no breakpoint to be true. */
+.map__foot {
+  position: absolute;
+  inset-block-end: var(--stage-inset);
+  inset-inline: var(--stage-inset);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2xs, .25rem) var(--space-sm);
+  min-inline-size: 0;
+  pointer-events: none;
+}
+
+/* ---- AND THE CORNER IS NOT A CONSTANT --------------------------------
+
+   Everything above is right about the DEFAULT framing and wrong the moment a
+   lesson beat flies the camera. Measured on the running app, cold-loaded into
+   beat 9 of the authored path — the Company in Bengal — at 1366 x 768:
+
+     drawn map     956 x 462
+     .map__foot    936 x 42 at 10,518   -> 45,016 px2 of the drawn map covered
+     standing on   Andhra Pradesh 3,595 px2 · Puducherry 2,632 · Tamil Nadu 924
+                   · British Manila 4,308
+
+   The beat is about the Company in India and this module drew its signature
+   control across the Company's own coast; the reviewer logged the same thing
+   over the Barbados/Tobago cluster and over Trinidad and the Guianas. So the
+   corner is chosen every repaint, against the units actually drawn in the
+   framing actually on screen (index.js#_placeFurniture), and published here as
+   `data-footslot` / `data-zoomslot`. Four corners, two objects, never the same
+   corner: they cannot collide, which is the guarantee round 6 needed a single
+   flex row to get.
+
+   The row is content-sized in this state rather than full-width, because a
+   full-width row has only two distinct places to stand (the top edge and the
+   foot) and on a plate zoomed into India both of them are India. */
+.map__furniture[data-footslot] .map__foot {
+  inset-inline: auto;
+  inline-size: max-content;
+  max-inline-size: calc(100% - 2 * var(--stage-inset));
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.map__furniture[data-footslot$="l"] .map__foot { inset-inline-start: var(--stage-inset); }
+.map__furniture[data-footslot$="r"] .map__foot { inset-inline-end: var(--stage-inset); }
+.map__furniture[data-footslot$="c"] .map__foot {
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+/* THE LIFT. Where the best corner still stands on a place's anchor, the strip
+   rises over the same sea by whole rows until it does not — the words stay,
+   the corner stays, and nothing about the map changes. Measured on the cold
+   1366 plate: at lift 0 `elementFromPoint` over the Falkland Islands returned
+   `map__sheetlink`; the Falklands are clickable again at the first step. */
+.map__furniture[data-footslot^="b"] .map__foot {
+  inset-block-end: calc(var(--stage-inset) + var(--map-foot-lift, 0px));
+}
+.map__furniture[data-footslot^="t"] .map__foot {
+  inset-block-start: calc(var(--stage-inset) + var(--map-foot-lift, 0px));
+  inset-block-end: auto;
+  align-items: flex-start;
+}
+.map__furniture[data-zoomslot] .map__zooms { inset-block: auto; inset-inline: auto; }
+.map__furniture[data-zoomslot^="t"] .map__zooms { inset-block-start: var(--stage-inset); }
+.map__furniture[data-zoomslot^="b"] .map__zooms { inset-block-end: var(--stage-inset); }
+.map__furniture[data-zoomslot$="l"] .map__zooms { inset-inline-start: var(--stage-inset); }
+.map__furniture[data-zoomslot$="r"] .map__zooms { inset-inline-end: var(--stage-inset); }
+
+/* A PLATE WITH NO EMPTY CORNER LEFT. Where no corner and no lift gets the
+   strip off every anchor, the dial sheds a stratum rather than asking for the
+   corner back (LAYOUT_BUDGET B3). What it sheds is its WIDTH, not a word and
+   never a control — see below. */
+/* THE ROW FOLDS; IT DOES NOT LOSE A WORD.
+
+   The first draft of this dropped the word from the three definitions not in
+   force, so at three beats of the twelve sampled the app's signature control
+   read "1 claimed  2  3  4" — three unlabelled glyphs, which is the exact
+   defect this module has logged against the legend's seven unlabelled
+   swatches and against its own mode tiles. The row folds to two lines
+   instead: same four words, same four targets, about half the width, and the
+   scorer measures the folded box because `_slotBoxes` reads the element.
+   Its printed title stands down, because the four segments say it. */
+.map__furniture[data-tight="yes"] .map__foot {
+  max-inline-size: min(46%, 30rem);
+  flex-wrap: wrap;
+}
+/* AND THE CARD IS AS WIDE AS ITS WIDEST ROW, NOT AS WIDE AS ITS ROWS ADDED
+   UP. Folded, an absolutely-positioned flex row shrink-wraps to its
+   MAX-CONTENT — the width it would need if nothing wrapped — so the card
+   measured 316px while the widest thing in it was the 200px grid, and the
+   116px difference was empty paper standing on the map. A column has one
+   answer: the grid, then the route out of it, both left-aligned. */
+.map__furniture[data-tight="yes"] .map__switch {
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+/* TWO AND TWO, NOT THREE AND ONE. Folded, a flex row breaks where it runs
+   out of room, and the four readings are 70, 97, 82 and 83px wide, so it
+   broke 3 + 1 and left a third of the card empty beside "4 influenced" —
+   measured at 1024x768 inside a gate beat, a 310px card with 227px of void
+   in it, standing over Algeria. A 2x2 grid is the same four targets, the
+   same hairlines, the same ladder read left to right and then down, and no
+   hole: the card is 190px and the map keeps the difference. */
+.map__furniture[data-tight="yes"] .map__defs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.map__furniture[data-tight="yes"] .map__switchttl { display: none; }
+.map__foot > * { pointer-events: auto; }
+
+.map__strip {
+  /* Content-sized, not full-width: this box is an obstacle the map's own
+     labels are told to dodge, and a full-width transparent band would push
+     every name in the northern ocean down a line for nothing. */
+  flex: 0 1 auto;
+  inline-size: max-content;
+  max-inline-size: 100%;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+  pointer-events: none;
+}
+.map__strip > * { pointer-events: auto; }
+
+/* --- the definition switch, as one line -------------------------------- */
+
+.map__switch {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-sm);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  /* The box is `.cx-panel`. This is a control bar on a plate, not a prose
+     panel, so it names a tighter padding — one override, not a second box. */
+  --cx-pad: var(--space-2xs, .25rem) var(--space-sm);
+  font-family: var(--font-sans);
+}
+.map__switch[hidden] { display: none; }
+
+.map__switchhead { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; min-inline-size: 0; }
+.map__switchhead:empty { display: none; }
+
+.map__switchttl {
+  display: flex; align-items: baseline; gap: .3em;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold, 600);
+  line-height: var(--lh-ui);
+  color: var(--text-heading);
+  white-space: nowrap;
+}
+.map__switchword::before { content: "\201C"; }
+.map__switchword::after  { content: "\201D"; }
+.map__switchmeans { font-weight: var(--w-regular, 400); color: var(--text-secondary); }
+
+/* FOUR SEGMENTS, ONE LINE, ONE LADDER. 1 to 4 run from the narrowest reading
+   to the widest, and reading them left to right is the argument: the same
+   year, the same evidence, a different empire. */
+.map__defs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rule-fine);
+  margin: 0;
+  background: var(--border-default);
+  border: var(--rule-fine) solid var(--border-default);
+}
+.map__def {
+  display: flex; align-items: center;
+  gap: var(--space-3xs, 2px);
+  min-block-size: 1.85rem;
+  padding: var(--space-3xs, 2px) var(--space-xs);
+  background: var(--surface-panel);
+  border: 0;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.map__def:hover { background: var(--surface-well); color: var(--text-body); }
+/* ---- THE CHOSEN DEFINITION, AND WHY IT IS NOT FLAT `--accent` -------------
+   WAVE 9, WCAG AA. `--text-on-accent` on `--accent` is 5.63:1 in paper and
+   **4.41:1 in lamplit** — measured on the running app, dark, with a territory
+   open — and this chip's label is 12px, so AA asks 4.5. It missed by nine
+   hundredths and it has been missing since the dark theme landed.
+
+   `--accent` and `--text-on-accent` are tokens.css's and not this file's to
+   move, so the chip mixes its own fill one step AWAY from its own ink: toward
+   `--text-body`, which is dark in paper and light in lamplit, so the same
+   single expression darkens the red under near-white type and lightens it
+   under near-black type. Measured after: **6.43:1 paper / 5.14:1 lamplit.**
+   The plain declaration above it is the fallback for an engine without
+   `color-mix`, which lands back on today's numbers and no worse. */
+.map__def.is-on,
+.map__mode.is-on {
+  background: var(--accent);
+  background: color-mix(in srgb, var(--accent) 88%, var(--text-body));
+  color: var(--text-on-accent);
+}
+.map__def.is-on .map__defkey { border-color: currentColor; }
+.map__defkey {
+  flex: 0 0 auto;
+  display: inline-grid; place-items: center;
+  inline-size: .95rem; block-size: .95rem;
+  border: 0; padding: 0;
+  /* THE KEYCAP IS QUIETER BY COLOUR, NOT BY OPACITY. `opacity: .75` over
+     `--surface-panel` composited `--text-secondary` down to **4.01:1** in
+     paper, and the `.is-on` chip's own `opacity: .85` took its ink to
+     **3.79:1** in lamplit — both measured, both under 4.5 at 12px. Opacity is
+     the one way to make text fail a contrast rule that no colour audit of the
+     stylesheet can see. `--text-min` is the token that means "quieter" and it
+     is 4.84 paper / 4.57 lamplit on this surface; inside the chosen chip the
+     keycap simply takes the chip's own ink. */
+  color: var(--text-min);
+  font-family: var(--font-figures);
+  font-size: var(--fs-micro);
+  /* The keycap is a 15px box; at the inherited line height the digit's own
+     line box is 18px and the glyph overflows its button by three pixels. */
+  line-height: 1;
+  font-feature-settings: var(--figures-feature);
+}
+.map__def:hover .map__defkey,
+.map__def.is-on .map__defkey { color: inherit; }
+.map__defword { min-inline-size: 0; }
+
+/* The one route out of the strip, in the app's one shape for "there is more
+   here" (`.cx-more`, chrome.css). It replaces a paging button, a fade, a
+   "more ↓ (561px)" and a 26px scroll box. */
+.map__sheetlink { flex: 0 0 auto; white-space: nowrap; }
+/* `.cx-more` sets a `display`, and an author `display` beats the UA sheet's
+   `[hidden] { display: none }` at equal specificity. Without this line the
+   route into the sheet printed at `working` however hard _applyStage() hid it,
+   and the reviewer's count of "six identically weighted red links" kept the
+   one this module had already decided to stand down. */
+.map__sheetlink[hidden] { display: none; }
+
+/* WCAG 2.2 SC 2.5.8: A TARGET IS 24px, EVEN WHEN THE INK IS 18.
+   `.cx-more` is the app's shape for "there is more here" and it is an 18px
+   line of type — right in a column of prose, where the inline exception
+   applies, and wrong in this module's control rows, where it is a control
+   among controls and nothing around it is a sentence. Measured at 1366x768
+   inside a beat: "What this leaves out" was 128x18 in the definition row
+   beside four 30px segments. The type does not change; the hit area does. */
+.map__switchhead .cx-more,
+.map__foot .cx-more,
+.map__controls .cx-more {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+}
+.map__switchhead .cx-more[hidden],
+.map__foot .cx-more[hidden],
+.map__controls .cx-more[hidden] { display: none; }
+
+/* --- THE SHEET: everything that used to be clipped ---------------------
+   `.map__switchbody` is built detached and handed to `ask:sheet`, which gives
+   it 410 x 716 beside a live map with its own scroll. Nothing here is on the
+   plate, at any stage, ever. */
+.map__sheet { display: contents; }
+
+/* THE SHEET IS NOT THE PLATE, AND THE SHIM CANNOT TELL.
+
+   chrome.css §E hides `.map__gloss`, `.map__figs`, `.map__caveat`,
+   `.map__delta` and `.map__quote` at `plate` and at `working`, from outside,
+   because until this round they were furniture standing on the Atlantic. They
+   are the sheet's contents now, and measured at `working` that rule emptied
+   the sheet: a reader who pressed 3 and then "What this reading leaves out"
+   got a heading and one word. These five restore them, and only inside the
+   sheet, at the shim's own specificity (map.css loads after chrome.css, so
+   equal specificity wins here). Delete this block with the shim. */
+#app .cx-sheet .map__gloss,
+#app .cx-sheet .map__caveat,
+#app .cx-sheet .map__delta,
+#app .cx-sheet .map__nogeo { display: block; }
+#app .cx-sheet .map__figs { display: grid; }
+#app .cx-sheet .map__quote { display: inline; }
+.map__switchbody {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+/* THE RUNNING ORDER. What you pressed, what it means, what it costs you, what
+   it counts, then why. Round 4's fold landed inside a number ("182 units drawn
+   · 25" with "million km²" half-erased); there is no fold here any more, but
+   the order is still the teaching order. */
+.map__sheetttl { order: 0; margin-block: 0 var(--space-xs); }
+.map__gloss  { order: 1; }
+.map__delta  { order: 2; }
+.map__figs   { order: 3; }
+.map__caveat--cover { order: 4; }
+.map__caveat--informal { order: 5; }
+.map__caveat--undrawn { order: 6; }
+.map__caveat { order: 7; }
+.map__nogeo  { order: -1; }
+
+.map__gloss {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose, 1.5);
+  color: var(--text-body);
+}
+
+/* The figures are `.cx-fig` now — the app's one display-figure treatment — so
+   everything below is the one thing chrome.css has no word for: the sourcing
+   note under a figure. */
+.map__figs {
+  display: grid;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+.map__fign { font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-ui); }
+
+/* The caveats are `.cx-note`. Only the rule above them and the ordering are
+   this file's; the type is the app's. */
+.map__caveat,
+.map__delta {
+  margin: var(--space-sm) 0 0;
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+.map__caveat strong,
+.map__delta strong { color: var(--text-body); font-weight: var(--w-semibold, 600); }
+.map__delta { color: var(--text-body); }
+.map__delta .num { font-family: var(--font-figures); font-feature-settings: var(--figures-feature); }
+
+.map__nogeo {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+/* --- projection toggle and zoom ---------------------------------------- */
+
+/* Dead since round 5 removed the rail: `.map__controls` and `.map__modes` are
+   laid out once, in the foot-row block below, and a second declaration here
+   was three rules a reader had to reconcile before they could believe either.
+   Deleted, not commented out. */
+
+/* Four modes, all reachable by pointer and by key, all showing their key.
+   Round 2 built weight mode and shipped it with no control at all, so the one
+   mechanism that turns "area is not importance" from a claim into a picture
+   could only be run from a console. Every mode this module owns is a button
+   here, and the button says which key does it. */
+.map__mode {
+  display: grid; gap: 1px;
+  min-block-size: 2.75rem;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-default);
+  box-shadow: var(--shadow-raised);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  text-align: start;
+  cursor: pointer;
+}
+.map__mode:hover { background: var(--surface-well); }
+/* THE CONTROL THAT ANSWERS THE CHARGE LOOKS LIKE IT. While the docked plate
+   is small or covered, Enlarge is set in the accent and carries the two
+   measured numbers, so the student can see what pressing it is worth before
+   they press it. It returns to a plain tile the moment it stops mattering. */
+/* COHERENCE PASS — A FILLED ACCENT TILE MEANS "SWITCHED ON", AND NOTHING ELSE.
+   `.is-on` below fills the same accent for a mode that is actually running, so
+   an Enlarge tile filled the same way told a student the plate was already
+   enlarged. Urgency is now carried by a heavy accent rule and accent lettering
+   on the panel ground — loud, but not a lie about state. */
+.map__mode.is-urgent {
+  background: var(--surface-panel);
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
+  border-inline-start-width: var(--rule-mid);
+}
+.map__mode.is-urgent .map__modesub { color: var(--text-secondary); }
+.map__mode.is-urgent .map__modekey { border-color: currentColor; opacity: .9; }
+/* fill and ink are set with `.map__def.is-on` above — see the AA note there */
+.map__mode.is-on { border-color: var(--accent); }
+.map__mode.is-on .map__modesub { color: inherit; opacity: .85; }
+.map__mode.is-on .map__modekey { border-color: currentColor; opacity: .9; }
+.map__modetop { display: flex; align-items: center; gap: var(--space-2xs, .25rem); }
+.map__modekey {
+  flex: 0 0 auto;
+  display: inline-grid; place-items: center;
+  inline-size: 1.1rem; block-size: 1.1rem;
+  border: var(--rule-hair) solid var(--border-firm);
+  font-family: var(--font-figures);
+  font-size: var(--fs-micro);
+  font-feature-settings: var(--figures-feature);
+  color: inherit;
+}
+.map__modenow { font-size: var(--fs-small); font-weight: var(--w-medium, 500); }
+.map__modesub { font-size: var(--fs-micro); color: var(--text-min); }
+
+.map__zooms {
+  /* COHERENCE PASS — NO EMPTY PANEL. This column is `align-items: stretch`'s
+     tenant beside the mode grid, so it took the mode grid's full height (140px)
+     while its three fixed 40px buttons filled 122 of it, and the remaining 22px
+     showed as a bare slab of `--border-default`: a bordered box with nothing in
+     it, bottom right of the map, in both themes. The three buttons now share
+     the height they are given, which also makes each hit target taller. */
+  display: grid;
+  align-content: stretch;
+  grid-auto-rows: minmax(2.5rem, 1fr);
+  gap: var(--rule-fine);
+  background: var(--border-default);
+  border: var(--rule-fine) solid var(--border-default);
+  box-shadow: var(--shadow-raised);
+}
+.map__zoom {
+  inline-size: 2.75rem; min-block-size: 2.5rem;
+  display: grid; place-items: center;
+  background: var(--surface-panel);
+  border: 0;
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  cursor: pointer;
+}
+.map__zoom:hover { background: var(--surface-well); }
+.map__zoom--home { font-size: var(--fs-small); }
+
+/* --- the hover card ----------------------------------------------------- */
+/* Names and, more to the point, HOW a place was taken — the dataset's own
+   mechanism and its own sentence. Round 2 had no tooltip and no labels, so a
+   student could only learn one name per click, which is the one job a printed
+   plate does for free. It takes no pointer events: it follows the pointer and
+   never gets between it and the map. */
+
+.map__tiplayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* Above the enlarged plate and above every panel: a hover card that reads
+     out how a place was taken is useless behind the panel it is explaining. */
+  z-index: 61;
+}
+/* Geometry only. The box is `.cx-panel .cx-panel--float .cx-panel--tight`
+   (chrome.css): the app's single panel recipe, so the hover card, the sheet and
+   the dossier are visibly the same object. */
+.map__tip {
+  position: fixed;
+  top: 0; left: 0;
+  inline-size: min(20rem, 62vw);
+  --cx-pad: var(--space-xs) var(--space-sm);
+  pointer-events: none;
+  font-family: var(--font-sans);
+  color: var(--text-body);
+}
+.map__tip p { margin: 0 0 var(--space-2xs, .25rem); }
+.map__tip p:last-child { margin-block-end: 0; }
+.map__tipname {
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  font-weight: var(--w-semibold, 600);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.map__tipwhat { font-size: var(--fs-caption); color: var(--text-body); }
+.map__tipdeg { color: var(--text-min); }
+.map__tipheld {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.map__tipwhy {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.map__tipwho { font-size: var(--fs-micro); color: var(--text-secondary); }
+.map__tipflag { font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-ui); }
+
+.map__quote { font-family: var(--font-serif); font-style: italic; }
+.map__caveat--undrawn { border-block-start-color: var(--border-firm); }
+
+/* ====================================================== THE FURNITURE ======
+   THE MAP'S FURNITURE IS NOT A COLUMN AND IS NOT PAID FOR OUT OF THE MAP.
+
+   Round 5 docked a rail in the margin beside the plate and sized the plate to
+   what was left, which was honest about occlusion and expensive in world: at
+   1024 x 640 the drawn map covered 70% of the rectangle the shell had given
+   it, at 1440 x 900 71%, on a phone 35%, and the rest was paper. The shell now
+   guarantees that nothing stands on the plate (LAYOUT_BUDGET B5), so the
+   trade is gone: the canvas is the whole rectangle and this module's two
+   objects float over the sea at its head and its foot.
+
+   Both are small, both are pointer-events islands in a transparent layer, and
+   both are staged — the strip appears at `working`, the modes at `apparatus`,
+   the zooms at every level. Everything they used to carry with them is in the
+   sheet, which is 410 x 716 and scrolls. */
+
+/* --- the other readings, behind one word -------------------------------- */
+
+/* "OTHER WAYS TO DRAW THIS" HAS ITS OWN CORNER — the foot of the plate on the
+   right. Stacked under the definition strip it made a 129px column at the
+   foot on the left, and measured at 1366 x 768 with the apparatus column
+   reserved that column stood on the Cape of Good Hope. On its own corner the
+   five tiles open UPWARD over the Southern Ocean south of Australia, which is
+   the last water on this plate that carries nothing at any year. */
+.map__controls {
+  /* The right-hand end of the foot row. `margin-inline-start: auto` keeps it
+     on the right when the row wraps and it is alone on its line. */
+  flex: 0 0 auto;
+  margin: 0;
+  margin-inline-start: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: var(--space-2xs, .25rem);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.map__controls[hidden] { display: none; }
+.map__modesmore {
+  padding: var(--space-2xs, .25rem) var(--space-sm);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-default);
+  min-block-size: 1.85rem;
+}
+.map__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rule-fine);
+  background: var(--border-default);
+  border: var(--rule-fine) solid var(--border-default);
+}
+/* `hidden` has to beat `display: flex`, and it is the whole disclosure. */
+.map__modes[hidden] { display: none; }
+/* ---- THE ROW IS OPEN OR IT IS NOT THERE. ----------------------------------
+
+   chrome.css §E carries a transitional block for P02 headed "DELETE when
+   map/index.js reads data-stage and renders accordingly". It does: `_stage()`
+   and `_applyStage()` in map/index.js hold the whole disclosure, and the row's
+   `hidden` attribute — set by `_setModes()` — is now the only thing that
+   decides whether the five tiles are on screen.
+
+   Round 7 wrote `#app[data-stage="working"] .map__modes { display: flex }`
+   here, which meant the row was OPEN at `working` whether or not anyone had
+   asked for it, and the whole-app review counted its tiles among the controls
+   that "a single territory click unlocks at once". This rule replaces it and
+   says the honest thing instead: the row is visible when it is not hidden, and
+   nothing else may make it visible. map.css loads after chrome.css
+   (util.loadCss, from map/index.js), so an equal-specificity rule here wins.
+   THE SHELL MAY DELETE THE WHOLE P02 BLOCK IN chrome.css §E: nothing in this
+   file depends on it, and tools/scenarios/budget.js passes without it. */
+#app .map__modes:not([hidden]) { display: flex; }
+.map__mode { min-inline-size: 5.5rem; box-shadow: none; }
+
+/* SILENCES AT A YEAR WITH NO SILENCE. The tile is never disabled — a disabled
+   button cannot explain itself, and this one has something to say — but it is
+   set down in weight, and its second line names the first year a hole can be
+   drawn. Pressing it then offers to go there rather than draining the plate. */
+/* WAVE 9, WCAG AA: THE SET-DOWN IS A COLOUR, BECAUSE OPACITY IS NOT EXEMPT.
+   `opacity: .62` on the whole tile composited its second line — 12px, the line
+   that names the first year a hole can be drawn — to **2.40:1 in paper and
+   2.56:1 in lamplit**, measured at 1440x900 on `#tour=lesson-one&step=2`. AA's
+   incidental exception covers *disabled* controls, and the paragraph above
+   this one says in as many words that this tile is never disabled: it is
+   pressable, and pressing it offers to go to the year it names. So the tile is
+   set down the way everything else in this app is set down — in ink and in
+   weight — and both lines stay readable: **7.51 / 7.37 for the title, 4.84 /
+   4.57 for the sub-line.** */
+.map__mode.is-unavailable { color: var(--text-secondary); }
+.map__mode.is-unavailable .map__modenow { font-weight: var(--w-regular, 400); }
+.map__mode.is-unavailable .map__modesub { color: var(--text-min); }
+
+/* --- the zooms, in the North Pacific ------------------------------------
+
+   NOT the bottom right, which is where a web map puts them and where this
+   atlas cannot. Measured with the acceptance scenario: at 1440 x 900 the
+   bottom-right corner of this frame is New Zealand, and `elementFromPoint`
+   over the selected New Zealand polygon returned `map__zoom`. The bottom LEFT
+   is the Pitcairn group. The one corner of a British Empire plate that carries
+   nothing British at any year between 1600 and 1997 is the top right: eastern
+   Siberia and the north Pacific. The controls go there. */
+
+.map__zooms {
+  position: absolute;
+  inset-block-start: var(--stage-inset);
+  inset-inline-end: var(--stage-inset);
+}
+
+/* A short plate cannot carry five two-line tiles; the tiles keep their keys
+   and their accessible names, which are what say what they do. */
+@container rail (max-height: 30rem) {
+  .map__modesub { display: none; }
+  .map__modenow { font-size: var(--fs-micro); }
+  .map__mode { align-content: center; padding: var(--space-2xs, .25rem) var(--space-xs); min-inline-size: 4.5rem; }
+  .map__zoom { block-size: 2.4rem; }
+}
+
+/* A PHONE. 390 x 476 of plate: the strip takes the head of it and wraps to two
+   lines if it must, and the zooms sit in the corner at the 44px tap floor this
+   module enforces for a 3.7 km² rock. */
+@container rail (max-width: 30rem) {
+  /* On a portrait plate the world sits as a band across the middle with sea
+     above and below it. The two objects take one band each — the zooms the
+     northern one, the strip the southern one — so neither stands on land,
+     neither stands on the other, and neither is anywhere near the dossier's
+     own header, which on a phone is pinned to the top of the sheet. */
+  .map__strip { inline-size: auto; max-inline-size: 100%; }
+  /* 390px will not carry a four-segment control and a five-tile row side by
+     side, so the foot row wraps: the modes take the upper line, the definition
+     strip the lower one. Round 6 answered the same problem by moving the modes
+     to the head of the plate on the left, which put them 46px from the zoom
+     stack whenever the dossier shortened the plate, and the two collided. A
+     wrap cannot collide. */
+  .map__controls { flex: 1 0 100%; align-items: flex-start; margin-inline-start: 0; }
+  /* The four segments have to be able to take a second line rather than run
+     off the right edge of a 390px plate: round 6 clipped "4 influenced". */
+  .map__switch { flex-wrap: wrap; }
+  .map__defs { flex-wrap: wrap; max-inline-size: 100%; }
+  .map__switchttl { font-size: var(--fs-micro); }
+  .map__def { font-size: var(--fs-micro); padding-inline: var(--space-2xs, .25rem); }
+  .map__modes { flex-wrap: wrap; }
+  .map__mode { min-inline-size: 2.75rem; min-block-size: 2.75rem; }
+  /* THE NAME STAYS; THE KEY GOES. Round 6 dropped the word and kept the letter,
+     so on a phone "Other ways to draw this" opened into five unlabelled boxes
+     reading P W S H E — the same defect the reviewer logged against the legend's
+     seven unlabelled swatches, in this module's own furniture. A phone has no
+     keyboard, so the letter is the half of each tile that cannot be acted on.
+     The row wraps to two lines with the words in it, which is what the reader
+     opened it to read; the same control closes it again. */
+  .map__modekey { display: none; }
+  .map__modenow { font-size: var(--fs-caption); }
+}
+
+/* A PLATE TOO SHORT TO CARRY THE FURNITURE.
+
+   On a phone with the dossier open the shell gives this module a 390 x 112
+   strip of plate. The definition control is 91px tall there (two lines: its
+   title, then four segments) and the zoom stack is 124px, so both ran off the
+   bottom of the plate and stood on the dossier's own header — which is the
+   defect the reviewer logged, moved rather than fixed. Neither may leave the
+   plate and neither may be clipped, so on a short plate both compact:
+
+   · the control drops its printed title and its route to the sheet, and keeps
+     the four segments at the 44px tap floor. The group's accessible name is
+     still "What “British” means", so nothing is lost to a screen reader, and
+     the route into the sheet is also the sheet's own heading;
+   · the zooms lay out as one row instead of one column, so three 44px targets
+     cost 44px of plate instead of 124.
+
+   Under 7rem of plate neither fits at any size and both stand down: keys 1-4
+   still change the reading, and the reading is printed in the time bar. */
+@container rail (max-height: 15rem) {
+  .map__switchttl { display: none; }
+  .map__sheetlink { display: none; }
+  .map__zooms {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(2.75rem, 1fr);
+    grid-auto-rows: auto;
+  }
+}
+/* A PLATE THAT IS NO LONGER A PLATE.
+
+   Measured on the running app: a 390 x 844 phone with a dossier open gives
+   this module a 390 x 130 band. The definition strip is 42px of it and the
+   disclosure another 30px, so 55% of the map was furniture standing on the
+   only 130 pixels of world the reader had. Both stand down below 11rem —
+   the keys still work, the reading is printed under the year in the time bar,
+   and the reader's route back to a full plate is to close the dossier. The
+   zooms stay, as one 44px row: a map you cannot zoom is a picture. */
+@container rail (max-height: 11rem) {
+  .map__foot { display: none; }
+}
+
+/* --- the dial, in the sheet --------------------------------------------
+   The four segments at the head of the sheet, above the gloss for the one in
+   force. On a phone this is the only place they are (RESPONSIVE_LAW §5); at
+   every other width it is a second, larger copy of a control that is also on
+   the plate, next to the paragraph that explains what pressing it does. */
+.map__switch--sheet {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  margin-block-end: var(--space-md, .75rem);
+}
+.map__sheetdial {
+  margin: 0 0 var(--space-xs, .375rem);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-medium, 500);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.map__switch--sheet .map__defs { display: flex; flex-wrap: wrap; gap: var(--space-2xs, .25rem); }
+/* The door and its five tiles, when the foot strip is not on screen. */
+.map__sheettail:empty { display: none; }
+.map__sheettail { margin-block-start: var(--space-md, .75rem); }
+.map__sheettail .map__controls { display: block; }
+.map__sheettail .map__modes { flex-wrap: wrap; margin-block-start: var(--space-xs, .375rem); }
+.map__def--sheet { min-block-size: 2.75rem; }
+
+/* =========================================================================
+   THE DOCKED BAND — RESPONSIVE_LAW, internalised.
+
+   Below 62rem this module's two objects are not on the plate at all. They are
+   rendered INTO the shell's named docks by index.js#_syncDocks — the dial into
+   `data-mount="dock-foot"`, the zoom cluster into the colour ribbon's reserved
+   trailing end — and everything below is the geometry they take once they are
+   there. It replaces the two transitional blocks in `chrome.css` §E headed
+   "P02 map: the zooms ride the ribbon strip" and "P02 map: the definition dial
+   docks", which pinned both objects from outside with `--dock-key-dy` and
+   `--dock-foot-dy` offsets because a child of `.map__furniture` — which
+   declares `container-type: size`, and therefore `contain: size layout style`
+   — cannot be pinned to a viewport rectangle from inside it. Rendered into the
+   dock, there is no rectangle to chase. THE SHELL MAY DELETE BOTH §E BLOCKS:
+   map.css loads after chrome.css (util.loadCss, from map/index.js) and every
+   rule below is at or above their specificity, and `tools/scenarios/dock.js`
+   passes with them present and with them gone.
+
+   Measured before this pass, cold-loaded into beat 9 at 390 x 844: the three
+   zoom buttons were at 246,164 — 5,712 px2 standing on the Bay of Bengal, on
+   the beat about Bengal — and at 900 x 700 the dial was 580 x 100 across the
+   Southern Ocean, 57,792 px2. Both are 0 now.
+   ====================================================================== */
+
+/* --- the zoom cluster, in the ribbon's reserved trailing 6.5rem ---------
+   `position: relative` on the strip is the one property this file sets on an
+   element it does not own, and only while this module's node is actually
+   inside it: the shell reserves the band with `padding-inline-end`, so a
+   static flex child would sit BEFORE the reservation rather than in it, and
+   an absolutely positioned one needs a containing block. It has no offsets of
+   its own, so it changes nothing else about the strip. */
+/* NOT the pinned copy: P17 renders the ribbon twice below 62rem and pins one
+   of them with `position: fixed` the moment a rail opens. Fixed is already a
+   containing block, and setting `relative` on it took the whole strip out of
+   its pinning — measured, the zoom cluster went to y = -305, 300px above the
+   top of the window. Only the flow copy needs the property. */
+#app[data-dock="docked"] .stage__key:not(.legend__pin):has(> .map__zooms) { position: relative; }
+
+#app[data-dock="docked"] .stage__key > .map__zooms,
+#app[data-dock="docked"] .legend__pin > .map__zooms {
+  position: absolute;
+  inset-block: 2px;
+  inset-inline-end: var(--space-xs, .5rem);
+  inset-inline-start: auto;
+  /* `display`, not just `flex-direction`: this cluster is a GRID at 40rem and
+     above, so a bare `flex-direction: row` was ignored and the three buttons
+     ran 116px down the right-hand edge of a 32px strip and into the time bar. */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--space-2xs, .25rem);
+  grid-auto-rows: auto;
+  /* `auto`, so `inset-block` governs: §E pinned a hard 32px height on this
+     box and the three buttons then hung 3px below the strip they sit in. */
+  block-size: auto;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  z-index: 1;
+}
+/* A BUTTON HAS TO LOOK LIKE ONE ON A STRIP ITS OWN COLOUR. Over the plate
+   these read as controls because the ground behind them is the sea; on the
+   ribbon, which is `--surface-panel` and so are they, three of them read as
+   three faint glyphs. One hairline each, and nothing else. */
+#app[data-dock="docked"] .stage__key > .map__zooms .map__zoom,
+#app[data-dock="docked"] .legend__pin > .map__zooms .map__zoom {
+  min-block-size: 0;
+  block-size: auto;
+  inline-size: 1.75rem;
+  padding: 0;
+  border: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  border-radius: var(--radius-sm, 2px);
+}
+
+/* --- the definition dial, in the control dock --------------------------
+   One 36px row, and the four segments are never clipped: that was round 3's
+   defect and two of the four definitions of British became unclickable. The
+   printed title stands down, because the four segments already say it, and
+   "Other ways to draw this" is deferred to `apparatus` in any case. */
+#app[data-dock="docked"] .stage__dock .map__foot {
+  position: static;
+  inset: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--space-md, .75rem);
+  inline-size: 100%;
+  max-inline-size: none;
+  block-size: 100%;
+  padding-inline: var(--space-md, .75rem);
+  margin: 0;
+  overflow: hidden;
+}
+#app[data-dock="docked"] .stage__dock .map__foot > .map__strip {
+  position: static;
+  flex: 0 1 auto;
+  inline-size: auto;
+  max-inline-size: none;
+  margin: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+#app[data-dock="docked"] .stage__dock .map__switch {
+  position: static;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-md, .75rem);
+  inline-size: auto;
+  max-inline-size: none;
+  max-block-size: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+#app[data-dock="docked"] .stage__dock .map__switchhead { flex-wrap: nowrap; }
+#app[data-dock="docked"] .stage__dock .map__switchttl { display: none; }
+#app[data-dock="docked"] .stage__dock .map__defs { flex-wrap: nowrap; }
+#app[data-dock="docked"]:not([data-stage="apparatus"]) .stage__dock .map__controls { display: none; }
+/* The route to what the reading leaves out is the strip's last item and it is
+   the one thing here allowed to clip. The four segments are not. */
+#app[data-dock="docked"] .stage__dock .map__sheetlink {
+  flex: 0 1 auto; min-inline-size: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+
+/* --- the phone's chip ---------------------------------------------------
+   Hidden everywhere except the ribbon below 40rem, where it replaces `+` and
+   `-` (both of which have another route: pinch, the wheel, and the + and -
+   keys) and is the only way to the four definitions and to the sheet that
+   holds their gloss. Measured: chip 60 + gap 4 + home 28 + inset 8 = 100px
+   against the 104px the shell reserves at the ribbon's trailing end, where
+   the three zoom buttons took 100px on their own. */
+.map__defchip { display: none; }
+@media (max-width: 39.999rem) {
+  #app[data-dock="docked"] .stage__key > .map__zooms .map__zoom:not(.map__zoom--home),
+  #app[data-dock="docked"] .legend__pin > .map__zooms .map__zoom:not(.map__zoom--home) { display: none; }
+  #app[data-dock="docked"] .stage__key > .map__zooms,
+  #app[data-dock="docked"] .legend__pin > .map__zooms { gap: 3px; inset-inline-end: 6px; }
+  #app[data-dock="docked"] .stage__key > .map__zooms .map__defchip,
+  #app[data-dock="docked"] .legend__pin > .map__zooms .map__defchip {
+    display: inline-flex;
+    align-items: center;
+    /* MEASURED, NOT ROUNDED. At `--space-2xs` on both the gap and the padding
+       the cluster came to 102px and started at x = 282 of 390 — four pixels
+       inside the ribbon's own content box, with the chip's left edge printed
+       over the arrow of "+4 more ->". The reservation is 104px and this is
+       94: chip 60 + gap 4 + home 28 + inset 6, ending clear of the swatches. */
+    gap: 2px;
+    padding-inline: 3px;
+    border: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+    border-radius: var(--radius-sm, 2px);
+    background: var(--surface-panel);
+    color: var(--text-body);
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  #app[data-dock="docked"] .map__defchip[hidden] { display: none; }
+}
+
+/* --- 40rem, AND THE ARITHMETIC THAT SETS IT ----------------------------
+
+     390x844, a beat mounted:  844 = 46 bar + 110 lede + MAP + strips
+                                     + 280 panel (B8's floor) + 184 time
+     with the ribbon alone (32):     MAP = 192
+     with a one-row dial dock (+36): MAP = 156, and 390px will not carry
+                                     "1 claimed 2 administered 3 controlled
+                                     4 influenced" on one 36px line
+     with a two-row dial dock (+72): MAP = 120, less map than we started with
+
+   So on a phone the dial is not on the plate and is not in a dock either:
+   `_syncDocks` leaves it in this module's own layer and this hides it. It is
+   not lost — keys 1 to 4 still change the reading, the reading itself is
+   printed under the year in the time bar at every viewport, and the four
+   segments are the first thing in the sheet this module opens (index.js
+   #_openSheet), which is where a phone reader can still press them. */
+@media (max-width: 39.999rem) {
+  #app[data-dock="docked"] .map__furniture > .map__foot { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map__fade { transition: none; }
+}
+
+@media print {
+  .map__controls, .map__targets, .map__tip, .map__zooms, .map__sheetlink { display: none; }
+  .map__furniture, .map__foot { position: static; inline-size: auto; block-size: auto; }
+  .map__strip { position: static; }
+  .map__switch { position: static; box-shadow: none; inline-size: auto; max-block-size: none; overflow: visible; }
+  .map__switchbody { overflow: visible; }
+}
+
+@media (forced-colors: active) {
+  .map__switch, .map__mode, .map__zooms, .map__tip { border: 1px solid CanvasText; }
+  .map__mode.is-on { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+  .map__def.is-on { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+}
+
+
+/* ==================================================== READING MODE =========
+   docs/RESPONSIVE_LAW.md §11. Inside a mounted lesson beat whose work is
+   textual, the shell publishes `#app[data-read="on"]` and hands this module a
+   44px strip instead of a band. Measured at 390x844 on `#tour=thirty&step=18`,
+   before this state existed: `.stage__map` 390x72 drawing a static Punjab
+   while the lesson was read through a 226px window holding 2,154px of prose.
+
+   THE STRIP IS THE CONTROL. One tap anywhere on it brings the map, the colour
+   ribbon and the time control back; `Map` in the beat panel's foot does the
+   same thing, and both press the same control (map/index.js, THE PEEK STRIP IS
+   A CONTROL). A word is printed at the trailing end, because a 44px band of
+   coastline with nothing on it reads as a map that failed to load — the
+   round-3 classroom critic's own note about the 92px band this replaces.
+
+   IT PAINTS NOTHING. `background: transparent`, no border, no shadow: rule D1
+   sums the area of every PAINTING positioned element over the drawn map and
+   requires 0, and this one is measured like everything else. The word at the
+   end carries its own small ground so it stays legible over land or sea, and
+   that ground is 96px of a 390px strip at the one corner the label engine
+   already treats as furniture.
+   ========================================================================== */
+
+.map__peek { display: none; }
+
+@media (max-width: 61.999rem) {
+  #app[data-read="on"] .map__peek {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding-inline-end: var(--space-md, .75rem);
+    appearance: none;
+    background: transparent;
+    border: 0;
+    margin: 0;
+    cursor: zoom-in;
+    /* Above the plate and its targets, below anything the shell docks. It is
+       the whole strip, so nothing under it is reachable while it is shown —
+       which is the point: at 44px a territory hit test is a coin toss, and a
+       student who meant to open the map would have opened Rajputana. */
+    z-index: 12;
+  }
+  #app[data-read="on"] .map__peekw {
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    letter-spacing: var(--tr-caps, .04em);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    background: var(--surface-panel);
+    border: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+    border-radius: var(--radius-sm, 2px);
+    padding: 3px var(--space-xs, .375rem);
+    white-space: nowrap;
+  }
+  #app[data-read="on"] .map__peekw::after { content: '\00a0\2197'; }
+  #app[data-read="on"] .map__peek:hover .map__peekw,
+  #app[data-read="on"] .map__peek:focus-visible .map__peekw {
+    color: var(--accent-ink);
+    border-color: var(--accent-ink);
+  }
+  /* THE ENLARGED PLATE IS NOT A THING A 44px STRIP CAN DO. P02's `is-enlarged`
+     device lifts the map into a fixed block sized for a band; in reading mode
+     there is no band to lift it out of and the shell's own rectangle is the
+     contract. RESPONSIVE_LAW §7 already recorded that the device fires
+     inconsistently below 62rem and is the smaller of the two geometries there;
+     in this state it is simply off. */
+  #app[data-read="on"] .map__enlarge { display: none; }
+}

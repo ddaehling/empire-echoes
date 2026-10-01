@@ -1,0 +1,1742 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://british-empire-atlas/schema/dataset-shard.schema.json",
+  "title": "British Empire Atlas — dataset shard",
+  "description": "One regional shard of the atlas dataset: a set of territories and/or empire-wide events. Authored by hand, validated by tools/validate-data.js. See docs/DATA_MODEL.md.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "shard"
+  ],
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "territories"
+      ]
+    },
+    {
+      "required": [
+        "events"
+      ]
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Version of docs/DATA_MODEL.md this shard was written against."
+    },
+    "shard": {
+      "$ref": "#/$defs/shardMeta"
+    },
+    "territories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/territory"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+      "description": "Lowercase kebab-case identifier."
+    },
+    "geoUnitId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+      "description": "An id from app/data/geo/units.index.json. The geometry agent owns this vocabulary; nothing here may invent one."
+    },
+    "nonEmptyText": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sentence": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 400,
+      "description": "One or two plain sentences. Concrete: names, numbers, dates, consequences."
+    },
+    "shardMeta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "region",
+        "updated"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "region": {
+          "$ref": "#/$defs/region"
+        },
+        "updated": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "author": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "regions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/region"
+          },
+          "description": "Every region this shard's territories belong to. A shard may legitimately span several (africa-east-south covers southern-, east-, north-Africa and the Indian Ocean). `region` above stays the shard's primary/home region for sorting; `regions` is the honest full list, and the validator checks territory.region against it."
+        }
+      }
+    },
+    "region": {
+      "type": "string",
+      "description": "Coarse teaching region. Also used to colour and group the map legend.",
+      "enum": [
+        "british-isles",
+        "north-america",
+        "caribbean",
+        "south-america",
+        "west-africa",
+        "east-africa",
+        "central-africa",
+        "southern-africa",
+        "north-africa",
+        "mediterranean",
+        "middle-east",
+        "south-asia",
+        "southeast-asia",
+        "east-asia",
+        "australasia",
+        "pacific",
+        "indian-ocean",
+        "south-atlantic",
+        "polar",
+        "empire-wide"
+      ]
+    },
+    "datePrecision": {
+      "type": "string",
+      "description": "How well this date is known. The UI must show anything that is not 'exact' as approximate or disputed.",
+      "enum": [
+        "exact",
+        "month",
+        "year",
+        "circa",
+        "decade",
+        "range",
+        "contested",
+        "unknown"
+      ]
+    },
+    "histDate": {
+      "type": "object",
+      "description": "A historical date with explicit precision. 'display' is what a student reads.",
+      "required": [
+        "precision",
+        "display"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^-?\\d{4}(-\\d{2}(-\\d{2})?)?$",
+          "description": "ISO-ish: YYYY, YYYY-MM or YYYY-MM-DD. Proleptic Gregorian. Required unless precision is 'unknown'."
+        },
+        "end": {
+          "type": "string",
+          "pattern": "^-?\\d{4}(-\\d{2}(-\\d{2})?)?$",
+          "description": "Latest plausible date. Required when precision is 'range' or 'contested'."
+        },
+        "precision": {
+          "$ref": "#/$defs/datePrecision"
+        },
+        "display": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Human label, e.g. '29 August 1842', 'spring 1899', 'between 1663 and 1666'."
+        },
+        "calendar": {
+          "type": "string",
+          "enum": [
+            "gregorian",
+            "julian",
+            "old-style"
+          ],
+          "description": "Default gregorian. Use 'old-style' for pre-1752 English dates given as contemporaries wrote them, and say so in 'note'."
+        },
+        "note": {
+          "type": "string",
+          "description": "Why the date is approximate or disputed. REQUIRED when precision is circa, decade, range, contested or unknown."
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "description": "A real, checkable published work. Never invent one.",
+      "required": [
+        "author",
+        "work",
+        "year"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "work": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1500,
+          "maximum": 2030
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "book",
+            "chapter",
+            "article",
+            "primary-source",
+            "official-record",
+            "reference-work",
+            "dataset"
+          ]
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "locator": {
+          "type": "string",
+          "description": "Chapter or page range, only if you are certain of it."
+        },
+        "url": {
+          "type": "string"
+        },
+        "supports": {
+          "type": "string",
+          "description": "Which claim in this record the source backs."
+        }
+      }
+    },
+    "warrant": {
+      "type": "object",
+      "description": "THE RECORD THAT WARRANTS A PRINTED QUANTITY. app/js/core/warrant.js prints a number with this beside it, or prints a visible defect in --danger. `supports` must name THE CLAIM THIS FIGURE MAKES — \"the 1836 award to Barbadian slave-owners: £1,721,345 for 83,150 people\" — never the entry it sits in. \"The whole narrative\" is refused at runtime. Same discipline as testimony.js: no check, no number.",
+      "required": [
+        "author",
+        "work",
+        "year",
+        "supports"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "$ref": "#/$defs/nonEmptyText",
+          "description": "Who produced the figure: a person, a commission, a database, a census office."
+        },
+        "work": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1500,
+          "maximum": 2030
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "book",
+            "chapter",
+            "article",
+            "primary-source",
+            "official-record",
+            "reference-work",
+            "dataset",
+            "census"
+          ]
+        },
+        "supports": {
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 300,
+          "description": "The specific claim this figure makes. Not the entry, not the narrative."
+        },
+        "check": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 300,
+          "description": "WHERE A READER LOOKS. A URL, a series, a shelfmark, a volume, a table. Without it the warrant is \"weak\" and the audit counts it as such."
+        },
+        "locator": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "description": "How settled the account in this record is among historians."
+    },
+    "contested": {
+      "type": "object",
+      "description": "What historians actually argue about here. Shown in the UI, never hidden.",
+      "required": [
+        "isContested"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "isContested": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 600
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "claim"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "claim": {
+                "$ref": "#/$defs/sentence"
+              },
+              "heldBy": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "nameEntry": {
+      "type": "object",
+      "description": "A name this place was called, and when.",
+      "required": [
+        "name",
+        "from"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "from": {
+          "$ref": "#/$defs/histDate"
+        },
+        "to": {
+          "$ref": "#/$defs/histDate"
+        },
+        "language": {
+          "type": "string",
+          "description": "e.g. 'English', 'Sinhala', 'Kalinago'."
+        },
+        "usedBy": {
+          "type": "string",
+          "enum": [
+            "british-official",
+            "local",
+            "other-european",
+            "modern"
+          ],
+          "description": "Whose name this was. A colonial name and the name its people used are both facts; label them."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "successorState": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "iso3": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "since": {
+          "$ref": "#/$defs/histDate"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "coveragePeriod": {
+      "type": "object",
+      "description": "Which geo units this territory covered, over one span of time. Extents change: list a new period whenever units are gained or lost.",
+      "required": [
+        "from",
+        "units"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/histDate"
+        },
+        "to": {
+          "$ref": "#/$defs/histDate",
+          "description": "Omit for 'still current'."
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          }
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Short label for the extent, e.g. 'with Burma and Aden'."
+        },
+        "change": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "What changed at 'from' and why."
+        },
+        "gained": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          }
+        },
+        "lost": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          }
+        },
+        "partial": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          },
+          "description": "Units covered only in part (British control did not fill the whole drawn shape). Draw hatched."
+        }
+      }
+    },
+    "acquisitionMechanism": {
+      "type": "string",
+      "description": "How this place came under British control. Closed vocabulary — definitions in docs/DATA_MODEL.md.",
+      "enum": [
+        "settlement",
+        "conquest",
+        "chartered-company",
+        "treaty-cession",
+        "purchase",
+        "protectorate-declared",
+        "lease",
+        "annexation-of-existing-colony",
+        "war-transfer",
+        "mandate",
+        "trusteeship",
+        "condominium",
+        "occupation",
+        "informal-influence"
+      ]
+    },
+    "acquisitionDirection": {
+      "type": "string",
+      "description": "WHICH WAY THE TRANSACTION RAN, and who did it. A mechanism tag is a CATEGORY; it cannot say who paid whom, whose army landed, or whether the thing absorbed was already British. Three times this atlas printed a headline keyed to the tag alone that the record’s own sentence contradicted — Kenya 1920, the nine Asian war-transfers, and the Treaty of Amritsar 1846, where Britain was the seller and the dossier printed \"Bought\". Any acquisition whose mechanism appears in the table below MUST state a direction; nothing that asserts a direction, an agent or a party may be printed without one. Allowed values depend on the mechanism and are enforced by tools/validate-data.js and tools/check-gloss.js.\n  purchase: britain-buys | britain-sells | private-buyer | dominion-buys | rent-paid\n  treaty-cession: to-britain | to-britain-under-duress | to-britain-disputed-text | to-britain-by-a-third-party | by-britain\n  war-transfer: from-european-power | from-defeated-state\n  lease: britain-leases-in | britain-leases-out\n  annexation-of-existing-colony: into-british-rule | between-british-territories | union-of-territories | retained-not-taken\n  occupation: british-forces | imperial-forces | dominion-forces | company-forces | allied-forces | administration-taken-over\n  settlement: settlers-landed | penal-settlement | claimed-nobody-left | claimed-by-proclamation | existing-settlement-claimed\n  chartered-company: crown-charter | company-post",
+      "enum": [
+        "britain-buys",
+        "britain-sells",
+        "private-buyer",
+        "dominion-buys",
+        "rent-paid",
+        "to-britain",
+        "to-britain-under-duress",
+        "to-britain-disputed-text",
+        "to-britain-by-a-third-party",
+        "by-britain",
+        "from-european-power",
+        "from-defeated-state",
+        "britain-leases-in",
+        "britain-leases-out",
+        "into-british-rule",
+        "between-british-territories",
+        "union-of-territories",
+        "retained-not-taken",
+        "british-forces",
+        "imperial-forces",
+        "dominion-forces",
+        "company-forces",
+        "allied-forces",
+        "administration-taken-over",
+        "settlers-landed",
+        "penal-settlement",
+        "claimed-nobody-left",
+        "claimed-by-proclamation",
+        "existing-settlement-claimed",
+        "crown-charter",
+        "company-post"
+      ]
+    },
+    "counterparty": {
+      "type": "object",
+      "description": "Who lost what. Never leave this vague: name the people or polity.",
+      "required": [
+        "name",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "indigenous-people",
+            "indigenous-polity",
+            "regional-state",
+            "empire",
+            "european-power",
+            "chartered-company",
+            "no-resident-population",
+            "other"
+          ]
+        },
+        "lost": {
+          "$ref": "#/$defs/sentence",
+          "description": "What they lost, concretely."
+        },
+        "role": {
+          "type": "string",
+          "description": "WHAT THIS PARTY WAS TO THIS STEP. Optional, and it exists because one label over a mixed list is wrong about somebody whatever it says: \"TAKEN FROM The Lenape (Delaware) nation; Charles II and the English Crown\" was wrong about Charles II, who gave Penn the charter; \"WHO JOINED … Aboriginal and Torres Strait Islander peoples\" was wrong about people nobody asked. Where every counterparty on a step states a role, the dossier prints one labelled group per role and the label is true of the names beside it. Where none does, the block prints one group under a label the step's own direction warrants. Enforced by tools/check-gloss.js, which also requires a role on every counterparty of a union-of-territories or crown-charter step, because those lists are mixed by nature.",
+          "enum": [
+            "dispossessed",
+            "ceded-it",
+            "sold-it",
+            "bought-it",
+            "granted-it",
+            "joined",
+            "not-asked",
+            "already-here",
+            "pre-empted",
+            "excluded",
+            "covered",
+            "nobody-there",
+            "lost-around-it",
+            "stayed",
+            "co-signatory",
+            "held-it-before",
+            "unchanged",
+            "gained",
+            "lost-it-later",
+            "drove-it-out"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "acquisition": {
+      "type": "object",
+      "description": "One step by which Britain took or gained this place. A territory may have several (Hong Kong has three).",
+      "required": [
+        "id",
+        "date",
+        "mechanism",
+        "how",
+        "counterparties"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "date": {
+          "$ref": "#/$defs/histDate"
+        },
+        "mechanism": {
+          "$ref": "#/$defs/acquisitionMechanism"
+        },
+        "secondaryMechanisms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/acquisitionMechanism"
+          },
+          "uniqueItems": true
+        },
+        "direction": {
+          "$ref": "#/$defs/acquisitionDirection"
+        },
+        "how": {
+          "$ref": "#/$defs/sentence",
+          "description": "One sentence: how it actually happened. Plain verbs. No euphemism."
+        },
+        "counterparties": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/counterparty"
+          }
+        },
+        "jointlyWith": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "For mechanism \"condominium\" only: the co-sovereign, named. The headline prints \"Held jointly with Egypt\" rather than \"with another power\", so no sentence names a party the record does not."
+        },
+        "units": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          },
+          "description": "Geo units brought in by this step. Must be covered by the territory at this date."
+        },
+        "instrument": {
+          "type": "object",
+          "description": "The treaty, charter, act, patent or convention that did it.",
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/nonEmptyText"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "treaty",
+                "convention",
+                "charter",
+                "act-of-parliament",
+                "letters-patent",
+                "order-in-council",
+                "proclamation",
+                "grant",
+                "instrument-of-accession",
+                "none"
+              ]
+            },
+            "signed": {
+              "$ref": "#/$defs/histDate"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "people": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/person"
+          }
+        },
+        "cost": {
+          "$ref": "#/$defs/toll"
+        },
+        "resistance": {
+          "$ref": "#/$defs/sentence",
+          "description": "Who fought back, and what happened to them."
+        },
+        "eventIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "contested": {
+          "$ref": "#/$defs/contested"
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        }
+      }
+    },
+    "statusName": {
+      "type": "string",
+      "description": "Constitutional status. 'British' is not binary — these are the degrees. Definitions in docs/DATA_MODEL.md.",
+      "enum": [
+        "company-trading-posts",
+        "company-rule",
+        "proprietary-colony",
+        "representative-colony",
+        "crown-colony",
+        "self-governing-colony",
+        "crown-rule",
+        "protectorate",
+        "protected-state",
+        "princely-state",
+        "mandate",
+        "trusteeship",
+        "condominium",
+        "leased-territory",
+        "occupied",
+        "dominion",
+        "associated-state",
+        "overseas-territory",
+        "crown-dependency",
+        "part-of-uk",
+        "informal-sphere"
+      ]
+    },
+    "statusPeriod": {
+      "type": "object",
+      "description": "One span with one constitutional status. Periods must be ordered, contiguous and non-overlapping.",
+      "required": [
+        "status",
+        "from",
+        "label",
+        "howControlWorked"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/statusName"
+        },
+        "from": {
+          "$ref": "#/$defs/histDate"
+        },
+        "to": {
+          "$ref": "#/$defs/histDate",
+          "description": "Omit only for the final, still-current period."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 90,
+          "description": "What a student sees on the timeline band, e.g. 'Company rule from Calcutta'."
+        },
+        "howControlWorked": {
+          "$ref": "#/$defs/sentence",
+          "description": "Who actually gave orders, and to whom."
+        },
+        "controlDegree": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "0 = no British authority, 5 = full direct British sovereignty and administration. Each status has a default (see DATA_MODEL.md); override only with controlDegreeNote."
+        },
+        "controlDegreeNote": {
+          "type": "string"
+        },
+        "governedFrom": {
+          "type": "string",
+          "description": "Capital or the metropolitan office that ran it, e.g. 'Calcutta', 'Colonial Office, London', 'Government of Bombay'."
+        },
+        "localLegislature": {
+          "type": "string",
+          "enum": [
+            "none",
+            "nominated-council",
+            "part-elected",
+            "elected-assembly",
+            "responsible-government",
+            "sovereign-parliament"
+          ]
+        },
+        "franchise": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Who could actually vote, and who could not."
+        },
+        "gapBefore": {
+          "type": "boolean",
+          "description": "Set true when this period deliberately does not join the previous one."
+        },
+        "gapReason": {
+          "type": "string"
+        },
+        "eventIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "departureMechanism": {
+      "type": "string",
+      "description": "How British rule ended here. Closed vocabulary — definitions in docs/DATA_MODEL.md.",
+      "enum": [
+        "negotiated-independence",
+        "war-of-independence",
+        "insurgency-then-negotiation",
+        "partition",
+        "transfer-to-another-power",
+        "lease-expiry",
+        "merger-into-neighbour",
+        "referendum",
+        "still-a-territory"
+      ]
+    },
+    "person": {
+      "type": "object",
+      "required": [
+        "name",
+        "role"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyText"
+        },
+        "role": {
+          "$ref": "#/$defs/nonEmptyText",
+          "description": "e.g. 'led the independence negotiations', 'commanded the defending army'."
+        },
+        "side": {
+          "type": "string",
+          "enum": [
+            "british",
+            "local",
+            "other-power",
+            "both",
+            "unclear"
+          ]
+        },
+        "lived": {
+          "type": "string",
+          "description": "e.g. '1920-1987'."
+        }
+      }
+    },
+    "toll": {
+      "type": "object",
+      "description": "Human cost. Give ranges where historians give ranges; never round a death toll to make it tidy. Where a figure is printed, `source` or `note` must say where it comes from.",
+      "additionalProperties": false,
+      "properties": {
+        "deathsLow": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deathsHigh": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "displacedLow": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "displacedHigh": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "enslavedLow": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "enslavedHigh": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "money": {
+          "type": "string",
+          "description": "e.g. '£20 million compensation to slave-owners, 1834'."
+        },
+        "note": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Who is counted, by whom, and how disputed the figure is."
+        },
+        "source": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 300,
+          "description": "THE CHECK LINE. Where these figures come from, named so a reader can go and look: a database, a commission, a register, a return, or a work cited in this record's own evidence[]. testimony.js enforces 'no check, no entry' on the 43 primary texts; the same rule applies to every quantity this atlas prints. Never assert a source that does not carry the figure."
+        },
+        "warrant": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/warrant"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "$ref": "#/$defs/warrant"
+              }
+            }
+          ],
+          "description": "The record or records that warrant the figures in this object. One warrant, or a list where different figures rest on different records — the Barbados line rests on the Slave Compensation Commission registers for the award and on the voyage data for the number of people."
+        }
+      }
+    },
+    "departure": {
+      "type": "object",
+      "description": "One step by which this place left British control.",
+      "required": [
+        "id",
+        "mechanism",
+        "how"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "date": {
+          "$ref": "#/$defs/histDate",
+          "description": "Required unless mechanism is 'still-a-territory'."
+        },
+        "mechanism": {
+          "$ref": "#/$defs/departureMechanism"
+        },
+        "secondaryMechanisms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/departureMechanism"
+          },
+          "uniqueItems": true
+        },
+        "how": {
+          "$ref": "#/$defs/sentence"
+        },
+        "units": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          },
+          "description": "Geo units that left British control at this step."
+        },
+        "becomes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/nonEmptyText"
+              },
+              "territoryId": {
+                "$ref": "#/$defs/slug"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "sovereign-state",
+                  "dominion",
+                  "republic",
+                  "part-of-another-state",
+                  "special-administrative-region",
+                  "unrecognised",
+                  "british-territory"
+                ]
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/geoUnitId"
+                }
+              }
+            }
+          }
+        },
+        "led": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/person"
+          },
+          "description": "Who led it. Name people, on all sides."
+        },
+        "movement": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The party, front or campaign, e.g. 'Indian National Congress', 'Mau Mau / KLFA'."
+        },
+        "cost": {
+          "$ref": "#/$defs/toll"
+        },
+        "borders": {
+          "$ref": "#/$defs/sentence",
+          "description": "What the borders did — who drew them, when, and who ended up on the wrong side."
+        },
+        "instrument": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/nonEmptyText"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "treaty",
+                "convention",
+                "act-of-parliament",
+                "order-in-council",
+                "constitution",
+                "referendum-result",
+                "joint-declaration",
+                "proclamation",
+                "none"
+              ]
+            },
+            "signed": {
+              "$ref": "#/$defs/histDate"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "eventIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "contested": {
+          "$ref": "#/$defs/contested"
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        }
+      }
+    },
+    "stillBritish": {
+      "type": "object",
+      "description": "Present only when some or all of this territory is still under British sovereignty today.",
+      "required": [
+        "statusToday",
+        "note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "statusToday": {
+          "type": "string",
+          "enum": [
+            "british-overseas-territory",
+            "crown-dependency",
+            "part-of-uk",
+            "sovereign-base-area",
+            "antarctic-claim",
+            "disputed"
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/sentence"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/geoUnitId"
+          }
+        },
+        "population": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "populationYear": {
+          "type": "integer",
+          "minimum": 1800,
+          "maximum": 2030
+        },
+        "disputedWith": {
+          "type": "string"
+        }
+      }
+    },
+    "consequences": {
+      "type": "object",
+      "description": "What the empire left behind here. Only fill the fields that are true; do not pad.",
+      "additionalProperties": false,
+      "properties": {
+        "partition": {
+          "type": "object",
+          "required": [
+            "happened"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "happened": {
+              "type": "boolean"
+            },
+            "note": {
+              "$ref": "#/$defs/sentence"
+            },
+            "lineDrawnBy": {
+              "type": "string"
+            },
+            "date": {
+              "$ref": "#/$defs/histDate"
+            }
+          }
+        },
+        "violence": {
+          "type": "object",
+          "required": [
+            "note"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "$ref": "#/$defs/sentence"
+            },
+            "toll": {
+              "$ref": "#/$defs/toll"
+            },
+            "kind": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "war-of-conquest",
+                  "rebellion-suppressed",
+                  "communal-violence",
+                  "counter-insurgency",
+                  "massacre",
+                  "famine-policy",
+                  "penal-transportation",
+                  "internment"
+                ]
+              }
+            }
+          }
+        },
+        "populationTransfer": {
+          "type": "object",
+          "required": [
+            "note"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "$ref": "#/$defs/sentence"
+            },
+            "toll": {
+              "$ref": "#/$defs/toll"
+            },
+            "kind": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "enslaved-people-transported",
+                  "indentured-labour",
+                  "settler-migration",
+                  "convict-transportation",
+                  "refugee-flight",
+                  "forced-removal",
+                  "emigration-under-famine"
+                ]
+              }
+            }
+          }
+        },
+        "slavery": {
+          "type": "object",
+          "required": [
+            "note"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "$ref": "#/$defs/sentence"
+            },
+            "abolitionDate": {
+              "$ref": "#/$defs/histDate"
+            },
+            "emancipationDate": {
+              "$ref": "#/$defs/histDate"
+            },
+            "toll": {
+              "$ref": "#/$defs/toll"
+            }
+          }
+        },
+        "commonwealth": {
+          "type": "object",
+          "required": [
+            "member"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "member": {
+              "type": "boolean"
+            },
+            "since": {
+              "$ref": "#/$defs/histDate"
+            },
+            "left": {
+              "$ref": "#/$defs/histDate"
+            },
+            "realm": {
+              "type": "boolean",
+              "description": "True if the British monarch is still head of state."
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "retainedTerritory": {
+          "type": "object",
+          "required": [
+            "note"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "$ref": "#/$defs/sentence"
+            },
+            "units": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/geoUnitId"
+              }
+            }
+          }
+        },
+        "borderLegacy": {
+          "$ref": "#/$defs/sentence"
+        },
+        "economicLegacy": {
+          "$ref": "#/$defs/sentence"
+        },
+        "languageAndLaw": {
+          "$ref": "#/$defs/sentence"
+        }
+      }
+    },
+    "pedagogy": {
+      "type": "object",
+      "description": "The teaching payload. Written for a 15-year-old who has never heard of this place.",
+      "required": [
+        "hook",
+        "misconception",
+        "whyItMatters"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hook": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 220,
+          "description": "One arresting TRUE sentence. Specific, surprising, checkable. Not a summary."
+        },
+        "misconception": {
+          "type": "object",
+          "required": [
+            "belief",
+            "correction"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "belief": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 220,
+              "description": "The wrong thing students usually believe."
+            },
+            "correction": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 400,
+              "description": "What is actually true, with the evidence in it."
+            }
+          }
+        },
+        "whyItMatters": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 400
+        },
+        "keyDates": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "date",
+              "what"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "$ref": "#/$defs/histDate"
+              },
+              "what": {
+                "type": "string",
+                "minLength": 4,
+                "maxLength": 140
+              }
+            }
+          },
+          "description": "The dates worth memorising. Used by the quiz."
+        },
+        "compareWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "description": "Territory ids that make an instructive contrast."
+        },
+        "readingLevel": {
+          "type": "string",
+          "enum": [
+            "core",
+            "extension"
+          ]
+        }
+      }
+    },
+    "territory": {
+      "type": "object",
+      "description": "One part of the empire, from acquisition to departure.",
+      "required": [
+        "id",
+        "name",
+        "region",
+        "geoCoverage",
+        "acquisitions",
+        "statusPeriods",
+        "pedagogy",
+        "evidence",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Short label on the map."
+        },
+        "formalName": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Full official name at its fullest extent."
+        },
+        "region": {
+          "$ref": "#/$defs/region"
+        },
+        "subregion": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "sortOrder": {
+          "type": "integer"
+        },
+        "namesOverTime": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nameEntry"
+          }
+        },
+        "modernSuccessors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/successorState"
+          }
+        },
+        "geoCoverage": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/coveragePeriod"
+          }
+        },
+        "nestedWithin": {
+          "description": "Set when this territory sits inside another (a princely state inside British India), so overlapping unit claims are legitimate. Give an array when the place sat inside different umbrellas at different times — Penang was a Straits Settlement, then part of the Federation of Malaya.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/slug"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/slug"
+              }
+            }
+          ]
+        },
+        "relatedTerritories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "precededBy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "succeededBy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "acquisitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/acquisition"
+          }
+        },
+        "statusPeriods": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/statusPeriod"
+          }
+        },
+        "departures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/departure"
+          }
+        },
+        "stillBritish": {
+          "$ref": "#/$defs/stillBritish"
+        },
+        "consequences": {
+          "$ref": "#/$defs/consequences"
+        },
+        "peak": {
+          "type": "object",
+          "description": "Snapshot facts for the dossier and charts.",
+          "additionalProperties": false,
+          "properties": {
+            "areaKm2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "areaYear": {
+              "type": "integer"
+            },
+            "population": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "populationYear": {
+              "type": "integer"
+            },
+            "populationNote": {
+              "type": "string"
+            },
+            "exports": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 6
+            },
+            "populationWarrant": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/warrant"
+                },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "items": {
+                    "$ref": "#/$defs/warrant"
+                  }
+                }
+              ],
+              "description": "The record or records that warrant the figures in this object. One warrant, or a list where different figures rest on different records — the Barbados line rests on the Slave Compensation Commission registers for the award and on the voyage data for the number of people."
+            },
+            "areaWarrant": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/warrant"
+                },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "items": {
+                    "$ref": "#/$defs/warrant"
+                  }
+                }
+              ],
+              "description": "The record or records that warrant the figures in this object. One warrant, or a list where different figures rest on different records — the Barbados line rests on the Slave Compensation Commission registers for the award and on the voyage data for the number of people."
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "contested": {
+          "$ref": "#/$defs/contested"
+        },
+        "pedagogy": {
+          "$ref": "#/$defs/pedagogy"
+        },
+        "eventIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "eventKind": {
+      "type": "string",
+      "enum": [
+        "war",
+        "battle",
+        "revolt",
+        "massacre",
+        "act-of-parliament",
+        "treaty",
+        "conference",
+        "famine",
+        "epidemic",
+        "abolition",
+        "migration",
+        "company",
+        "exploration",
+        "economic",
+        "constitutional",
+        "independence"
+      ]
+    },
+    "event": {
+      "type": "object",
+      "description": "An empire-wide or multi-territory event: first-class, so the timeline and tours can hang narrative on it.",
+      "required": [
+        "id",
+        "title",
+        "kind",
+        "date",
+        "summary",
+        "significance",
+        "links",
+        "evidence",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 90
+        },
+        "kind": {
+          "$ref": "#/$defs/eventKind"
+        },
+        "date": {
+          "$ref": "#/$defs/histDate"
+        },
+        "endDate": {
+          "$ref": "#/$defs/histDate"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 320,
+          "description": "What happened. Concrete, one or two sentences."
+        },
+        "significance": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 400,
+          "description": "Why it changed the empire."
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "empire-wide",
+            "regional",
+            "local"
+          ]
+        },
+        "region": {
+          "$ref": "#/$defs/region"
+        },
+        "links": {
+          "type": "object",
+          "description": "What this event touches. At least one territory or one unit.",
+          "additionalProperties": false,
+          "properties": {
+            "territories": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/slug"
+              },
+              "uniqueItems": true
+            },
+            "units": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/geoUnitId"
+              },
+              "uniqueItems": true
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/slug"
+              },
+              "uniqueItems": true
+            },
+            "places": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "lat",
+                  "lon"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "$ref": "#/$defs/nonEmptyText"
+                  },
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "people": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/person"
+          }
+        },
+        "toll": {
+          "$ref": "#/$defs/toll"
+        },
+        "changedStatus": {
+          "type": "boolean",
+          "description": "True when this event is the hinge of a status change somewhere — the timeline marks these."
+        },
+        "pedagogy": {
+          "$ref": "#/$defs/pedagogy"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "contested": {
+          "$ref": "#/$defs/contested"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

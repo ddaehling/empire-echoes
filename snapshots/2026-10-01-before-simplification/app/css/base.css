@@ -1,0 +1,504 @@
+/* =============================================================================
+   THE BRITISH EMPIRE ATLAS — BASE
+   Reset, typographic rhythm, focus, selection, scrollbars, prose, surfaces,
+   rules, small-caps and print. Owned by the design-system agent.
+   Load order:  tokens.css  ->  base.css  ->  your component file.
+   Rules you must follow: docs/DESIGN.md
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   RESET — small, opinionated, and it stops there. Everything below this block
+   is a positive typographic decision, not a normalisation.
+----------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -moz-tab-size: 2;
+  tab-size: 2;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd, ol, ul, pre, hr {
+  margin: 0;
+}
+ol[class], ul[class] { list-style: none; padding: 0; }
+
+body {
+  min-height: 100dvh;
+  background-color: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-ui);
+  letter-spacing: var(--tr-ui);
+  font-synthesis-weight: none;          /* variable axes only; no fake bold     */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: common-ligatures contextual;
+  font-kerning: normal;
+  accent-color: var(--accent);
+}
+
+img, picture, svg, video, canvas { display: block; max-width: 100%; }
+img, video { height: auto; }
+svg { fill: currentColor; }
+
+input, button, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+textarea { resize: vertical; }
+
+/* Break long place-names rather than let a panel scroll sideways. */
+h1, h2, h3, h4, h5, h6, p, li, dt, dd, figcaption, td, th {
+  overflow-wrap: break-word;
+}
+
+/* -----------------------------------------------------------------------------
+   TYPOGRAPHIC RHYTHM
+   Headings are the serif; UI chrome is the sans; every figure is the mono.
+   The vertical rhythm is a single rule: block elements own their TOP margin and
+   the first child never has one. That composes without :not() gymnastics.
+----------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text-heading);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+  text-wrap: balance;
+  font-variant-numeric: lining-nums;
+}
+h1 { font-size: var(--fs-h1); font-weight: var(--w-bold); line-height: var(--lh-tight); letter-spacing: var(--tr-display); }
+h2 { font-size: var(--fs-h2); font-weight: var(--w-semibold); line-height: var(--lh-tight); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); }
+h5 { font-size: var(--fs-lede); font-weight: var(--w-medium); }
+h6 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-secondary);
+}
+
+:where(h1, h2, h3, h4, h5, h6) + :where(p, ul, ol, dl, figure, table, blockquote) { margin-top: var(--space-sm); }
+:where(p, ul, ol, dl, figure, table, blockquote, pre) + * { margin-top: var(--space-lg); }
+:where(*) + :where(h2) { margin-top: var(--space-2xl); }
+:where(*) + :where(h3, h4) { margin-top: var(--space-xl); }
+
+a {
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.14em;
+  text-decoration-color: color-mix(in oklab, currentColor 38%, transparent);
+  transition: color var(--dur-instant) var(--ease-standard),
+              text-decoration-color var(--dur-instant) var(--ease-standard);
+}
+a:hover { color: var(--link-hover); text-decoration-color: currentColor; }
+
+strong, b { font-weight: var(--w-semibold); }
+em, i, cite { font-style: italic; }
+small { font-size: var(--fs-caption); }        /* 13px — never smaller than 12  */
+abbr[title] { text-decoration: underline dotted var(--ink-faint); cursor: help; }
+sup, sub { font-size: 0.7em; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; } sub { bottom: -0.25em; }
+
+code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.92em; }
+
+/* -----------------------------------------------------------------------------
+   FIGURES — every year, count, duration and percentage in this app.
+   Tabular so 1815 and 1947 sit in the same column; slashed zero so a student
+   reading a table of dates never mistakes 0 for O.
+----------------------------------------------------------------------------- */
+.num, time, .year, td.num, th.num, [data-figure] {
+  font-family: var(--font-figures);
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: var(--figures-feature);
+  letter-spacing: 0;
+}
+.num--tight { font-size: 0.94em; }
+/* A date the sources disagree about. Never hide the doubt — mark it. */
+.num--circa::before { content: 'c.'; margin-right: 0.18em; color: var(--text-secondary); }
+.num--contested { border-bottom: 1px dotted var(--warn); cursor: help; }
+
+/* -----------------------------------------------------------------------------
+   PROSE — the reading column. 66ch measure, serif, generous leading.
+----------------------------------------------------------------------------- */
+.prose {
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-book);
+  line-height: var(--lh-prose);
+  letter-spacing: var(--tr-normal);
+  color: var(--text-body);
+  max-width: var(--measure);
+  hyphens: auto;
+  hanging-punctuation: first last;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+}
+.prose--narrow { max-width: var(--measure-narrow); }
+.prose--wide   { max-width: var(--measure-wide); }
+.prose p { text-wrap: pretty; }
+.prose > * + * { margin-top: 0.85em; }
+.prose ul, .prose ol { padding-left: 1.35em; }
+.prose li + li { margin-top: 0.3em; }
+.prose .num, .prose time { font-variant-numeric: tabular-nums slashed-zero; }
+
+.lede {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  font-weight: var(--w-light);
+  line-height: 1.48;
+  color: var(--text-secondary);
+  max-width: var(--measure-narrow);
+  text-wrap: pretty;
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);   /* 13px. The floor for a caption is 12px.     */
+  line-height: 1.45;
+  color: var(--text-secondary);
+  max-width: var(--measure-narrow);
+}
+
+blockquote.pull {
+  border-left: var(--rule-mid) solid var(--accent);
+  padding-left: var(--space-lg);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  font-style: italic;
+  color: var(--text-body);
+}
+blockquote.pull cite {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--fs-caption);
+  font-style: normal;
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+}
+
+/* -----------------------------------------------------------------------------
+   SMALL CAPS
+   Source Serif 4 has no true small-cap glyphs in this build, so .sc is an
+   honest simulation: uppercase, tracked out, one notch heavier to match the
+   stem weight of the lowercase around it. Never simulate at display size.
+----------------------------------------------------------------------------- */
+.sc {
+  font-variant-caps: all-small-caps;   /* real small caps if a face ever has them */
+  text-transform: uppercase;
+  font-size: 0.86em;
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tr-caps);
+  line-height: 1;
+}
+.eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-secondary);
+}
+.eyebrow--accent { color: var(--accent-ink); }
+
+/* -----------------------------------------------------------------------------
+   SURFACES
+----------------------------------------------------------------------------- */
+.surface {
+  background-color: var(--surface-panel);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+}
+.surface--panel { box-shadow: var(--shadow-panel); }
+.surface--lifted { box-shadow: var(--shadow-lifted); }
+.surface--well {
+  background-color: var(--surface-well);
+  box-shadow: var(--shadow-well);
+  border-radius: var(--radius-sm);
+}
+
+/* The paper: a sheet, not a texture. An earlier draft laid a 1px repeating
+   gradient over this to suggest laid stock; on a 2x display it aliased into
+   visible corduroy, which is exactly the pastiche this system refuses. What is
+   left is what a real sheet actually gives you — a lit top edge and a shadow. */
+.paper {
+  position: relative;
+  background-color: var(--surface-panel);
+  background-image: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+.paper--plate {                      /* the map, sunk under glass */
+  background-color: var(--map-sea);
+  background-image: none;
+  box-shadow: var(--shadow-plate);
+  border-radius: var(--radius-sm);
+}
+
+/* -----------------------------------------------------------------------------
+   RULES — an engraver has four line weights and no more.
+----------------------------------------------------------------------------- */
+hr, .rule {
+  height: 0;
+  border: 0;
+  border-top: var(--rule-fine) solid var(--border-default);
+}
+.rule--hair  { border-top-width: var(--rule-hair); border-top-color: var(--border-soft); }
+.rule--firm  { border-top-width: var(--rule-fine); border-top-color: var(--border-firm); }
+.rule--heavy { border-top-width: var(--rule-heavy); border-top-color: var(--ink); }
+/* The double rule under a chapter title, as a title page would set it. */
+.rule--double {
+  height: 4px;
+  border: 0;
+  border-top: var(--rule-mid) solid var(--ink);
+  border-bottom: var(--rule-hair) solid var(--ink);
+}
+.rule--short { max-width: 3.5rem; }
+
+/* -----------------------------------------------------------------------------
+   TABLES — a gazetteer page. Horizontal rules only; no vertical lines, no zebra
+   fill heavier than a whisper.
+----------------------------------------------------------------------------- */
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+}
+table.data caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: var(--space-sm);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+table.data th {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+  padding: var(--space-sm) var(--space-md) var(--space-xs);
+  border-bottom: var(--rule-fine) solid var(--border-firm);
+  white-space: nowrap;
+}
+table.data td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--rule-hair) solid var(--border-soft);
+  vertical-align: baseline;
+}
+table.data tbody tr:hover { background-color: var(--surface-well); }
+table.data td:first-child, table.data th:first-child { padding-left: 0; }
+table.data td:last-child, table.data th:last-child { padding-right: 0; }
+table.data .num { text-align: right; font-variant-numeric: tabular-nums slashed-zero; }
+
+/* -----------------------------------------------------------------------------
+   FOCUS — a designed mark, not the browser default. Two rings: the madder line
+   and a paper halo behind it, so it survives on a saturated map fill as well as
+   on the page. Only ever on :focus-visible, so a mouse click stays quiet.
+----------------------------------------------------------------------------- */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 1px var(--focus-halo), 0 0 0 5px var(--accent-veil);
+}
+/* On the map, the halo goes inside so the ring never covers a neighbour. */
+.map-focusable:focus-visible {
+  outline: var(--rule-mid) solid var(--focus-ring);
+  outline-offset: -1px;
+  box-shadow: 0 0 0 1px var(--focus-halo);
+}
+.skip-link {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: var(--z-max);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-weight: var(--w-semibold);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(-160%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+::selection { background-color: var(--selection-bg); color: var(--selection-fg); }
+
+/* -----------------------------------------------------------------------------
+   SCROLLBARS — a ruled margin, not a chrome gutter.
+----------------------------------------------------------------------------- */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: var(--radius-pill);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* -----------------------------------------------------------------------------
+   BUTTONS AND CHIPS — the smallest set that the whole app can be built from.
+----------------------------------------------------------------------------- */
+.btn {
+  --btn-bg: var(--surface-panel);
+  --btn-fg: var(--text-body);
+  --btn-edge: var(--border-firm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  min-height: 2.25rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tr-ui);
+  color: var(--btn-fg);
+  background-color: var(--btn-bg);
+  border: var(--rule-fine) solid var(--btn-edge);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 1px rgb(45 34 20 / 0.05);
+  transition: background-color var(--dur-instant) var(--ease-standard),
+              border-color var(--dur-instant) var(--ease-standard),
+              color var(--dur-instant) var(--ease-standard),
+              transform var(--dur-instant) var(--ease-standard);
+}
+.btn:hover { background-color: var(--surface-well); border-color: var(--ink-ghost); }
+.btn:active { transform: translateY(0.5px); box-shadow: var(--shadow-well); }
+.btn[aria-pressed='true'], .btn.is-active {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.btn--primary {
+  --btn-bg: var(--accent-ink);
+  --btn-fg: var(--ink-invert);
+  --btn-edge: var(--accent-hover);
+  font-weight: var(--w-semibold);
+}
+.btn--primary:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); }
+.btn--quiet { --btn-bg: transparent; --btn-edge: transparent; box-shadow: none; }
+.btn--small { min-height: 1.75rem; padding: var(--space-2xs) var(--space-md); font-size: var(--fs-caption); }
+.btn:disabled, .btn[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.15rem var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tr-micro);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface-well);
+  color: var(--text-secondary);
+  border: var(--rule-hair) solid var(--border-default);
+}
+.chip__key {                      /* the colour patch inside a legend chip */
+  width: 0.7em; height: 0.7em;
+  border-radius: var(--radius-xs);
+  border: var(--rule-hair) solid var(--edge-firm);
+  flex: none;
+}
+.chip--warn { background-color: var(--warn-soft); color: var(--warn); border-color: var(--warn); }
+.chip--info { background-color: var(--info-soft); color: var(--info); border-color: var(--info); }
+
+/* -----------------------------------------------------------------------------
+   UTILITIES — a short list on purpose.
+----------------------------------------------------------------------------- */
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.stack > * + * { margin-top: var(--stack-gap, var(--space-lg)); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cluster-gap, var(--space-sm)); }
+.center { margin-inline: auto; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-secondary { color: var(--text-secondary); }
+.text-caption { color: var(--text-secondary); font-size: var(--fs-caption); }
+
+/* -----------------------------------------------------------------------------
+   MOTION PREFERENCE — honoured properly. Not "animations off"; animations made
+   instant, which keeps state changes legible without moving anything.
+----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skip-link { transition: none; }
+}
+
+/* -----------------------------------------------------------------------------
+   FORCED COLOURS (Windows High Contrast) — hand the OS palette the structure it
+   needs. Our fills disappear; borders and system colours carry the meaning, so
+   every status must ALSO be readable from its texture and its label.
+----------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  .surface, .paper, .btn, .chip {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+    background: Canvas;
+    forced-color-adjust: none;
+  }
+  .btn { color: ButtonText; background: ButtonFace; border-color: ButtonBorder; }
+  .btn[aria-pressed='true'], .btn.is-active { color: HighlightText; background: Highlight; }
+  :focus-visible { outline: 3px solid Highlight; outline-offset: 2px; box-shadow: none; }
+  .chip__key { forced-color-adjust: none; }
+  hr, .rule, .rule--hair, .rule--firm, .rule--heavy { border-top-color: CanvasText; }
+  a { color: LinkText; }
+  ::selection { background: Highlight; color: HighlightText; }
+}
+
+/* -----------------------------------------------------------------------------
+   PRINT — a student should be able to print a dossier and hand it in.
+   White paper, black-enough ink, no chrome, URLs spelled out, no orphan headings.
+----------------------------------------------------------------------------- */
+@media print {
+  :root {
+    --surface-page: #fff; --surface-panel: #fff; --surface-well: #fff;
+    --text-body: #1a1a1a; --text-heading: #000; --text-secondary: #444;
+    --border-default: #999; --border-soft: #ccc; --border-firm: #666;
+    --link: #1a1a1a;
+  }
+  body { background: #fff; color: #1a1a1a; font-size: 11pt; }
+  .prose { font-size: 11pt; line-height: 1.5; max-width: none; }
+  .no-print, nav, .btn, .skip-link, [role='toolbar'] { display: none !important; }
+  .surface, .paper { box-shadow: none !important; border: 1px solid #bbb; }
+  .paper { background-image: none; }
+  h1, h2, h3, h4 { break-after: avoid-page; }
+  figure, table, blockquote, .swatch-card { break-inside: avoid; }
+  a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 9pt; color: #555; word-break: break-all; }
+  a[href^='#']::after { content: ''; }
+  table.data { font-size: 9.5pt; }
+  /* A legend that prints grey teaches nothing. Force the map colours through. */
+  .chip__key, .legend .key, .ramp > div, .swatch-card__chip, [class*='map-'], svg {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  @page { margin: 18mm; }
+}

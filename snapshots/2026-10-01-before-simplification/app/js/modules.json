@@ -1,0 +1,25 @@
+{
+  "$note": "autodiscover is ON: the shell probes every path in `areas` and mounts the ones that exist, ignoring the rest. Builders therefore NEVER edit this file \u2014 they just create their own index.js at the path assigned to their piece. `modules` stays empty by design.",
+  "modules": [],
+  "autodiscover": true,
+  "areas": [
+    "./chrome/index.js",
+    "./map/index.js",
+    "./timeline/index.js",
+    "./legend/index.js",
+    "./panels/dossier/index.js",
+    "./panels/historiography/index.js",
+    "./panels/methods/index.js",
+    "./tours/index.js",
+    "./layers/index.js",
+    "./search/index.js",
+    "./viz/index.js",
+    "./mechanism/index.js",
+    "./compare/index.js",
+    "./quiz/index.js",
+    "./onboarding/index.js",
+    "./close/index.js",
+    "./teacher/index.js",
+    "./motion/index.js"
+  ]
+}

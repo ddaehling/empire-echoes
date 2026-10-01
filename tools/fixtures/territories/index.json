@@ -1,0 +1,5 @@
+{ "shards": ["south-asia.json", "caribbean"],
+  "statuses": [{ "id": "company-rule", "label": "Company rule", "controlled": true, "order": 2 },
+               { "id": "crown-rule", "label": "Crown rule", "controlled": true, "order": 1 }],
+  "regions": [{ "id": "south-asia", "label": "South Asia" }],
+  "meta": { "compiledBy": "fixture" } }

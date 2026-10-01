@@ -1,0 +1,1785 @@
+/* =============================================================================
+   layout.css — the shell's geometry. Owned by the shell / art-direction agent.
+   The binding contract it implements is docs/LAYOUT_BUDGET.md. Read that first.
+
+   It places regions and nothing else: no component styling, no colour opinions.
+   Panel language, staging and the shared chrome classes live in chrome.css.
+
+   TWO THINGS THAT ARE NOT NEGOTIABLE, and why they are written the way they are:
+
+   1. GRID DECLARATIONS CARRY `#app` SPECIFICITY. Component stylesheets are
+      loaded at runtime by their modules, i.e. AFTER this file, so a plain
+      `.app { grid-template-rows: … }` in a component file used to win. Three
+      different files were quietly redefining the app's row template and the
+      map ended up at 9–20% of the viewport. The shell's grid is now stated at
+      (1,1,0) so it cannot be overruled from a component. If you need different
+      geometry, that is an amendment to docs/LAYOUT_BUDGET.md, not a rule in
+      your own file.
+
+   2. THE TIME BAR HAS A HEIGHT, NOT A MINIMUM. `--time-h` used to be a
+      `min-height` on an `auto` grid row, so the time control grew to whatever
+      it rendered — 321px of 768 on a school laptop, against 297px of map — and
+      pushed its own drawer to y=772 in a 768px window. The row is now exactly
+      `var(--time-h)` and the region clips. Being clipped means you are over
+      budget: shed a stratum, do not ask for the row back.
+
+   Shell-owned variables other modules may READ (never redefine):
+     --bar-h --lede-h --time-h --foot-h --key-h --stage-min --stage-inset
+     --rail-w --dossier-w --apparatus-w --z-boot
+   ========================================================================== */
+
+/* `--read-any-min` IS READ BACK BY JAVASCRIPT, so it has to COMPUTE.
+   `getComputedStyle().getPropertyValue()` returns an unregistered custom
+   property's value as it was written — `max(7.5rem, min(15rem, calc(100dvh -
+   37.75rem)))` comes back as that string and `parseFloat` gives NaN — so the
+   moment the token stopped being a constant (§11.15) it had to be registered.
+   Registered, its computed value is resolved to px, which is what
+   `chrome/index.js _cssLen` and `read.js` both want. The initial value is the
+   844px window's answer, which is the number this token held before, so a
+   browser that does not register it falls back to exactly the old behaviour.
+   docs/RESPONSIVE_LAW.md §11.15. */
+@property --read-any-min {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 240px;
+}
+
+:root {
+  /* ---- the height budget. One column of numbers per window. -------------- */
+  --bar-h:   3.25rem;   /* 52 — masthead: identification, nothing else        */
+  --lede-h:  3.75rem;   /* 60 — the one-sentence band, two lines at 19px      */
+  --time-h:  9.5rem;    /* 152 — the whole time control                       */
+  --foot-h:  1.75rem;   /* 28 — provenance                                    */
+  --key-h:   2rem;      /* 32 — the colour ribbon, inside the stage           */
+
+  /* ---- THE DOCKS. docs/RESPONSIVE_LAW.md. -------------------------------
+     `--dock-h`   the control dock at the foot of the plate. 0 in the float
+                  band and at data-stage="plate"; 2.25rem from "working" up in
+                  the docked band, where it carries every control that used to
+                  float on the map.
+     `--map-min`  the clean, contiguous height the drawn map keeps below the
+                  bar and above the two foot strips. It is the number the
+                  bottom sheet is clamped against (chrome/index.js `_mapFloor`
+                  returns `--map-min` + the measured key + the measured dock),
+                  and it is stated per band because 152 phone pixels of world
+                  and 300 tablet pixels of world are different promises.
+     `--dock-step-h` the reserved box for the lesson transport in the masthead.
+     Both docks publish their measured rectangles; see chrome/index.js. */
+  --dock-h: 0px;
+  --map-min: 9.5rem;
+  --dock-step-box-h: 2.5rem;
+  /* THE PEEK STRIP. docs/RESPONSIVE_LAW.md §11. Inside a mounted beat whose
+     work is textual, below 62rem, this is all the plate keeps — and it keeps
+     it as a CONTROL, which is why it is 44 and not 28: WCAG 2.2 SC 2.5.5. The
+     shell reads it back in `_readPeek()` rather than hard-coding 44 twice. */
+  --read-peek-h: 2.75rem;
+  /* The year line the time control becomes in the same state. One row: the
+     year, the spine's reading (which of the four empires are running), and
+     the axis, which is still the scrubber. 52 and not 44: the axis is 30 tall
+     with its decade labels, and 44 left it 7px of air each side with the
+     labels of a 768px window overhanging the bottom edge of the screen. */
+  --read-time-h: 3.25rem;
+  /* THE FLOOR UNDER THE READING ON A BEAT THAT KEEPS THE PLATE — round 3.
+     `read.js` R17 asserts it and `chrome/index.js` reads it back rather than
+     hard-coding it twice: on a map-work beat the plate keeps its band until the
+     panel would fall under this, and then the plate gives up the difference,
+     down to D4's own floor and no further. 240 on a phone (the band cannot pay
+     more: 46 + 116 + 208 + 32 + 52 leaves 390 for the panel and 255 of it is
+     the window) and 320 above 40rem, where the plate has 350 and can.
+
+     AND IT IS A FUNCTION OF THE WINDOW, NOT A CONSTANT — round 8, and it is
+     the whole of the 360x740 defect. Every row in the sheet band that is not
+     the plate and not the reading is a FIXED number of pixels: the masthead,
+     the lede's own sentence, the colour ribbon, the sheet's head, the beat's
+     foot, P21's through-line, the year line. Not one of them is a share of the
+     window. So `plate + reading = viewport height - 604` at phone width, and
+     the 240 above is that arithmetic read at 844 (844 - 604 = 240) — a number
+     about one phone, applied to every phone. Measured at 360x740 on step 1,
+     the poster, where the plate is the subject and keeps D4's 176: the reading
+     was 157 and `read.js` R17 failed it against a floor a 740px window cannot
+     reach without taking the map. The token now says what it always meant, and
+     `read.js` computes the same expression, so the two still cannot disagree:
+     240 at 844 and above, 136 at 740, never under 7.5rem — the value §12
+     already accepts as a map in a window this file has measured.
+     docs/RESPONSIVE_LAW.md §11.15. */
+  --read-any-min: max(7.5rem, min(15rem, calc(100dvh - 37.75rem)));
+
+  --stage-inset: 0.625rem;
+  /* The floor the map may never go below. The stage row is 1fr and takes
+     everything the four fixed rows do not, so this is a backstop, not the
+     usual sizing path. */
+  --stage-min: 22rem;
+
+  /* ONE right-hand rail, ONE width, whether it is holding the dossier or the
+     sheet. --dossier-w is kept as the published alias (ARCHITECTURE §5). */
+  --rail-w-open: clamp(21rem, 30vw, 27rem);
+  --dossier-w: var(--rail-w-open);
+  --rail-w: 0px;
+
+  /* Retained for the pieces that still read it. The apparatus column is not on
+     screen at data-stage="plate"; see chrome.css. */
+  --apparatus-w: clamp(17rem, 29vw, 24rem);
+
+  --z-boot: 85;                  /* above --z-modal (70), below --z-max (90) */
+}
+
+/* A 1366x768 school laptop, and anything else shorter than 820px.
+   52 + 44 + 150 + 28 = 274 of chrome; the map plate keeps 494 of 768 = 64%. */
+@media (max-height: 820px) {
+  :root { --bar-h: 3.25rem; --lede-h: 3.5rem; --time-h: 8.75rem; --foot-h: 1.75rem; --key-h: 1.875rem; }
+}
+/* A 1024x640 netbook / a half-height projector window.
+   48 + 42 + 136 + 26 = 252 of chrome; the plate keeps 388 of 640 = 61%. */
+@media (max-height: 700px) {
+  :root { --bar-h: 3rem; --lede-h: 3.25rem; --time-h: 7.75rem; --foot-h: 1.625rem; --key-h: 1.75rem; --stage-inset: 0.5rem; }
+}
+/* NARROW WINDOWS. Below 1248px a 19px sentence in two lines does not fit beside
+   the focal control either, so the band drops to the serif reading size. The
+   band is always exactly two lines: a sentence cut mid-word teaches nothing,
+   and a band that grows to fit its sentence takes the map's pixels to do it.
+   (The type step itself is in chrome.css, beside the clamp it belongs to.) */
+
+/* A large desktop or a classroom projector. The map takes the room, not the
+   apparatus: at 1920x1080 the plate is 764 of 1080 = 71%. */
+@media (min-height: 1000px) {
+  :root { --bar-h: 3.5rem; --lede-h: 4rem; --time-h: 10.25rem; --foot-h: 2rem; --key-h: 2.125rem; --stage-inset: 0.75rem; }
+}
+
+/* --------------------------------------------------------------- ground -- */
+
+/* base.css (design system) owns body typography, focus rings, .skip-link and
+   .btn. Everything here is wrapped in :where() or scoped to a shell class so it
+   can only ever fill a gap, never overrule a design decision. */
+html, body { height: 100%; }
+body { margin: 0; overscroll-behavior: none; }
+:where(body) {
+  min-height: 100dvh;
+  background: var(--surface-page, #f8f5f0);
+  color: var(--text-body, #241f19);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-base, 1rem);
+  line-height: var(--lh-ui, 1.42);
+}
+
+/* The shell's own screen-reader utility, so live regions stay hidden even if
+   base.css never arrives. (base.css calls its equivalent .visually-hidden.) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* Two skip links share one position in base.css; only one is ever focused. */
+:where(.skip-link) {
+  position: absolute; top: var(--space-sm, .5rem); left: var(--space-sm, .5rem);
+  z-index: var(--z-max, 90);
+  padding: var(--space-sm, .5rem) var(--space-md, .75rem);
+  background: var(--surface-panel, #fff); color: var(--text-body, #000);
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+:where(.skip-link):focus-visible { transform: translateY(0); }
+
+/* ---- THE MASTHEAD COLLAPSES ------------------------------------------
+   Measured at 390x844 on the guided path: `.bar__slot--end` asked for 317px
+   of a 196px strip, the Recall button's right edge sat at x=388 with half of
+   it off the screen, and the wordmark was cut to "The Bri…". At 768x1024 the
+   mechanism entry sat at x=741 of 768 with its label under the fade. Both
+   strips scrolled, which kept the document one screen wide (that was the
+   round-1 fix) but left six controls behind an affordance nobody can see.
+
+   Here the wrapper stops being `display: contents` and becomes a panel under
+   the masthead, opened by one named control. Nothing is re-parented: the mount
+   slot keeps its modules, its listeners and its `data-mount` identity, and
+   every control gets its whole label and a 44px target.
+
+   ONLY `chrome-end` MOVES. `toolbar` holds the path's transport above 62rem —
+   Back, the counter, Next — and Back and Next are not tools, they are the
+   lesson. Collapsing both strips was tried and it put the transport behind a
+   menu at 1024x640. `toolbar` is a direct child of the masthead at every width.
+
+   `#app[data-bar]` is written by app/js/chrome/index.js from a MEASUREMENT of
+   the bar's own contents, not from a width: at 900x700 the bar holds eight
+   controls and fits, and at 1024x640 it holds eleven — the transport is in it
+   there, because 1024 is above 62rem — and does not. */
+#app[data-bar="stack"] .bar__more { display: inline-flex; }
+/* THE PANEL HAS TO BE ABOVE WHAT IT HANGS OVER. `.app__bar` carries
+   `z-index: --z-header` and therefore a stacking context, so a fixed
+   descendant of it can never rise above anything outside with a higher
+   z-index — and four pieces legitimately park a fixed surface over the plate:
+   the rail sheet (52), the map's floating furniture (58), the path's
+   transport dock and the pinned colour key (62). Measured before this: the
+   tools panel opened underneath all four and the zoom buttons, the counter
+   and the colour ribbon printed straight through it. The bar itself is
+   raised for as long as the panel is open, and only then.
+   `--z-modal` itself is not enough: `.app__overlay` is that value and comes
+   later in the document, so equal z-indices resolved in its favour and the
+   zoom buttons went on printing through the panel. +8 keeps it under the
+   boot layer (85) and the skip links (90), which are the only two things
+   that should ever be in front of a menu the reader just opened. */
+#app[data-tools="open"] .app__bar { z-index: calc(var(--z-modal, 70) + 8); }
+#app[data-bar="stack"] .bar__tools {
+  display: none;
+  position: fixed;
+  inset-block-start: calc(var(--bar-h) + env(safe-area-inset-top, 0px));
+  inset-inline: 0;
+  z-index: calc(var(--z-modal, 70) + 8);
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs, .375rem);
+  max-block-size: calc(100dvh - var(--bar-h) - var(--time-h) - env(safe-area-inset-top, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-md, .75rem) var(--space-lg, 1rem);
+  background: var(--surface-panel, #fdfbf7);
+  border-bottom: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.18));
+  box-shadow: var(--shadow-panel, 0 6px 24px rgba(0,0,0,.18));
+}
+#app[data-bar="stack"][data-tools="open"] .bar__tools { display: flex; }
+/* Each strip becomes a column of full-width rows: no scrolling, no fade, no
+   clipping, and `contain` off so a control can be as wide as its words.
+   Modules nest their controls to different depths — some put a button
+   straight in the slot, some wrap it in a row of their own — so the stack is
+   stated for containers at every depth and the controls themselves are
+   stretched wherever they sit. */
+#app[data-bar="stack"] .bar__tools .bar__slot,
+#app[data-bar="stack"] .bar__tools .bar__slot > *:not(button):not(a),
+#app[data-bar="stack"] .bar__tools .bar__slot > .mount--sub > *:not(button):not(a) {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--space-xs, .375rem);
+  margin: 0;
+  inline-size: auto;
+  max-inline-size: none;
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+  contain: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+#app[data-bar="stack"] .bar__tools .bar__slot:empty { display: none; }
+/* One left edge for six controls that each arrived with their own padding. */
+#app[data-bar="stack"] .bar__tools button,
+#app[data-bar="stack"] .bar__tools a[href] {
+  align-self: stretch;
+  inline-size: 100%;
+  justify-content: flex-start;
+  min-block-size: 2.75rem;
+  padding-inline: var(--space-sm, .5rem);
+  text-align: start;
+}
+
+/* ---- THE STEP DOCK, IN THE MASTHEAD -------------------------------------
+   docs/RESPONSIVE_LAW.md, rule D2. Above 62rem the lesson's transport is a
+   direct child of the masthead already (`data-mount="toolbar"`); below it, it
+   was a 206x40 bar pinned over the plate, and the plate below 62rem is between
+   152 and 354 pixels tall. Measured at 390x844 on beat 9: the map band ran
+   y=156 to y=306 and the transport sat at y=234, taking 13.9% of it, directly
+   on top of the Bay of Bengal on the beat about Bengal.
+
+   So it comes back into the bar at every width. This is the RESERVED BOX, not
+   the control: it is empty, it is 13.75rem, and the brand and `Tools` lay out
+   around it. The shell publishes its measured rectangle as
+   --dock-step-x/y/w/h, so `.tr-dock` can be pinned into it from chrome.css
+   SS-E for as long as tours.css still renders a floating bar; when tours
+   renders into `data-mount="dock-step"` instead, the pin is deleted and
+   nothing about this box changes.
+
+   It exists only while a lesson is running: an empty 220px hole in the
+   masthead of the cold plate would be nineteen controls and one absence. */
+.bar__dock { display: none; flex: 0 0 auto; min-width: 0; }
+#app[data-dock="docked"][data-path="on"] .bar__dock {
+  display: block;
+  inline-size: var(--dock-step-box-w, 13.75rem);
+  max-inline-size: 100%;
+  /* `--dock-step-box-h`, not `--dock-step-h`: the second is the shell's
+     MEASUREMENT of this box, published for the shim that pins a control into
+     it, and a declaration that reads its own measurement is a box that
+     collapses to nothing on the first frame. It did: the transport was
+     0x0 at 0,0 and the lesson could not be advanced at all. */
+  block-size: var(--dock-step-box-h);
+}
+/* THE WORDMARK STANDS DOWN FOR THE LESSON, AND ONLY UNDER 46rem.
+   `.brand__sub` already goes at this width. At 390 the bar has 390px and the
+   lesson needs 220 of them; the wordmark is 145 and it is identification, not
+   the lesson. Above 46rem it stays: measured at 768, mark + wordmark +
+   transport + Tools is 525 of 768. */
+/* THE BOX IS 9rem IN THIS BAND, because the escape does not ride in it
+   (chrome.css SS-E). Measured at 390x844 with the box at 13.75rem: mark 28 +
+   Layers 97 + box 220 + Tools 68 came to 413 of a 390px bar, the globe was cut
+   in half and "Layers" read "Lay"; and at 768x1024 the masthead's own
+   "Explore" was pushed to x=736 of 768, which `budget-working.js` rule W15
+   caught. 9rem carries Back, the counter and Next, which is the lesson. */
+@media (max-width: 61.999rem) {
+  :root { --dock-step-box-w: 9rem; }
+}
+/* AND THE WORDMARK STANDS DOWN FOR THE LESSON UNDER 46rem, where `.brand__sub`
+   already goes. At 390 the bar has 390px and the lesson needs 144 of them; the
+   wordmark is 145 and it is identification, not the lesson. Above 46rem it
+   stays: measured at 768, mark + wordmark + Layers + Explore + the box + Tools
+   is 665 of 768. */
+@media (max-width: 46rem) {
+  #app[data-dock="docked"][data-path="on"] .brand__text { display: none; }
+}
+/* AND 9rem IS NOT ENOUGH BETWEEN 46 AND 62rem, BECAUSE THE LABELS ARE WHOLE
+   THERE AND THE ROUTE HAS AN ENDING — WAVE 10, round 2, `dock.js` rule D2.
+
+     `thirty step 26 D2 Next is reachable — got outside 658,4`
+     the same on `sixty`, at 768x1024 AND at 900x700.
+
+   REPRODUCED AND MEASURED, on the last step of the full route, reading the
+   transport's own children:
+
+     390x844     Back 31 + counter 27 + Next 27   = 157 of a 144 box, and Next
+                 lands at x=280 of 390, in view. tours abbreviates under 46rem.
+     768x1024    Back 31 + "past the end" 83 + "Say what it does ↓" 130 = 260
+                 of a 144 box. Next is drawn at 658-788 of a 768px window.
+     900x700     the identical 260, Next at 790-920 of 900.
+
+   So it is not the box that is wrong at 390 and it is not the labels that are
+   wrong at 768: it is that this band takes the FULL labels — the counter says
+   "past the end" rather than "26 / 25" and the Close's own control keeps its
+   sentence, which tours.css §176 is right to insist on — into a box measured
+   against the abbreviated ones. 17.5rem is the number the landscape band
+   already carries for the identical reason, and it holds the widest transport
+   this app draws with 20px to spare.
+
+   IT IS PAID FOR OUT OF THE WORDMARK, exactly as it is under 46rem and in
+   landscape, and for the same arithmetic. There is no slack in this masthead
+   to take it from anywhere else: measured at 768x1024 mid-lesson, mark +
+   wordmark 324 + Layers 164 + box 144 + Tools 68 ends at x=752 of 768, and at
+   900x700 at x=884 of 900. Standing the wordmark down gives 296 back and the
+   bar reads mark 20 + Layers 164 + box 280 + Tools 68 = 600 of 768, and 732 of
+   900. The wordmark is identification and the transport is the lesson; the
+   mark itself stays, and both come back the moment the lesson ends. */
+@media (min-width: 46.0625rem) and (max-width: 61.999rem) {
+  :root { --dock-step-box-w: 17.5rem; }
+  #app[data-dock="docked"][data-path="on"] .brand__text { display: none; }
+}
+
+/* ============================================================== app grid == */
+
+#app.app {
+  display: grid;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 1fr) var(--rail-w);
+  grid-template-rows:
+    var(--bar-h)
+    var(--lede-h)
+    minmax(var(--stage-min), 1fr)
+    var(--time-h)
+    var(--foot-h);
+  grid-template-areas:
+    "bar   bar"
+    "lede  rail"
+    "stage rail"
+    "time  rail"
+    "foot  rail";
+  transition: grid-template-columns var(--dur-slow, 360ms) var(--ease-settle, cubic-bezier(.22,1,.28,1));
+}
+.app[hidden] { display: none; }
+
+/* The rail is open when either surface in it is open. One width, one motion. */
+#app[data-dossier="open"], #app[data-sheet="open"] { --rail-w: var(--rail-w-open); }
+
+/* --------------------------------------------------------------- chrome -- */
+
+.app__bar {
+  grid-area: bar;
+  z-index: var(--z-header, 40);
+  display: flex; align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--space-md, .75rem);
+  padding-inline: var(--space-lg, 1rem);
+  padding-top: env(safe-area-inset-top, 0);
+  min-width: 0;
+  /* THE MASTHEAD IS ONE LINE AND IT IS 46–56 PIXELS TALL. Measured at 768x1024:
+     a toolbar control read "Take / this / another / way →" over four wrapped
+     lines, 96px of a 48px row, printing through the lede band beneath it and
+     colliding with the two controls beside it. The row is a fixed grid track,
+     so the overflow was invisible to the grid and visible to the reader. A
+     masthead identifies; it does not reflow. */
+  overflow: hidden;
+  background: var(--surface-panel, #fdfbf7);
+  border-bottom: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+
+.brand { display: flex; align-items: center; gap: var(--space-sm, .5rem); min-width: 0; flex: 0 1 auto; }
+.brand__mark { display: grid; place-items: center; color: var(--accent, #ae3d35); flex: 0 0 auto; }
+/* base.css sets `svg { fill: currentColor }`; this mark is a line drawing. */
+.brand__mark svg { fill: none; }
+.brand__text { display: flex; align-items: baseline; gap: .5em; min-width: 0; }
+/* The masthead identifies; it does not compete. The loud thing on this screen
+   is the sentence in the band below it and the plate below that. */
+.brand__title {
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-base, 1rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-heading, -.009em);
+  color: var(--text-heading, inherit);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand__sub {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-micro, .75rem);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.55));
+  white-space: nowrap;
+}
+@media (max-width: 46rem) { .brand__sub { display: none; } }
+
+/* `display: contents` at every width where the strips fit on one line, so the
+   two slots stay direct flex children of the masthead and nothing about the
+   composition changes. See index.html for what it becomes when they do not. */
+.bar__tools { display: contents; }
+
+.bar__slot {
+  display: flex; align-items: center; flex-wrap: nowrap;
+  gap: var(--space-sm, .5rem);
+  min-width: 0; max-height: 100%;
+  white-space: nowrap;
+}
+/* ---- AND THE STRIP IS AS TALL AS THE MASTHEAD, NOT AS TALL AS ITS TEXT ----
+   WAVE 9. The two strips clip on the x axis to keep the document one screen
+   wide (see below), and CSS makes that a decision about BOTH axes: with
+   `overflow-x: auto` the y axis can never compute to `visible`. So whatever
+   these boxes are tall, they cut.
+
+   They were as tall as a line of 13px type. Measured at 900x700 on the cold
+   plate, before this rule:
+
+     .bar__slot--main      240 x 17.0   overflow-y: hidden
+     "Start the lesson"     95 x 36.2   the app's one call to action
+       effective target     95 x 17.0   9.6px cut off the top, 9.6 off the
+                                        bottom, and `elementFromPoint` two
+                                        pixels inside either edge returns the
+                                        masthead, not the control
+
+   The control is `display: inline` (chrome.css `.cx-more`), so its 9.6px of
+   vertical padding — put there for WCAG 2.2 SC 2.5.8 — grows its border box
+   and not the line box around it. Clipping that padding away takes the target
+   from 36px to 17 (SC 2.5.8 wants 24) and takes the focus ring with it, which
+   is SC 2.4.11 as well. Nothing about the *type* looked wrong, which is why it
+   survived: the defect was entirely in the box.
+
+   A masthead strip has 47px of masthead to stand in and no reason to be
+   shorter than one. `align-self: stretch` gives it exactly that; the strip's
+   own `align-items: center` keeps every control on the same optical line, and
+   the horizontal clip — the one these boxes exist for — is untouched.
+   After, same viewport: strip 240x47.0, target 95x36.2, hit test Y/Y/Y. */
+.bar__slot--main, .bar__slot--end { align-self: stretch; }
+/* Controls in the masthead never shrink below their own words. Measured at
+   390x844 with every module's control present: `flex: 0 1 auto` squeezed six
+   buttons to a third of their width each and printed them ON TOP of one
+   another — "§ Teaching desk" over "Find ⌘K" over "Compare". A control the
+   reader cannot read is worse than one they have to scroll to.
+
+   The second selector is the registry's per-module sub-root (see below): it is
+   `display: contents`, so it generates no box and the flex item is the control
+   inside it. Without this line the controls fall back to `flex: 0 1 auto` and
+   the defect above comes straight back. */
+.bar__slot > *,
+.bar__slot > .mount--sub > * { flex: 0 0 auto; }
+
+/* ---- ONE SLOT, MANY MODULES, ONE ROOT EACH -------------------------------
+   Three `data-mount` slots are claimed by more than one module: `toolbar`
+   (tours, layers), `chrome-end` (viz, mechanism, quiz, teacher) and `overlay`
+   (historiography, search, onboarding). They used to share the slot ELEMENT,
+   so `fill(root, …)` in one module deleted the others' controls — measured:
+   app/js/teacher/index.js does exactly that and it is the last module to
+   mount, which is why four other pieces carry a defensive re-append on
+   `app:ready`. core/registry.js now hands the second and later claimants their
+   own root inside the slot. It is `display: contents` so it generates no box
+   and no piece's geometry changes; only the destruction stops. */
+.mount--sub { display: contents; }
+.bar__slot--main {
+  flex: 1 1 auto;
+  justify-content: safe center;
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.bar__slot--main::-webkit-scrollbar { display: none; }
+
+/* AND THE STRIPS DO NOT WIDEN THE DOCUMENT.
+   Six modules put a control in this bar. At 390 they add up to 350px in a
+   190px slot, which is what the scrolling strips above are for — but on a
+   mobile layout viewport Chromium sizes the initial containing block from the
+   document's widest ELEMENT, and a scroll container's contents still count.
+   Measured: `scrollWidth` 501 against a `clientWidth` of 390, so every fixed
+   surface in the app was laid out 111px wider than the phone. `contain` stops
+   the strips' contents contributing, and costs nothing here because these two
+   boxes already clip: a module that needs a popover from a toolbar control
+   renders it in the `overlay` mount, not inside a 48px strip. */
+.bar__slot--main, .bar__slot--end { contain: layout paint; }
+/* When a strip is scrolling, its trailing edge fades rather than guillotining a
+   word, so the cut reads as "there is more this way" instead of as breakage.
+   Only where the strips actually overflow — see THE TWO RAIL BANDS. */
+@media (max-width: 39.999rem), (max-width: 61.999rem) and (min-height: 46rem) {
+  .bar__slot--main, .bar__slot--end {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.25rem), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.25rem), transparent 100%);
+  }
+}
+/* THE END SLOT SHRINKS, AND WHAT IT CANNOT SHOW IT SCROLLS.
+   Measured at 390x844 with a territory open: this slot asked for 350px in a
+   390px bar, did not shrink (`flex: 0 0 auto`), and its right edge landed at
+   x=559 — so the initial containing block grew to 539, `innerWidth` reported
+   539 against a `clientWidth` of 390, and every `position: fixed` surface in
+   the app (the overlay, the bottom sheet, the pinned colour key) was laid out
+   149px wider than the phone. Clipping it would have hidden four controls with
+   no way to reach them; a strip that scrolls keeps every one of them reachable
+   and keeps the document exactly one screen wide. */
+.bar__slot--end {
+  flex: 0 1 auto;
+  margin-inline-start: auto;
+  min-width: 0;
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.bar__slot--end::-webkit-scrollbar { display: none; }
+.brand { overflow: hidden; }
+
+/* ---- the masthead's overflow control -------------------------------------
+   Hidden at every width where the strips fit; the sheet band turns it on (see
+   THE TWO RAIL BANDS). It is quiet — the one filled control in the viewport is
+   the lede band's `.cx-cta`, by law — and it is the last thing in the bar so
+   the tab order still reads brand → tools. */
+.bar__more {
+  appearance: none;
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-2xs, .25rem);
+  margin-inline-start: auto;
+  min-height: 2.25rem;
+  padding: var(--space-2xs, .25rem) var(--space-md, .75rem);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-small, .875rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-ui, 0);
+  color: var(--text-body, inherit);
+  background: transparent;
+  border: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.3));
+  border-radius: var(--radius-sm, 2px);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.bar__more[hidden] { display: none !important; }
+/* --fs-micro, not `.8em`. `.8em` of --fs-small is 11.2px, and DESIGN.md §3.1
+   makes 12 the floor for anything that renders — a mark included. */
+.bar__more-c { font-size: var(--fs-micro, .75rem); line-height: 1; color: var(--text-min, rgba(0,0,0,.5)); }
+.bar__more[aria-expanded="true"] { background: var(--surface-well, rgba(0,0,0,.05)); border-color: var(--accent-ink, currentColor); }
+.bar__more[aria-expanded="true"] .bar__more-c { transform: rotate(180deg); }
+
+/* ----------------------------------------------------------- lede band --- */
+
+.app__lede {
+  grid-area: lede;
+  z-index: var(--z-sticky, 30);
+  display: flex; align-items: center;
+  min-width: 0; min-height: 0;
+  overflow: hidden;
+  padding-inline: var(--space-lg, 1rem);
+  background: var(--surface-page, #f8f5f0);
+  border-bottom: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+}
+.app__lede > * { min-width: 0; flex: 1 1 auto; }
+
+/* ---------------------------------------------------------------- stage -- */
+
+.app__stage {
+  grid-area: stage;
+  position: relative;
+  min-width: 0; min-height: 0;
+  overflow: hidden;
+  background: var(--surface-margin, var(--surface-well, #f0ebe2));
+  isolation: isolate;
+  /* The stage is measured, not the window: opening the rail takes a third of
+     it, and every piece that sizes itself against the plate has to know. */
+  container-type: inline-size;
+  container-name: stage;
+  --apparatus-gutter: 0px;
+}
+.app__stage:focus { outline: none; }
+.app__stage:focus-visible { outline: 2px solid var(--focus-ring, #8a2b26); outline-offset: -3px; }
+
+/* THE PLATE RECTANGLE. This is the contract: the map gets the whole stage
+   minus the colour ribbon at its foot. Nothing else is allowed inside these
+   bounds — see docs/LAYOUT_BUDGET.md §3. */
+.stage__map {
+  position: absolute;
+  inset: 0;
+  /* THE TWO FOOT STRIPS, NOT ONE. The colour ribbon has always been charged
+     against the plate; from the responsive pass the control dock is too, and
+     for the same reason: a strip that is subtracted from the map's rectangle
+     costs the map its own height once, and a strip that floats on top of the
+     map costs it the same pixels every frame plus the contiguity that is the
+     whole point of a map. Measured at 900x700 before the dock existed, three
+     floating strips took 71,736 px2 out of a 234,824 px2 plate and left three
+     holes in it — one over Australia, one over Siberia, one over the Southern
+     Ocean. See docs/RESPONSIVE_LAW.md. */
+  inset-block-end: calc(var(--key-h) + var(--dock-h));
+  inset-inline-start: var(--apparatus-gutter, 0px);
+  z-index: var(--z-base, 0);
+}
+.stage__map > * { width: 100%; height: 100%; display: block; }
+
+/* Transparent to the pointer so the map keeps it; children opt back in. */
+.stage__over {
+  position: absolute;
+  inset: 0;
+  inset-block-end: calc(var(--key-h) + var(--dock-h));
+  inset-inline-start: var(--apparatus-gutter, 0px);
+  z-index: var(--z-map-overlay, 10);
+  pointer-events: none;
+}
+.stage__over > * { pointer-events: auto; }
+
+/* --- the colour ribbon ---------------------------------------------------
+   The legend's key is the one piece of apparatus a reader needs before they
+   have asked a question: without it the plate is eight colours and no words.
+   It gets a strip along the foot of the plate — full width, one line, capped —
+   instead of a 396x337 panel standing on the Atlantic. The rest of the legend
+   (the 14 legal forms, the counts, the criticism) is a sheet, one click away.
+   `#app` specificity because legend.css caps `.stage__legend` at 34vw for its
+   old life as a corner card. */
+#app .stage__key {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--key-h);
+  max-inline-size: none;
+  z-index: var(--z-panel, 20);
+  display: flex; align-items: center;
+  min-width: 0;
+  /* A strip this shallow cannot show a scrollbar, but it must never be the
+     reason a colour is unreachable: it scrolls, silently, and the route to the
+     full key is in the sheet either way. */
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  padding-inline: var(--space-lg, 1rem);
+  background: var(--surface-panel, #fdfbf7);
+  border-top: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+#app .stage__key::-webkit-scrollbar { display: none; }
+#app .stage__key > * { min-width: 0; }
+#app .stage__key:empty { display: none; }
+
+/* --- THE CONTROL DOCK ----------------------------------------------------
+   docs/RESPONSIVE_LAW.md. A strip along the foot of the plate, immediately
+   ABOVE the colour ribbon, holding every control that acts on the whole map:
+   the zooms, the "British means" dial, the route to the other renderings.
+
+   Why above the ribbon and not below it: the ribbon's own pinned copy
+   (`.legend__pin`, P17) already rides the seam of an open bottom sheet at
+   `--rail-clear`, and every rule in chrome.css SS-E that positions it is
+   written against that number. Putting the dock on the far side of the ribbon
+   leaves all of them untouched and gives the dock one expression of its own
+   (`--rail-clear` + `--key-h`) instead of editing four.
+
+   It has NO height at data-stage="plate": at second zero the only control over
+   the map is the zoom cluster and that rides the ribbon strip, so the cold
+   plate keeps every pixel budget.js measures it against. */
+#app .stage__dock {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--key-h);
+  block-size: var(--dock-h);
+  z-index: calc(var(--z-panel, 20) + 1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, .75rem);
+  min-width: 0;
+  overflow: hidden;
+  padding-inline: var(--space-md, .75rem);
+  background: var(--surface-panel, #fdfbf7);
+  border-top: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+  /* The dock is the one place a floating control may land, so it must never
+     be the reason one is unreachable: it takes the pointer, and its children
+     keep their own. */
+  pointer-events: auto;
+}
+#app .stage__dock > * { min-width: 0; }
+/* Zero height is zero border, zero paint and zero name in the a11y tree.
+   NOT `:empty`: the strip is charged against the map's height by
+   `data-dockfoot`, and while a piece is still being pinned into it from
+   chrome.css SS-E rather than parented into it, the slot's own child list is
+   empty and hiding it published a zero rectangle — measured at 900x700, the
+   definition dial was then pinned to an offset of 0 and drew itself across the
+   top-left corner of the map. One attribute answers both questions. */
+#app:not([data-dock="docked"]) .stage__dock,
+#app:not([data-dockfoot="on"]) .stage__dock { display: none; }
+/* THE TRAILING END BELONGS TO THE MAP'S OWN CONTROLS. Anything a piece parks
+   with `margin-inline-start: auto` sits at the end of the strip; the leading
+   end is for the control that names what the strip is about. */
+#app .stage__dock .dock-end { margin-inline-start: auto; flex: 0 0 auto; }
+
+/* --- the deferred apparatus column ---------------------------------------
+   Off screen at data-stage="plate" (chrome.css). From "apparatus" upward it
+   is a reserved column and the plate is drawn beside it — never underneath. */
+.stage__apparatus {
+  position: absolute; z-index: var(--z-panel, 20);
+  inset-inline-start: var(--stage-inset);
+  inset-block-start: var(--stage-inset);
+  inset-block-end: calc(var(--key-h) + var(--dock-h) + var(--stage-inset));
+  width: var(--apparatus-w);
+  max-width: calc(100% - 2 * var(--stage-inset));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  pointer-events: none;
+}
+.stage__apparatus > * { pointer-events: auto; }
+.stage__apparatus:empty { display: none; }
+.stage__note { flex: 0 1 auto; min-height: 0; overflow: auto; }
+.stage__note:empty { display: none; }
+
+/* A container query cannot restyle its own container, so the gutter is set on
+   the two elements that have to honour it. */
+@container stage (min-width: 62rem) {
+  .app[data-stage="apparatus"] .stage__map,
+  .app[data-stage="apparatus"] .stage__over {
+    --apparatus-gutter: calc(var(--apparatus-w) + 2 * var(--stage-inset));
+  }
+}
+
+/* ----------------------------------------------------------------- rail -- */
+
+.app__dossier {
+  grid-area: rail;
+  z-index: var(--z-panel, 20);
+  min-width: 0; min-height: 0;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  background: var(--surface-panel, #fdfbf7);
+  border-inline-start: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+.app[data-dossier="closed"] .app__dossier { border-inline-start-color: transparent; visibility: hidden; }
+.dossier__body { min-height: 100%; }
+
+/* The sheet shares the rail column and stacks over the dossier, so a reader can
+   open the full key without losing their place in a territory. */
+.app__sheet {
+  grid-area: rail;
+  z-index: var(--z-popover, 50);
+  min-width: 0; min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--surface-panel, #fdfbf7);
+  border-inline-start: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.18));
+  box-shadow: var(--shadow-panel);
+}
+.app__sheet[hidden] { display: none; }
+.sheet__body { min-width: 0; min-height: 0; overflow: hidden auto; overscroll-behavior: contain; }
+
+/* ------------------------------------------------------------ time + foot -- */
+
+/* HEIGHT, NOT MIN-HEIGHT. See the header of this file. */
+.app__time {
+  grid-area: time;
+  z-index: var(--z-sticky, 30);
+  block-size: var(--time-h);
+  min-height: 0;
+  overflow: hidden;
+  display: flex; align-items: stretch;
+  background: var(--surface-panel, #fdfbf7);
+  border-top: var(--rule-fine, 1px) solid var(--border-default, rgba(0,0,0,.14));
+}
+.time__slot { flex: 1 1 auto; min-width: 0; min-height: 0; display: flex; align-items: stretch; }
+.time__slot > * { flex: 1 1 auto; min-width: 0; min-height: 0; }
+
+.app__foot {
+  grid-area: foot;
+  display: flex; align-items: center;
+  gap: var(--space-md, .75rem);
+  block-size: var(--foot-h);
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 var(--space-lg, 1rem) env(safe-area-inset-bottom, 0);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-micro, .75rem);
+  color: var(--text-min, rgba(0,0,0,.55));
+  background: var(--surface-well, #f0ebe2);
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.1));
+}
+.foot__slot { display: flex; align-items: center; gap: var(--space-md, .75rem); min-width: 0; flex: 1 1 auto; overflow: hidden; white-space: nowrap; }
+.foot__note { margin: 0; text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.foot__note:empty { display: none; }
+
+/* -------------------------------------------------------------- overlay -- */
+
+.app__overlay {
+  position: fixed; inset: 0;
+  z-index: var(--z-modal, 70);
+  pointer-events: none;
+  /* THE OVERLAY IS THE VIEWPORT AND NOTHING IN IT IS BIGGER THAN THE VIEWPORT.
+     Measured at 390x844 with a territory open: something parented here laid out
+     wider than the phone, Chromium grew the initial containing block to fit it,
+     `innerWidth` reported 529 against a `clientWidth` of 390, and every fixed
+     surface in the app — this layer, the bottom sheet, the pinned colour key —
+     was laid out 139px too wide. Clipping here costs nothing (this element IS
+     the viewport rectangle) and it means no module can widen the document.
+     `clip` rather than `hidden` so it never becomes a scroll container, and
+     because it establishes no containing block, the fixed layers pieces park
+     in here (the map's tooltip layer, its floating furniture, the legend's
+     pinned key) are unaffected. */
+  overflow: clip;
+}
+/* `pointer-events` is inherited, so a `display: contents` sub-root passes the
+   value on to the module's own DOM inside it. Both selectors are needed: the
+   first for a slot's first claimant, the second for the sub-roots. */
+.app__overlay > *, .app__overlay > .mount--sub > * { pointer-events: auto; }
+.app__overlay:empty { display: none; }
+
+/* ================================================== THE TWO RAIL BANDS ====
+
+   AMENDMENT to docs/LAYOUT_BUDGET.md B7, with the measurement that motivates
+   it. B7 read "under 62rem both become the same bottom sheet". Measured on the
+   running app at 900x700 with a territory open:
+
+       stage            0,158  900x358      drawn map   900x330
+       .app__dossier    0,110  900x406      fixed, full width
+       overlap(dossier, drawn map)          297,000 px²  =  100 %
+
+   The rail covered the entire map. B5 says panels compress the plate and never
+   cover it, and FEATURE_SPEC §2 rule 1 says the map never disappears; at
+   900x700 the bottom sheet cannot obey either, because a 700px window has
+   46px of masthead, 110px of band and 184px of time bar and no 280px left to
+   give a sheet without taking the plate's last pixel. A 900px-wide window has
+   the room the sheet wanted — it is just horizontal.
+
+   So the rail's orientation is decided by WHICH AXIS HAS ROOM, not by width
+   alone. The bottom sheet is right on a phone and on a tall narrow window; a
+   side column is right whenever the window is at least 40rem wide and shorter
+   than 46rem, which is every landscape tablet and every half-height laptop
+   window. 62rem is unchanged as the breakpoint everywhere else in the app.
+
+     SHEET BAND  (max-width: 39.999rem)                              phones
+                 (max-width: 61.999rem) and (min-height: 46rem)      tall+narrow
+     SIDE  BAND  everything else                                     the rest
+
+   `app/js/chrome/index.js` mirrors exactly this condition onto
+   `#app[data-rail="sheet"|"side"]` so modules, shims and the authored path can
+   read it without re-deriving it. If you change one, change both.
+   ========================================================================== */
+
+/* ------------------------------------------------------------ SHEET BAND -- */
+
+@media (max-width: 39.999rem), (max-width: 61.999rem) and (min-height: 46rem) {
+  :root {
+    --bar-h: 3rem; --lede-h: auto; --time-h: 11.5rem; --foot-h: 0px;
+    --key-h: 1.75rem; --stage-inset: 0.5rem;
+    --stage-min: 16rem;
+  }
+  #app.app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--bar-h) auto minmax(var(--stage-min), 1fr) var(--time-h) 0;
+    grid-template-areas: "bar" "lede" "stage" "time" "foot";
+  }
+  #app[data-dossier="open"], #app[data-sheet="open"] { --rail-w: 0px; }
+  .app__lede { padding-block: var(--space-sm, .5rem); }
+  .app__foot { display: none; }
+
+
+
+  /* Both rail surfaces become the same bottom sheet — one behaviour, one
+     geometry — and both stop above the time bar, so a student can still move
+     the year while reading.
+
+     THE HEIGHT IS A CLAMP, NOT A CONSTANT. It used to be `min(58dvh, 30rem)`,
+     which is a number about the window and not about what is left of the map:
+     at 900x700 it asked for 406px of a 358px stage. The third term is the only
+     one that knows about the plate — `--rail-top-min` is written by
+     app/js/chrome/index.js from the drawn map's own rectangle, so the sheet can
+     never take the map's last 150 pixels whatever else changes above it. The
+     fallback (11rem) holds before the first measurement and if JS is late. */
+  .app__dossier, .app__sheet {
+    --sheet-clear: calc(var(--time-h) + env(safe-area-inset-bottom, 0px));
+    /* B8 IS A PROMISE ABOUT THE SURFACE, NOT ABOUT THE BOX AROUND IT.
+       "No disclosure surface may be shorter than `--cx-sheet-min` (280 px) …
+       Anything that opens in answer to a control the reader pressed gets at
+       least that." These boxes are `border-box` and carry a 1px hairline on
+       their top edge — the shell's rule between the sheet and the plate, which
+       is chrome and not surface. So a floor of 280 handed the reader 279.
+
+       MEASURED at 768x1024, with the sheet a timeline mark opens:
+         .app__sheet   768x280.00   border-top 1px   clientHeight 279
+         .cx-sheet     768x279      the surface every piece renders into
+         .sheet__body  768x279
+       and the same one pixel short on `.app__dossier`, on every viewport in
+       the sheet band, since the hairline was added.
+
+       Every harness read the border box and passed — dock.js D5, W2,
+       shell-accept L — which is why a one-pixel miss survived eight waves. The
+       fix is the sheet, not the rule: the floor is what B8 promises PLUS the
+       border the shell draws over it, so the number in the rule is the number
+       the reader gets. 281.00 box / 280 surface after, at every viewport in
+       the band; the plate pays the one pixel, which is whose it is. */
+    --cx-sheet-floor: calc(var(--cx-sheet-min, 17.5rem) + var(--rule-fine, 1px));
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: var(--sheet-clear);
+    inset-block-start: auto;
+    block-size: clamp(
+      var(--cx-sheet-floor),
+      min(58dvh, 30rem),
+      max(var(--cx-sheet-floor),
+          calc(100dvh - var(--sheet-clear) - var(--rail-top-min, 11rem))));
+    border-inline-start: 0;
+    border-top: var(--rule-fine, 1px) solid var(--border-firm, rgba(0,0,0,.18));
+    border-start-start-radius: var(--radius-sm, 2px);
+    border-start-end-radius: var(--radius-sm, 2px);
+    box-shadow: var(--shadow-lifted, 0 -8px 32px rgba(0,0,0,.22));
+    z-index: var(--z-popover, 50);
+  }
+  .app__dossier {
+    transform: translateY(calc(100% + var(--sheet-clear) + 2px));
+    visibility: hidden;
+    transition: transform var(--dur-slow, 360ms) var(--ease-settle, cubic-bezier(.22,1,.28,1)),
+                visibility 0s linear var(--dur-slow, 360ms);
+  }
+  .app[data-dossier="open"] .app__dossier { transform: none; visibility: visible; transition-delay: 0s; }
+  .app__sheet { z-index: calc(var(--z-popover, 50) + 2); }
+}
+
+@media (max-width: 30rem) {
+  :root { --bar-h: 2.875rem; }
+}
+
+/* ------------------------------------------------- SIDE BAND, but narrow -- */
+/* 40–62rem wide and under 46rem tall: a landscape tablet, a half-height
+   laptop window, a projector at 1024x600. The rail stays a column, so the map
+   is compressed rather than covered, and the column is narrowed to 19rem so
+   the plate keeps the larger half: at 900x700 the drawn map is 596x422 with a
+   territory open, where before it was 0x0 of visible map behind a full-width
+   sheet. The masthead and the footer keep the short-window values from the
+   height steps above; nothing here is a second layout system. */
+@media (min-width: 40rem) and (max-width: 61.999rem) and (max-height: 45.999rem) {
+  :root {
+    --rail-w-open: 19rem;
+    --stage-min: 15rem;
+    /* THE SENTENCE GETS A THIRD LINE HERE, AND THE PLATE PAYS 20px FOR IT.
+       Measured at 900x700 on the path: the band is 596px wide with the rail
+       open, the period mark and the focal control take 256 of it, and the
+       sentence is left 340. Four of the first five beats then needed three
+       lines and got two — `-webkit-line-clamp` cut "Bussa's rebellion was
+       crushed in four days. Abolition comes after it, …" a whole line short,
+       and LAYOUT_BUDGET §4 says in as many words that a sentence cut mid-word
+       teaches nothing. Three lines are 65px; the band is 72. (The phone's
+       two-row arrangement was tried here first and costs 94, which the plate
+       cannot pay.) The plate goes 410 -> 394 at 900x700: 56.3% against B1's
+       floor of 55%, and 900x394 against B2's 860x380. */
+    --lede-h: 4.25rem;
+    /* The time control keeps the narrow single-column arrangement it uses under
+       62rem (two ranks in the deck, then the axis), which needs a little more
+       than the 124px a 700px-tall window would otherwise give it. 136 is the
+       measured height at which nothing in it is clipped at 900x700. */
+    --time-h: 8.5rem;
+  }
+  /* No padding of its own: the 72px is the two rows, and nothing else. (This
+     block used to read "one line beside the focal control, because the two-row
+     band cost 110px here" — true when the band was `auto` and free to grow.
+     It is a fixed 72 now, and the sentence is what the 72 is for.) */
+  .app__lede { padding-block: 0; }
+}
+
+/* ==================================================== THE DOCKED BAND =====
+
+   AN AMENDMENT TO docs/LAYOUT_BUDGET.md B5, stated in full in
+   docs/RESPONSIVE_LAW.md. B5 forbids an opaque floating element from covering
+   the plate and then exempts three layers: `.stage__map`, `.stage__over` and
+   `.app__overlay`. Every floating control in the app lives in the third one,
+   so B5 has never once been able to see them. Measured on the running app
+   inside a mounted lesson beat, which is where a student spends twenty-nine
+   of the lesson's thirty minutes:
+
+     390x844, beat 9   map band 390x150 (y156-y306, the sheet starts at 306)
+                       .map__zooms    246,164  136x42   =  5,712 px2
+                       .tr-dock       176,234  206x40   =  8,240 px2
+                       .legend__pin     0,278  390x28   = 10,920 px2
+                       -------------------------------------------------
+                       24,872 px2 of a 58,500 px2 band  =  42.5 % COVERED
+
+     900x700, beat 1   plate 596x394 = 234,824 px2
+                       .map__foot       8,402  580x100  = 57,792 px2
+                       .map__zooms    542,124   46x124  =  5,704 px2
+                       .tr-dock       382,358  206x40   =  8,240 px2
+                       -------------------------------------------------
+                       71,736 px2 = 30.5 % COVERED, in three separate holes
+
+   A map with three holes in it is not a map. Below 62rem — the breakpoint
+   every other piece in this app already keys on — NOTHING FLOATS INSIDE THE
+   MAP RECTANGLE. Every control that used to has a named dock:
+
+     the lesson transport  -> `.bar__dock` in the masthead        (rule D2)
+     the map's zooms       -> `.stage__key` at data-stage="plate" (rule D3)
+     every other control
+       over the whole map  -> `.stage__dock`                      (rule D3)
+
+   THE ARITHMETIC, at 390x844, which is the window this band exists for:
+
+     bar        46
+     lede      110
+     map       152   <- --map-min: clean, contiguous, nothing on it
+     dock       36   <- --dock-h at "working"; 0 at "plate"
+     ribbon     32   <- --key-h
+     panel     284   <- >= 280, LAYOUT_BUDGET B8
+     time      184
+              ----
+              844
+
+   The bottom sheet is clamped against `--rail-top-min`, which chrome/index.js
+   computes as `--map-min` plus the MEASURED height of the two foot strips, so
+   the three numbers above can never drift apart. Before this pass the same
+   clamp used a flat 150 that had the ribbon inside it, so the clean band was
+   122px with 29% of that covered; the clean band is 152px with none of it
+   covered now, which is 59,280 px2 against 33,785 — up 75%.
+
+   `#app[data-dock="docked"|"float"]` is written by app/js/chrome/index.js from
+   exactly the media condition below. If you change one, change both.
+   ========================================================================== */
+
+@media (max-width: 61.999rem) {
+  :root {
+    /* 32, not 28: the ribbon strip carries the map's zoom cluster at
+       data-stage="plate", where the control dock has no height, and a 28px
+       strip cannot hold a 28px target with a hairline above it. 28px targets
+       meet WCAG 2.5.8 (24x24); the 44px of 2.5.5 is what `.stage__dock` is
+       for, and it is what they get from "working" upward. */
+    --key-h: 2rem;
+    /* 184 is what the shell ASKS for; what it delivers is
+       min(what the map actually draws, --map-min), because a floor cannot
+       conjure atlas that was never rendered. Measured at 390x844 today, P02
+       letterboxes a 390x152 map into a 390x472 rectangle (LAYOUT_BUDGET B6
+       fails at 35% here and P02 owns it), so the delivered clean band is 152
+       and the beat panel keeps 320. The moment the map fills its rectangle the
+       band becomes 184 and the panel 288 — still over B8's 280 — with no
+       change to this file. */
+    --map-min: 11.5rem;
+  }
+  /* THE DOCK HAS A HEIGHT ONLY WHEN THERE IS SOMETHING IN IT.
+     `data-dockfoot` is written by chrome/index.js from a measurement: is there
+     a control over the whole map, other than the zooms, that has to leave the
+     plate? At data-stage="plate" there is not (the zooms ride the ribbon
+     strip, which is why that strip is 32 here and not 28), and at 390 there is
+     not either — P02 renders no definition dial at phone width — so a phone at
+     "working" pays nothing for a strip it would not fill, and the map keeps
+     the 36px instead. When P02 does render the dial on a phone the attribute
+     turns on by itself and the arithmetic in the header of this block is the
+     one that applies. Set on #app rather than :root because the answer is an
+     attribute of #app, and a descendant declaration wins for the subtree. */
+  #app.app { --dock-h: 0px; }
+  #app.app[data-dockfoot="on"] { --dock-h: 2.25rem; }
+
+  /* THE MAP'S RECTANGLE IS THE ROOM IT ACTUALLY GETS.
+     In the sheet band `.stage__map` runs to the foot of the stage and the
+     bottom sheet is drawn over the lower half of it, so the rectangle the map
+     is handed has always been part fiction — and the map fitted itself to the
+     fiction. Measured at 768x1024 on beat 1: the rectangle was 768x635, the
+     map drew 768x391 into it, and the two foot strips — which the shell had
+     placed against the panel's top edge, 68px above it — landed on the map's
+     last 36 pixels. The map was not overrunning anything; it was filling a
+     rectangle that included the panel.
+
+     So the rectangle stops where the strips begin. `--rail-top-min` is the
+     shell's own answer to where the panel starts, and it is measured; the map
+     fits 768x355 instead of 768x391, the strips sit below it with nothing
+     under them, and the panel keeps its 280 (B8). It settles in two frames:
+     the rectangle sets the drawn height, the drawn height sets the floor, the
+     floor sets the rectangle, and `min(...)` at each step makes that a
+     contraction.
+
+     This also makes LAYOUT_BUDGET B6 answerable. "The drawn map must cover
+     80% of the plate rectangle" was measuring the map against a rectangle a
+     third of which was behind a panel — 35% at 390x844 — and no amount of
+     work by P02 could have moved that number. */
+  #app[data-rail="sheet"][data-dossier="open"] .stage__map,
+  #app[data-rail="sheet"][data-sheet="open"] .stage__map,
+  #app[data-rail="sheet"][data-dossier="open"] .stage__over,
+  #app[data-rail="sheet"][data-sheet="open"] .stage__over {
+    inset-block-end: max(
+      calc(var(--key-h) + var(--dock-h)),
+      calc(var(--stage-top, 0px) + var(--stage-height, 0px) - var(--rail-top-min, 0px)
+           + var(--key-h) + var(--dock-h)));
+    /* AND THE RECTANGLE IS A RECTANGLE. Measured at 768x1024 with the rule
+       above in place: `.stage__map` was 768x355 and the map drew a 768x391
+       canvas into it with an inline height of its own, overflowing the box by
+       36px — the exact 36 the control dock stands in. The plate is the shell's
+       box and it clips; the map's answer to a shorter rectangle is P02's own
+       instruction in LAYOUT_BUDGET SS7 — "zoom to fill and crop the Pacific
+       rather than letterbox" — and until it does, the 36px this crops is the
+       Southern Ocean. Nothing this module owns overflows: the furniture, the
+       hover card and the enlarged plate are all parented into `.app__overlay`
+       and are not descendants of this box. */
+    overflow: hidden;
+  }
+
+  /* THE FOOT STRIPS RIDE THE SEAM OF AN OPEN BOTTOM SHEET.
+     In the sheet band the rail covers the stage's own foot, which is why P17
+     already pins a fixed copy of the ribbon at `--rail-clear`. The dock sits
+     immediately above that copy — one strip's height, not four edited rules —
+     and `min(...)` keeps LAYOUT_BUDGET B10: never above the top of the plate. */
+  #app[data-rail="sheet"][data-dossier="open"] .stage__dock,
+  #app[data-rail="sheet"][data-sheet="open"] .stage__dock {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: min(
+      calc(var(--rail-clear, 0px) + var(--key-h)),
+      calc(100dvh - var(--stage-top, 0px) - var(--dock-h)));
+    /* Above the pinned ribbon (60) and the enlarged phone plate (58); below
+       the transport (62), which is in the masthead in this band anyway. */
+    z-index: 61;
+  }
+}
+
+/* ==================================================== READING MODE ========
+
+   AN AMENDMENT TO docs/LAYOUT_BUDGET.md B1, stated in full in
+   docs/RESPONSIVE_LAW.md §11.
+
+   B1 gives the plate 50–64 % of the viewport. It is right, and it is a rule
+   about the COLD PLATE, where the plate is the subject of the page. It was
+   being applied unchanged inside a mounted lesson beat, where the subject of
+   the page is a beat — and for twelve of the twenty-five steps of the authored
+   path the beat's whole argument is prose in a panel while the plate holds a
+   polygon doing nothing.
+
+   MEASURED at 390x844 on `#tour=thirty&step=18` — Dyer and Tagore at Amritsar,
+   the app's C6 beat — on the build immediately before this block:
+
+     .app__lede          390x110
+     .stage__map         390x72     a static Punjab
+     .legend__pin        390x32     a colour key for 72px of map
+     .app__sheet         390x378
+       .cx-sheet__head   390x37
+       .tr-panel__scroll 390x226   holding 2,154px  =  9.5 SCREENFULS
+       .tr-panel__foot   390x53
+       .cl-blk           390x33
+     .app__time          390x184    2.4x the window the lesson is read through
+
+   Four lines of prose at a time, with a mask fading a sentence at the top edge
+   and another at the bottom. Three phone rounds named it as the one defect
+   that decides whether a fifteen-year-old finishes the lesson on a bus.
+
+   THE ARITHMETIC, at 390x844, both ways. The beat declares which column it is
+   in (`<html data-tour-fit>`, published by tours from the step's own kind, an
+   authored `"fit"` field, or the student's press on the panel's `Map`); the
+   shell resolves it, defaults an un-flagged beat to `text`, and publishes
+   `#app[data-read="on"|"off"]`.
+
+     data-read="off"  (the map is the argument)   data-read="on"  (reading)
+     bar        46                                bar        46
+     lede      110                                lede      110
+     MAP       192   22.7 %                       MAP        44   a peek strip
+     ribbon     32                                ribbon      0   it returns
+     panel     280   B8's FLOOR, 33.2 %           panel     600   71.1 %
+     time      184                                time       44   the year line
+              ----                                          ----
+               844                                           844
+
+   Nothing disappears and nothing floats. The plate is a 44px strip of the
+   place the beat is about — 44 because the strip IS the control that restores
+   the band, and WCAG 2.2 SC 2.5.5 is 44 — and the panel's own foot carries
+   `Map`, in the thumb zone beside Next, which restores both strips in one
+   press. The colour ribbon stands down WITH the map it keys, because a key to
+   eight colours over 44px of coastline is a key to nothing; it comes back in
+   the same press. The time control keeps the year and the axis, so the student
+   always knows when they are and can still scrub.
+
+   D4 of docs/RESPONSIVE_LAW.md (the drawn map's band) is amended by this, and
+   only in this state: `>= 360x40` while `data-read="on"`, `>= 360x176`
+   otherwise, and one press moves between them. D1 (nothing floats on the
+   plate), D5 (the panel is never under 280), D6 (the strips start where the
+   map ends) and D7 (no document scroll) are untouched and still hold.
+   `tools/scenarios/read.js` is the executable form and it fails the build if
+   the readable panel drops under its floor.
+   ========================================================================== */
+
+@media (min-width: 40rem) { :root { --read-any-min: 20rem; } }
+
+@media (max-width: 61.999rem) {
+  /* THE THREE ROWS THE READING TAKES ITS PIXELS FROM, and nowhere else. Every
+     one of them is a shell row with a shell token; not one pixel comes out of
+     the beat's own prose, out of the lede band that carries the beat's opening
+     sentence, or out of B8's 280px floor under the panel. */
+  #app.app[data-read="on"] {
+    --key-h: 0px;
+    --map-min: var(--read-peek-h, 2.75rem);
+  }
+  /* THE TIME CONTROL IS THE THIRD CLAIMANT AND IT HAS ITS OWN SWITCH.
+     ROUND 3. `--time-h` was inside the block above, so it stood down with the
+     plate and only with it — and in the `map` state BOTH apparatus rows stood
+     at full size while the panel sat on B8's 280px floor. Measured at 390x844
+     on the build round 3 reviewed: the poster 208 of map + 184 of time + 280
+     of panel = a 128px reading window holding 681px, with the beat's own guess
+     input 400px below the fold on stop 1 of 15; the spine 128 holding 735; the
+     exits 129 holding 533.
+
+       #app[data-beatwork]           a mounted lesson surface is on screen
+       #app[data-timeband="line"]    ...and its subject is not the time control
+
+     The band has three claimants and exactly one subject. Whichever it is, the
+     other two stand down to a strip that is also the control that restores
+     them. `data-timeband` is absent on the cold plate, on a dossier, on the
+     comparison and on the map's own key, so nothing outside a lesson moves.
+     docs/RESPONSIVE_LAW.md §11.10. */
+  #app.app[data-timeband="line"] { --time-h: var(--read-time-h, 2.75rem); }
+  /* `--dock-h` IS NOT ON THAT LIST, and the omission is the rule. The control
+     dock carries the four definitions of "British" — the best single idea in
+     this application, and the thing rule Q4 of `shell-accept.js` exists to
+     protect. Measured at 768x1024 with `--dock-h` forced to 0 in this state:
+     all four segments hit-tested as BLOCKED, which is round 3's defect in a
+     new place. It keeps its 36px row under the peek strip wherever it is
+     rendered, and the panel pays for it — at 768x1024 the panel has 742
+     pixels to pay it from. At 390 the dial is not on the plate at all
+     (chrome.css §E, RESPONSIVE_LAW §5), `data-dockfoot` is `off`, and the
+     strip costs a phone nothing. */
+
+  /* THE COLOUR RIBBON GOES WITH THE MAP IT KEYS.
+     `display: none` rather than a zero height: `.stage__key` carries a
+     hairline top border and 1rem of inline padding, so at `--key-h: 0` it
+     still paints a 390x1 rule across the foot of a 44px plate and still holds
+     a horizontal scroll region no thumb can use. P17 renders the strip TWICE
+     below 62rem (its own slot, and a `position: fixed` copy the moment a rail
+     opens); both are named because either can be the live one. It is enforced
+     from here rather than asked for, exactly as chrome.css SS-E does, and it
+     is one press from coming back. */
+  #app[data-read="on"] .stage__key,
+  #app[data-read="on"] .legend__pin { display: none; }
+
+  /* AND THE BAND'S OWN AIR IS HALVED, which is the last shell pixel in the
+     sheet band this mode can find. `.app__lede` is `auto` here and carries
+     8px above and below a sentence that already has its own leading; in
+     reading mode it carries 4. Measured at 390x844 on the Amritsar beat, this
+     line and the `.cx-cta` flow margin beside it (chrome.css) are 24px, and
+     all 24 land in the reading window. Everything else in the band is either
+     the beat's own prose, another module's block (RESPONSIVE_LAW §11.6) or a
+     touch target that may not shrink. */
+  #app[data-read="on"] .app__lede { padding-block: var(--space-2xs, .25rem); }
+
+  /* THE PANEL TAKES THE BAND.
+     The shared rule two blocks up sizes the bottom sheet
+     `clamp(--cx-sheet-min, min(58dvh, 30rem), <what is left>)`, and the middle
+     term is a CEILING: at 390x844 it is 480 and at 768x1024 it is 480, so a
+     band with 600 or 786 to give would still have handed the lesson 480. That
+     ceiling is right for a reference sheet a reader opened over a map they
+     were reading, and wrong for the lesson itself. In reading mode the panel
+     is the page: it takes what is left, floored at B8's 280 so a very short
+     window cannot squeeze it, and nothing else. */
+  #app[data-beatwork][data-rail="sheet"] .app__sheet,
+  #app[data-beatwork][data-rail="sheet"] .app__dossier {
+    /* the same floor, and for the same reason: B8's 280 is the surface */
+    block-size: max(var(--cx-sheet-floor, calc(var(--cx-sheet-min, 17.5rem) + var(--rule-fine, 1px))),
+      calc(100dvh - var(--sheet-clear) - var(--rail-top-min, 11rem)));
+  }
+  /* The remainder comes out of the READING WINDOW and not out of the panel, so
+     the leftover lands inside the panel's own surface, under its last block,
+     and never as a seam of bare stage between the peek strip and the sheet's
+     head. `.cx-sheet__body` is the `1fr` row of `.cx-sheet`, so a max on it
+     shrinks the scroller inside it by exactly the same amount. */
+  #app[data-beatwork] .cx-sheet__body { max-block-size: calc(100% - var(--read-trim, 0px)); }
+
+  /* `--read-trim` IS THE REMAINDER, AND IT IS THE WHOLE OF THE BOTTOM EDGE.
+     A reading window whose height is not a whole number of line boxes cuts its
+     last line through the x-height, and a mask over the edge fades the cut
+     rather than removing it. Measured at 390x844 on `#tour=core&step=9`: "on
+     the 1914 map took twenty years of treaties" clipped at the bottom on first
+     paint, and "What can it NOT tell you?" clipped after a flick. The shell
+     measures the commonest line box in the window's own live layout (a Range
+     over its contents returns one rectangle per line box, so this is the type
+     as it is actually set, not a token), divides, and gives the remainder back
+     — at most one line minus a pixel, and usually a third of one. The top edge
+     is answered by the same arithmetic from the other end: after a scroll
+     settles the shell moves `scrollTop` to the nearest line boundary, which is
+     at most half a line. docs/RESPONSIVE_LAW.md §11.5.
+     chrome/index.js `_syncLineGrid`. */
+
+  /* ONE SCROLL REGION, NOT THREE.
+     Measured at 390x844 on step 18: `.tr-panel__scroll` (226/2,154) inside
+     `.sheet__body` (377, `overflow: hidden auto`) inside `.app__dossier` (379,
+     `overflow: hidden auto`) — three touch scroll regions stacked inside one
+     panel, and a thumb flick landed in whichever one the 30px band under it
+     belonged to. Only the innermost has content to scroll, so the outer two
+     are pure hazard: they cost a student a flick that does nothing and they
+     let a mid-flick chain hand the gesture to a region with no fade on it.
+     In reading mode the rail's two containers clip and the beat's own scroller
+     is the only one. `read.js` rule R4 asserts the count is exactly 1. */
+  #app[data-beatwork] .sheet__body { overflow: hidden; }
+  /* `.cx-sheet__body` clips ONLY when the beat panel inside it manages its own
+     height. A Complication Gate renders `.qz` straight into this body with no
+     scroller of its own, so here the body IS the one scroller and clipping it
+     would cut the gate's own answer buttons off — measured at 390x844 on step
+     14, `.qz` is 358x527 and the body would have been 547. Either way the
+     count is one. */
+  #app[data-beatwork] .cx-sheet__body:has(.tr-panel, .cl-close__scroll, [data-read-window]):not(:has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-close):not(.cl-blk):not([data-read-window]))) { overflow: hidden; }
+  /* AND THE SECOND HALF OF THE SELECTOR IS THE ONE ROUND 3 SHIPPED WITHOUT.
+     The premise of the clip is "the surface in this body brings its own
+     scroller", and it is true of every surface the first half names — until
+     ANOTHER PIECE APPENDS A BLOCK OF ITS OWN BESIDE IT. `viz/index.js` appends
+     `.viz-onpath` — the counted figure that carries T3, T8 and T14 onto the
+     path — as a SIBLING of `.tr-panel` inside this body, outside
+     `.tr-panel__scroll`, so the clip cut it off with nothing to scroll it.
+     MEASURED at 390x844 on `#tour=core` step 3, the Barbados beat: this body
+     computed `overflow-y: hidden` with scrollHeight 1,256 in clientHeight 578;
+     `.tr-panel__scroll` held 908 in 481 and ended at "The full record for
+     Barbados"; `.viz-onpath` was 358x658 at y=764 and its "Commit this guess"
+     at y=1,388 in an 844px window WITH NO SCROLLABLE ANCESTOR — eight wheel
+     events over the sheet moved scrollTop 0 -> 0. The figure was unreachable
+     at the app's own primary phone viewport and nowhere else: at 844x390,
+     900x700, 1366x768 and 1440x900 this body is a scroller and always was.
+     `tours.css` §THE GUARD had already reached the same conclusion for its own
+     flex arrangement in as many words — "anything else and the body goes back
+     to being a scroller, which is the honest answer when there is more in it
+     than can be shown" — and this rule, written later and at higher
+     specificity, was quietly overruling it. It now says the same thing: the
+     body clips only while every child in it is a surface of the lesson that
+     manages its own height. The allow-list is that sentence, not a list of
+     exceptions: `.tr-panel`, `.tr-gate` and `.tr-dispute` are tours', `.cl-close`
+     is P21's, `.cl-blk` is P21's 33px through-line spine (RESPONSIVE_LAW §6/§7)
+     and `[data-read-window]` is the published contract of §11.5.
+     `budget-working.js` W18 asserts the consequence — every ON_PATH figure's
+     commit control inside something that scrolls to it — at 390x844 and
+     844x390, because no rule in this repository could see it.
+     docs/RESPONSIVE_LAW.md §11.5B. */
+  /* THE SELECTOR NAMES EVERY SURFACE THAT BRINGS ITS OWN SCROLLER, and the
+     Close is the one this round added. Measured at 390x844 with the Close
+     open: `.cl-close__scroll` held 6,332px inside a `.cx-sheet__body` that was
+     itself `overflow: auto` — two touch scroll regions, the outer one with
+     nothing in it to move. On a recall card and on a Complication Gate there
+     is no inner scroller and the body IS the one region, which is why the
+     rule is scoped rather than unconditional. `[data-read-window]` is the
+     published contract: any piece may name its own reading window with it and
+     this rule and `chrome/index.js _readingWindow` will both find it.
+     docs/RESPONSIVE_LAW.md §11.5. */
+  /* THE DOSSIER ONLY WHEN THE BEAT IS IN IT. The rail has two surfaces and a
+     beat can be rendered into either; the one holding the beat must clip, and
+     the OTHER one must not, because it is a full territory dossier with its
+     own 2,110px of reading. Measured with this rule unscoped: the dossier
+     stacked behind the sheet held 2,110px in a 578px box with `overflow:
+     hidden`, so the moment a student closed the beat panel the dossier was cut
+     off at its fourth block with no way to reach the rest. */
+  #app[data-beatwork] .app__dossier:has(.tr-panel) { overflow: hidden; }
+
+  /* THE WHOLE STRIP IS ONE TARGET, AND NOTHING ON IT COMPETES.
+     `.stage__over` is the map's overlay slot and it is a SIBLING of
+     `.stage__map` at `z-index: 10`, so everything drawn in it — the data
+     layers' marks and their hit circles — paints above the plate and above
+     anything inside it, whatever z-index that thing asks for: `.stage__map`
+     is `z-index: 0` and therefore its own stacking context, and a child of it
+     cannot climb out. Measured at 390x844 on step 4, Bussa's rebellion, with
+     the peek button at z 12 inside the plate: `elementFromPoint` at the
+     strip's own centre returned `circle.ly-hit`, three of them stacked, and
+     the one control the strip exists to be was unreachable at exactly the
+     beats that draw marks.
+
+     In reading mode the layers still PAINT — a 44px strip carrying the beat's
+     own marks says more about where the student is than a bare coastline —
+     and they take no pointer. There is one target on the strip and it is the
+     strip.
+
+     AND IT IS A DESCENDANT SELECTOR, WHICH IT HAS TO BE. Three levels of child
+     selector were tried first — `.stage__over`, `> *`, `> .mount--sub > *` —
+     and the marks were still the topmost thing at the strip's own centre,
+     because `layers.css` sets `pointer-events: all` on `.ly-hit` itself, four
+     levels down, and a rule on an ancestor cannot out-declare a rule on the
+     element. `#app[data-read="on"] .stage__over *` is (1,2,0) against (0,1,0),
+     which is the same argument LAYOUT_BUDGET B9 makes about the grid: a
+     component may not quietly win a rule the shell has stated. */
+  #app[data-read="on"] .stage__over,
+  #app[data-read="on"] .stage__over * { pointer-events: none; }
+  #app[data-read="on"] .app__stage { cursor: default; }
+}
+
+/* 40rem to 62rem: a tablet in portrait and a half-height laptop window. The
+   window is wide enough that 152 phone pixels of world would be a strip, and
+   at 768x1024 there are 1024 of them to spend: 48 bar + 110 lede + 300 map +
+   36 dock + 32 ribbon + 314 panel + 184 time. Measured before this pass, the
+   same window drew a 768x174 map into a 768x654 plate and put the transport,
+   the zooms and the ribbon inside the 202px the sheet left of it. */
+@media (min-width: 40rem) and (max-width: 61.999rem) {
+  :root { --map-min: 18.75rem; }   /* 300 */
+}
+/* 40rem+ and short: 900x700, a landscape tablet, a half-height laptop window.
+   The rail is a side COLUMN here, so the sheet never covers the stage and
+   `--map-min` is not the binding constraint — the grid is. It is stated all
+   the same, because the clamp is what protects the plate if a piece ever opens
+   a bottom sheet in this band. */
+@media (min-width: 40rem) and (max-width: 61.999rem) and (max-height: 45.999rem) {
+  :root { --map-min: 20rem; }      /* 320 */
+}
+
+/* ================================================ THE LANDSCAPE BAND ======
+
+   docs/RESPONSIVE_LAW.md §12. A phone turned sideways is 844x390, and every
+   height step in this file stopped at 700px. Nothing below it had ever been
+   measured, and the rows do not sum.
+
+   MEASURED on the running app at 844x390, cold-loaded into `#tour=core&step=9`
+   and again at steps 1, 4 and 11, with `node tools/inspect.js`:
+
+     bar 48 + lede 68 + stage minmax(15rem,1fr) + time 136 + foot 26 = 518
+
+   of a 390px window. `#app.app` is `height: 100dvh; max-height: 100dvh;
+   overflow: hidden` and `--stage-min` is 240, so 128 pixels of the layout were
+   laid out below the fold of a page that DOES NOT SCROLL (`docScroll: 0`):
+
+     .app__sheet         540,48   304x470   bottom at 518
+     .tr-panel__foot     541,404  303x53    `more of this beat · Map · Next`
+     .tr-panel__next     541,724  104x44    the 44px twin of Next
+     .cl-blk             557,469  271x33    the through-line, all six clauses
+     .cl-blk__finish     468,792   38x36    `Finish`
+     .app__time          0,356    540x136   bottom at 492
+     .app__foot          0,492    540x26    entirely below the fold
+
+   The beat's own action bar, the through-line and `Finish` were unreachable by
+   thumb, by mouse and by scroll. And on the two beats whose Next carries a
+   word (`Write the four lines ↓`, `Say what each knew ↓`) the transport asked
+   for 212–221px of a 144px reserved box, so `.tr-bar__next` was drawn outside
+   `.bar__dock` and hit-tested as BLOCKED by `.bar__more`. In landscape the
+   lesson could not be advanced and it could not be finished.
+
+   THE RULE, and it is the same rule §11 states for the sheet band, said about
+   the other axis: **below 460px of viewport height the five rows are re-cut so
+   that they sum to the window, and every stratum that leaves has a named
+   home.** 460 and not 400: an iPhone 14 Pro Max in landscape is 430 tall, and
+   a rule that catches four phones and not the fifth is not a rule. Nothing at
+   or above 46rem tall is touched, so 900x700, 1024x600 and every window this
+   file already measured are unchanged.
+
+   THE ARITHMETIC, at 844x390, with a beat mounted and the rail open:
+
+     bar        44   the mark, Layers, the transport, Tools
+     lede       68   AUTO — the beat's own opening sentence, never clipped
+     STAGE     216   of which the colour ribbon is 28: a 540x188 plate
+     time       62   the year, the spine's reading, the transport, the axis
+     foot        0   `#app[data-foot="off"]` — P21 already reads it (§7)
+              ----
+               390
+
+   `--lede-h` is `auto` here for the same reason it is `auto` in the sheet
+   band: a sentence cut mid-word teaches nothing (LAYOUT_BUDGET §4), so the
+   band takes what its sentence needs and the plate — the 1fr row — pays. The
+   plate's floor is 7.5rem, which is the smallest band that still reads as a
+   world rather than as a strip, and it never binds at 390: the sentence would
+   have to run to seven lines.
+
+   What leaves the time control, and where it went, is timeline.css
+   §LANDSCAPE. What leaves the footer does not leave the app: `.app__foot` is
+   `display: none` here exactly as it is in the sheet band, the shell measures
+   `#app[data-foot="off"]` from that, and P21 already renders the through-line
+   as the panel's own last block in that state (RESPONSIVE_LAW §6, §7).
+
+   `#app[data-vband="short"|"tall"]` is written by app/js/chrome/index.js from
+   exactly the media condition below. If you change one, change both.
+   ========================================================================== */
+
+@media (max-height: 460px) {
+  :root {
+    --bar-h: 2.75rem;            /* 44 */
+    --lede-h: auto;              /* the beat's sentence; the plate is the 1fr */
+    --time-h: 5.5rem;            /* 88 — timeline.css §LANDSCAPE, measured    */
+    --foot-h: 0px;
+    --key-h: 1.75rem;            /* 28 */
+    --stage-inset: 0.375rem;
+    --stage-min: 7.5rem;         /* 120 */
+    --map-min: 7.5rem;
+    /* 36 in a 44px bar. The box is the transport's and the bar is 8px of air
+       around it; at 2.5rem the counter's own line box overhung the masthead's
+       bottom rule by 2px at 844x390. */
+    --dock-step-box-h: 2.25rem;
+  }
+  /* The provenance strip has no room and says so, in the one form a piece can
+     test. Identical to the sheet band's rule, for the identical reason. */
+  .app__foot { display: none; }
+  /* `auto` with no padding welds the sentence to the plate's top edge; 4px is
+     what reading mode itself leaves the band in the sheet band (§11.3). */
+  #app .app__lede { padding-block: var(--space-2xs, .25rem); }
+  /* The tools sheet drops out of the masthead into a 390px window, so its own
+     ceiling has to know the time control shrank with everything else. */
+  #app[data-bar="stack"] .bar__tools { max-block-size: calc(100dvh - var(--bar-h) - var(--time-h) - 0.5rem); }
+}
+
+/* THE RESERVED BOX IS WIDER HERE, AND THE MEASUREMENT IS WHY.
+   9rem is right below 46rem, where the bar is 390px wide and the box is 37 %
+   of it. In landscape the bar is 844 and the box was still 144, so the two
+   beats whose Next keeps its word — a Complication Gate refusing to move, and
+   tours.css §176 says in as many words that a control which is REFUSING must
+   never lose its label — overflowed it: measured at 844x390, Back 31 +
+   counter 66 + Next 114 = 211 on step 9 and 221 on step 11, drawn past the
+   box's right edge and covered by `.bar__more`. 17.5rem holds the widest of
+   them with 59px to spare, and the masthead still has room: mark 28 +
+   wordmark 145 + Layers 97 + box 280 + Tools 68 = 618 of 844.
+   Scoped to the landscape band on purpose — 768x1024 and 900x700 are
+   `budget-working.js` W15's windows and this pass does not move them. */
+@media (min-width: 40rem) and (max-height: 460px) {
+  :root { --dock-step-box-w: 17.5rem; }
+  /* AND THE WORDMARK STANDS DOWN FOR THE LESSON, exactly as it does under
+     46rem and for the same arithmetic read off the other axis. Measured at
+     740x360 mid-lesson before this rule, `budget-working.js` W8 and W15:
+     `.app__bar > .brand__title` — "The British Empire" — was CUT BY 48px, and
+     `.bar__slot--main` overflowed its own box by 8. The bar at 740 was being
+     asked for mark 28 + wordmark 145 + "AN INTERACTIVE ATLAS" 150 + Layers 97
+     + "Explore on my own" 110 + the 280px box + Tools 68 = 878 of 740. The
+     wordmark is identification; the box is the lesson. 583 of 740 after, and
+     nothing is cut. On the cold plate, where there is no transport and no box,
+     the wordmark stays. */
+  #app[data-dock="docked"][data-path="on"] .brand__text { display: none; }
+}
+
+/* The system preference, unless the reader has explicitly asked for full motion. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) #app.app,
+  :root:not([data-motion="full"]) .app__dossier,
+  :root:not([data-motion="full"]) .boot,
+  :root:not([data-motion="full"]) .boot__rule-fill { transition: none !important; }
+}
+:root[data-motion="reduced"] #app.app,
+:root[data-motion="reduced"] .app__dossier,
+:root[data-motion="reduced"] .boot,
+:root[data-motion="reduced"] .boot__rule-fill { transition: none !important; }
+
+/* ============================================================= boot state == */
+
+.boot {
+  position: fixed; inset: 0;
+  z-index: var(--z-boot);
+  display: grid; place-items: center;
+  padding: var(--space-xl, 1.5rem);
+  background: var(--surface-page, #f8f5f0);
+  color: var(--text-body, #241f19);
+  text-align: center;
+  transition: opacity var(--dur-slow, 360ms) var(--ease-out, ease),
+              visibility 0s linear var(--dur-slow, 360ms);
+}
+.boot[data-state="gone"] { opacity: 0; visibility: hidden; pointer-events: none; }
+.boot[hidden] { display: none; }
+
+.boot__inner { max-width: 36rem; }
+.boot__eyebrow {
+  margin: 0 0 var(--space-md, .75rem);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-micro, .75rem);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--text-min, rgba(0,0,0,.5));
+}
+.boot__title {
+  margin: 0;
+  font-family: var(--font-serif, ui-serif, Georgia, serif);
+  font-size: clamp(2rem, 6vw, var(--fs-plate, 3.8125rem));
+  font-weight: var(--w-semibold, 600);
+  line-height: var(--lh-tight, 1.14);
+  letter-spacing: var(--tr-plate, -.022em);
+  color: var(--text-heading, inherit);
+}
+.boot__blurb {
+  margin: var(--space-md, .75rem) auto 0;
+  max-width: 34ch;
+  font-size: var(--fs-prose, 1.0625rem);
+  line-height: var(--lh-prose, 1.62);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+  text-wrap: balance;
+}
+
+.boot__loading { margin-top: var(--space-2xl, 2rem); }
+.boot__rule {
+  height: 2px; width: min(18rem, 60vw); margin: 0 auto;
+  background: var(--border-default, rgba(0,0,0,.16));
+  overflow: hidden;
+}
+.boot__rule-fill {
+  display: block; height: 100%; width: 0%;
+  background: var(--accent, #ae3d35);
+  transition: width var(--dur-normal, 220ms) var(--ease-out, ease);
+}
+.boot__status {
+  margin: var(--space-md, .75rem) 0 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-small, .875rem);
+  color: var(--text-min, rgba(0,0,0,.55));
+  min-height: 1.4em;
+}
+/* THE PROMISE. A school laptop on a school network is the target machine, and
+   the one thing a reader cannot see for themselves while a screen says
+   "loading" is that nothing is being fetched from anywhere. It is the app's
+   actual architecture (BRIEF rule 2), so it is worth the two lines. */
+.boot__promise {
+  margin: var(--space-xl, 1.5rem) auto 0;
+  max-width: 52ch;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.45);
+  color: var(--text-min, rgba(0,0,0,.45));
+  text-wrap: balance;
+}
+.boot__slow {
+  margin: var(--space-lg, 1rem) auto 0;
+  max-width: 56ch;
+  padding-block-start: var(--space-md, .75rem);
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.12));
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.45);
+  color: var(--text-secondary, rgba(0,0,0,.65));
+  text-wrap: pretty;
+}
+.boot__slow[hidden] { display: none; }
+
+.boot[data-state="error"] .boot__loading { display: none; }
+.boot[data-state="error"] .boot__error { display: block; }
+.boot__error {
+  display: none; text-align: start;
+  margin-top: var(--space-2xl, 2rem);
+  padding-top: var(--space-xl, 1.5rem);
+  border-top: var(--rule-heavy, 3px) solid var(--danger, #99342b);
+}
+.boot__error-kicker {
+  margin: 0 0 var(--space-xs, .375rem);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-micro, .75rem);
+  font-weight: var(--w-semibold, 600);
+  letter-spacing: var(--tr-caps-wide, .13em);
+  text-transform: uppercase;
+  color: var(--danger, #99342b);
+}
+.boot__error-title {
+  margin: 0 0 var(--space-sm, .5rem);
+  font-family: var(--font-serif, serif);
+  font-size: var(--fs-h4, 1.375rem);
+  font-weight: var(--w-semibold, 600);
+  color: var(--text-heading, inherit);
+}
+.boot__error-msg {
+  margin: 0 0 var(--space-md, .75rem);
+  font-size: var(--fs-prose, 1.0625rem);
+  color: var(--danger, #99342b);
+}
+.boot__error-detail {
+  margin: 0 0 var(--space-md, .75rem);
+  padding: var(--space-md, .75rem);
+  max-height: 11rem; overflow: auto;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: var(--fs-micro, .75rem); line-height: 1.5;
+  color: var(--text-secondary, inherit);
+  background: var(--surface-well, rgba(0,0,0,.05));
+  border: var(--rule-fine, 1px) solid var(--border-soft, rgba(0,0,0,.12));
+  border-radius: var(--radius-sm, 2px);
+  white-space: pre-wrap; word-break: break-word;
+}
+.boot__error-help {
+  margin: 0 0 var(--space-lg, 1rem);
+  font-size: var(--fs-small, .875rem);
+  line-height: var(--lh-prose, 1.6);
+  color: var(--text-secondary, rgba(0,0,0,.7));
+  max-width: var(--measure, 66ch);
+}
+.boot__error-fallback {
+  margin: var(--space-lg, 1rem) 0 0;
+  padding-block-start: var(--space-md, .75rem);
+  border-top: var(--rule-hair, .5px) solid var(--border-soft, rgba(0,0,0,.12));
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-caption, .8125rem);
+  line-height: var(--lh-ui, 1.45);
+  color: var(--text-min, rgba(0,0,0,.5));
+  max-width: var(--measure, 66ch);
+}
+.boot__error-fallback code { font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: .95em; }
+.boot__actions { display: flex; gap: var(--space-sm, .5rem); flex-wrap: wrap; }
+/* base.css gives `.btn` a `display`, which beats the UA's `[hidden]` rule —
+   measured: "Open it anyway" was on screen in every error state, including the
+   ones it cannot help with, wired to nothing. */
+.boot [hidden] { display: none !important; }
+
+/* The error boundary is a page of prose, not a dialog: it reads from the left
+   at a measure, on the same paper as the atlas. Centering it would make it look
+   like a crash screen, and a crash screen tells a fifteen-year-old the app is
+   broken rather than that one thing in it is. */
+.boot[data-state="error"] .boot__inner { max-width: 44rem; text-align: start; }
+.boot[data-state="error"] .boot__eyebrow,
+.boot[data-state="error"] .boot__blurb { display: none; }
+.boot[data-state="error"] .boot__title { font-size: var(--fs-h2, 2rem); }
+
+/* .btn comes from base.css. These zero-specificity rules only fill in if the
+   design system has not loaded, so the error boundary is never unusable. */
+:where(.boot .btn) {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--fs-small, .875rem);
+  padding: .5em 1.1em;
+  color: var(--text-body, inherit);
+  background: var(--surface-panel, transparent);
+  border: 1px solid var(--border-firm, rgba(0,0,0,.3));
+  border-radius: var(--radius-md, 3px);
+}
+:where(.boot .btn--primary) {
+  background: var(--accent-ink, #8a2b26);
+  color: var(--ink-invert, #fbf8f3);
+  border-color: transparent;
+}
+
+/* ---------------------------------------------------------------- noscript */
+
+.noscript {
+  max-width: var(--measure, 66ch);
+  margin: 0 auto;
+  padding: var(--space-3xl, 3rem) var(--space-lg, 1rem);
+  font-size: var(--fs-prose, 1.0625rem);
+  line-height: var(--lh-prose, 1.62);
+}
+.noscript h1 {
+  font-family: var(--font-serif, ui-serif, Georgia, serif);
+  font-size: var(--fs-h2, 2rem);
+  line-height: var(--lh-tight, 1.14);
+  letter-spacing: var(--tr-display, -.016em);
+  margin: 0 0 var(--space-lg, 1rem);
+}
+.noscript p { margin: 0 0 var(--space-md, .75rem); }
+.noscript code { font-family: var(--font-mono, ui-monospace, Menlo, monospace); font-size: .9em; }
+
+/* ================================================== unclaimed mount slots == */
+/* Visible only while the atlas is being built (main.js sets data-dev on #app). */
+
+/* An orphan mount — a module whose `slot` names no element in this document —
+   is created in the overlay layer so the module still gets a real root. It must
+   not be laid out over the app: measured at 390x844, three of them printed
+   their dev labels across the masthead. They stack in a column at the foot of
+   the overlay, out of the reading area and out of the pointer's way. */
+.mount--orphan {
+  position: absolute;
+  inset-inline-start: var(--space-sm, .5rem);
+  inset-block-end: calc(var(--time-h) + var(--space-sm, .5rem));
+  max-inline-size: calc(100% - 2 * var(--space-sm, .5rem));
+  pointer-events: none;
+}
+.mount--orphan > * { pointer-events: auto; }
+.mount--orphan:empty { inline-size: max-content; }
+
+.app[data-dev] [data-mount]:empty::after {
+  content: attr(data-mount);
+  display: block;
+  padding: .35em .6em;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: var(--fs-micro, .6875rem);
+  letter-spacing: .04em;
+  color: var(--text-min, rgba(0,0,0,.45));
+  border: 1px dashed var(--border-default, rgba(0,0,0,.2));
+  border-radius: var(--radius-sm, 2px);
+  opacity: .75;
+}
+.app[data-dev] .stage__map:empty { display: grid; place-items: center; }
+.app[data-dev] .stage__over:empty::after { display: none; }

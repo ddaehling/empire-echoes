@@ -1,0 +1,1761 @@
+/* =============================================================================
+   LEGEND, SYMBOLOGY AND MAP LITERACY — P17
+   Owner: the legend agent. Consumes docs/DESIGN.md tokens only: no texture is
+   invented, no second grey exists, and no hex is typed in this file — with ONE
+   fenced exception, §0 below, which re-weights the ten night map fills so that
+   ink tracks degree of control. It belongs in tokens.css and says so; it is
+   here because this piece owns what a status colour MEANS and could not ship a
+   theme in which the least coercive status was the loudest mark on the plate.
+
+   Two surfaces: the key (bottom-left of the stage) and the byline (top-left,
+   in the stage-note slot, shared with other modules — this file styles only
+   #legend-byline and its descendants).
+   ========================================================================== */
+
+/* =============================================================================
+   §0  THE NIGHT WEIGHTING — INK TRACKS DEGREE OF CONTROL
+
+   It is NOT in this file, and the reason is a measurement. app/css/legend.css is
+   loaded by this piece's own module with `loadCss`, and the shell mounts the map
+   before the legend; map/index.js reads the ten status fills out of the computed
+   style ONCE at mount and re-reads them only when `data-theme` or the system
+   colour scheme changes. A re-weighting declared here therefore repainted the
+   ribbon and left the plate above it on the old palette — verified in the
+   browser at 1366x768 --dark, with the strip saying one thing and the map
+   saying another, which is the one failure mode a key may never have.
+
+   So it is declared from `app/js/legend/symbology.js`, synchronously, at module
+   evaluation — before any module mounts. See NIGHT_WEIGHTING there for the
+   defect, the rule, the ten values and the CIEDE2000 / colour-vision audit.
+   ========================================================================== */
+
+/* ============================================================== the mark == */
+
+/* A drawn plate patch: the fill, the engraved texture over it, the coastline
+   round it. The map draws exactly this; the legend is not a separate design. */
+.sym {
+  --sym-fill: var(--surface-page);
+  --sym-stroke: var(--map-coast);
+  display: inline-block;
+  flex: none;
+  /* Big enough that a 6px engraved repeat shows four or five strokes: on a
+     20px chip the hatch that separates two tier-B fills is nearly invisible,
+     and the texture is what a colour-blind student is reading. */
+  inline-size: 1.75rem;
+  block-size: 1.2rem;
+  margin-block-start: 0.1rem;
+  border: var(--rule-fine) solid var(--map-coast);
+  border-radius: var(--radius-xs);
+  background-color: var(--sym-fill);
+  background-repeat: repeat;
+  forced-color-adjust: none;
+}
+
+.sym[data-tex='rule-h']            { background-image: var(--tex-rule-h); }
+.sym[data-tex='rule-v']            { background-image: var(--tex-rule-v); }
+.sym[data-tex='hatch-45']          { background-image: var(--tex-hatch-45); }
+.sym[data-tex='hatch-135']         { background-image: var(--tex-hatch-135); }
+.sym[data-tex='hatch-135-dense']   { background-image: var(--tex-hatch-135-dense); }
+.sym[data-tex='cross']             { background-image: var(--tex-cross); }
+.sym[data-tex='stipple']           { background-image: var(--tex-stipple); background-size: var(--tex-stipple-size); }
+.sym[data-tex='stipple-coarse']    { background-image: var(--tex-stipple-coarse); background-size: var(--tex-stipple-coarse-size); }
+
+/* Control did not fill the shape: broad bands, ground showing between them. */
+.sym[data-kind='partial'] {
+  background-color: var(--surface-page);
+  background-image: repeating-linear-gradient(45deg,
+      var(--map-crown-conquered) 0 3.5px, transparent 3.5px 7px);
+}
+
+/* No cited figure exists: a dense strike, never a zero. */
+.sym[data-kind='absence'] {
+  background-color: var(--surface-page);
+  background-image: var(--tex-hatch-135-dense);
+}
+
+/* A record destroyed: the coastline and bare paper inside it. */
+.sym[data-kind='silence'] {
+  background-color: var(--surface-page);
+  background-image: none;
+  border-color: var(--map-coast);
+  border-width: var(--rule-mid);
+}
+
+/* Informal empire: no fill and no claimed border, because Britain claimed none. */
+.sym[data-kind='informal'] {
+  background-color: transparent;
+  border-color: transparent;
+  background-image: radial-gradient(circle at 50% 50%,
+      color-mix(in oklab, var(--accent-2) 62%, transparent) 0%,
+      color-mix(in oklab, var(--accent-2) 24%, transparent) 46%,
+      transparent 74%);
+}
+
+/* Selection is an outline, never a change of fill. */
+.sym[data-kind='selected'] {
+  background-color: var(--map-crown-conquered);
+  border-color: var(--map-crown-conquered-stroke);
+  border-width: var(--rule-mid);
+  box-shadow: 0 0 0 1px var(--map-coast);
+}
+
+/* The hairline itself, shown where a coastline actually is: sea above, land
+   below, the ruled line between them. Nothing else in the key looks like this. */
+.sym[data-kind='coast'] {
+  background-color: var(--map-sea);
+  background-image: linear-gradient(to bottom,
+      var(--map-sea) 0 45%,
+      var(--map-coast) 45% calc(45% + 1px),
+      var(--map-never-british) calc(45% + 1px) 100%);
+  border-color: var(--map-coast);
+  border-width: var(--rule-fine);
+}
+
+.sym[data-kind='tenure-none'] { background-color: var(--tenure-none); }
+
+/* STOOD BACK. A layer that paints marks rather than fills — resistance,
+   famine, the network — leaves the rest of the plate drawn in its legal-status
+   colour at half strength. That is a state a reader can see and had no chip
+   for, so the strip said nothing about two hundred of the units on the map.
+   The chip is the plate's own half-alpha, over the paper, so what it names
+   looks like what it names. */
+.sym[data-kind='quiet'] {
+  background-color: var(--surface-page);
+  /* TWO COLOURS, BOTH AT THE PLATE'S OWN HALF STRENGTH. One faded fill read as
+     an eighth status beside "Settler assembly"; two of them, split, read as
+     what it is — the whole key, quieted. The alpha is P02's: `render.js` draws
+     a stood-back unit at `globalAlpha * 0.5`. */
+  background-image: linear-gradient(135deg,
+      color-mix(in oklab, var(--map-crown-conquered) 50%, transparent) 0 50%,
+      color-mix(in oklab, var(--map-protectorate) 50%, transparent) 50% 100%);
+  border-color: color-mix(in oklab, var(--map-coast) 55%, transparent);
+}
+
+.sym[data-kind='unknown'] {
+  background-color: var(--danger-soft);
+  border: var(--rule-fine) dashed var(--danger);
+}
+
+/* =============================================================================
+   THE RIBBON — one line along the foot of the plate, and the whole of this
+   piece at second zero. Contract: LAYOUT_BUDGET §2 (`--key-h` = 28/30/32/34),
+   §3 level 0, §7.
+
+   It has no height of its own: the shell's `.stage__key` is `block-size:
+   var(--key-h)` with `overflow: hidden`, and this fills it. There is no
+   `--legend-max` any more, no measured budget, no order of sacrifice and no
+   arithmetic in index.js that can decide whether a colour exists — because
+   there is nothing here to sacrifice. One sentence, the swatches on the plate
+   now, and one `.cx-more` into the sheet.
+   ========================================================================== */
+
+@media (min-width: 62.01rem) {
+  /* The byline is the only tenant of the stage-note slot, and only at
+     data-stage="apparatus". Four provenance fields at 26rem wrap twice each. */
+  .stage__note { max-inline-size: min(36rem, 40vw); }
+}
+
+.legend--ribbon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-family: var(--font-sans);
+  /* 14px, the size this strip has always been. The one control in it inherits
+     that rather than dropping to `.cx-more`'s 13: a strip 30 pixels tall with
+     two type sizes in it is a strip with a fault in it, and rule V1 caps the
+     whole screen at eight distinct sizes. */
+  font-size: var(--fs-small);
+  line-height: 1.2;
+  color: var(--text-body);
+  /* The strip has no height of its own and may not find one: `.stage__key` is
+     `block-size: var(--key-h)` and this fills it. `overflow: hidden` here is
+     the last line of that promise, and it is stated in this file so that
+     chrome.css §D's transitional shim for P17 can be deleted. */
+  overflow: hidden;
+}
+
+/* THE SENTENCE: "colour = the legal status of British authority in this year".
+   One line, one truncation, its full text on the title. It is first because it
+   is what makes the swatches mean anything. */
+.legend__say {
+  /* NEVER SHRINKS. The swatch list beside it scrolls, so there is no reason for
+     the sentence to be the thing that gets cut: at 1024x640 in 1783 flexbox was
+     taking the shortfall out of both, and a definition sentence truncated to
+     "colour = legal statu…" is a definition that does not teach. */
+  flex: 0 0 auto;
+  min-inline-size: 0;
+  margin: 0;
+  padding-inline-end: var(--space-md);
+  border-inline-end: var(--rule-fine) solid var(--border-soft);
+  font-family: var(--font-sans);
+  font-size: inherit;
+  font-weight: var(--w-semibold);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.legend__say--defect { color: var(--danger); font-weight: var(--w-regular); }
+
+/* The swatches. `min-inline-size: 0` plus the shell's silent horizontal scroll
+   means a narrow window loses the RIGHT-HAND END of the list, never the route
+   out, which is outside this box. */
+.legend__ribbon-list {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* IT SCROLLS RATHER THAN GUILLOTINES. The cap in ribbon.js decides how many
+     swatches are worth offering at this width; this decides what happens when
+     the words at a given year are longer than the cap assumed. A swatch cut
+     through the middle of its word reads as a rendering fault — "Settl" — and
+     that is the one thing a key may never look like. The fade is the
+     affordance: a 30px strip cannot show a scrollbar and must not pretend to.
+     The route out is pinned OUTSIDE this box, so it can never be the thing
+     that scrolls away. */
+  /* ROUND 7: IT NEITHER SCROLLS NOR GUILLOTINES — IT FITS.
+     Rounds 1–6 let the strip scroll sideways under a fade, on the argument that
+     a swatch cut through the middle of its word reads as a rendering fault.
+     That was right about the fault and wrong about the remedy: at 390x844 the
+     fade landed inside "Protectora", under the one control, with five more
+     colours behind it that a phone reader had no way to know existed. The fade
+     was not an affordance, it was the fault with a gradient over it.
+     `fitRibbon()` now decides, from the real width of this box, how many
+     entries can be drawn WHOLE and at which of its three tiers; whatever it
+     cannot draw is `hidden` and counted on the control beside it. Nothing here
+     is ever half-drawn, so there is nothing left for a scroller to rescue. */
+  overflow: hidden;
+  /* The containing block for a chip the fit pass has withdrawn — see the rule
+     under `.legend__rib` below. Nothing else is positioned in here. */
+  position: relative;
+}
+
+/* -----------------------------------------------------------------------------
+   A CHIP THE FIT PASS WITHDREW IS INVISIBLE, NOT UNMEASURABLE.
+
+   ROUND 11 — the classroom critic's printed sheet: "the printed map sheet's key
+   drops the swatch for its last category: 'Settler assembly 3' prints as bare
+   text with no colour box when the key wraps to a second row. A key with an
+   unkeyed category on a sheet handed to 28 students is worse than no key."
+
+   The cause is here, not in the print pack. `teacher/print.js` builds the paper
+   key by reading this strip's own elements and taking the first child whose
+   measured width is between 2 and 40 pixels and whose computed background is
+   not transparent — the swatch. A chip withdrawn by `fitRibbon()` carries the
+   `hidden` attribute, the UA stylesheet gives it `display: none`, and every box
+   inside it measures ZERO, so the swatch failed that test and the row printed
+   with its word and its number and no colour. It is the trailing chips that are
+   withdrawn, which is why it looked like a defect about wrapping.
+
+   `hidden` STAYS — it is the flag this module publishes and half a dozen
+   scenarios read it — and it now means "out of the flow and out of the
+   accessibility tree" rather than "has no box". The chip is `position:
+   absolute` at the list's own origin, so it can add nothing to `scrollWidth`
+   and the fit pass's arithmetic is untouched, and `visibility: hidden` keeps it
+   off the screen and out of the accessibility tree exactly as before.
+----------------------------------------------------------------------------- */
+.legend--ribbon .legend__rib[hidden] {
+  display: inline-flex;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  /* IT MAY NOT WIDEN THE BOX IT IS HIDING IN. Measured at 390x844 on the exit
+     plate without this pair: the widest withdrawn chip is 249px, the list is
+     163px, and an absolutely positioned box at `inset-inline-start: 0` that is
+     wider than its containing block still counts towards `scrollWidth` — so
+     `overruns()` in fitRibbon read 86px of overflow that nothing was drawing,
+     withdrew the last visible chip, read it again, and emptied the strip. Every
+     re-keyed layer showed no colours at all on a phone. Clamped and clipped,
+     the swatch inside is still laid out at its own 22px and still measurable,
+     which is the whole point of the rule. */
+  max-inline-size: 100%;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+.legend__rib {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  white-space: nowrap;
+}
+.legend__rib[hidden] { display: none; }
+
+/* THE THREE TIERS. The word and the count are always in the DOM and always read
+   aloud (ribbon.js clips them with the same rule as `.visually-hidden`); the
+   tier decides only what is painted. `compact` gives up the count, which is in
+   the sheet three inches away; `bare` gives up the word as well, keeps it on
+   `title`, and the one control changes its own label to say so — "Name these 7
+   colours →" beside seven colours is a promise with an address on it, where
+   "Ruled from Lond…" beside a fade was a defect. The gap is NOT varied by tier:
+   `fitRibbon` measures it once, before it chooses, and a gap that changed with
+   the answer would make the arithmetic describe a strip that no longer exists. */
+.legend__rib-w { color: var(--text-body); }
+.legend__rib-n { color: var(--text-secondary); font-size: var(--fs-micro); }
+.legend__rib--mark .legend__rib-w { color: var(--text-secondary); font-style: italic; }
+.legend__rib--none { white-space: normal; overflow: hidden; text-overflow: ellipsis; }
+
+/* The one control in the strip, and it is pinned: it can never be the thing
+   that scrolls off. It is `hidden` at `plate` when the key turns out to be
+   complete (ribbon.js, round 9), and `.cx-more` sets `display: inline`, which
+   beats the user agent's rule for [hidden] — so the withdrawal is stated here
+   as well or it does not happen. */
+.legend--ribbon .legend__route[hidden] { display: none; }
+.legend--ribbon .legend__route {
+  flex: 0 0 auto;
+  /* ROUND 10 — IT WAS EIGHT PIXELS BELOW ITS OWN STRIP. `.cx-more` is a block
+     link elsewhere in the app and carries `margin-block-start: 1rem`; inside
+     this flex row that margin is not collapsed away, it is a 16px offset.
+     Measured at 768x1024 inside beat 9: the strip ran y 529–559, the swatch
+     list was centred at y 536–552, and the control sat at y 543.6–560.4 — 8px
+     below the line of type it belongs to and 1.4px past the bottom of a 30px
+     strip that clips. The whole margin is stated here, not just the start. */
+  margin: 0;
+  margin-inline-start: auto;
+  align-self: center;
+  padding-inline-start: var(--space-md);
+  font-size: inherit;
+  /* ROUND 11 — 73 x 17 WAS THE WHOLE OF IT, AND IT IS A TOUCH TARGET.
+     A phone critic measured every visible control in the app and this one came
+     back at "73x17": a 17-pixel-tall target for a thumb, and below WCAG 2.5.8's
+     24 x 24 minimum as well as 2.5.5's 44 x 44 enhanced size.
+
+     IT TAKES THE WHOLE HEIGHT OF THE STRIP, which is what is available: the
+     band is `block-size: var(--key-h)` — 28 px at 1024, 30 at 1366, 34 at 1920
+     — and `.legend--ribbon` sets `overflow: hidden` two rules up, so a taller
+     box (or a taller `::before`) is clipped back to the band and buys the
+     finger nothing. Measured after: 73 x 30 at 1366 and 73 x 32 at 390, which
+     passes 2.5.8 with six pixels to spare and is three quarters of 2.5.5.
+     44 x 44 is not available to any control in this band without taking the
+     pixels from the map, which LAYOUT_BUDGET §2 does not allow and which this
+     module would refuse anyway. The ink does not move: the label stays centred
+     on the line of type it belongs to. */
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  block-size: 100%;
+}
+
+/* WHAT IS SAID WHERE A GLYPH IS DRAWN. `spoken()` in key.js emits this beside
+   every badge, bare numeral and mid dot that is `aria-hidden` — the words the
+   mark's own `title` already carried, in the accessible name where a title
+   cannot reach. base.css defines `.visually-hidden`; this repeats the clip so
+   that a legend rendered before base.css lands is never a legend with its own
+   working printed across it. Both are clips, never `display: none`: the point
+   is that the text IS in the accessibility tree. */
+.legend__spoken {
+  position: absolute !important;
+  inline-size: 1px; block-size: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------- THE RESERVED SLOT ----- */
+/* Every colour family on the plate now, with its fill, its engraved texture,
+   its word and its live count. `flex: none` and last-but-one in the column, so
+   the box gives it its height before the scroller gets anything at all. It is
+   capped at six families in key.js, which is what makes its height predictable
+   enough to reserve. */
+
+.legend__chip--fam {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0.1rem 0.15rem;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: start;
+}
+.legend__chip--fam:hover { background-color: var(--surface-well); }
+.legend__chip--fam:hover .legend__chip-w { color: var(--link); }
+.legend__chip--more {
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------- band one -- */
+
+
+/* The compact pill and the mirror bar size themselves: they are two lines at
+   most, and capping them with the stage measurement cut "Open the full key"
+   through the middle on a 183px phone stage. */
+
+
+/* Folded, this panel is one control and a strip of colours. Round 4's folded
+   state showed the rule and no colour at all, which is the same defect one
+   click smaller. */
+
+.legend__toggle--compact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3xs);
+  inline-size: 100%;
+  padding: var(--space-sm) var(--space-md);
+  text-transform: none;
+  letter-spacing: var(--tr-ui);
+  border: 0;
+}
+.legend__toggle--compact .legend__title {
+  font-size: var(--fs-base);
+  font-weight: var(--w-semibold);
+}
+.legend__toggle--compact .legend__hint { font-size: var(--fs-micro); }
+
+.legend__rulebox { margin-block-start: var(--space-3xs); }
+.legend__rule-line {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-body);
+}
+.legend__drawn {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+}
+.legend__drawn::after { content: '\00a0'; }
+.legend__defword { font-weight: var(--w-bold); color: var(--text-heading); }
+.legend__rule-text { color: var(--text-secondary); }
+
+.legend__figures {
+  margin: 0;
+  padding-block: 0.05rem;
+  font-size: var(--fs-caption);
+  font-weight: var(--w-medium);
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.legend__unitword {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-regular);
+  color: var(--text-secondary);
+}
+.legend__sep { color: var(--text-min); }
+.legend__figures .num, .legend__delta .num { white-space: nowrap; }
+
+/* One line. The head is fixed, so every line it takes is a line the colour
+   key does not get, and at 1440x900 the whole panel is about 337 pixels. */
+.legend__delta {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+/* One line per renderer mode that has changed what a MARK means. */
+.legend__mode {
+  margin: var(--space-3xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.legend__mode-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--accent-ink);
+}
+.legend__kbd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-body);
+  border: var(--rule-hair) solid var(--border-default);
+  border-radius: var(--radius-xs);
+  padding-inline: 0.3em;
+}
+
+/* --------------------------------------------------------------- headers - */
+
+.legend__section { margin-block-start: var(--space-md); }
+.legend__section:first-child { margin-block-start: var(--space-sm); }
+/* The colour key is the first thing in the scroller and it starts at the top of
+   it: a student who opens this panel must meet a swatch, not a margin. */
+.legend__section--key { margin-block-start: 0; }
+.legend__section--key > .legend__h { margin-block-end: var(--space-3xs); flex-wrap: nowrap; white-space: nowrap; overflow: hidden; }
+.legend__section--key > .legend__h .legend__hint { overflow: hidden; text-overflow: ellipsis; }
+
+/* The one abbreviation in the key panel, defined in print above the rows that
+   use it (key.js, `colourSection`). It sits tight under the heading and wraps —
+   the heading's own hint is one clipped line, and this sentence was cut to
+   "deg = how much contr…" when it was tried there. */
+.legend__degnote {
+  margin: 0 0 var(--space-2xs);
+  line-height: 1.3;
+}
+
+.legend__h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-secondary);
+}
+.legend__hint {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-regular);
+  text-transform: none;
+  letter-spacing: var(--tr-normal);
+  color: var(--text-min);
+}
+
+details.legend__det > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  cursor: pointer;
+  list-style: none;
+  padding-block: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+details.legend__det > summary::-webkit-details-marker { display: none; }
+details.legend__det > summary .legend__h { margin: 0; }
+details.legend__det > summary::after {
+  content: '+' / '';
+  font-family: var(--font-mono);
+  color: var(--text-min);
+}
+details.legend__det[open] > summary::after { content: '–' / ''; }
+
+.legend__caveat-line,
+.legend__absent {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.legend__caveat-line--flag {
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+  color: var(--text-body);
+}
+.legend__absent strong { color: var(--text-body); }
+.legend__absent-inline { color: var(--text-secondary); font-style: italic; }
+
+/* ------------------------------------------------------------- key rows -- */
+
+.legend__rows { margin: 0; padding: 0; list-style: none; }
+.legend__row + .legend__row { border-block-start: var(--rule-hair) solid var(--border-soft); }
+.legend__row--strong {
+  background-color: var(--surface-well);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+  padding-inline-start: var(--space-sm);
+  margin-inline-start: calc(-1 * var(--space-sm));
+}
+
+.legend__entry {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  inline-size: 100%;
+  /* Two lines per legal form and no more: the mark, the word, the degree and
+     the count on the first; what the category MEANS on the second. Fifteen
+     forms at round 2's four-line rows came to 3,397px in a 57px window. */
+  padding: var(--space-3xs) var(--space-2xs);
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.legend__entry--static { cursor: default; }
+button.legend__entry:hover { background-color: var(--surface-well); }
+button.legend__entry[aria-pressed='true'] {
+  background-color: var(--accent-soft);
+  box-shadow: inset var(--rule-mid) 0 0 0 var(--accent);
+  /* ROUND 4: this was `position: sticky` so an open row's header stayed at the
+     top of the scroller. Measured, it painted itself over the first line of its
+     own WATCH OUT paragraph — 'Colonies were often moved INTO this box' half
+     covered by the pink bar naming the box. A row header that eats the row's
+     own teaching is worse than one you have to scroll back to, and in the
+     reading plate there is no scrolling to come back from. */
+  position: static;
+}
+
+.legend__body { flex: 1 1 auto; min-inline-size: 0; }
+.legend__wordline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-sm);
+}
+.legend__wordline .legend__marks { margin-inline-start: auto; }
+.legend__word {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.legend__marks { flex: none; display: inline-flex; align-items: baseline; gap: var(--space-xs); }
+/* This separator was IN the accessible name of every status row until round 10
+   — "Crown colony deg 5 · 51 Ruled directly from London…" — because generated
+   content counts towards a name computed from contents. Two things now keep it
+   out: `.legend__marks` is `aria-hidden` (key.js, `statusRow`), and the
+   alternative-text form below says so in the stylesheet as well, so a later
+   change that un-hides the strip does not quietly put a dot back into the
+   sentence a reader hears. */
+.legend__marks > * + *::before { content: '· ' / ''; color: var(--border-firm); }
+.legend__count { font-size: var(--fs-micro); color: var(--text-min); }
+.legend__deg {
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  border: var(--rule-hair) solid var(--border-default);
+  border-radius: var(--radius-xs);
+  padding-inline: 0.25em;
+}
+.legend__sentence {
+  display: block;
+  margin-block-start: 0.1rem;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-book);
+  line-height: 1.32;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.legend__sentence--block { margin: 0 0 var(--space-sm); }
+/* Inside a colour row the meaning sentence is set one step down, so a row is
+   two lines at 30rem and the whole vocabulary is walkable. */
+.legend__section--key .legend__sentence {
+  font-size: var(--fs-micro);
+  line-height: 1.28;
+  margin-block-start: 0;
+}
+
+/* THE AFFORDANCE ON EVERY ROW. Fifteen legal forms cannot each carry a trap, a
+   citation and a roll of places on screen at once — the arithmetic does not
+   permit it — so those three open on the row. What is behind it is named in the
+   section heading, once, and this is the handle. */
+.legend__more {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--link);
+}
+button.legend__entry:hover .legend__more { color: var(--link-hover); }
+.legend__meta {
+  display: block;
+  margin-block-start: 0.1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.legend__caption-mark {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  font-style: italic;
+  color: var(--accent-ink);
+}
+.legend__defect { color: var(--danger); font-weight: var(--w-semibold); }
+
+/* THE TRAP — the "watch out for" column. It is set apart from the definition
+   because it is doing the opposite job: the definition tells you what the word
+   claims, this tells you what the word hides. */
+.legend__trap {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--warn);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: 1.32;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.legend__trap-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--warn);
+}
+.legend__trap-h::after { content: '\00a0'; }
+
+
+/* ---------------------------------------------------------- the roll ----- */
+
+.legend__roll {
+  margin: 0 0 var(--space-xs) var(--space-sm);
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+}
+.legend__roll-h {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  color: var(--text-secondary);
+}
+.legend__roll-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: var(--space-md);
+}
+.legend__roll-list > li {
+  break-inside: avoid;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.4;
+  color: var(--text-body);
+}
+.legend__roll-n { color: var(--text-min); font-size: 0.9em; margin-inline-start: 0.35em; }
+
+/* ------------------------------------------------------------ the source - */
+/* Charge 8. This panel makes dated claims — Jamaica's assembly in 1866, Satara
+   1848, Weihaiwei's lease "for so long as Russia holds Port Arthur" — so it
+   cites them, through P16's renderSource, which prints the four questions
+   before the reference. The legend does not author a citation of its own:
+   `see` in symbology.js points at a territory this atlas already holds and the
+   work is taken out of that territory's own evidence[]. */
+.legend__cite {
+  margin-block-start: var(--space-xs);
+  padding-block-start: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+.legend__cite-h {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  color: var(--text-secondary);
+}
+/* renderSource is P16's element and P16's design: a panel-width box set at
+   --fs-prose. Inside a 250px legend the four questions and the reference need
+   the whole panel and the roll of places disappears under them, so the block is
+   scaled down HERE, in this container only, keeping the relation the charge
+   requires: the four fields still sit above the reference, at the same size as
+   it, in DOM order and visually. */
+.legend__cite .src {
+  margin: var(--space-2xs) 0 0;
+  padding: var(--space-xs) var(--space-sm);
+}
+.legend__cite .src__v {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--fs-micro);
+  line-height: 1.32;
+}
+.legend__cite .src__class { font-size: var(--fs-micro); }
+.legend__cite .src__for { margin: 0 0 var(--space-2xs); font-size: var(--fs-micro); }
+.legend__cite .src__quote { margin: var(--space-xs) 0 0; padding-left: var(--space-sm); }
+.legend__cite .src__quote p { font-size: var(--fs-micro); line-height: 1.36; }
+.legend__cite-plain {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  color: var(--text-body);
+}
+.legend__cite-go {
+  margin-block-start: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  color: var(--link);
+  background: var(--surface-panel);
+  border: var(--rule-hair) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.legend__cite-go:hover { color: var(--link-hover); border-color: var(--border-firm); }
+.legend__roll-foot {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  line-height: var(--lh-ui);
+  color: var(--text-min);
+}
+
+/* ---------------------------------------------------------- tenure ramp -- */
+
+.legend__ramp { margin: 0; padding: 0; list-style: none; }
+.legend__ramp-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: 0.1rem;
+}
+.legend__ramp-step .sym { margin-block-start: 0; }
+.legend__ramp-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+}
+
+/* ----------------------------------------------------------- the family -- */
+
+.legend__family { margin-block-start: var(--space-2xs); }
+.legend__family:first-of-type { margin-block-start: 0; }
+/* One line. The family's own sentence is in "why these colours are grouped as
+   they are", below the rows — round 2 spent five lines per family on prose the
+   reader could not get past, because the rows under it were off-screen. */
+.legend__family-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding-block: 0.05rem;
+  border-block-start: var(--rule-fine) solid var(--border-default);
+}
+.legend__family-head .sym { margin-block-start: 0; inline-size: 1.4rem; block-size: 0.95rem; }
+.legend__family-name {
+  flex: 1 1 auto;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+
+/* -----------------------------------------------------------------------------
+   ON THE PLATE NOW — the block at the head of the colour sheet that names the
+   colours actually on the map when a thematic layer has re-keyed it. Same
+   swatches, same words, same counts as the ribbon's chips, from the same read.
+----------------------------------------------------------------------------- */
+.legend__live {
+  margin-block-end: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+  background: var(--surface-sunk, transparent);
+}
+.legend__live-h { margin: 0 0 var(--space-xs); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-xs) var(--space-sm); }
+.legend__live-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro, 0.7rem);
+  font-weight: var(--w-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.legend__live-say { font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-heading); }
+.legend__live-list { margin: 0; padding: 0; list-style: none; }
+.legend__live-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: 0.05rem;
+  font-size: var(--fs-caption);
+}
+.legend__live-row .sym { margin-block-start: 0; inline-size: 1.4rem; block-size: 0.95rem; }
+.legend__live-w { flex: 1 1 auto; min-inline-size: 0; }
+.legend__live-note { margin-block-start: var(--space-xs); }
+
+.legend__absentlist { margin: 0; padding: 0; list-style: none; }
+.legend__absentlist > li {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: var(--space-3xs) var(--space-sm);
+  padding-block: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+  opacity: 0.85;
+}
+.legend__absentlist .sym { grid-row: 1; grid-column: 1; margin-block-start: 0.1rem; }
+.legend__family-word {
+  grid-column: 2;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-medium);
+  color: var(--text-body);
+}
+.legend__family-def {
+  grid-column: 2;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+
+/* ----------------------------------------------- dense, and the mirror -- */
+/* DENSE. What the panel becomes when the stage is short: the title and the rule
+   in force share one line, and the anchor comparison folds into the figures
+   line. It changes how two lines are SET. It does not remove a zone, which is
+   the whole difference between round 5 and round 4. */
+
+
+.legend__rule-inline {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* THE FOOT AT 143 PIXELS. Two lines of control is 30px of a 133px content box,
+   and 30px is the difference between the colour band having two rows and one.
+   Dense sets the label and its gloss on one line, and the gloss truncates —
+   it is a gloss on a control whose own word is complete, never a sentence
+   carrying a figure. */
+
+
+/* COHERENCE PASS — see `.legend__open--oneline` below: the route into the full
+   key does not get to be an unfinishable sentence, in dense mode either. */
+
+
+/* THE MIRROR. While the plate is open this panel would be a second copy of it,
+   over a map that has just been narrowed to make room. One bar instead. */
+
+
+.legend__open--mirror { inline-size: auto; padding: var(--space-3xs) var(--space-sm); }
+
+/* ------------------------------------------------------- the fixed foot -- */
+/* THE WAY OUT OF THE LETTERBOX. A control that opens the reading plate, pinned
+   below the scroller rather than inside it: at 1366x768 anything past the fold
+   of this panel is a control nobody finds, and the whole failure of round 3 was
+   content nobody could reach. Its second line is MEASURED — index.js writes the
+   percentage of the key that actually fits in the window it has. */
+
+
+.legend__open-w {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+}
+.legend__open-g {
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.25;
+  opacity: 0.85;
+}
+.legend__open--compact { margin-block-start: var(--space-2xs); }
+/* One line, for a panel with four lines in it. The full sentence is the title. */
+.legend__open--oneline {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding-block: var(--space-3xs);
+}
+/* COHERENCE PASS — THE ROUTE INTO THE FULL KEY IS NOT ELLIPSISED.
+   This is the control that reaches the fourteen legal forms, the six marks that
+   are not colours, the counting notes and the 1886 transfer exercise — the best
+   map-literacy teaching in the atlas. Its own label was cut mid-word: "Open the
+   full key  8% of this list fits here · the rest, and the critic…". A label a
+   student cannot finish reading is a label that does not recruit. It wraps to a
+   second line instead, which costs this panel one line of a preview list that
+   the same label admits is showing eight per cent of itself. */
+.legend__open--oneline .legend__open-g {
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------- the marks, pinned line -- */
+/* THE MARKS THAT ARE NOT COLOURS. Round 2 gave these a band of their own at the
+   foot of the panel: 150px of a 343px panel, while the colour vocabulary — the
+   thing a fifteen-colour map cannot be read without — was left with 57. They are
+   one line inside the fixed head now. Still permanently on screen, still
+   carrying their own mark and their own word, and each one is expanded in full a
+   short scroll below with its complete sentence, its live count, and for the
+   haze its caption. Nothing was deleted; the band was set. */
+
+.legend__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-sm);
+  line-height: 1.25;
+  margin-block-start: var(--space-3xs);
+  padding-block-start: var(--space-3xs);
+  border-block-start: var(--rule-hair) solid var(--border-default);
+}
+.legend__chips-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+
+
+.legend__chip-w {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-medium);
+  color: var(--text-body);
+}
+.legend__chip-g {
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+}
+.legend__chip-g::before { content: '— ' / ''; color: var(--text-min); }
+/* Below about 300px of panel the gloss is what goes: the mark, the word and the
+   count stay, and the full sentence is three lines down the scroller. */
+.legend__chip-t {
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--text-min);
+}
+
+/* ============================================================ the byline == */
+/*
+   The four fields FEATURE_SPEC requires, set out as the answers to three
+   questions a student can carry off this screen. This is the piece's one
+   genuine advantage over a printed chapter — a map that hands you the method
+   for reading it and then submits to it — and in round 1 it was authored and
+   then hidden at the bottom of a collapsed panel. It is now the first thing on
+   the plate and it cannot be dismissed.
+*/
+
+#legend-byline {
+  display: block;
+  max-inline-size: 100%;
+  /* ROUND 3: this block and the colour key share one column of the stage, and
+     at 1440x900 this block took 155 of its 532 pixels. Question and answer now
+     set on one line each and the transfer sentence moved into the criticism
+     panel; nothing was cut, it was set tighter, and the key got the difference. */
+  padding: var(--space-3xs) var(--space-md) var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-body);
+  background-color: var(--surface-panel);
+  /* COHERENCE PASS — ONE CARD TREATMENT FOR THE APPARATUS.
+     This block and the colour key sit sixteen pixels apart in the same column
+     over the same plate, and they were drawn as two different kinds of object:
+     this one had a 3px near-black rule down its inside edge and the raised
+     shadow, the key had a hairline all round and the panel shadow. So the top
+     left of the map read as two applications arguing. `--rule-heavy` is the
+     chapter-opener weight in DESIGN §5 and is not a card edge; it is the only
+     3px black line anywhere in the atlas. Both cards now take the same
+     hairline, the same radius and the same shadow, and the byline keeps its own
+     voice where it should be — in its heading. */
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+
+.byline__ask {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-3xs);
+  padding-block-end: var(--space-3xs);
+  border-block-end: var(--rule-hair) solid var(--border-default);
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+.byline__ask-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-heading);
+}
+ol.byline__three {
+  margin: 0;
+  padding-inline-start: 1.25em;
+  list-style: decimal outside;
+  counter-reset: none;
+}
+.byline__item { margin: 0; padding-block: 0.01rem; }
+.byline__item + .byline__item { border-block-start: var(--rule-hair) solid var(--border-soft); }
+.byline__item::marker { color: var(--text-min); font-family: var(--font-mono); font-size: 0.92em; }
+.byline__q {
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--text-min);
+}
+.byline__q::after { content: '\00a0 '; }
+.byline__a {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-body);
+}
+.byline__item {
+  line-height: 1.26;
+  text-wrap: pretty;
+}
+.byline__item--extra .byline__q { color: var(--accent-ink); font-style: normal; font-weight: var(--w-semibold); }
+.byline__value { color: var(--text-body); }
+.byline__value--absent { color: var(--text-secondary); font-style: italic; }
+.byline__value--defect { color: var(--danger); font-weight: var(--w-semibold); }
+.byline__dot { color: var(--text-min); margin-inline: 0.35em; }
+.byline__flag {
+  margin-inline-start: 0.4em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--warn);
+}
+
+.byline__transfer {
+  margin: var(--space-3xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  line-height: 1.28;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+.byline__crit {
+  display: inline-block;
+  margin-block-start: var(--space-2xs);
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  color: var(--link);
+  background: none;
+  border: 0;
+  border-block-end: var(--rule-fine) solid currentColor;
+  cursor: pointer;
+}
+.byline__crit:hover { color: var(--link-hover); }
+
+/* TINY: the four fields as one wrapping line. Nothing is removed — projection,
+   colour, year and the definition of control are all still here, still not
+   dismissible — but the numbered three-question framing costs three lines on a
+   stage measured at 183px, so it moves to the head of the criticism section in
+   the plate and the fields stay here. */
+ol.byline__three[data-tiny='true'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-sm);
+  padding-inline-start: 0;
+  list-style: none;
+}
+ol.byline__three[data-tiny='true'] .byline__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  border: 0;
+  line-height: 1.3;
+}
+ol.byline__three[data-tiny='true'] .byline__item + .byline__item::before {
+  /* `content: <string> / <alt-text>`. The half after the slash is the string a
+     name computation reads, and an empty one takes this mark out of the
+     accessibility tree while leaving it on the screen. Generated content is
+     part of an accessible name — measured on the running app, and it is why
+     this file's other separators are handled the same way. A mid dot between
+     two fields is punctuation, not a word. */
+  content: '·' / '';
+  color: var(--border-firm);
+  margin-inline-end: 0.3em;
+}
+ol.byline__three[data-tiny='true'] .byline__q {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+ol.byline__three[data-tiny='true'] .byline__a { font-size: var(--fs-micro); }
+#legend-byline[data-tiny='true'] .byline__ask { margin-block-end: var(--space-3xs); }
+
+/* ROUND 4: this block is a fixed set of four fields and it does not scroll,
+   because there is nothing in it that can grow. Round 3 gave it a measured cap
+   and a scrollbar because the criticism opened inside it; the criticism is in
+   the plate now, and a provenance line that scrolls is a provenance line that
+   can be half-read. */
+
+/* ROUND 4: the criticism list is not in this block any more. Measured, it made
+   the byline a 184px window on 355px — one criticism of three readable — and
+   the colour key paid for it. One line stays here to say where the three went;
+   it is one line in both states, so this block's height never changes. */
+.byline__defect {
+  margin: var(--space-2xs) 0 0;
+  padding-block-start: var(--space-2xs);
+  border-block-start: var(--rule-hair) solid var(--danger);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  line-height: 1.3;
+  color: var(--danger);
+  text-wrap: pretty;
+}
+
+.byline__crit-where {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--accent-ink);
+}
+
+
+/* =============================================================================
+   THE SHEET'S CONTENT — the criticism and the 1886 transfer exercise.
+
+   ROUND 6. What stood here was a "reading plate": `position: fixed` down the
+   left of the window, two independent scrollers, and one rule that inset the
+   whole application — `body:has(#legend-plate) .app { padding-inline-start:
+   40rem }`. It was a second layout system owned by one piece, and every time a
+   student opened the key it moved the map, the time bar and the dossier.
+
+   The shell now owns a rail with a sheet in it (410x716 at 1366x768, its own
+   scroll, beside a live map). This piece supplies the body and owns none of the
+   geometry: no `position`, no `inset`, no width, and nothing that reaches
+   outside `.lsheet`. What follows is type, and only type.
+   ========================================================================== */
+
+.lsheet { display: flow-root; }
+.lsheet > .cx-panel + .cx-panel { margin-block-start: var(--space-md); }
+/* ROUND 11 — 24 x 24, THE AA MINIMUM, ON EVERY CONTROL THIS MODULE OWNS.
+   Measured at 390x844 with the sheet open, the two routes out of it came back
+   at 234 x 18 and 186 x 18: wide enough for a mouse and eight pixels short for
+   a thumb (WCAG 2.5.8). The ink is unchanged; the box grows downward into space
+   the sheet already has, which is the one place in this module where the
+   pixels for a touch target were actually free. */
+.lsheet > .cx-more, .legend .cx-more {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+}
+.lsheet > .cx-more { margin-block-start: var(--space-md); }
+.lsheet > .cx-more + .cx-more { margin-inline-start: var(--space-lg); }
+/* The section headings inside the sheet ARE the app's one eyebrow (chrome.css
+   §B `.cx-panel__head`); the hint that trails them is a gloss, not a heading. */
+.cx-panel__head .legend__hint {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: var(--w-regular);
+  color: var(--text-min);
+}
+.lsheet .legend__section { margin: 0; }
+
+.lplate__sec { margin-block-start: var(--space-md); }
+.lplate__sec:first-child { margin-block-start: 0; }
+
+/* ----------------------------------------------------- the three criticisms */
+/* All three, set, always. Never one of three in a 184px window. */
+
+.lplate__crit-lede {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.34;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+ol.lplate__crit {
+  margin: var(--space-2xs) 0 0;
+  padding-inline-start: 1.3em;
+  list-style: decimal outside;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: 1.42;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.lplate__crit li + li { margin-block-start: var(--space-xs); }
+.lplate__crit li::marker { color: var(--accent); font-family: var(--font-mono); }
+.lplate__crit strong { font-weight: var(--w-semibold); color: var(--text-heading); }
+.lplate__short {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------- the second map - */
+
+/* ONE PANEL RECIPE. This block used to draw its own border, its own radius and
+   its own accent rule; it is a `.cx-panel` inside the sheet now, and the only
+   rule on its leading edge is the admiralty blue of `.cx-ask`, which is what a
+   question looks like everywhere in this app. */
+.lplate__sec--poster { margin: 0; padding: 0; background: none; border: 0; }
+.lplate__poster-obj {
+  margin: var(--space-2xs) 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: 1.34;
+  color: var(--text-body);
+}
+.lplate__poster-pub {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.lplate__q { margin-block-start: var(--space-md); }
+.lplate__q-h {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  font-style: italic;
+  color: var(--text-heading);
+  text-wrap: pretty;
+}
+.lplate__hint {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-min);
+  text-wrap: pretty;
+}
+ul.lplate__opts { margin: 0; padding: 0; list-style: none; }
+.lplate__opts > li + li { margin-block-start: var(--space-3xs); }
+.lplate__opt {
+  display: block;
+  inline-size: 100%;
+  padding: var(--space-2xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: 1.32;
+  text-align: start;
+  color: var(--text-body);
+  background-color: var(--surface-well);
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.lplate__opt:hover { border-color: var(--ink); }
+.lplate__opt[data-state='right'] {
+  background-color: var(--accent-2-soft, var(--surface-well));
+  border-color: var(--ok);
+  border-inline-start: var(--rule-heavy) solid var(--ok);
+  font-weight: var(--w-semibold);
+}
+.lplate__opt[data-state='wrong'] {
+  background-color: var(--accent-soft);
+  border-color: var(--warn);
+  border-inline-start: var(--rule-heavy) solid var(--warn);
+  font-weight: var(--w-semibold);
+}
+.lplate__because {
+  margin: var(--space-3xs) 0 0 var(--space-sm);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--border-firm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.36;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.lplate__because.is-right { border-inline-start-color: var(--ok); }
+.lplate__because.is-wrong { border-inline-start-color: var(--warn); }
+.lplate__text {
+  inline-size: 100%;
+  padding: var(--space-2xs) var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  color: var(--text-body);
+  background-color: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  resize: vertical;
+}
+.lplate__keep {
+  margin-block-start: var(--space-sm);
+  padding: var(--space-2xs) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--ink-invert);
+  background-color: var(--accent-ink);
+  border: var(--rule-fine) solid var(--accent-hover);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.lplate__keep:hover { background-color: var(--accent-hover); }
+.lplate__keep[disabled] {
+  color: var(--text-min);
+  background-color: var(--surface-well);
+  border-color: var(--border-default);
+  cursor: not-allowed;
+}
+.lplate__kept {
+  margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-mid) solid var(--ink);
+}
+.lplate__kept-h {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-heading);
+}
+dl.lplate__kept-list { margin: 0; }
+.lplate__kept-list dt {
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--text-min);
+}
+.lplate__kept-list dd { margin: 0 0 var(--space-2xs); }
+.lplate__kept-you,
+.lplate__kept-us {
+  display: block;
+  font-size: var(--fs-micro);
+  line-height: 1.32;
+}
+.lplate__kept-you { color: var(--text-body); font-weight: var(--w-semibold); }
+.lplate__kept-us { color: var(--text-secondary); font-family: var(--font-serif); }
+
+/* ------------------------------------------------------------- new smalls - */
+
+/* The anchor: one computed comparison per printed magnitude. */
+.legend__anchor {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.legend__anchor-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+.legend__anchor-h::after { content: '\00a0'; }
+.legend__anchor-in { font-family: var(--font-serif); color: var(--text-secondary); white-space: nowrap; }
+
+/* A mark that is not being used on this plate right now says so rather than
+   decorating the key with a hatch nothing is drawn in. */
+
+
+/* The roll of places, with each place's OWN label under its name. */
+.legend__roll-label {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.26;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.legend__roll-flag {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.legend__roll-flag-h {
+  font-family: var(--font-sans);
+  font-weight: var(--w-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--warn);
+}
+.legend__roll-flag-h::after { content: '\00a0'; }
+.legend__roll-list > li.is-mismatch {
+  padding-inline-start: var(--space-2xs);
+  border-inline-start: var(--rule-mid) solid var(--warn);
+}
+.legend__roll-warn {
+  margin: var(--space-2xs) 0 0;
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--warn);
+  font-family: var(--font-serif);
+  font-size: var(--fs-micro);
+  line-height: 1.34;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+/* A citation whose example is not on the plate at this year says so in colour
+   as well as in words. */
+.legend__cite-h--offplate { color: var(--warn); }
+
+/* ================================================================ narrow == */
+
+@media (max-width: 62rem) {
+  /* THE PHONE. There is no corner card and no apparatus column here; the ribbon
+     is the same object it is at 1920, one line along the foot of the plate,
+     with its sentence given up so the colours and the route out both fit.
+     390 CSS pixels leave the swatch list about 230 of them once the control is
+     paid for, so the space between entries is `--space-sm` rather than
+     `--space-md`: eight pixels across six gaps is a whole extra colour on the
+     strip, and it is measured before `fitRibbon` takes its decision, never
+     after. */
+  .legend__roll-list { columns: 1; }
+  .legend__ribbon-list { gap: var(--space-sm); }
+
+  /* ROUND 8 — BUYING WORDS WITH PIXELS.
+     At 390 the strip had 247px for its swatch list and the first named entry
+     costs 164, so `fitRibbon` could name one family and the old ladder named
+     none. Nothing here shrinks the type — the words stay at `--fs-small`, the
+     floor DESIGN.md §3.1 sets — it buys room from the three places on the strip
+     that are not words:
+
+       the strip's own gutter   16px each side  ->  10   (12px gained)
+       the mark                 28x19           ->  22x15 ( 6px per entry)
+       the gap to the control   --space-md      ->  --space-sm ( 4px)
+
+     Measured at 390x844 that is 22 extra pixels of list and 6 fewer per entry.
+     ROUND 12 RE-MEASUREMENT: the list is now 195px, not 247, because
+     RESPONSIVE_LAW §7 reserves 6.5rem of the strip's trailing end for the map's
+     zoom cluster — and P02 is drawing the definition dial there too, which §5
+     of that law says it should not at this width. One name fits ("London
+     decides 93", 139px); without these three savings none would. */
+  #app .stage__key { padding-inline: 0.625rem; }
+  /* `#app .stage__key` specificity because chrome.css §E's transitional shim
+     sets `gap: var(--space-md)` on `#app .stage__key .legend` from outside this
+     file, and (1,0,2) beats a bare class. Measured: without this the strip kept
+     a 12px gap it had already been told to spend on a word. */
+  #app .stage__key .legend--ribbon { gap: var(--space-sm); }
+  .legend--ribbon .legend__rib .sym { inline-size: 1.375rem; block-size: 0.9375rem; }
+  .legend--ribbon .legend__route { padding-inline-start: var(--space-sm); }
+
+  /* ------------------------------------------------------------------------
+     ROUND 12 — THE STRIP WAS DRAWN ACROSS THE TOP OF THE MAP ON THE COLD PLATE.
+
+     Measured on the running app at 768x1024, `#year=1900`, no rail open:
+
+       .app__stage   0,158 768x682     display:block
+       .stage__map   0,158 768x650     position:absolute, inset 0
+       .stage__key   0,186 768x32      position:RELATIVE  <- in flow, at the TOP
+       overlap with the drawn map      768x26 = 20,274 px²
+
+     Greenland and the whole northern edge of the plate were printed behind an
+     opaque 32px band, and the shell's own reservation for the strip — the 32px
+     between the map's bottom (808) and the stage's (840) — stood empty. Same
+     at 900x700. The cause is a rule in `app/css/map.css` that gives the strip
+     `position: relative` in the docked band so the zoom cluster it now docks
+     can be pinned inside it:
+
+       #app[data-dock="docked"] .stage__key:not(.legend__pin):has(> .map__zooms)
+         { position: relative; }
+
+     `relative` takes the strip out of `layout.css`'s `absolute; inset-block-end:
+     0` and drops it into the block flow, where the stage's only in-flow child
+     lands at the top. `absolute` establishes exactly the same containing block
+     for `.map__zooms`, so the strip keeps the map's foot AND the zooms keep
+     their corner: verified in the running app, strip 0,808 768x32, zooms
+     670,811 92x27, map overlap 0 px².
+
+     RESPONSIVE_LAW D1 and D6 say the strips start at or after the drawn map
+     ends, and §2's arithmetic charges `--key-h` against the plate once. P02
+     owns the real fix (one keyword in map.css); this restores the shell's
+     contract from the file that owns the strip's contents, at (1,5,0), and
+     should be deleted the day map.css says `absolute`. */
+  #app[data-dock="docked"] .stage__key.stage__legend:not(.legend__pin):has(> .map__zooms) {
+    position: absolute;
+    inset-block-start: auto;
+    inset-block-end: 0;
+  }
+
+  /* ------------------------------------------------------------------------
+     THE KEY DOES NOT LEAVE THE SCREEN WHEN THE RAIL OPENS.
+
+     Under 62rem the dossier and the sheet are the same bottom sheet: `position:
+     fixed`, 480px tall at 390x844, sitting on top of the time bar. The key
+     strip lives at the foot of the stage — measured at y 632..660 — and the
+     sheet covers 180..660, so the whole key was behind it. Five hit tests
+     across the strip answered `dsr__from`, not the key, in every state where a
+     territory was selected: the reader was looking at a plate whose colours had
+     no key anywhere on the screen, which is the one thing this piece exists to
+     prevent.
+
+     It cannot be lifted OVER the sheet — `.app__stage` is `isolation: isolate`,
+     so no z-index on a descendant can raise it past a sibling — and it must not
+     be, because a key drawn across somebody else's prose is worse than no key.
+     So it moves: `position: fixed` (which does escape the stage's box, verified
+     in the running app) to sit immediately ABOVE the open rail, on the seam
+     between the map and the reading surface, which is exactly where a key
+     belongs. It costs the map 28 of the 45 pixels the shell's bottom sheet
+     leaves it; those 28 are what make the other 17 mean anything.
+
+     `--legend-rail-clear` is written by index.js `_pinKey()` from the rail's own
+     measured height, so this survives the shell changing the sheet's size. The
+     fallback restates layout.css's expression and is correct at rest. */
+  #app[data-dossier="open"] .stage__key,
+  #app[data-sheet="open"] .stage__key {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: var(--legend-rail-clear, calc(var(--time-h) + min(58dvh, 30rem)));
+    border-bottom: var(--rule-fine) solid var(--border-default);
+  }
+
+  /* ...AND WHEN THE MAP ITSELF HAS MOVED, THE KEY GOES WITH IT.
+     Selecting a territory at 390 makes P02 redraw the plate as
+     `.map.is-enlarged`, fixed, in the shell's `overlay` slot at z 58 — measured
+     at y 46..180. That is a better map than the sliver the bottom sheet leaves,
+     and it means every pixel of the window is spoken for. `.app__stage` is
+     `isolation: isolate`, so nothing the shell gives this piece inside the
+     stage can be drawn over an overlay at z 70. The strip therefore rides at
+     the foot of that map, in the same slot, drawn exactly as it is at 1920:
+     28 of the map's 134 pixels, which are what make the other 106 readable.
+     index.js `_keyHost()` creates and removes this node; it exists only under
+     62rem, only while a rail is open, and only while P02 has the overlay. */
+  #app .legend__pin.stage__key {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-start: auto;
+    inset-block-end: var(--legend-pin-bottom, calc(var(--time-h) + min(58dvh, 30rem)));
+    block-size: var(--key-h);
+    /* over `.map.is-enlarged` (58) and `.map__furniture` (59); under the map's
+       own tooltip layer (61), which is transient and must stay on top. */
+    z-index: 60;
+  }
+}
+
+/* Round 3 ran a `tight` mode here — one scroller with a sticky head — for a
+   column too short to carry three bands. Round 4 replaced it with the stub,
+   which is a different and honest thing: not a squeezed key but a complete
+   short statement plus the control that opens the real one. The old rules are
+   gone rather than left to rot behind an attribute nothing writes. */
+
+/* The byline does not render below 62rem at all (index.js `_renderByline`):
+   there is no reserved apparatus column at that width, so it would be an opaque
+   panel standing on the plate, which LAYOUT_BUDGET B5 forbids. Its four fields
+   are the head of the criticism sheet instead, one control from the ribbon. */
+
+/* ================================================================= print == */
+/* FEATURE_SPEC charge 14: a print stylesheet on every panel. On paper there is
+   no scrolling and no disclosure, so the whole reading lesson prints — which is
+   the permanent artefact the app exists to generate. */
+
+@media print {
+  .legend--ribbon {
+    display: block;
+    block-size: auto;
+    overflow: visible;
+    border: 0;
+    color: #000;
+  }
+  .legend--ribbon .legend__route { display: none; }
+  .legend__ribbon-list { display: block; overflow: visible; }
+  /* On paper there is no strip to fit into: every colour the fit pass had to
+     hide, and every word and count it had to clip, prints. */
+  .legend--ribbon .legend__rib[hidden],
+  .legend__rib[hidden] {
+    display: inline-flex !important;
+    position: static !important;
+    visibility: visible !important;
+  }
+  .legend__rib .legend__rib-w,
+  .legend__rib .legend__rib-n {
+    position: static !important; inline-size: auto !important; block-size: auto !important;
+    margin: 0 !important; clip-path: none !important; overflow: visible !important;
+  }
+  /* ROUND 11 — THE KEY THAT LOST A SWATCH WHEN IT WRAPPED. On the printed map
+     sheet a classroom critic found "Settler assembly 3" set as bare text with
+     no colour box, on the row where the key wrapped: an `inline-flex` chip is
+     breakable, so at a line break the swatch stayed on the line above and was
+     clipped off the sheet. A key with an unkeyed category on a page handed to
+     28 students is worse than no key. `break-inside: avoid` keeps the chip
+     whole, and `print-color-adjust: exact` keeps the ink in it — a browser
+     dropping backgrounds prints exactly the same defect. */
+  .legend__rib {
+    display: inline-flex;
+    margin-inline-end: 1em;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .legend__rib .sym, .legend__row .sym, .legend__ramp-step .sym, .sym {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #legend-byline {
+    box-shadow: none; background: #fff; border: 1px solid #000; color: #000;
+    inline-size: auto; max-inline-size: none; display: block; break-inside: avoid;
+  }
+  .lsheet { display: block; break-before: page; }
+  .lsheet .cx-panel { border: 1px solid #000; background: #fff; break-inside: avoid; }
+  .byline__crit, .cx-more { display: none; }
+  .legend__row, .byline__item, .legend__family { break-inside: avoid; }
+  .legend__trap { border-inline-start: 2px solid #000; }
+  .legend__roll-list { columns: 3; }
+  .lplate__sec, .lplate__crit li, .lplate__q { break-inside: avoid; }
+  .lplate__opt { border: 1px solid #000; }
+}
+
+/* ========================================================= forced colours == */
+
+@media (forced-colors: active) {
+  .legend, #legend-byline { border: 1px solid CanvasText; background: Canvas; }
+  button.legend__entry[aria-pressed='true'] { color: HighlightText; background: Highlight; }
+  /* The plate patches keep their own colours: a colour key whose colours are
+     replaced by the OS palette is not a key. The texture and the word carry it. */
+  .sym { forced-color-adjust: none; outline: 1px solid CanvasText; }
+}
+
+/* ======================================================== reduced motion == */
+
+:root[data-motion='reduced'] .legend,
+:root[data-motion='reduced'] #legend-byline { transition: none !important; }
+
+
+/* The fourth field is one item carrying up to three named modes, so each mode
+   needs its own tag inside the answer. */
+.byline__mode-h {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-bold);
+  letter-spacing: var(--tr-ui);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.byline__mode-h::after { content: '\00a0'; }
+
+
+/* MICRO. Three renderer modes on at 1366x768 puts the byline at 105px of a
+   230px stage; the corner key is then left about 90, and even the four pinned
+   zones want 130. The panel loses the anchor comparison and three of its colour
+   families — both named on screen — rather than losing the bottom of itself. */
+
+
+/* ROUND 6: the byline no longer re-hosts itself. It renders in the reserved
+   apparatus column at data-stage="apparatus" and nowhere else, so there is no
+   state in which it can be buried by the map's own layer and no state in which
+   it stands on the plate. `_placeByline` and its hit-test are gone. */
+
+
+/* The colour band riding inside the byline on a phone. */
+

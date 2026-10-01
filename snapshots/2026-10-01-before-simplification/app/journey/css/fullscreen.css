@@ -1,0 +1,191 @@
+/* Fullscreen keeps the timeline, legend and historical context with the map. */
+#fullscreen-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex: none;
+}
+
+#fullscreen-toggle:hover,
+#fullscreen-toggle[aria-pressed="true"] {
+  border-color: var(--accent, currentColor);
+  background: var(--accent-soft, var(--surface));
+  color: var(--accent, var(--ink));
+}
+
+#fullscreen-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.atlas-experience.is-fullscreen {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  height: var(--atlas-fullscreen-height, 100dvh);
+  max-height: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  color: var(--ink);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: 90px;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+
+.atlas-experience[data-fullscreen="viewport"] {
+  position: fixed;
+  inset: 0;
+  z-index: var(--modal, 30);
+}
+
+.atlas-experience:fullscreen::backdrop {
+  background: var(--bg);
+}
+
+.atlas-experience.is-fullscreen .experience-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--sticky, 20);
+  flex: none;
+  padding-inline: clamp(16px, 2.2vw, 36px);
+  border-radius: 0;
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.atlas-experience.is-fullscreen .scene-grid {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 25vw, 365px);
+}
+
+.atlas-experience.is-fullscreen .world-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.atlas-experience.is-fullscreen .scene-stage {
+  flex: 1;
+  min-height: 230px;
+  height: auto;
+  border-radius: 0;
+}
+
+.atlas-experience.is-fullscreen .legend-row,
+.atlas-experience.is-fullscreen .time-machine,
+.atlas-experience.is-fullscreen #map-experience {
+  flex: none;
+}
+
+.atlas-experience.is-fullscreen .context-panel {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 0;
+  scrollbar-gutter: stable;
+}
+
+.atlas-experience.is-fullscreen .place-results {
+  max-height: min(340px, 45dvh);
+}
+
+.atlas-experience.is-fullscreen .scene-controls button {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+
+.atlas-experience.is-fullscreen .year-annotation {
+  top: clamp(24px, 4vh, 44px);
+  left: clamp(24px, 3vw, 48px);
+}
+
+.atlas-experience.is-fullscreen .year-annotation strong {
+  font-size: clamp(56px, 7vw, 90px);
+}
+
+@media (max-width: 760px), (max-height: 620px) {
+  .atlas-experience.is-fullscreen .scene-grid {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    min-height: auto;
+  }
+
+  .atlas-experience.is-fullscreen .scene-stage {
+    flex: none;
+    height: clamp(285px, 53dvh, 600px);
+    min-height: 285px;
+  }
+
+  .atlas-experience.is-fullscreen .context-panel {
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 22px;
+  }
+
+  .atlas-experience.is-fullscreen .experience-toolbar {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .atlas-experience.is-fullscreen .year-annotation strong {
+    font-size: 56px;
+  }
+}
+
+@media (max-width: 520px) {
+  #fullscreen-toggle {
+    padding: 10px;
+  }
+
+  #fullscreen-toggle .fullscreen-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media print {
+  #fullscreen-toggle,
+  .fullscreen-status {
+    display: none !important;
+  }
+
+  .atlas-experience.is-fullscreen {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .atlas-experience.is-fullscreen .experience-toolbar {
+    position: static;
+  }
+}

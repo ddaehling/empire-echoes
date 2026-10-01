@@ -1,0 +1,340 @@
+{
+  "$schema": "../schema.json",
+  "schemaVersion": "1.0.0",
+  "shard": {
+    "id": "template-barbados",
+    "title": "TEMPLATE — Barbados (copy this file, do not edit it)",
+    "region": "caribbean",
+    "updated": "2026-09-03",
+    "author": "data-model agent",
+    "note": "Exemplar shard. One territory and one event, encoded to the standard every regional shard must meet. Copy to <region>.json, replace the contents, keep the shape. Read docs/DATA_MODEL.md first."
+  },
+
+  "territories": [
+    {
+      "id": "barbados",
+      "name": "Barbados",
+      "formalName": "Colony of Barbados",
+      "region": "caribbean",
+      "subregion": "Lesser Antilles (Windward Islands)",
+      "sortOrder": 10,
+
+      "namesOverTime": [
+        {
+          "name": "Ichirouganaim",
+          "from": { "value": "1400", "precision": "circa", "display": "before European contact", "note": "Date is a rough marker for the pre-contact centuries, not an event." },
+          "to": { "value": "1536", "precision": "year", "display": "1536" },
+          "language": "Kalinago",
+          "usedBy": "local",
+          "note": "The name is recorded only in later tradition and its meaning is disputed; no Indigenous written record survives."
+        },
+        {
+          "name": "Los Barbados",
+          "from": { "value": "1536", "precision": "circa", "display": "about 1536", "note": "Usually credited to the Portuguese navigator Pedro a Campos; the exact voyage and year are uncertain." },
+          "to": { "value": "1627", "precision": "year", "display": "1627" },
+          "language": "Portuguese",
+          "usedBy": "other-european",
+          "note": "'The bearded ones', from the island's bearded fig trees."
+        },
+        {
+          "name": "Barbados",
+          "from": { "value": "1627", "precision": "year", "display": "1627" },
+          "language": "English",
+          "usedBy": "british-official"
+        }
+      ],
+
+      "modernSuccessors": [
+        {
+          "name": "Barbados",
+          "iso3": "BRB",
+          "since": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" },
+          "units": ["barbados"],
+          "note": "A parliamentary republic since 30 November 2021; still a Commonwealth member."
+        }
+      ],
+
+      "geoCoverage": [
+        {
+          "from": { "value": "1627-02-17", "precision": "exact", "display": "17 February 1627" },
+          "to": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" },
+          "units": ["barbados"],
+          "label": "The whole island",
+          "change": "Barbados is one island with no land neighbours: its extent never changed in 339 years of British rule."
+        }
+      ],
+
+      "acquisitions": [
+        {
+          "id": "barbados-settlement-1627",
+          "date": { "value": "1627-02-17", "precision": "exact", "display": "17 February 1627" },
+          "mechanism": "settlement",
+          "how": "The ship William and John landed about 80 English settlers and ten Africans it had seized at sea on an uninhabited coast, at the place they named Jamestown, now Holetown.",
+          "counterparties": [
+            {
+              "name": "Kalinago and Arawak peoples",
+              "kind": "indigenous-people",
+              "lost": "They lost the island itself: Spanish and Portuguese slave raiding had emptied Barbados during the 1500s, so the English found land already cleared of its owners.",
+              "note": "Archaeology shows Amerindian settlement for well over a thousand years before 1500. 'Uninhabited in 1627' is true; 'never inhabited' is false, and the difference matters."
+            }
+          ],
+          "units": ["barbados"],
+          "instrument": {
+            "name": "Letters patent to James Hay, Earl of Carlisle, over the Caribbee Islands",
+            "kind": "letters-patent",
+            "signed": { "value": "1627-07-02", "precision": "exact", "display": "2 July 1627" },
+            "note": "The grant was made after the settlers had already landed, and was disputed for years by a rival grantee, the Earl of Pembroke."
+          },
+          "people": [
+            { "name": "Henry Powell", "role": "captain of the William and John; led the first settlement party", "side": "british" },
+            { "name": "James Hay, Earl of Carlisle", "role": "proprietor who held the island as a private grant from Charles I", "side": "british" }
+          ],
+          "resistance": "There was no resident population to resist in 1627; the violence that emptied the island had been done by Spanish slave raiders a century earlier.",
+          "confidence": "high",
+          "contested": {
+            "isContested": true,
+            "note": "An earlier English ship under John Powell claimed the island in 1625; some accounts date the colony from then. Historians date the colony from the 1627 landing because that is when people stayed."
+          },
+          "evidence": [
+            {
+              "author": "Richard S. Dunn",
+              "work": "Sugar and Slaves: The Rise of the Planter Class in the English West Indies, 1624-1713",
+              "year": 1972,
+              "kind": "book",
+              "publisher": "University of North Carolina Press",
+              "supports": "Date, personnel and proprietary basis of the 1627 settlement."
+            }
+          ]
+        }
+      ],
+
+      "statusPeriods": [
+        {
+          "status": "proprietary-colony",
+          "from": { "value": "1627-02-17", "precision": "exact", "display": "17 February 1627" },
+          "to": { "value": "1663", "precision": "year", "display": "1663" },
+          "label": "Private colony of the Earl of Carlisle",
+          "howControlWorked": "The island belonged to a court favourite who appointed the governor and took rent from every settler; the Crown ruled Barbados only at one remove.",
+          "controlDegree": 3,
+          "governedFrom": "Bridgetown, under a proprietor in London",
+          "localLegislature": "elected-assembly",
+          "franchise": "Only Protestant male freeholders with ten acres or more could vote; the House of Assembly first met in 1639.",
+          "note": "In 1651-52 the planters sided with the exiled Stuarts and were blockaded into submission by Sir George Ayscue's fleet; the Charter of Barbados, signed at Oistins in January 1652, confirmed the Assembly's right to tax."
+        },
+        {
+          "status": "representative-colony",
+          "from": { "value": "1663", "precision": "year", "display": "1663" },
+          "to": { "value": "1961", "precision": "year", "display": "1961" },
+          "label": "Royal colony with a planter Assembly",
+          "howControlWorked": "The Crown bought out the proprietor and appointed the governor, but an elected planter Assembly voted the taxes, so London governed by bargaining with the men who owned the plantations and the people on them.",
+          "controlDegree": 4,
+          "governedFrom": "Bridgetown, under the Colonial Office in London",
+          "localLegislature": "elected-assembly",
+          "franchise": "A property franchise excluded almost everyone: enslaved people entirely until 1834, and most Barbadians afterwards. Universal adult suffrage came only in 1951.",
+          "note": "From 1833 to 1885 the governor at Bridgetown was also governor-in-chief of the Windward Islands, which is why Barbados appears on old maps as a regional capital. Barbados joined the West Indies Federation in 1958 and left when it collapsed in 1962."
+        },
+        {
+          "status": "self-governing-colony",
+          "from": { "value": "1961", "precision": "year", "display": "1961" },
+          "to": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" },
+          "label": "Full internal self-government",
+          "howControlWorked": "Barbadians ran their own government under a Premier, Errol Barrow, while Britain kept only defence and foreign affairs for five more years.",
+          "controlDegree": 2,
+          "governedFrom": "Bridgetown",
+          "localLegislature": "responsible-government",
+          "franchise": "Universal adult suffrage since 1951."
+        }
+      ],
+
+      "departures": [
+        {
+          "id": "barbados-independence-1966",
+          "date": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" },
+          "mechanism": "negotiated-independence",
+          "how": "After a constitutional conference in London in June 1966, Britain legislated Barbados into independence and the flag changed at midnight in Bridgetown with nobody killed.",
+          "units": ["barbados"],
+          "becomes": [
+            { "name": "Barbados", "kind": "sovereign-state", "units": ["barbados"] }
+          ],
+          "led": [
+            { "name": "Errol Barrow", "role": "Premier, then first Prime Minister; led the independence negotiations", "side": "local", "lived": "1920-1987" },
+            { "name": "Grantley Adams", "role": "opposition leader who argued independence should come through a federation, not alone", "side": "local", "lived": "1898-1971" }
+          ],
+          "movement": "Democratic Labour Party",
+          "cost": {
+            "note": "No one died. Barbados is the counter-example students need: decolonisation was not always violent, and the absence of violence here has its own causes worth explaining."
+          },
+          "borders": "The borders did nothing. An island colony with no land neighbours became a state with exactly the coastline it had in 1627.",
+          "instrument": {
+            "name": "Barbados Independence Act 1966",
+            "kind": "act-of-parliament",
+            "signed": { "value": "1966-11-17", "precision": "exact", "display": "17 November 1966" },
+            "note": "Royal assent 17 November 1966; independence took effect on 30 November 1966."
+          },
+          "confidence": "high",
+          "evidence": [
+            {
+              "author": "Hilary McD. Beckles",
+              "work": "A History of Barbados: From Amerindian Settlement to Caribbean Single Market",
+              "year": 2006,
+              "kind": "book",
+              "publisher": "Cambridge University Press",
+              "supports": "Course of the independence negotiations and the 1966 settlement."
+            }
+          ]
+        }
+      ],
+
+      "consequences": {
+        "slavery": {
+          "note": "Sugar made Barbados the richest English colony and enslaved Africans made the sugar: by 1680 they were the majority of the population, and they stayed the majority ever after.",
+          "abolitionDate": { "value": "1807-03-25", "precision": "exact", "display": "25 March 1807", "note": "The Slave Trade Act 1807 ended British trafficking; it did not free anyone already enslaved." },
+          "emancipationDate": { "value": "1838-08-01", "precision": "exact", "display": "1 August 1838", "note": "The Slavery Abolition Act took effect on 1 August 1834, but imposed four more years of unpaid 'apprenticeship'. Full freedom came on 1 August 1838." },
+          "toll": {
+            "enslavedLow": 350000,
+            "enslavedHigh": 600000,
+            "money": "About £1.7 million was paid in 1837 to Barbadian slave-owners as compensation for losing their property in people. The people themselves received nothing.",
+            "note": "Totals of Africans landed in Barbados vary because the island was also a re-export market that sold captives on to other colonies; the range follows the Trans-Atlantic Slave Trade Database. About 83,000 people were freed in Barbados in 1834."
+          }
+        },
+        "populationTransfer": {
+          "note": "Two forced migrations built the colony: hundreds of thousands of Africans trafficked across the Atlantic, and thousands of Irish and Scottish prisoners shipped out under Cromwell in the 1650s.",
+          "kind": ["enslaved-people-transported", "indentured-labour", "convict-transportation"]
+        },
+        "violence": {
+          "note": "Bussa's rebellion in April 1816 was put down in four days; several hundred enslaved people were killed in the fighting, executed after it, or transported off the island.",
+          "kind": ["rebellion-suppressed"]
+        },
+        "commonwealth": {
+          "member": true,
+          "since": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" },
+          "realm": false,
+          "note": "Barbados removed the British monarch as head of state on 30 November 2021, exactly 55 years after independence, and stayed in the Commonwealth."
+        },
+        "economicLegacy": "Sugar dominated the economy for three centuries and then collapsed; tourism and offshore finance replaced it within one generation.",
+        "languageAndLaw": "English common law, an Assembly meeting continuously since 1639, and Anglican parish boundaries still divide the island."
+      },
+
+      "peak": {
+        "areaKm2": 430,
+        "areaYear": 1966,
+        "population": 232085,
+        "populationYear": 1960,
+        "populationNote": "1960 census, the last full count before independence. In 1680 the population was about 70,000, of whom roughly two thirds were enslaved.",
+        "exports": ["sugar", "molasses", "rum", "cotton"]
+      },
+
+      "evidence": [
+        {
+          "author": "Hilary McD. Beckles",
+          "work": "A History of Barbados: From Amerindian Settlement to Caribbean Single Market",
+          "year": 2006,
+          "kind": "book",
+          "publisher": "Cambridge University Press",
+          "supports": "Overall narrative from Amerindian settlement to independence."
+        },
+        {
+          "author": "Richard S. Dunn",
+          "work": "Sugar and Slaves: The Rise of the Planter Class in the English West Indies, 1624-1713",
+          "year": 1972,
+          "kind": "book",
+          "publisher": "University of North Carolina Press",
+          "supports": "The sugar revolution, planter society and the 1661 slave code."
+        },
+        {
+          "author": "Hilary McD. Beckles",
+          "work": "Bussa: The 1816 Revolution in Barbados",
+          "year": 1998,
+          "kind": "book",
+          "publisher": "University of the West Indies, Department of History",
+          "supports": "The 1816 rebellion and its suppression."
+        }
+      ],
+
+      "confidence": "high",
+      "contested": {
+        "isContested": true,
+        "note": "Historians disagree about how completely Barbados was emptied of Amerindian people before 1627, and about how many Africans were landed there as against re-exported. Both uncertainties are shown in this record rather than smoothed away."
+      },
+
+      "pedagogy": {
+        "hook": "By 1660 this 430-square-kilometre island was worth more to England than all of its North American colonies put together.",
+        "misconception": {
+          "belief": "Irish people shipped to Barbados in the 1650s were 'Irish slaves', the same as enslaved Africans.",
+          "correction": "Thousands of Irish and Scottish prisoners were transported to Barbados and worked brutally, but as indentured servants for a fixed term. The 1661 Barbados slave code made African enslavement lifelong, inheritable and enforceable by mutilation, and gave the enslaved no legal personhood at all. The conditions overlapped; the legal categories did not."
+        },
+        "whyItMatters": "Barbados invented the model the rest of the British Caribbean copied: monoculture sugar, mass enslavement, and a written slave code that Jamaica in 1664 and South Carolina in 1691 adapted almost word for word.",
+        "keyDates": [
+          { "date": { "value": "1627-02-17", "precision": "exact", "display": "17 February 1627" }, "what": "English settlers land at Holetown" },
+          { "date": { "value": "1661", "precision": "year", "display": "1661" }, "what": "The Barbados slave code, copied across the empire" },
+          { "date": { "value": "1816-04-14", "precision": "exact", "display": "14 April 1816" }, "what": "Bussa's rebellion" },
+          { "date": { "value": "1838-08-01", "precision": "exact", "display": "1 August 1838" }, "what": "Full emancipation, after four years of 'apprenticeship'" },
+          { "date": { "value": "1966-11-30", "precision": "exact", "display": "30 November 1966" }, "what": "Independence under Errol Barrow" }
+        ],
+        "compareWith": ["jamaica", "bermuda"],
+        "readingLevel": "core"
+      },
+
+      "eventIds": ["bussas-rebellion-1816"],
+      "tags": ["sugar", "slavery", "settlement-colony", "caribbean", "peaceful-independence"]
+    }
+  ],
+
+  "events": [
+    {
+      "id": "bussas-rebellion-1816",
+      "title": "Bussa's Rebellion",
+      "kind": "revolt",
+      "date": { "value": "1816-04-14", "precision": "exact", "display": "14 April 1816" },
+      "endDate": { "value": "1816-04-18", "precision": "exact", "display": "18 April 1816" },
+      "summary": "On Easter Sunday 1816 enslaved people across southern and eastern Barbados rose, burning cane fields on more than seventy estates. Martial law and the West India Regiment crushed the rising in four days.",
+      "significance": "It was the first of three great British Caribbean risings (Barbados 1816, Demerara 1823, Jamaica 1831-32) that convinced Parliament slavery could not be held down indefinitely, and it hardened the abolitionist case in London.",
+      "scope": "regional",
+      "region": "caribbean",
+      "links": {
+        "territories": ["barbados"],
+        "units": ["barbados"],
+        "places": [
+          { "name": "Bayley's plantation, St Philip", "lat": 13.113, "lon": -59.472, "note": "Where the rising began." },
+          { "name": "Bridgetown", "lat": 13.0975, "lon": -59.6167, "note": "Seat of the governor who declared martial law." }
+        ]
+      },
+      "people": [
+        { "name": "Bussa", "role": "African-born ranger at Bayley's plantation; led the rising and was killed in the fighting", "side": "local" },
+        { "name": "Nanny Grigg", "role": "enslaved woman at Simmons plantation who, witnesses said, told others freedom had already been granted and would have to be taken", "side": "local" },
+        { "name": "Washington Franklin", "role": "free man of colour tried and executed as an organiser", "side": "local" },
+        { "name": "James Leith", "role": "governor who declared martial law and directed the suppression", "side": "british" }
+      ],
+      "toll": {
+        "deathsLow": 250,
+        "deathsHigh": 1000,
+        "note": "About fifty enslaved people died fighting, roughly seventy were executed in the field and some three hundred after trial; 170 more were transported off the island. Two people died on the militia's side. Totals differ between accounts."
+      },
+      "changedStatus": false,
+      "pedagogy": {
+        "hook": "The rebels believed emancipation had already been granted in London and was being hidden from them by the planters.",
+        "misconception": {
+          "belief": "Enslaved people were freed by Parliament and abolitionists acting on their behalf.",
+          "correction": "Freedom was fought for from below as well as argued for in London. Barbados 1816, Demerara 1823 and Jamaica 1831-32 each raised the cost of holding slavery in place, and the Abolition Act followed the Jamaican rising by eighteen months."
+        },
+        "whyItMatters": "It shows resistance as a cause of abolition, not just a footnote to it."
+      },
+      "evidence": [
+        {
+          "author": "Hilary McD. Beckles",
+          "work": "Bussa: The 1816 Revolution in Barbados",
+          "year": 1998,
+          "kind": "book",
+          "publisher": "University of the West Indies, Department of History",
+          "supports": "Course of the rising, its leaders and its suppression."
+        }
+      ],
+      "confidence": "medium",
+      "contested": {
+        "isContested": true,
+        "note": "The death toll and Bussa's own role come mostly from the planters' own inquiry of 1818, a hostile source; the number executed after trial is especially uncertain."
+      },
+      "tags": ["slavery", "resistance", "abolition"]
+    }
+  ]
+}

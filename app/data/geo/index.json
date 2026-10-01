@@ -1,0 +1,50 @@
+{
+  "$comment": "Manifest for app/data/geo. Generated alongside the geometry; see README.md. Ids and file names are stable.",
+  "generator": "tools/build-geo.js",
+  "source": "Natural Earth 10m/50m vector data (public domain)",
+  "unitCount": 302,
+  "units": "units.index.json",
+  "files": [
+    {
+      "id": "coarse",
+      "file": "units-coarse.topo.json",
+      "object": "units",
+      "use": "world zoom — load this first",
+      "quantization": 100000,
+      "simplify": "Visvalingam weighted 10%, keep-shapes"
+    },
+    {
+      "id": "fine",
+      "file": "units-fine.topo.json",
+      "object": "units",
+      "use": "region zoom — load lazily",
+      "quantization": 1000000,
+      "simplify": "Visvalingam weighted 60%, keep-shapes"
+    },
+    {
+      "id": "land",
+      "file": "land.topo.json",
+      "object": "land",
+      "use": "base map coastline (all 10m map units dissolved)"
+    },
+    {
+      "id": "lakes",
+      "file": "land.topo.json",
+      "object": "lakes",
+      "use": "large lakes, drawn in the sea colour over land"
+    },
+    {
+      "id": "graticule",
+      "file": "land.topo.json",
+      "object": "graticule",
+      "use": "15-degree grid, densified every 2 degrees"
+    }
+  ],
+  "notes": {
+    "ids": "Every geometry carries both a TopoJSON `id` and `properties.id`; both are the unit slug.",
+    "winding": "d3 spherical convention (exterior rings clockwise). Safe for geoPath, geoArea, geoContains and clipped projections.",
+    "tiny": "units.index.json marks 101 units `tiny` (area < 6000 km2). Draw a minimum-size marker at `point` for those, or they vanish at world zoom.",
+    "bbox": "[west, south, east, north]; west > east for units crossing the antimeridian (e.g. fiji, new-zealand).",
+    "runtime": "Use app/vendor/geo.js — it exports feature(), mergeArcs(), loadUnits() and unionUnits()."
+  }
+}

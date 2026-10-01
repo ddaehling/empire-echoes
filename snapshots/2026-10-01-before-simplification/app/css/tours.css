@@ -1,0 +1,2158 @@
+/* ==========================================================================
+   A NOTE THE NEXT PERSON IN THIS FILE NEEDS.
+
+   In the round-2 repair pass, sections 3 to 16 of this stylesheet (everything
+   from the ring's own ink to the masthead's odds and ends — about nine hundred
+   lines) were destroyed by a bad scripted edit and RE-AUTHORED from the markup
+   in `app/js/tours/panel.js`, `gate.js` and `index.js`. Every class the three
+   modules emit was enumerated against this file and the list is empty; every
+   block was then driven in the running app and read as pixels at 390x844,
+   768x1024, 900x700, 1366x768 and 1440x900, light and dark. What cannot be
+   claimed is that the re-authored rules are identical to the ones that stood
+   here before: they are a second setting of the same material, in the same
+   type, tokens and idiom. If a treatment in a tour panel looks slightly unlike
+   its neighbour elsewhere in the app, this is why, and the fix is to move it
+   towards the neighbour.
+   ========================================================================== */
+
+/* =============================================================================
+   tours.css — P05: the path, the first run and the ending.
+
+   Owned by the tours piece. It styles three modules — app/js/tours,
+   app/js/onboarding and app/js/close — because they are one experience and
+   splitting the ink across three files would be three registers where the
+   LAYOUT_BUDGET §5 argument is that there should be one.
+
+   RULES IT KEEPS
+     · No colour is invented. Every value is a token from tokens.css.
+     · The shared chrome classes do the work: .cx-panel, .cx-panel__head,
+       .cx-panel__title, .cx-ask, .cx-fig, .cx-src, .cx-more, .cx-note, .num.
+       What is below is only the geometry those classes do not have.
+     · Nothing here is `position: fixed` or `absolute` over the plate. The path
+       lives in the masthead, the rail and the footer. Rule B5 is not negotiable.
+     · Nothing here declares grid-template-* or height on .app (rule B9).
+     · Every animation is under a prefers-reduced-motion guard.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. THE TRANSPORT — masthead. Back, the counter, Next, and the escape.
+   ========================================================================== */
+
+.tr-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  font-family: var(--font-sans);
+}
+.tr-bar[hidden] { display: none; }
+/* base.css gives .btn and our own controls an explicit `display`, which beats
+   the user agent's [hidden] rule. Everything this piece hides must actually be
+   hidden — a "hidden" control that is still on screen and still tabbable is the
+   exact defect charge 11 is about. */
+.tr-bar [hidden], .tr-panel [hidden], .tr-gate [hidden], .cl-close [hidden], .cl-bar [hidden] { display: none !important; }
+
+/* 40, NOT 30. ROUND 2, the phone: ".tr-bar__next is 27x30 at x=228,y=8 ... the
+   control a student presses 24 times, at the smallest size in the app." The
+   masthead is 46px tall, so 44 will not fit in it beside the wordmark; 40 will,
+   and the 44px target for the same action is the twin at the foot of the sheet
+   (`.tr-panel__next`). */
+.tr-bar__b {
+  min-block-size: 2.5rem;
+  appearance: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none, 0);
+  background: transparent;
+  color: var(--text-body);
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-ui);
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tr-bar__b:hover:not(:disabled) { background: var(--surface-well); border-color: var(--accent-ink); }
+.tr-bar__b:disabled { opacity: .38; cursor: not-allowed; }
+
+/* Next is the forward edge of the path, so it is the one control here with a
+   fill. When a gate holds it, it is not merely dim: it is unfocusable, and it
+   says what it is waiting for instead of pretending to be pressable. */
+.tr-bar__next {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: var(--text-on-accent);
+}
+.tr-bar__next:hover:not(:disabled) { background: var(--accent-hover, var(--accent)); border-color: var(--accent-hover, var(--accent)); color: var(--text-on-accent); }
+.tr-bar__next[data-locked='yes'] {
+  background: transparent;
+  color: var(--text-min);
+  border-style: dashed;
+  border-color: var(--border-firm);
+  opacity: 1;
+}
+
+.tr-bar__count {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-small);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  letter-spacing: var(--tr-micro);
+}
+.tr-bar__of { color: var(--text-min); }
+.tr-bar__lock {
+  /* Round 2 printed `14 / 14GATE`. The word is a separate element and it now
+     has a separate space around it, at every viewport. */
+  margin-inline-start: var(--space-xs);
+  padding-inline-start: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--danger);
+}
+.tr-bar__lock--recall { color: var(--accent-ink); }
+.tr-bar__end {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+/* The route to the field, present only while a gate holds the path. It is a
+   `.cx-more` like every other "there is more here" in this app, in `--danger`
+   because it is the thing standing between the reader and Next. */
+.tr-bar__togate {
+  white-space: nowrap;
+  color: var(--danger);
+  font-weight: var(--w-semibold);
+}
+.tr-bar__togate[hidden] { display: none; }
+/* `.cx-more` supplies a trailing arrow of its own and this control already
+   carries one that means something different — down, into the rail — so the
+   shared one is suppressed rather than printed beside it. */
+.tr-bar__togate::after { content: none; }
+.tr-bar__togate .tr-bar__arrow { margin-inline-start: var(--space-2xs); }
+
+.tr-bar__escape { white-space: nowrap; }
+/* THE HIT TARGET IS 44px WITHOUT THE BOX BEING 44px.
+   ROUND 2, the phone: "all 32 visible controls measure under 44x44 ... the
+   worst are .tl-lane at 189x12, .legend__route at 73x17, .ly-bar__open at 52x18
+   and .tr-routes__go at 225x18." Three of the four are other pieces'; this one
+   is ours, and so are the inline routes inside a beat. The masthead is 46px
+   tall and a 44px BOX in it would push the wordmark out, so the padding is
+   taken back as negative margin — the pattern `close.css` already uses on
+   `.cl-finish`: the pointer target is 2.75rem, the layout is unchanged. */
+.tr-bar__escape, .tr-bar__auxb, .tr-bar__togate,
+.tr-open, .tr-skip, .tr-gate__decline, .tr-dispute__go {
+  padding-block: 0.8em;
+  margin-block: -0.8em;
+}
+@media (max-width: 100rem) { .tr-bar__esctail { display: none; } }
+
+@media (max-width: 62rem) {
+  .tr-bar__w { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  /* THE KIND CHIP STANDS DOWN ACROSS THE WHOLE DOCKED BAND, not only below
+     46rem. Measured at 900x700 and 768x1024 on a recall step: the chip made
+     the counter read "23 / 25 recall", the transport grew, and the shell's own
+     overflow button `.bar__more` was drawn over the last 31px of Next —
+     `dock.js` D2, "Next is reachable", covered. RESPONSIVE_LAW §2 gives this
+     band the mark, the transport and `Tools` and nothing else; the chip says
+     what the step is and so does the panel heading two inches below it, in
+     full words. */
+  .tr-bar__lock { display: none; }
+  /* THE ONE EXEMPTION, AND IT IS THE WHOLE POINT OF THE RULE ABOVE.
+     Back and Next become two arrows in a 143px floating bar because "←" and
+     "→" are unambiguous. A control that is REFUSING to move is not: round 3
+     measured the locked Next at 900x700, 768x1024 and 390x844 rendering as an
+     unlabelled dashed "·" while the band said "Place it to go on". A gate that
+     cannot say what it wants is a gate that reads as a broken button. */
+  .tr-bar__next[data-locked='yes'] .tr-bar__w {
+    position: static; width: auto; height: auto; overflow: visible; clip-path: none;
+  }
+  /* ROUND 2, the phone: ".tr-bar__next is 27x30 ... the control a student
+     presses 24 times ... at the smallest size in the app." The masthead is
+     46px tall and the dock box is 9rem wide, so 44 does not fit beside Back
+     and the counter; 40 does, and the 44px target for the same action is the
+     twin at the foot of the sheet (`.tr-panel__next`). */
+  .tr-bar__b { padding-inline: var(--space-sm); }
+  .tr-bar__escape { font-size: var(--fs-micro); }
+}
+@media (max-width: 46rem) {
+  /* THE 9rem BOX, MEASURED AT A GATE.
+     At 390x844 on step 5 the reserved box is 144px and the row inside it came
+     to Back 31 + counter 91 ("5 / 24 GATE") + Next 75 ("Place it ↓") = 197, so
+     the shell's `overflow: hidden` clipped Next to an empty dashed rectangle —
+     round 3's defect, back in a new form. Two things stand down at this width
+     and only at this width: the kind chip, because the panel directly below is
+     the gate and says so in a heading; and the word on Next, because the 44px
+     control at the foot of that panel now says "Place it first ↓" in full and
+     is the one a thumb reaches. The refusal is still spoken — `_paint` puts it
+     on Next's accessible name. */
+  .tr-bar__next[data-locked='yes'] .tr-bar__w {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+  }
+  /* RESPONSIVE_LAW §7: while a lesson is RUNNING, "Explore on my own" leaves
+     the bar below 46rem — the masthead has room for the mark, the transport and
+     Tools and nothing else, and the escape is one press on `Tools` away.
+     BEFORE the lesson runs, that same control is not an escape: it is the door.
+     ROUND 2: "Scrub the timeline once and the CTA changes to 'Ask me' ... there
+     is no route to the guided path anywhere on screen." At this width there was
+     none even before the scrub, because of this rule. The transport is not
+     drawn while the path is idle, so the box it would occupy is exactly the
+     room this needs. */
+  .tr-bar__escape { display: none; }
+  /* The offer of the optional step is made twice at the end — in the band, at
+     full width, and here. Measured at 390x844: the masthead copy rendered
+     "One mo" in a 9rem box. RESPONSIVE_LAW §7's own rule for this band is that
+     a duplicate which does not fit leaves the bar; the band's is the one that
+     fits, and it is larger and above the map. */
+  /* ROUND 7 — WHERE THE ONE JUMP TO A COUNTED FIGURE WENT INSTEAD.
+     This line was the phone critic's material defect at 390px: the 'Count it
+     ↓' that carries T3, T8 and T14 onto the path had a 0x0 box and there was
+     no other way in. The rule itself is still right — measured, the masthead
+     at this width is already 413px of content in 390 — so the control does not
+     come back to the bar. `chrome/index.js` adopts THIS SAME NODE into the
+     sheet's own head for as long as a `.viz-onpath` figure is in the open
+     sheet (chrome.css, "the one jump to a figure appended beside the beat"),
+     which is why this piece still renders exactly one of them and does not
+     draw a second copy in the panel. */
+  .tr-bar__aux { display: none; }
+  .tr-bar[data-state='idle'] .tr-bar__escape {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.5rem;
+    white-space: nowrap;
+    font-size: var(--fs-micro);
+  }
+}
+
+/* ==========================================================================
+   1b. A SHIM, AND THE DEFECT IT STANDS IN FOR — read this before deleting it.
+
+   LAYOUT_BUDGET §7 sanctions exactly one kind of rule that reaches outside the
+   piece that owns it: a transitional shim that enforces a rule from outside
+   while naming the piece that owns the real fix. This is one, and it is the
+   only one in this file.
+
+   MEASURED, on the running app at 390x844 and 768x1024, with a beat panel
+   open: the map's furniture layer (`.map__furniture`, `position:absolute;
+   inset:0`) is congruent with `.map`, and `.map` is the whole stage row — 390
+   x 476 — while the drawn canvas is only 390 x 122 because the bottom sheet
+   takes the rest. So the definition dial and "Other ways to draw this" are
+   laid out against a box that runs 200px underneath the open sheet, and they
+   print over the beat's prose. `.map__furniture` is P02's element and the real
+   fix is P02's: size the furniture to the drawn plate, not to the element.
+   Until then this clamps the layer to the part of the plate a reader can
+   actually see, using the shell's own published seam.
+
+   DELETE THIS BLOCK when `.map__furniture` stops overlapping `.app__sheet` at
+   390x844 with a beat open — and the acceptance run must still pass.
+   ========================================================================== */
+
+@media (max-width: 61.999rem) {
+  /* `!important` because the height is written as an inline style by
+     map/index.js (`_sizeEnlarged` / the floating layer's pin), and an inline
+     style is the only thing a stylesheet cannot out-specify. It is the
+     narrowest possible override: one property, one media band, and only while
+     a teaching sheet is actually open. */
+  /* The same clamp on the plate itself. Without it the map centres its camera
+     in a 390x476 box of which the bottom 326px are under the sheet, so a beat
+     that flies to Bengal draws Bengal behind the panel and leaves the visible
+     strip empty — measured at 390x844 on the `revenue-loop` beat. Clamping the
+     element makes the map's own ResizeObserver re-fit to the room it actually
+     has. It cannot feed back: the shell derives `--rail-top-min` from the
+     plate's TOP, not its height, so the sheet does not move when this does. */
+  /* THE FLOOR IS THE PEEK STRIP'S HEIGHT, NOT THE FULL BAND'S.
+     9.5rem was the docked band's own map height and it was the right floor
+     while every beat got the same band. On a textual beat the band is 92px
+     (tours.css §17) and a 152px floor put 60px of map under the sheet —
+     measured at 390x844 on step 17: `.stage__map` 390x92, `.map` 390x152. The
+     floor is what the shell's own rectangle can hold, and 2.75rem is one
+     WCAG 2.5.5 target: below that a strip is not a peek, it is a seam. */
+  #app[data-rail='sheet'][data-sheet='open'] .map:not(.is-enlarged) {
+    block-size: max(2.75rem, calc(100dvh - var(--rail-clear, 0px) - var(--key-h, 1.75rem) - var(--stage-top, 0px))) !important;
+  }
+  #app[data-rail='sheet'][data-sheet='open'] .map__furniture:not(.is-big) {
+    inset-block-end: auto;
+    block-size: max(2.75rem, calc(100dvh - var(--rail-clear, 0px) - var(--key-h, 1.75rem) - var(--stage-top, 0px))) !important;
+  }
+}
+
+/* The first-run escape, in the masthead's end slot. */
+.ob-bar { display: flex; align-items: center; gap: var(--space-md); min-width: 0; }
+.ob-escape, .ob-resume { white-space: nowrap; }
+@media (max-width: 46rem) { .ob-resume { display: none; } }
+
+/* ==========================================================================
+   2. A BEAT PANEL — the rail. One argument, one actor, at most one task.
+   ========================================================================== */
+
+.tr-panel { font-family: var(--font-sans); color: var(--text-body); }
+
+.tr-panel__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding-block-end: var(--space-xs);
+  border-block-end: var(--rule-fine) solid var(--border-soft);
+  margin-block-end: var(--space-md);
+}
+.tr-panel__mark {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.tr-panel__t {
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min);
+}
+.tr-panel__title { margin: 0 0 var(--space-md); }
+
+.tr-p {
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-book);
+  line-height: var(--lh-prose);
+  margin: 0 0 var(--space-md);
+  color: var(--text-body);
+}
+.tr-p--reveal { border-inline-start: var(--rule-heavy) solid var(--accent-ink); padding-inline-start: var(--space-md); }
+.tr-p--why { color: var(--text-secondary); }
+
+/* The app's own reading of the complication, held back until the student has
+   placed it. Same words, same citation, after the commitment rather than
+   before it — and it carries a hairline so it reads as a second voice, not as
+   more of the fact above. */
+.tr-gate__after {
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-soft, var(--border-firm));
+}
+.tr-gate__after[hidden] { display: none; }
+.tr-gate__afterlab {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--text-min);
+}
+
+.tr-quote {
+  margin: 0 0 var(--space-md);
+  padding-inline-start: var(--space-md);
+  border-inline-start: var(--rule-fine) solid var(--border-firm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tr-quote cite {
+  display: block;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-style: normal;
+  color: var(--text-min);
+}
+
+.tr-note { margin-block: var(--space-md); }
+.tr-how { margin-block: var(--space-sm) var(--space-md); }
+.tr-hint { margin-block-start: var(--space-sm); }
+
+/* the named non-British actor. Every beat carries one. */
+.tr-actor {
+  margin-block: var(--space-lg) var(--space-md);
+  padding: var(--space-md);
+  background: var(--surface-well);
+  border-inline-start: var(--rule-mid) solid var(--border-firm);
+}
+.tr-actor__eyebrow {
+  display: block;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  /* NOT --text-min. ROUND 9, the classroom critic, measured: --ink-faint is
+     4.60:1 on --paper and it is documented as "the floor for any text at all"
+     — but this eyebrow does not sit on --paper. `.tr-actor` above sets
+     --surface-well, and #776E64 on #F0EBE2 is 4.21:1 at 12px, which is under
+     AA. --text-secondary is 6.54:1 on the same well in light and 8.26:1 in
+     dark. A token's stated ratio belongs to the surface it was measured on;
+     when a rule changes the surface it has to re-check the ink. */
+  color: var(--text-secondary);
+  margin-block-end: var(--space-2xs);
+}
+.tr-actor__body {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+}
+
+.tr-open { display: inline-block; margin-block-start: var(--space-sm); }
+
+/* figures */
+.tr-figs { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-block: var(--space-md) var(--space-lg); }
+.tr-fig { min-width: 6rem; }
+.tr-fig__note {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  line-height: var(--lh-ui);
+  max-width: 22rem;
+}
+
+/* ==========================================================================
+   2b. THE MECHANISM, DRAWN — the revenue → sepoys → conquest ring.
+
+   Round 2: "the app's declared signature interaction is still prose… nothing
+   is drawn as a loop, nothing on the map changes, and the student must scroll
+   to reach 'Cut Bengal's revenue'." The ring is an SVG figure that stays at
+   the top of the panel while the prose accumulates beneath it, the two
+   controls sit with it, and closing it lights the conquests it paid for on
+   the map. Every colour is a token; nothing is invented.
+   ========================================================================== */
+
+.tr-ring {
+  margin: 0 0 var(--space-sm);
+  padding: var(--space-sm) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tr-ring__svg {
+  inline-size: 100%;
+  /* MEASURED, AND THE REASON IT CHANGED. Round 4: "the revenue-sepoys-conquest
+     figure is about 180px of pale dotted strokes; the unlit arrows are close to
+     invisible at 1440." Both halves were true. At 19rem the figure drew 304x246
+     inside a 399px rail — a diagram this app calls its signature interaction,
+     taking a third of the width available to it. 24rem fills the rail at every
+     viewport it is drawn in and the whole ring still fits the panel at 390. */
+  max-inline-size: 24rem;
+  block-size: auto;
+  display: block;
+  overflow: visible;
+}
+/* ON A PHONE THE RING HAS TO FIT THE PANEL, NOT THE COLUMN.
+   MEASURED at 390x844 inside the loop beat: the rail's body is 390x198 (the
+   RESPONSIVE_LAW gives the panel LAYOUT_BUDGET B8's 280px floor and the head
+   takes the rest), and a figure sized to the column's width drew 358x289 — so
+   the student saw the top third of a ring whose whole point is that it is a
+   closed shape, and "Step it" was two scrolls below it. Sized by HEIGHT
+   instead, it draws 188x152 and the ring, its caption and both controls are on
+   screen together. The sub-labels stand down at that size rather than being
+   printed at seven pixels: "Revenue", "Sepoys" and "Conquest" are the argument
+   and they are still there. */
+@media (max-width: 46rem) {
+  /* THE BEAT'S OWN QUESTION COMES BEFORE THE MENU ABOUT THE LESSON.
+     ROUND 3, the phone, as a `must fix` against stop 1 of 15: "the guess input
+     is ~400px below the fold, so the prediction that the Close scores can be
+     skipped without the student ever seeing it." Measured at 390x844 in a
+     260px reading window: `.tr-routes` 65px, then the eyebrow at 89, the
+     question at 110 and the input row at 292 — thirty-two pixels past the
+     bottom edge, on the one beat where the plate rightly holds the band. The
+     route strip is a choice about how long the lesson is and it is still on
+     this screen, one short scroll down, beside the actor. The question is what
+     the screen is for, so it goes first. Nothing is removed and nothing moves
+     on any other beat: the flag is only set where a strip exists. */
+  .tr-panel[data-routes='yes'] .tr-panel__flow { display: flex; flex-direction: column; }
+  .tr-panel[data-routes='yes'] .tr-panel__flow > * { order: 1; }
+  .tr-panel[data-routes='yes'] .tr-panel__flow > .tr-routes { order: 2; margin-block-start: var(--space-md); }
+  .tr-panel[data-routes='yes'] .tr-panel__flow > .tr-actor { order: 3; }
+  /* AND THE ASK IS NOW THE FIRST THING IN THE FLOW, so its own top margin is
+     the second copy of the flow's top padding. Twelve pixels, and they are the
+     twelve that decide whether the whole of "That is my guess" is on the first
+     screen: measured at 390x844 the row sat 227-271 in a 260px window (33 of
+     44px showing) with the margin, and inside it without. Flex items do not
+     collapse margins, which is why this has to be said. */
+  .tr-panel[data-routes='yes'] .tr-panel__flow > .cx-ask:first-child,
+  .tr-panel[data-routes='yes'] .tr-panel__flow > .cx-ask { margin-block-start: 0; }
+
+  /* THE RING, RE-FITTED TO THE WINDOW IT NOW HAS.
+     The reading window on this beat is 390x129 once the foot has taken its
+     44px thumb-zone Next, and the ring at 8.5rem plus its two controls is 180.
+     Measured at 390x844 before this block: a student saw "Step it", the words
+     "the diwani, 1765", and the top edge of the Revenue box — the top eighth of
+     a figure whose entire argument is that it is a CLOSED shape.
+     So on this beat, at this width, three things give way: the ring drops to
+     6rem, its labels are scaled UP so that they land at the same size on
+     screen as before (24px at a 0.44 scale is 10.6 device px, against 15px at
+     0.63 = 9.4 before), and the foot sheds the Next twin — this is the one
+     beat whose own two controls are already 36px targets in the lower half of
+     the panel, so the twin would be a third button doing what "Cut the
+     revenue" is there to do. The masthead's Next is untouched. */
+  .tr-ring__svg { inline-size: 100%; block-size: auto; max-inline-size: 100%; }
+  .tr-ring__s { font-size: 9.5px; }
+  .tr-ring__cap2 { display: none; }
+  .tr-loop__next, .tr-loop__cut { min-block-size: 2.25rem; }
+  .tr-panel[data-kind='loop'] .tr-panel__next { display: none; }
+  .tr-panel[data-kind='loop'] .tr-panel__more { min-block-size: 0; }
+  .tr-ring { padding-block-start: 0; margin-block-end: var(--space-xs); }
+  /* AND THE CONTROL COMES BEFORE THE FIGURE, not under it.
+     188 + 28 + the eyebrow is more than the 198px body, and round 2's charge
+     against this beat was that the student had to scroll to reach "Cut
+     Bengal's revenue". At this width the two controls sit above the ring, the
+     eyebrow stands down, and `panel.js` scrolls the block rather than the ring
+     so the button just pressed stays on screen. */
+  .tr-loop { display: flex; flex-direction: column; }
+  .tr-loop > .cx-ask__eyebrow { display: none; }
+  .tr-loop__controls { order: -1; margin-block: 0 var(--space-sm); }
+  .tr-loop__controls[data-docked='yes'] { order: 0; margin: 0; flex: 0 0 auto; flex-wrap: nowrap; gap: var(--space-xs); }
+  .tr-loop__controls[data-docked='yes'] .btn { white-space: nowrap; }
+  .tr-ring { order: 0; }
+  .tr-loop__steps { order: 1; }
+  .tr-loop__out { order: 2; }
+  .tr-panel__head { margin-block-end: var(--space-xs); padding-block-end: var(--space-2xs); }
+  /* AND ON THE ONE BEAT WHOSE FIGURE IS THE ARGUMENT, THE DATE ROW STANDS DOWN.
+     MEASURED at 390x844: body 198px = head 46 + controls 28 + ring 136 + the
+     caption, which is 24px over. The head prints "12 August 1765", which the
+     lede band is printing directly above the map at the same moment, and
+     "T7 · M2", which is a payload tag for a teacher. LAYOUT_BUDGET B3's own
+     remedy is to shed a stratum rather than to shrink everything; this is the
+     stratum, on this beat, at this width only. */
+  /* AT PHONE WIDTH THE DATE ROW STANDS DOWN ON EVERY BEAT, not only the loop.
+     MEASURED at 390x844 on step 17: the reading window is 390x121 and the head
+     spends 46 of it printing "13 April 1919" — which the lede band is printing
+     directly above the map in the same frame, in larger type — and "T17 · M12",
+     which is a payload tag for a teacher. LAYOUT_BUDGET B3's own remedy is to
+     shed a stratum rather than shrink everything. This is the stratum, at this
+     width, and it buys 38 % more prose on the scarcest 121 pixels in the app. */
+  .tr-panel__head { display: none; }
+  /* AND THE SCROLL CUE STANDS OUT OF THE WAY OF THE FIGURE.
+     MEASURED: with the cue pinned to the foot of the scrollport it sat at
+     618-644 over a ring drawn 519-655 — across "Conquest" and "Sepoys", the two
+     nodes the beat exists to close. A bar that says "there is more below" and
+     hides the thing you are looking at has made the trade the wrong way round.
+     On this beat, at this width, it goes back into the flow: the ring, both
+     controls and the caption are all on screen without it, and it is still
+     there at the end of the prose. */
+  /* The cue used to be pinned inside the scrollport, where on this one beat it
+     stood over the ring. It is a row in the flow now, at every beat, so the
+     exemption went with the raft. */
+}
+
+/* ==========================================================================
+   THE FRAME — the panel scrolls its own prose, and its foot is a real edge.
+
+   ROUND 2, named by three of four critics: "the beat panel is cut mid-line at
+   EVERY viewport, and a whole line is lost"; "text sliced mid-glyph at the
+   sheet/timeline seam"; "the peek line is sliced clean through the x-height at
+   every viewport I tested". All three were one bug. The cue was
+   `position: sticky; inset-block-end: 0` inside the shell's scroller, and
+   sticky resolves against the scrollport's CONTENT box: measured at 390x844 on
+   step 17, the bar came to rest 16px above the visible edge (`.cx-sheet__body`
+   carries `padding: var(--space-lg)`), so it hid one whole line under itself
+   and left the next one live below it, to be guillotined by the time bar.
+
+   Now: the root is a two-row grid, the prose scrolls in the first row, and the
+   foot is the second. The foot is the bottom edge of the reading window rather
+   than a raft floating over it, so nothing continues below it — and the last
+   line inside the window fades out under a mask rather than being cut through
+   its glyphs. `.cx-sheet__body`'s own padding is bled through at the head and
+   the sides so the reading window keeps every pixel it had.
+   ========================================================================== */
+
+.cx-sheet__body > .tr-panel,
+.cx-sheet__body > .tr-gate,
+.cx-sheet__body > .tr-dispute {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-block-size: 0;
+  /* The body's own padding, bled through at the head and the two sides. The
+     foot stops at the content-box edge, so the 16px under it is quiet ground
+     and never a sliced line. The bottom is NOT bled: P21 renders the
+     through-line as a sibling of this node below 62rem (RESPONSIVE_LAW §7),
+     and a negative bottom margin would pull it up over our own foot. */
+  margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg)) 0;
+  block-size: calc(100% + var(--space-lg));
+  max-block-size: calc(100% + var(--space-lg));
+}
+.tr-panel__scroll {
+  min-block-size: 0;
+  overflow: hidden auto;
+  /* The reading window's own edges. A container that scrolls has to say so
+     when it is focused with a keyboard, and this one is a tab stop because a
+     keyboard reader must be able to page a 2,000px beat without a pointer. */
+  scrollbar-width: thin;
+}
+.tr-panel__flow { padding: var(--space-lg) var(--space-lg) var(--space-sm); }
+@media (max-width: 61.999rem) { .tr-panel__flow { padding-block-start: var(--space-sm); } }
+
+/* THE FADE, AT BOTH EDGES, AND ONLY WHERE THERE IS SOMETHING TO FADE.
+   The classroom critic's own remedy: "fade the peek line the way the headline
+   above it is faded, or clip on the line box." A mask fades the glyphs
+   themselves, so a half-line at the edge reads as a line continuing rather
+   than as a line cut. Kept to 1.5rem — one line of the panel's own leading. */
+/* ROUND 5, THE PHONE, FOR THE THIRD TIME: "a fade slicing a sentence at both
+   edges". The ramp above was 1.5rem — one whole line of this panel's leading —
+   so the last line in the window was not softened, it was ERASED, and the
+   first line under a scrolled edge with it. Photographed at 390x844 on the
+   Amritsar beat: "Committee counted 379 dead; the Indian" rendered at roughly
+   a quarter ink, which is a line a fifteen-year-old reads twice and then
+   scrolls past.
+
+   A fade is the right cue and the length was wrong. The ramp now holds full
+   ink to within 0.55rem of the edge and is still 40 % opaque at 0.15rem, so
+   the cap-height of the last line stays solid and only its descenders soften:
+   the line reads, and it still reads as a line with something under it. The
+   top ramp is shorter again, because what is above the window has already been
+   read and only needs to look continuous. */
+/* WHY THERE IS NO LINE-ROUNDING OF THE WINDOW IN THIS FILE.
+   ROUND 3, the rubric and the phone: "at 390x844 the beat scroller clips its
+   last line of body text through the x-height rather than at a line boundary.
+   Round the scroller height to a whole line-height." A trim was written here
+   and then measured against the shell's own harness: `chrome/index.js` already
+   rounds the readable window (`--read-trim`, applied to `.cx-sheet__body` in
+   layout.css) and `tools/scenarios/read.js` R14 reported top 0px / bottom
+   0-5.7px of a line box on every textual step and on the Close WITHOUT this
+   file's copy. With it, R14 read the same and R11's floor FAILED — the panel
+   after one press on the peek strip came back at 228px against a 240 floor,
+   because two pieces were each paying for the same edge. One owner. The
+   fragment left at the foot is still measured here and published as
+   `--tr-cut`, which is the FADE and not the height, and those are two
+   different jobs. */
+
+.tr-panel[data-more='yes'] > .tr-panel__scroll,
+.tr-gate[data-more='yes'] > .tr-panel__scroll,
+.tr-dispute[data-more='yes'] > .tr-panel__scroll {
+  /* THE RAMP IS THE FRAGMENT, MEASURED. `--tr-cut` is set by
+     `panel.js` `snapLines()` to exactly how much of a line is left showing at
+     the foot; a foot that lands on a line boundary sets it to 0 and there is no
+     fade at all. The 0.55rem is only the fallback for the frame before the
+     first measurement lands. See §THE FRAME. */
+  mask-image: linear-gradient(to bottom,
+    #000 calc(100% - var(--tr-cut, 0.55rem)),
+    rgba(0, 0, 0, .35) calc(100% - var(--tr-cut, 0.55rem) * 0.35),
+    transparent 100%);
+}
+.tr-panel[data-more='yes'][data-up='yes'] > .tr-panel__scroll,
+.tr-gate[data-more='yes'][data-up='yes'] > .tr-panel__scroll,
+.tr-dispute[data-more='yes'][data-up='yes'] > .tr-panel__scroll {
+  mask-image: linear-gradient(to bottom,
+    transparent 0, rgba(0, 0, 0, .4) 0.15rem, #000 0.45rem,
+    #000 calc(100% - var(--tr-cut, 0.55rem)),
+    rgba(0, 0, 0, .35) calc(100% - var(--tr-cut, 0.55rem) * 0.35),
+    transparent 100%);
+}
+.tr-panel[data-up='yes'] > .tr-panel__scroll,
+.tr-gate[data-up='yes'] > .tr-panel__scroll,
+.tr-dispute[data-up='yes'] > .tr-panel__scroll {
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.4) 0.15rem, #000 0.45rem);
+}
+
+.tr-panel__foot {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-sm);
+  padding: var(--space-3xs, 2px) var(--space-lg);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+  background: var(--surface-panel);
+}
+.tr-panel__more {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) 0;
+  border: 0;
+  background: none;
+  color: var(--accent-ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  text-align: start;
+  cursor: pointer;
+  /* IT NEVER CHANGES THE PANEL'S HEIGHT. Toggling `display` fed the
+     ResizeObserver that decides whether to show it and Chromium reported
+     "ResizeObserver loop completed with undelivered notifications" on the loop
+     beat. The box is always in the flow; only its ink is switched. */
+  visibility: hidden;
+}
+.tr-panel__morea { font-size: var(--fs-caption); }
+.tr-panel[data-more='yes'] > .tr-panel__foot > .tr-panel__more,
+.tr-gate[data-more='yes'] > .tr-panel__foot > .tr-panel__more,
+.tr-dispute[data-more='yes'] > .tr-panel__foot > .tr-panel__more,
+/* P21's Close renders the same foot, with the same three classes, because a
+   student who has pressed `more of this beat` twelve times should not have to
+   learn a second control on the thirteenth screen. See close/index.js
+   `_closeFoot()` and close.css §THE CLOSE'S OWN FRAME. */
+.cl-close[data-more='yes'] > .tr-panel__foot > .tr-panel__more { visibility: visible; }
+.tr-panel__more:hover { color: var(--text-body); text-decoration: underline; }
+
+/* NEXT, IN THE THUMB ZONE — RESPONSIVE_LAW's docked band only.
+   Measured at 390x844: `.tr-bar__next` is 27x30 at the top-right of a 390px
+   masthead. It is the control a student presses twenty-four times, it is the
+   smallest control in the application, and it is in the worst one-handed reach
+   zone on the phone. The masthead copy stays (it is where the keyboard finds
+   it, RESPONSIVE_LAW D9); this is its twin, at the foot of the thing the
+   student is reading, 44px tall, with the same word on it. */
+.tr-panel__next { display: none; }
+@media (max-width: 61.999rem) {
+  .tr-panel__foot { padding-block: var(--space-2xs); align-items: center; }
+  .tr-panel__next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    flex: 0 0 auto;
+    min-block-size: 2.75rem;
+    min-inline-size: 6.5rem;
+    padding-inline: var(--space-md);
+    border: var(--rule-fine) solid var(--accent-ink);
+    background: var(--accent-ink);
+    color: var(--text-on-accent, #fff);
+    font-family: var(--font-sans);
+    font-size: var(--fs-small);
+    font-weight: var(--w-semibold);
+    letter-spacing: var(--tr-ui);
+    cursor: pointer;
+  }
+  .tr-panel__next[data-locked='yes'] {
+    background: none;
+    border-style: dashed;
+    border-color: var(--border-firm);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+  }
+  .tr-panel__more { min-block-size: 2.75rem; }
+}
+
+.tr-dispute__route {
+  margin-block: var(--space-md);
+  padding: var(--space-md);
+  border-inline-start: 0.1875rem solid var(--accent-ink);
+  background: var(--surface-well);
+}
+.tr-dispute__route .tr-dispute__go { margin-block-end: var(--space-sm); }
+.tr-dispute__route .tr-dispute__note,
+.tr-dispute__route .tr-gate__done { margin: 0; }
+.tr-dispute__after { margin-block-start: var(--space-md); }
+
+
+/* ==========================================================================
+   3. THE RING'S OWN INK — the nodes, the arrows and the cut.
+
+   ROUND 2, the phone: "the loop diagram at step 9 is the app's stated most
+   important mechanism and it is the palest thing on the phone: three hairline
+   boxes and dotted grey arrows that are close to invisible at 192px in
+   daylight." The cause was arithmetic, not colour. The figure is sized by
+   HEIGHT at 46rem — 8.5rem of a 260x216 viewBox — so every stroke in it is
+   drawn at 136/216 = 0.63 of its authored width: a 2px arrow became 1.26
+   device pixels and a 1.25px box became 0.79. `vector-effect: non-scaling-
+   stroke` takes the scale out of the stroke, so the ring is the same weight of
+   line on a phone as on a projector, and the unlit arrow moves off the
+   text FLOOR (--text-min) onto a colour a reader is meant to read.
+   ========================================================================== */
+
+.tr-ring__box {
+  fill: var(--surface-panel);
+  stroke: var(--border-firm);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.tr-ring__t {
+  /* An unlit node is not yet part of the argument; it is still a word a reader
+     has to be able to read. `--text-min` is this app's own floor for any text
+     at all (tokens.css) and `--border-soft` never was one. */
+  fill: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: var(--w-semibold);
+  text-anchor: middle;
+  letter-spacing: var(--tr-ui);
+}
+.tr-ring__s {
+  fill: var(--text-min);
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  text-anchor: middle;
+}
+.tr-ring__cap, .tr-ring__cap2 {
+  fill: var(--text-min);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+}
+.tr-ring__cap2 {
+  margin-block-start: var(--space-xs);
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--fs-caption);
+}
+.tr-ring__node[data-on='yes'] .tr-ring__box { fill: var(--surface-well); stroke: var(--accent-ink); stroke-width: 2.25; }
+.tr-ring__node[data-on='yes'] .tr-ring__t { fill: var(--text-body); }
+.tr-ring__node[data-on='yes'] .tr-ring__s { fill: var(--text-secondary); }
+.tr-ring__node[data-dead='yes'] .tr-ring__box { fill: transparent; stroke: var(--border-soft); stroke-dasharray: 3 3; }
+.tr-ring__node[data-dead='yes'] .tr-ring__t,
+.tr-ring__node[data-dead='yes'] .tr-ring__s { fill: var(--text-min); }
+@media (max-width: 46rem) { .tr-ring__svg[data-wide='yes'] .tr-ring__t { transform: none; } }
+
+.tr-ring__edge {
+  /* THE UNLIT ARROW IS STILL AN ARROW. The brief for this wave: "the unlit
+     arrows are close to invisible at 1440". `--text-secondary` at .9 opacity
+     and a 5/4 dash is a hairline at that width against the panel's own ground;
+     the edge a student has NOT yet lit is the half of the figure that says
+     what is coming, so it is drawn at body weight and full opacity, with a
+     tighter dash that reads as a line rather than as a row of specks. The lit
+     edge is still unmistakable: madder red, 3.5 wide and solid. */
+  stroke: var(--text-body);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 3;
+  vector-effect: non-scaling-stroke;
+  opacity: 1;
+}
+.tr-ring__edge[data-on='yes'] { stroke: var(--accent-ink); stroke-width: 3.5; stroke-dasharray: none; opacity: 1; }
+/* Dead is dimmer than unlit and heavier than the old invisible: the reader has
+   to be able to SEE that the arrow is still drawn and no longer carries
+   anything, which is the whole point of cutting the loop. */
+.tr-ring__edge[data-dead='yes'] { stroke: var(--border-firm); stroke-width: 2; stroke-dasharray: 2 6; opacity: 1; }
+.tr-ring__ah { fill: var(--accent-ink); }
+.tr-ring__ah--dim { fill: var(--text-secondary); }
+.tr-ring__ah--dead { fill: var(--border-firm); }
+.tr-ring__slash { stroke: var(--danger); stroke-width: 4.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.tr-ring[data-closed='yes'] .tr-ring__cap2 { color: var(--accent-ink); font-weight: var(--w-semibold); }
+.tr-ring[data-cut='yes'] .tr-ring__cap2 { color: var(--danger); }
+
+/* THE CUT, MARKED ON THE RING BEFORE IT IS MADE.
+   The control that breaks the loop used to be a quiet `.btn--small` under the
+   figure, in the same treatment as "Step it", with nothing on the ring saying
+   where it would land. It is two things in one place: a target drawn on the
+   arrow it cuts, and a control in the danger treatment. */
+.tr-ring__zone { cursor: pointer; }
+/* `fill: none` on an SVG shape is not hit-testable, so the ring's interior let
+   the pointer through to the plate behind it and the target could be seen and
+   not pressed — caught by Playwright, which reported the `<svg>` intercepting
+   the click on every retry for thirty seconds. */
+.tr-ring__zone, .tr-ring__zonering, .tr-ring__zonet { pointer-events: all; }
+.tr-ring__zonering {
+  fill: var(--surface-panel);
+  fill-opacity: .55;
+  stroke: var(--danger);
+  stroke-width: 3;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+.tr-ring__zone:hover .tr-ring__zonering { fill-opacity: 1; stroke-dasharray: none; }
+.tr-ring__zonet {
+  fill: var(--danger);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion='reduced']) .tr-ring__zonering { animation: tr-zone 1.8s ease-in-out infinite; }
+}
+html[data-motion='reduced'] .tr-ring__zonering { animation: none !important; }
+@keyframes tr-zone {
+  0%, 100% { stroke-opacity: 1; }
+  50% { stroke-opacity: .45; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion='reduced']) .tr-ring__edge,
+  html:not([data-motion='reduced']) .tr-ring__box {
+    transition: stroke var(--dur-normal, 220ms) ease-out, fill var(--dur-normal, 220ms) ease-out, stroke-width var(--dur-normal, 220ms) ease-out;
+  }
+}
+
+/* ==========================================================================
+   3b. THE LOOP'S CONTROLS AND ITS PROSE.
+   ========================================================================== */
+
+.tr-loop__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-block-end: var(--space-md);
+}
+.tr-loop__next { min-block-size: 2.75rem; }
+/* `.btn` is chrome's and its stylesheet may be injected after this one, so the
+   danger treatment is written at two classes and with the shorthand — measured:
+   the cut button rendered `background: rgb(240,235,226)` with `--text-on-accent`
+   ink on it, which is off-white on off-white. */
+.btn.tr-loop__cut, .tr-loop__cut {
+  min-block-size: 2.75rem;
+  background: var(--danger);
+  border: var(--rule-fine) solid var(--danger);
+  color: var(--text-on-accent, #fff);
+  font-weight: var(--w-semibold);
+}
+.btn.tr-loop__cut:hover, .tr-loop__cut:hover { background: var(--danger); filter: brightness(1.12); }
+.tr-loop__cut[hidden] { display: none; }
+.tr-loop__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+.tr-loop__step {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  column-gap: var(--space-sm);
+  margin-block-end: var(--space-md);
+}
+.tr-loop__n {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-caption);
+  color: var(--accent-ink);
+  line-height: 1.6;
+}
+.tr-loop__label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+}
+.tr-loop__text {
+  grid-column: 2;
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tr-loop__out { margin-block-start: var(--space-md); }
+.tr-loop__stall {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-md);
+  border-inline-start: var(--rule-heavy) solid var(--danger);
+  background: var(--surface-well);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+
+/* ==========================================================================
+   4. THE ONE ASK TREATMENT — every commit in this piece is the same object.
+
+   A beat, a gate, a dispute and the off-map case all ask a student to say
+   something BEFORE they are shown anything, and a reader should have to learn
+   that treatment exactly once (DESIGN.md). `.cx-ask` is chrome's; everything
+   here is the tour's own refinement of it.
+
+   EVERY OPTION IS A 44px TARGET. Round 2, the phone: "all 32 visible controls
+   measure under 44x44". A commit button a student cannot hit is a commit that
+   does not happen.
+   ========================================================================== */
+
+.tr-ask { margin-block: var(--space-lg); }
+.tr-choices, .cx-ask__choices.tr-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-block: var(--space-sm);
+}
+.tr-choice {
+  display: block;
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none, 0);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  line-height: var(--lh-ui);
+  text-align: start;
+  cursor: pointer;
+}
+.tr-choice:hover:not(:disabled) { border-color: var(--accent-ink); background: var(--surface-well); }
+.tr-choice[aria-pressed='true'],
+.tr-choice[data-picked='yes'] {
+  border-color: var(--accent-ink);
+  border-inline-start-width: var(--rule-heavy);
+  background: var(--surface-well);
+  font-weight: var(--w-semibold);
+}
+.tr-choice:disabled { cursor: default; opacity: .72; }
+.tr-choice[data-was='yes'] { border-style: dashed; }
+
+.tr-num {
+  min-block-size: 2.75rem;
+  inline-size: 7rem;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-base);
+}
+.tr-unit { margin-inline-start: var(--space-2xs); color: var(--text-min); font-size: var(--fs-small); }
+.tr-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); margin-block: var(--space-sm); }
+.tr-go { min-block-size: 2.75rem; }
+.tr-skip { margin-inline-start: var(--space-sm); }
+.tr-nag { color: var(--danger); }
+.tr-wrong { color: var(--danger); }
+.tr-panel__body { margin-block-start: var(--space-md); }
+
+/* what the student said, printed back to them before the record answers */
+.tr-reveal { margin-block-start: var(--space-lg); }
+.tr-reveal__said {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tr-reveal__lab {
+  display: inline-block;
+  margin-inline-end: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--text-min);
+}
+.tr-reveal__pair { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-block: var(--space-md); }
+.tr-fig--answer .cx-fig__v { color: var(--accent-ink); }
+.tr-detail { margin: var(--space-sm) 0 0; padding-inline-start: var(--space-lg); }
+.tr-detail li { margin-block-end: var(--space-2xs); font-size: var(--fs-small); line-height: var(--lh-ui); }
+.tr-detail__k { color: var(--text-min); }
+.tr-src { margin-block-start: var(--space-sm); }
+.tr-src__for { color: var(--text-min); }
+
+/* ==========================================================================
+   5. PRESS THE YEARS — the block a beat is named after.
+   ========================================================================== */
+
+.tr-years { margin-block: var(--space-md) var(--space-lg); }
+.tr-years__row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-block: var(--space-sm); }
+.tr-years__b {
+  min-block-size: 2.75rem;
+  min-inline-size: 4.5rem;
+  padding: var(--space-xs) var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-base);
+  cursor: pointer;
+}
+.tr-years__b:hover { border-color: var(--accent-ink); background: var(--surface-well); }
+.tr-years__b[aria-pressed='true'] {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+  color: var(--text-on-accent, #fff);
+}
+.tr-years__read {
+  margin-block-start: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--surface-well);
+  border-inline-start: var(--rule-mid) solid var(--accent-ink);
+}
+.tr-years__status { margin: 0 0 var(--space-2xs); }
+.tr-years__y {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-h4, 1.125rem);
+  color: var(--accent-ink);
+  margin-inline-end: var(--space-2xs);
+}
+.tr-years__lab {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+}
+.tr-years__def { margin: 0 0 var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+.tr-years__how { margin-block: var(--space-sm) 0; }
+.tr-years__facts { margin: var(--space-xs) 0 0; padding-inline-start: var(--space-lg); font-size: var(--fs-small); line-height: var(--lh-ui); }
+.tr-years__k { color: var(--text-min); }
+.tr-years__span { margin-block-start: var(--space-xs); }
+
+/* ==========================================================================
+   6. TWO PEOPLE WHO WERE THERE, AND THEY DO NOT AGREE.
+
+   C6 — multiperspectivity — was the one criterion under 5, and the charge was
+   exact: "cameos name one person per beat but the path never once asks the
+   student to put two contemporaries in tension." Two columns, side by side,
+   each asking what that man was placed to know and what he wanted from
+   writing it down, before either document is shown. The columns are a real
+   grid where there is room and a stack where there is not: at 390px two
+   columns of a testimony are two columns of nothing.
+   ========================================================================== */
+
+.tr-tension__event { margin-block-end: var(--space-md); }
+.tr-tension__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-md);
+  margin-block: var(--space-md);
+}
+.tr-tension__col {
+  padding: var(--space-md);
+  background: var(--surface-well);
+  border-block-start: var(--rule-heavy) solid var(--border-firm);
+}
+.tr-tension__col[data-side='british'] { border-block-start-color: var(--accent-ink); }
+.tr-tension__col[data-side='indian'] { border-block-start-color: var(--accent-2-ink, var(--text-secondary)); }
+.tr-tension__who {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  color: var(--text-body);
+}
+.tr-tension__stands {
+  display: block;
+  margin-block-start: var(--space-3xs, 2px);
+  font-weight: var(--w-regular);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.tr-tension__q {
+  margin: var(--space-sm) 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-small);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tr-tension__q--last { font-size: var(--fs-prose); margin-block-start: 0; }
+.tr-tension__opts { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.tr-tension__opt { font-size: var(--fs-micro); padding: var(--space-xs) var(--space-sm); }
+.tr-tension__last {
+  margin-block: var(--space-md);
+  padding: var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+}
+.tr-tension__go { margin-block-start: var(--space-md); min-block-size: 2.75rem; }
+/* No second rule down the left. `renderSource` (P16) already draws its own
+   provenance rail beside every quotation it renders, and this block renders
+   through it — two vertical rules in twelve pixels is one document wearing two
+   spines. The document is separated by air and by its label instead. */
+.tr-tension__doc { margin-block: var(--space-lg); }
+.tr-tension__doc--third {
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) dashed var(--border-firm);
+}
+.tr-tension__doclab {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+}
+.tr-tension__doclab .tr-tension__stands { text-transform: none; letter-spacing: normal; font-weight: var(--w-regular); }
+.tr-tension__close {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+}
+
+/* ==========================================================================
+   7. OFF THIS MAP — the cases that are not Britain's.
+   ========================================================================== */
+
+.tr-offmap__claim {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  padding: var(--space-md);
+  background: var(--surface-well);
+  border-inline-start: var(--rule-heavy) solid var(--accent-ink);
+}
+.tr-offmap__claimlab {
+  display: block;
+  margin-block-end: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--text-min);
+}
+.tr-offmap__body { margin-block: var(--space-md); }
+.tr-offmap__where { margin: 0 0 var(--space-sm); font-family: var(--font-sans); font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: var(--tr-caps); color: var(--text-min); }
+.tr-offmap__choices { margin-block: var(--space-md); }
+.tr-offmap__hs { list-style: none; margin: var(--space-md) 0 0; padding: 0; }
+.tr-offmap__h { margin-block-end: var(--space-md); padding-inline-start: var(--space-md); border-inline-start: var(--rule-fine) solid var(--border-firm); }
+.tr-offmap__hwho { margin: 0; font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+.tr-offmap__hwork { font-style: italic; font-weight: var(--w-regular); }
+.tr-offmap__hpub { color: var(--text-min); font-weight: var(--w-regular); }
+.tr-offmap__hsays { margin: var(--space-2xs) 0 0; font-family: var(--font-serif); font-size: var(--fs-small); line-height: var(--lh-prose); }
+.tr-offmap__adds { margin-block-start: var(--space-md); }
+.tr-offmap__reveal { margin-block-start: var(--space-lg); }
+
+/* ==========================================================================
+   8. PUT THESE BACK IN ORDER — the retrieval block.
+   ========================================================================== */
+
+.tr-order__pool, .tr-order__done { list-style: none; margin: 0 0 var(--space-md); padding: 0; }
+.tr-order__pool { display: flex; flex-direction: column; gap: var(--space-xs); }
+.tr-order__btn {
+  display: block;
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  text-align: start;
+  cursor: pointer;
+}
+.tr-order__btn:hover { border-color: var(--accent-ink); background: var(--surface-well); }
+.tr-order__row {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto;
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  padding-block: var(--space-2xs);
+  border-block-end: var(--rule-fine) solid var(--border-default);
+}
+.tr-order__n, .tr-order__year {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-caption);
+  color: var(--accent-ink);
+}
+.tr-order__label { font-family: var(--font-sans); font-size: var(--fs-small); }
+.tr-order__driver { grid-column: 2 / -1; font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-ui); }
+.tr-order__hint { margin-block-start: var(--space-sm); }
+
+/* ==========================================================================
+   9. SORT THEM — settler assembly or not.
+   ========================================================================== */
+
+.tr-sort { list-style: none; margin: var(--space-sm) 0; padding: 0; }
+.tr-sort__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  border-block-end: var(--rule-fine) solid var(--border-default);
+}
+.tr-sort__name { font-family: var(--font-sans); font-size: var(--fs-small); }
+.tr-sort__buttons { display: inline-flex; gap: var(--space-2xs); }
+.tr-sort__b {
+  min-block-size: 2.75rem;
+  min-inline-size: 3rem;
+  padding-inline: var(--space-sm);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  cursor: pointer;
+}
+.tr-sort__b[aria-pressed='true'] { border-color: var(--accent-ink); background: var(--accent-ink); color: var(--text-on-accent, #fff); }
+.tr-sort__ans { font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-secondary); }
+.tr-sort__ans[data-right='no'] { color: var(--danger); }
+.tr-sort__franchise { margin: var(--space-2xs) 0 0; flex-basis: 100%; font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-ui); }
+
+/* ==========================================================================
+   10. THE FOUR DEFINITIONS OF BRITISH, RUN FROM THE PANEL.
+   ========================================================================== */
+
+.tr-defrun { margin-block: var(--space-md); }
+.tr-defrun__row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-block: var(--space-sm); }
+.tr-defrun__b {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-block-size: 2.75rem;
+  padding-inline: var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  cursor: pointer;
+}
+.tr-defrun__b:hover { border-color: var(--accent-ink); background: var(--surface-well); }
+.tr-defrun__b[aria-pressed='true'] { border-color: var(--accent-ink); background: var(--accent-ink); color: var(--text-on-accent, #fff); }
+.tr-defrun__key {
+  font-family: var(--font-figures);
+  font-feature-settings: var(--figures-feature);
+  font-size: var(--fs-micro);
+  opacity: .8;
+}
+.tr-defrun__gloss { margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+
+/* ==========================================================================
+   11. COUNT IT — a figure the student produces before it is printed.
+   ========================================================================== */
+
+.tr-count { margin-block: var(--space-md); }
+.tr-count__names { margin-block-start: var(--space-xs); font-size: var(--fs-small); line-height: var(--lh-ui); color: var(--text-secondary); }
+
+/* ==========================================================================
+   12. THE COMPLICATION GATE — the two-axis field.
+
+   Any placement advances; there is no right cell. The grid is a real table of
+   buttons, so the keyboard walks it in reading order, and every cell is a
+   44px target because a student who cannot hit the cell cannot pass the gate.
+   ========================================================================== */
+
+.tr-gate { font-family: var(--font-sans); color: var(--text-body); }
+.tr-gate__head { margin-block-end: var(--space-md); }
+.tr-gate__eyebrow {
+  display: block;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--danger);
+  margin-block-end: var(--space-2xs);
+}
+.tr-gate__claim {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-well);
+  border-inline-start: var(--rule-mid) solid var(--border-firm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-small);
+  line-height: var(--lh-prose);
+}
+.tr-gate__claimlab { font-family: var(--font-sans); font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: var(--tr-caps); color: var(--text-min); }
+.tr-gate__title { margin: 0 0 var(--space-sm); }
+
+.tr-field { margin-block: var(--space-lg); }
+.tr-field__ask {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+}
+.tr-field__ask--y { margin-block: var(--space-xs) 0; font-weight: var(--w-regular); color: var(--text-secondary); }
+.tr-field__grid {
+  display: grid;
+  grid-template-columns: minmax(4rem, auto) repeat(3, minmax(0, 1fr));
+  gap: var(--rule-fine);
+  background: var(--border-default);
+  border: var(--rule-fine) solid var(--border-default);
+}
+.tr-field__corner { background: var(--surface-panel); }
+.tr-field__colhead, .tr-field__rowhead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xs);
+  background: var(--surface-panel);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  text-align: center;
+  color: var(--text-secondary);
+}
+.tr-field__rowhead { justify-content: flex-start; text-align: start; }
+.tr-field__cell {
+  min-block-size: 2.75rem;
+  border: 0;
+  background: var(--surface-panel);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tr-field__cell:hover { background: var(--surface-well); }
+.tr-field__cell[aria-pressed='true'] { background: var(--accent-veil, var(--surface-well)); box-shadow: inset 0 0 0 var(--rule-mid) var(--accent-ink); }
+.tr-field__dot {
+  inline-size: .625rem;
+  block-size: .625rem;
+  border-radius: 50%;
+  background: var(--border-firm);
+}
+.tr-field__cell[aria-pressed='true'] .tr-field__dot { background: var(--accent-ink); transform: scale(1.4); }
+.tr-field__note { margin-block-start: var(--space-sm); }
+.tr-gate__decline { margin-block-start: var(--space-sm); }
+.tr-gate__done {
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  color: var(--accent-ink);
+}
+.tr-gate__doneNote { display: block; color: var(--text-min); font-size: var(--fs-micro); margin-block-start: var(--space-2xs); }
+
+/* ==========================================================================
+   13. THE DISPUTE STEP — the argument between named historians, as a gate.
+   ========================================================================== */
+
+.tr-dispute { font-family: var(--font-sans); color: var(--text-body); }
+.tr-dispute__go { min-block-size: 2.75rem; }
+.tr-dispute__note { margin-block-start: var(--space-sm); }
+
+/* ==========================================================================
+   14. THE ROUTE CARD — which lesson this is, and the other one.
+
+   ROUND 2, three critics, one arithmetic: the plate offered "40 minutes", the
+   route card said "42", and `variantMeta` claimed the thirty-one-minute route
+   was the default when the code's default is the long one. The card now
+   rounds exactly as the plate rounds, so the two numbers on one product are
+   one number — and it is the FIRST block of the first beat, not the last.
+   Measured before: the offer of the shorter route sat at y=1391 inside a 223px
+   window, about five scroll-screens below the fold, so the choice existed and
+   no student on a phone ever saw it.
+   ========================================================================== */
+
+.tr-routes {
+  margin-block: 0 var(--space-lg);
+  padding: var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  background: var(--surface-well);
+}
+.tr-routes__row + .tr-routes__row {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+}
+.tr-routes__row[data-here='yes'] .tr-routes__lab { color: var(--accent-ink); }
+.tr-routes__lab { margin: 0; font-family: var(--font-sans); font-size: var(--fs-small); }
+.tr-routes__n { color: var(--text-min); }
+/* WHAT THE ROUTE IS FOR, AND WHETHER IT FITS THE PERIOD.
+   Round 8, L1: a teacher choosing at 08:55 must not have to compute anything,
+   so the purpose sits beside the name and the period arithmetic sits beside the
+   range. Both are secondary ink: the name and the numbers are what the eye
+   lands on, and these two qualify them without competing. */
+.tr-routes__for { color: var(--text-secondary); }
+.tr-routes__fit { color: var(--text-min); }
+.tr-routes__strap { margin: var(--space-2xs) 0 0; font-family: var(--font-serif); font-size: var(--fs-small); line-height: var(--lh-prose); color: var(--text-secondary); }
+.tr-routes__leaves { margin-block-start: var(--space-xs); }
+.tr-routes__go { margin-block-start: var(--space-sm); min-block-size: 2.75rem; display: inline-flex; align-items: center; }
+.tr-dispute__go, .tr-offer__go, .tr-tension__go { display: inline-flex; align-items: center; }
+.tr-routes__how { margin-block-start: var(--space-md); }
+/* THE CARD IS THE FIRST THING ON BEAT 1 AND THE READING WINDOW IS 154px.
+   Measured at 390x844 with the card set as it is on a desk: 372px, so the
+   route card was the whole first screen of the lesson and the beat's own
+   opening sentence was below the fold. At this width it is set at the micro
+   size, the row you are ALREADY on prints its numbers and not its prose (you
+   chose it; what you need is the cost of the other one), and the note about how
+   the arithmetic is done follows the beat rather than preceding it. */
+@media (max-width: 46rem) {
+  /* ROUND 2: even at 214px the card was the whole 128px reading window on the
+     poster beat, whose plate is the question and whose panel therefore reads
+     through B8's floor. Here the card is not a card: it is two lines of rule
+     and no ground, so the beat's own eyebrow and the first line of its question
+     are on the first screen. Measured: 1,096 -> 831 -> 694 -> 620. */
+  .tr-routes {
+    padding: 0 0 var(--space-2xs);
+    border: 0;
+    border-block-end: var(--rule-fine) solid var(--border-default);
+    background: none;
+    margin-block-end: var(--space-sm);
+  }
+  .tr-routes__line { font-size: var(--fs-micro); line-height: var(--lh-ui); }
+  .tr-routes__lab { font-size: var(--fs-micro); }
+  .tr-routes__strap, .tr-routes__leaves, .tr-routes__how { font-size: var(--fs-micro); line-height: var(--lh-ui); }
+  .tr-routes__row[data-here='yes'] .tr-routes__strap { display: none; }
+  .tr-routes__row + .tr-routes__row { margin-block-start: var(--space-sm); padding-block-start: var(--space-sm); }
+  .tr-routes__go { margin-block-start: var(--space-xs); }
+  .tr-routes__how { margin-block-start: var(--space-sm); }
+}
+.tr-routes__here {
+  display: inline-block;
+  margin-inline-start: var(--space-xs);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--accent-ink);
+}
+
+/* ==========================================================================
+   15. THE OFFER OF THE OPTIONAL STEP — the case that breaks the claim.
+
+   ROUND 2: "the Congo beat exists at #step=25, is marked optional, and is
+   offered nowhere: the words Congo, Lumumba, off this map and One more return
+   zero hits in the 8,381 characters of the Close." It is now offered from the
+   last step of the route, from the transport while the Close is open, and in
+   the band's own call to action at the end. It is the only thing in this app
+   that takes the frame away from Britain.
+   ========================================================================== */
+
+.tr-offer {
+  margin-block: var(--space-lg) 0;
+  padding: var(--space-md);
+  border: var(--rule-mid) solid var(--accent-ink);
+  background: var(--surface-panel);
+}
+.tr-offer__eyebrow {
+  display: block;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--accent-ink);
+  margin-block-end: var(--space-2xs);
+}
+.tr-offer__note { margin: 0 0 var(--space-sm); font-family: var(--font-serif); font-size: var(--fs-small); line-height: var(--lh-prose); }
+.tr-offer__go { min-block-size: 2.75rem; }
+
+/* ==========================================================================
+   16. RETRIEVAL, THE ESSAY, AND THE MASTHEAD'S ODDS AND ENDS.
+   ========================================================================== */
+
+.tr-recall {
+  margin-block-end: var(--space-md);
+  padding: var(--space-md);
+  background: var(--surface-well);
+  border-inline-start: var(--rule-heavy) solid var(--accent-ink);
+}
+.tr-recall__eyebrow {
+  display: block;
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--text-min);
+  margin-block-end: var(--space-2xs);
+}
+.tr-recall__q { margin: 0 0 var(--space-sm); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+
+.tr-essay { margin-block: var(--space-lg); }
+.tr-essay--inline { padding-block-start: var(--space-md); border-block-start: var(--rule-fine) solid var(--border-default); }
+.tr-essay__eyebrow {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide, var(--tr-caps));
+  color: var(--text-min);
+}
+.tr-essay__p { margin: 0 0 var(--space-md); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+
+/* ROUND 2, the phone, as a cosmetic defect: "on the phone the top-bar transport
+   truncates the beat's secondary control ('One mor…', 'Move 3 · Comparing two
+   extract…') rather than dropping it; the panel duplicates it, so nothing is
+   lost, but it reads as a bug."
+   §above already says `.tr-bar__aux { display: none }` inside
+   `@media (max-width: 46rem)` — and this declaration, four hundred lines
+   further down the same file at the same specificity, was silently overriding
+   it at every width. Source order beats a media query when the specificity is
+   equal. The rule is stated once now, as a min-width, so the two cannot
+   disagree again. RESPONSIVE_LAW §7: a duplicate that does not fit leaves the
+   bar; the band's copy is the one that fits, and it is larger and above the
+   map. */
+@media (min-width: 46.001rem) {
+  .tr-bar__aux { display: inline-flex; align-items: center; min-width: 0; }
+}
+.tr-bar__auxb { white-space: nowrap; }
+.tr-bar__extra {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+  white-space: nowrap;
+}
+.tr-bar__lock--dispute { color: var(--accent-2-ink, var(--accent-ink)); }
+.tr-bar__togatew { white-space: nowrap; }
+
+/* SVG DOES NOT HONOUR THE `hidden` ATTRIBUTE. `[hidden] { display: none }` in
+   a UA stylesheet is scoped to the HTML namespace, so the cut mark and its
+   target were drawn from the first frame until this rule was written. */
+.tr-ring__cut[hidden], .tr-ring__zone[hidden] { display: none; }
+
+/* The transport's parent inside the masthead's reserved box. Its position is
+   chrome.css §E's — RESPONSIVE_LAW §3.1: the shell adopts this node into
+   `data-mount="dock-step"` and pins it. All this file says is what it is when
+   it holds nothing and when it is not in that band. */
+.tr-dock { display: contents; }
+.tr-dock[data-on='yes'] { display: block; min-inline-size: 0; }
+.tr-dock:not([data-live='yes']) > .tr-bar { visibility: visible; }
+
+.tr-tension, .tr-offmap { margin-block: var(--space-lg); }
+
+
+/* ==========================================================================
+   17. THE READING BAND — the beat panel takes the majority of the sheet band.
+
+   ROUND 3, and it was the biggest gap on all four scorecards. Measured on the
+   running app, cold-loaded into a beat, `.tr-panel__scroll`:
+
+     390x844   step 17 (Dyer / Tagore)   window 129px   content 2135px   16.6 screens
+     390x844   step 14 (sort)            window 101px   content  634px    6.3
+     768x1024  step 17                   window 154px   content 1329px    8.6
+     768x1024  every step                window 154px                  — and the
+                                         map holds 768x391, 63 % of the screen
+
+   The beat panel was 280px — LAYOUT_BUDGET B8's FLOOR, handed to it as if it
+   were an allowance — of an 844px phone: 33.2 %. At 768x1024 the same 280 is
+   27.3 %, the worst proportion measured anywhere in this application. The
+   student read the lesson through a letterbox four lines tall while a static
+   India polygon held three times as much screen.
+
+   RESPONSIVE_LAW F1 answers "how do the map and the panel split the band?"
+   with one number for every beat: the panel gets `--cx-sheet-min` and the map
+   gets the rest. That is right for the cold plate and right for a beat whose
+   work is on the map. It is wrong for a beat whose work is in the panel, and
+   twelve of the twenty-five steps are that kind: the tension beat, the source
+   beat, the dispute, the five Complication Gates, the sort, the definition
+   dial, the loop, the recalls and the off-map case. On those the map is a
+   polygon doing nothing and the panel is the lesson.
+
+   SO THE SPLIT IS A PROPERTY OF THE BEAT, NOT OF THE VIEWPORT. `app/js/tours`
+   publishes `<html data-tour-fit="text|map">` from the step's own kind (or
+   from an authored `fit` field, or from the student's own press on the panel's
+   `Map` control, which wins). `text` moves ONE number — `--rail-top-min`, the
+   shell's own answer to where the sheet may start — and every consequence
+   follows from it, because both the sheet's clamp (layout.css) and the map's
+   rectangle (layout.css, THE MAP'S RECTANGLE IS THE ROOM IT ACTUALLY GETS)
+   read it. Nothing floats, nothing overlaps, the foot strips ride the seam
+   they already rode. The arithmetic, at 390x844:
+
+     bar     46                          bar     46
+     lede   110                          lede   110
+     MAP    192   <- 22.7 %              MAP     92   <- a peek strip, tappable
+     ribbon  32                          ribbon  32
+     panel  280   <- 33.2 %              panel  380   <- 45.0 %
+     time   184                          time   184
+           ----                                ----
+            844                                 844
+
+   and at 768x1024 the panel goes 280 -> 461 (27.3 % -> 45.0 %) with the map
+   768x391 -> 768x174.
+
+   THIS RELAXES RESPONSIVE_LAW D4 — the drawn map's floor of 360x176 at
+   390x844 and 700x220 at 768x1024 — ON TEXTUAL BEATS ONLY, and it is the
+   amendment the round-3 rubric asked for in those words. D1 (nothing floats on
+   the plate), D5 (the panel is never under 280), D6 (the strips start where
+   the map ends) and D7 (no document scroll) are unaffected and still hold; the
+   panel is now over B8's floor rather than pinned to it. The map beats keep
+   D4's band exactly as it was, and one press on `Map` restores it on any beat.
+
+   `[data-rail='sheet']` scopes this to the two viewports that have the defect.
+   At 900x700, 1024x640, 1366x768 and up the rail is a side column and the
+   panel already measures 92-93 % of the window height.
+   ========================================================================== */
+
+/* THE SHELL OWNS THE BAND NOW, AND THIS BLOCK STANDS DOWN.
+   This file used to override `--rail-top-min` here, with `!important`, to take
+   the panel from 280px to 380px on a textual beat. `app/css/layout.css` has
+   since published the contract in full — `#app[data-read="on"]` takes its
+   pixels from the time bar, the colour ribbon and the plate and gives the
+   panel 600px at 390x844 — and `app/js/chrome/index.js` now writes
+   `--rail-top-min` as an INLINE `!important`, which no stylesheet can
+   out-specify. So the rule below had already stopped applying: measured at
+   390x844 on the Amritsar beat, its own arithmetic asks for a 420px seam and
+   the shell puts the sheet at y=222.
+
+   A dead `!important` on a shell token is not harmless — it is a rule that
+   would silently win the day the shell drops its own — so it is gone. This
+   module's whole part in the contract is now the one thing it is the only
+   piece that can know: WHICH COLUMN EACH BEAT IS IN. Every beat in tours.json
+   states its own `fit`, with the reason beside it, and three of them state a
+   `fitAfter` for the case the two columns could not express — the plate is the
+   question, the panel is the answer. See `_fitFor` and `$fitNote`. */
+
+/* THE PEEK STRIP SAYS WHAT IT IS.
+   A 92px band of map with no word on it reads as a map that failed to load.
+   The control that restores it is in the panel's own foot, in the thumb zone,
+   next to Next — it is the one place on a phone a student's hand already is. */
+.tr-panel__fit { display: none; }
+@media (max-width: 61.999rem) {
+  #app[data-rail='sheet'] .tr-panel__fit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3xs, 2px);
+    flex: 0 0 auto;
+    /* WCAG 2.2 SC 2.5.8 is 24x24; this is a primary one-handed target and it
+       takes 2.5.5's 44. Measured at 390x844: foot 390 wide, 16px inset each
+       side, Next 104, this 60, two 8px gaps — `more` keeps 194px, which prints
+       "more of this beat ↓" with 12px to spare. */
+    min-block-size: 2.75rem;
+    min-inline-size: 3.75rem;
+    padding-inline: var(--space-xs);
+    border: var(--rule-fine) solid var(--border-firm, rgba(0,0,0,.18));
+    border-radius: var(--radius-sm, 2px);
+    background: var(--surface-panel);
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    letter-spacing: var(--tr-caps);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  #app[data-rail='sheet'] .tr-panel__fit:hover { color: var(--text-body); border-color: var(--accent-ink); }
+  #app[data-rail='sheet'] .tr-panel__fit[aria-pressed='true'] { color: var(--accent-ink); border-color: var(--accent-ink); }
+  .tr-panel__fita { font-family: var(--font-sans); }
+}
+
+/* ONE SCROLLER, NOT THREE — AND THE HEAD DOES NOT COST A THIRD OF THE SHEET.
+
+   Measured at 390x844 on step 17: `.tr-panel__scroll` (129/2135) inside
+   `.cx-sheet__body` (198/386) inside `.app__dossier` (279/1912) — three touch
+   scroll regions stacked inside 280px, and a thumb flick landed in whichever
+   one the 30px band under it belonged to.
+
+   The middle one is `.cx-sheet__body` scrolling past the beat to reach P21's
+   through-line spine (`.cl-blk`, 77px, appended there by RESPONSIVE_LAW §7).
+   Both of those are right where they are; what was wrong is that the beat
+   panel asked for 100 % of the body and the spine was pushed out of it. The
+   body is a column: the beat takes what is left after the spine, and the spine
+   — the sentence the student is assembling, the one thing here that should
+   never need scrolling to — is always on screen.
+
+   And the sheet's own head is 82px of the 380: an eyebrow, a two-line title,
+   and a close button. The lede band directly above the map is printing this
+   beat's own sentence in larger type at the same moment, so at phone width the
+   title takes one line and the eyebrow stands down, the way `.tr-panel__head`
+   already does (§2). 82 -> 40. This is the shell's element and the owning fix
+   is chrome.css's; it is scoped here to `#app[data-path='on']` and to the
+   docked band so it cannot touch any other surface's head. */
+@media (max-width: 61.999rem) {
+  /* THE GUARD, AND WHY IT IS THAT LONG.
+     Other pieces render into this same body: on the loop beat and the exits
+     beat the visualisation module appends `.viz-onpath`, measured at 792px and
+     730px. A column that hands the beat everything left over is right when the
+     body holds the beat and the spine and nothing else, and catastrophic when
+     it holds 792px of figure as well — measured, `.tr-panel` resolved to 0px
+     tall on steps 9 and 20 and the beat vanished. So the arrangement applies
+     only when every child is ours or the spine; anything else and the body
+     goes back to being a scroller, which is the honest answer when there is
+     more in it than can be shown. */
+  #app[data-path='on'] .cx-sheet__body:has(> .tr-panel, > .tr-gate, > .tr-dispute):not(:has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk))) {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    overflow: hidden;
+  }
+  /* `1 1 0`, not `1 1 auto`. With `auto` the flex base is the beat's own
+     content height and the automatic minimum size held it there: measured at
+     390x844 on step 9 the body was 342px holding 869px of loop beat and
+     `.tr-panel__scroll` resolved to 0px tall. The panel is a two-row grid whose
+     first row is `minmax(0, 1fr)`; from a base of 0 it grows into exactly the
+     room the body has and the scroller takes what the foot does not. */
+  #app[data-path='on'] .cx-sheet__body:has(> .tr-panel, > .tr-gate, > .tr-dispute):not(:has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk))) > .tr-panel,
+  #app[data-path='on'] .cx-sheet__body:has(> .tr-panel, > .tr-gate, > .tr-dispute):not(:has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk))) > .tr-gate,
+  #app[data-path='on'] .cx-sheet__body:has(> .tr-panel, > .tr-gate, > .tr-dispute):not(:has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk))) > .tr-dispute {
+    flex: 1 1 0;
+    block-size: auto;
+    max-block-size: none;
+    min-block-size: 0;
+  }
+  /* AND THE THROUGH-LINE IS NOT WHAT GETS SCROLLED PAST.
+     `.cl-blk` is P21's through-line spine, rendered as our sibling below 62rem
+     (RESPONSIVE_LAW §6/§7) and measured at 33px. With the panel asking for
+     `100%` of the body and the spine under it, the body was 198px holding 386
+     — so a thumb flick either paged the beat or paged past the beat to the
+     spine, depending on a 30px band. The panel takes what is left after the
+     spine, and the spine is always on screen: it is the sentence the student is
+     assembling, and it is the one thing in this rectangle that should never
+     need scrolling to. */
+  #app[data-path='on'] .cx-sheet__body > .cl-blk { flex: 0 0 auto; }
+
+  /* AND IN THE FALLBACK CASE THE FOOT CLEARS THE SPINE.
+     When another piece has put a figure in this body the column above does not
+     apply and the body is a scroller again — and P21's through-line spine is
+     `position: sticky` at its bottom edge. Measured at 390x844 on steps 3, 9
+     and 20: the spine (33px) was drawn over `.tr-panel__foot` at y=596, so
+     `more of this beat`, `Map` and `Next` — the three controls a thumb needs —
+     were all under it on first paint. The beat reserves the spine's band at the
+     end of its own box rather than asking P21 to stop being sticky, because the
+     spine is right to be sticky: it is the sentence being assembled. */
+  #app[data-path='on'] .cx-sheet__body:has(> .cl-blk):has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk)) > .tr-panel,
+  #app[data-path='on'] .cx-sheet__body:has(> .cl-blk):has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk)) > .tr-gate,
+  #app[data-path='on'] .cx-sheet__body:has(> .cl-blk):has(> :not(.tr-panel):not(.tr-gate):not(.tr-dispute):not(.cl-blk)) > .tr-dispute {
+    /* The panel is `block-size: calc(100% + --space-lg)` (§THE FRAME), so a
+       bottom margin moves what follows and leaves the foot exactly where it
+       was. The height is what has to come down. */
+    block-size: calc(100% + var(--space-lg) - 2.75rem);
+    max-block-size: calc(100% + var(--space-lg) - 2.75rem);
+  }
+
+  #app[data-path='on'] .app__sheet .cx-sheet__head {
+    padding-block: var(--space-2xs, 4px);
+    gap: var(--space-xs);
+    align-items: center;
+  }
+  #app[data-path='on'] .app__sheet .cx-sheet__eyebrow { display: none; }
+  #app[data-path='on'] .app__sheet .cx-sheet__title {
+    font-size: var(--fs-body, 1rem);
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+
+/* ==========================================================================
+   18. FOUR LINES THE STUDENT WRITES FIRST — the source beat.
+
+   ROUND 3, the historian, naming the biggest gap in the application: "Every
+   one of the 43 primary texts arrives with nature / origin / purpose /
+   what-it-cannot-tell-you already written by the atlas… The student can
+   RECOGNISE source reasoning; they never PRODUCE any."
+
+   So the document is printed and nothing else is, four boxes take four
+   sentences, and only then does `renderSource()` put this atlas's four beside
+   them. The comparison is the feedback; there is no mark, because no machine
+   on this page can tell a good sentence about a document from a bad one.
+   ========================================================================== */
+
+.tr-source__doc {
+  margin: var(--space-md) 0;
+  padding: var(--space-sm) var(--space-md);
+  border-inline-start: var(--rule-thick, 3px) solid var(--accent-ink);
+  background: var(--surface-sunk, rgba(0,0,0,.03));
+}
+.tr-source__quote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose, 1.5);
+  color: var(--text-body);
+}
+.tr-source__cite {
+  display: block;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-style: normal;
+  color: var(--text-secondary);
+}
+.tr-source__check { margin: 0 0 var(--space-md); font-size: var(--fs-caption); color: var(--text-secondary); }
+.tr-source__checklab { text-transform: uppercase; letter-spacing: var(--tr-caps); font-size: var(--fs-micro); }
+
+.tr-source__field { margin-block-end: var(--space-md); }
+.tr-source__flab {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  color: var(--text-body);
+}
+.tr-source__fhint { margin: var(--space-3xs, 2px) 0 var(--space-2xs); font-size: var(--fs-caption); color: var(--text-secondary); }
+.tr-source__in {
+  inline-size: 100%;
+  min-block-size: 3.5rem;
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--rule-fine) solid var(--border-firm, rgba(0,0,0,.24));
+  border-radius: var(--radius-sm, 2px);
+  background: var(--surface-page, #fff);
+  color: var(--text-body);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: 1.4;
+  resize: vertical;
+}
+.tr-source__in:focus-visible { outline: var(--focus-w, 2px) solid var(--accent-ink); outline-offset: 1px; }
+.tr-source__count { margin-block: var(--space-xs); }
+.tr-source__go { margin-inline-end: var(--space-sm); }
+.tr-source__skip { display: inline-block; margin-block-start: var(--space-2xs); }
+
+/* THEIRS AND OURS, CLAUSE FOR CLAUSE. One column on a phone: at 390 two
+   columns of prose are 21 characters wide and neither can be read. */
+.tr-source__vs { margin-block: var(--space-md); }
+.tr-source__row {
+  margin-block-end: var(--space-md);
+  padding-block-end: var(--space-sm);
+  border-block-end: var(--rule-fine) solid var(--border-soft);
+}
+.tr-source__rlab {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+.tr-source__mine, .tr-source__ours { margin-block-end: var(--space-xs); }
+.tr-source__mine .tr-p, .tr-source__ours .tr-p { margin: 0; }
+.tr-source__who {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-secondary);
+}
+.tr-source__mine { border-inline-start: var(--rule-thick, 3px) solid var(--accent-ink); padding-inline-start: var(--space-sm); }
+.tr-source__ours { border-inline-start: var(--rule-thick, 3px) solid var(--border-firm, rgba(0,0,0,.24)); padding-inline-start: var(--space-sm); }
+.tr-source__full { margin-block: var(--space-md); }
+.tr-source__close { margin-block-start: var(--space-md); }
+@media (min-width: 62rem) {
+  .tr-source__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); align-items: start; }
+  .tr-source__rlab { grid-column: 1 / -1; }
+}
+
+/* WHERE THE DOCUMENTS SETTLE IT — the tension beat's correction block. */
+.tr-tension__settled {
+  margin-block: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-sm, 2px);
+  background: var(--surface-sunk, rgba(0,0,0,.03));
+}
+.tr-tension__settledlab {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-secondary);
+}
+.tr-tension__settle { margin-block-end: var(--space-md); }
+.tr-tension__settle:last-child { margin-block-end: 0; }
+.tr-tension__settleq { margin: 0 0 var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+.tr-tension__settlemine, .tr-tension__settleans { margin: 0 0 var(--space-2xs); font-size: var(--fs-caption); }
+.tr-tension__settle[data-ok='no'] .tr-tension__settlemine { color: var(--text-secondary); text-decoration: line-through; text-decoration-thickness: 1px; }
+.tr-tension__settle[data-ok='yes'] .tr-tension__settlemine { color: var(--text-body); }
+
+/* The price of an opt-out, printed beside it rather than only at the Close. */
+.tr-skip__price { margin-block: var(--space-2xs) 0; max-inline-size: 42ch; }
+
+
+/* ==========================================================================
+   §18. A STEP WHOSE CARD ANOTHER MODULE OWNS STILL HAS A FOOT.
+
+   ROUND 2, the phone, `must fix`: "the two recall cards render no
+   `.tr-panel__foot` either (step 8 'What a border explains'; step 15 'The
+   famine on the railway')… Tapping OPEN THE MAP on one of them takes the map to
+   192px with no control to get back to the text; only Back or Next escapes."
+
+   A spaced recall hands its item to P10, which renders `.qz` straight into the
+   shell's sheet body. `tours/index.js` `_recallFoot()` appends our own foot
+   under it (`panel.js` `soloFoot()`); this makes the body the two-row grid the
+   beat panel already is, so the card scrolls in row one and the foot is the
+   bottom edge of the reading window rather than a raft floating over it —
+   sticky resolves against the scrollport's CONTENT box and comes to rest above
+   the visible edge, which is the bug §THE FRAME above was written to kill.
+
+   Measured at 390x844 on `#tour=thirty&step=7` before: `.cx-sheet__body`
+   390x554 holding a 465px card and no foot at all, `.tr-panel__fit` absent, so
+   a student who pressed the map's peek strip had no control back to the text.
+   ========================================================================== */
+
+@media (max-width: 61.999rem) {
+  #app[data-rail='sheet'] .cx-sheet__body:has(> .tr-foot) {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    min-block-size: 0;
+    padding-block-end: 0;
+  }
+  /* Row one is the card, and it is the only scroll region on the step. */
+  #app[data-rail='sheet'] .cx-sheet__body:has(> .tr-foot) > :first-child {
+    min-block-size: 0;
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
+  /* The foot bleeds the body's side padding, the way the panel's does, so it
+     is a full-width edge and not an inset strip. */
+  #app[data-rail='sheet'] .cx-sheet__body > .tr-foot {
+    margin-inline: calc(-1 * var(--space-lg));
+  }
+  #app[data-rail='sheet'] .cx-sheet__body[data-more='yes'] > .tr-foot > .tr-panel__more { visibility: visible; }
+}
+
+/* ==========================================================================
+   §19. NO CHECK, NO NUMBER — the path's own quantities and their warrants.
+
+   ROUND 2, named by three of the four critics as a `must fix`: "extend
+   warrant() adoption from the dossier to the path… 653 of 693 printed
+   quantities are `bare` by the app's own audit; the historian's named example
+   (£1.72m to Barbadian slave-owners for 83,150 people) is still a hardcoded
+   string in tours.json and close.json with no warrant record."
+
+   `tours/figures.js` substitutes every `{{fig:…}}` token, numbers the marker,
+   and prints the block below at the foot of the beat, drawn by
+   `core/warrant.js` so a path figure and a dossier figure are the same object.
+   The block is set in the recessive register the dossier already uses for the
+   same lines — micro caps for the key, caption prose — so it can be read
+   without competing with the argument it stands under.
+
+   IT IS NOT BEHIND A DISCLOSURE. A student on the path must be able to see
+   who counted the number they are being asked to remember; that is the whole
+   of the historian's ask. What IS behind one is `dispute` — the argument about
+   why a range is a range — because that is a second question and the first one
+   has to be answered on the page.
+   ========================================================================== */
+
+/* The number itself, in the prose. A hairline under it says it is checkable;
+   the superscript says where. Neither is a link: the check is at the foot of
+   the same reading window, in the reading order, four lines down. */
+.tr-q {
+  border-block-end: var(--rule-fine) dotted var(--rule-colour-firm, currentColor);
+  text-decoration: none;
+}
+.tr-q__m {
+  font-family: var(--font-sans);
+  font-size: 0.62em;
+  font-feature-settings: 'sups' 0;
+  vertical-align: super;
+  line-height: 0;
+  margin-inline-start: 0.12em;
+  color: var(--accent-ink);
+}
+.tr-q--bare { color: var(--danger); border-block-end-color: var(--danger); }
+
+.tr-figs {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+}
+.tr-figs__head { margin: 0 0 var(--space-2xs); }
+.tr-figs__lab {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.tr-figs__list { margin: 0; padding: 0; list-style: none; }
+.tr-figs__row {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: var(--space-2xs);
+  margin-block-start: var(--space-2xs);
+}
+.tr-figs__row + .tr-figs__row {
+  margin-block-start: var(--space-xs);
+  padding-block-start: var(--space-2xs);
+  border-block-start: var(--rule-fine) solid var(--border-faint, var(--border-default));
+}
+.tr-figs__n { color: var(--accent-ink); font-size: var(--fs-caption); }
+.tr-figs__body { min-inline-size: 0; }
+.tr-figs__v {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: var(--text-body);
+}
+.tr-figs__why {
+  margin: var(--space-3xs, 2px) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: 1.42;
+  color: var(--text-secondary);
+}
+.tr-figs__whylab {
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+/* The check line, tightened for a 434px reading window. Same ink, same
+   register, less air than the dossier's copy, which has a whole column. */
+.tr-figs .wq__w,
+.tr-figs .wq__defect {
+  margin-block-start: var(--space-3xs, 2px);
+  font-size: var(--fs-micro);
+  line-height: 1.4;
+}
+.tr-figs__nowarrant { margin: 2px 0 0; font-size: var(--fs-micro); color: var(--danger); }
+.tr-figs__dis { margin-block-start: var(--space-2xs); }
+.tr-figs__disbody { margin-block-start: var(--space-2xs); }
+.tr-figs__dispos {
+  margin: 0 0 var(--space-2xs);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--rule-colour-firm);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tr-figs__dislesson { margin: 0; }
+
+/* §19b. THE ROUTE STRIP, STATED IN ONE LINE. See panel.js `routeStrip()`. */
+.tr-routes__line {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: var(--text-body);
+}
+.tr-routes__open { margin-block-start: var(--space-3xs, 2px); }
+.tr-routes__why { margin-block-start: var(--space-xs); }
+
+/* ------------------------------------------------------------------ *
+ * A RECALL STEP THAT REFUSED TO ASK — DIDACTIC_SPEC §3.2.
+ *
+ * "It renders nothing. There is no substitute question, no downgraded
+ * version, no consolation fact." So this surface is deliberately the
+ * quietest thing the path draws: the same reading window as any beat,
+ * one sentence saying which of the three tests the step could not pass,
+ * and nothing that looks like a question. It must NOT read as an error
+ * — the lesson is fine, this step simply had nothing to retrieve — so
+ * it borrows the note colour and not `--danger`.
+ * ------------------------------------------------------------------ */
+.tr-panel--none .tr-p { color: var(--text-body); }
+.tr-panel--none .tr-gate__eyebrow { color: var(--text-quiet); }
+
+/* ------------------------------------------------------------------ *
+ * §20. A RETRIEVAL MOMENT INSIDE THE BEAT IT STANDS ON.
+ *
+ * ROUND 2 OF WAVE 9, the phone critic, as the material gap: "Lesson Two
+ * loses 3 of 9 beats to checkpoints — the walked unit teaches 12 of 20,
+ * floor is 14." A checkpoint used to take the rail, so the beat behind
+ * it never rendered and pressing Next advanced straight past it. It now
+ * mounts at the foot of the beat's own prose, inside the same reading
+ * window, and `quiz/index.js::_inlineHost` picks the host.
+ *
+ * WHAT THIS RULE HAS TO DO. The block is a different KIND of thing from
+ * the paragraphs above it — reading stops, producing starts — so it is
+ * separated by a rule and set on the panel's own quiet ground, and it
+ * is never a coloured alert: being asked a question is not an error.
+ * Nothing here changes the scroller's height, so RESPONSIVE_LAW §11's
+ * reading window is measured on exactly the box it was measured on
+ * before.
+ * ------------------------------------------------------------------ */
+.tr-panel__flow > .qz--inline {
+  margin-block-end: var(--space-m, 16px);
+  padding-block-end: var(--space-s, 12px);
+  border-block-end: var(--rule-heavy) solid var(--border-firm);
+  /* ONE LINE BOX FOR THE WHOLE FLOW — RESPONSIVE_LAW §11.5 AND R14.
+     `chrome/index.js` trims the reading window to a line boundary, and it
+     converges in at most four passes because a window normally holds ONE
+     rhythm. Measured at 768x1024 on `lesson-two` step 9 with this block set in
+     its own leading: trim 21px and the bottom edge still 8.2px into a line
+     box, because the block's headings, options and notes each land on a
+     different grid and one trim cannot satisfy three. A LENGTH is inherited as
+     the same number of pixels whatever the font-size below it, so every text
+     line in this block — head, question, options, notes — is one line box
+     high, the same one the beat's prose uses, and the shell's single trim
+     lands them all. */
+  line-height: calc(var(--fs-prose) * var(--lh-prose));
+}
+.tr-panel__flow > .qz--inline * { line-height: inherit; }
+.tr-panel__flow > .qz--inline .qz__intitle { font-size: var(--fs-lede, 1.1875rem); }
+.qz__inhead {
+  margin: 0 0 var(--space-2xs, 6px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs, 6px) var(--space-xs, 8px);
+  align-items: baseline;
+}
+.qz__ineyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro, 0.7rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-quiet);
+}
+.qz__intitle {
+  font-family: var(--font-display, var(--font-serif));
+  font-size: var(--fs-h4, 1.05rem);
+  line-height: 1.25;
+  color: var(--text-strong, var(--text-body));
+}

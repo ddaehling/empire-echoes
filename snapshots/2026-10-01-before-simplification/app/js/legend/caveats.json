@@ -1,0 +1,191 @@
+{
+  "$note": "Three things wrong with THIS rendering. Owned by P17. Each entry states a defect that is true of what is actually on screen right now, keyed by (projection, layer, definition, weight, stitch, silence, plate). `needs` names the computed figures the entry prints: byline.js drops any entry whose figures do not exist for the units painted at the current year under the current definition, which is what stops the list asserting 'the Canadian units cover 9.9 million km²' at 1650. Entries with no `when` are true of every rendering this app can produce and take the third slot on a rotation keyed to the whole view signature. Slot 1 is always a viewpoint fault (projection, weight, stitching, silences, no plate) and slot 2 always an encoding fault (definition or layer), so changing any of the three changes the list.",
+  "transfer": "These three questions work on the 1886 pink poster and on any textbook plate. We answer them here because we are asking you to use them on us.",
+  "caveats": [
+    {
+      "id": "mercator-latitude",
+      "when": { "projection": "mercator" },
+      "needs": ["canadaKm2", "africaKm2", "africaRatio"],
+      "rank": 14,
+      "title": "Canada is not that big.",
+      "body": "Mercator stretches area with latitude, so the far north swells and the tropics shrink. Of what is drawn at {yearLabel}, the Canadian units cover {canadaKm2} and the African units cover {africaKm2} — Africa is {africaRatio} times larger, and this projection does not show you that."
+    },
+    {
+      "id": "mercator-latitude-general",
+      "when": { "projection": "mercator" },
+      "needs": ["highLatKm2", "tropicKm2", "tropicRatio"],
+      "rank": 13,
+      "title": "The far ones are drawn too big.",
+      "body": "Mercator stretches area with latitude. Of what is drawn at {yearLabel}, {highLatUnits} units lie 40° or more from the equator and cover {highLatKm2}; {tropicUnits} lie within the tropics and cover {tropicKm2} — {tropicRatio} times as much ground, drawn smaller."
+    },
+    {
+      "id": "mercator-latitude-bare",
+      "when": { "projection": "mercator" },
+      "rank": 6,
+      "title": "Mercator stretches area with latitude.",
+      "body": "The further a shape is from the equator, the larger this projection draws it. At {yearLabel} the plate has too few units with measured area, far north and in the tropics both, for the atlas to put a figure on the swelling from its own geometry — so take the areas you see here as unproven."
+    },
+    {
+      "id": "equal-area-shape",
+      "when": { "projection": "equal-area" },
+      "rank": 10,
+      "title": "The shapes are wrong now instead.",
+      "body": "An equal-area projection buys honest area by bending every outline and every angle. It is the better map for an argument about size and the worse one for navigation. No flat map keeps both; you have chosen which lie to tell."
+    },
+    {
+      "id": "projection-undeclared",
+      "when": { "projection": "unknown" },
+      "rank": 16,
+      "title": "This rendering has not declared a projection.",
+      "body": "An undeclared projection is the commonest way an imperial map misleads, because the reader assumes the shapes are the world's rather than the mapmaker's. Until the plate declares one, treat every area you see here as unproven."
+    },
+    {
+      "id": "weight-not-where",
+      "when": { "weight": true },
+      "rank": 15,
+      "title": "This is not how big these places are.",
+      "body": "Sizes on this plate are a cited quantity, not ground. Positions are the only geography left, and a place with no cited figure is drawn as a hole rather than shrunk to nothing."
+    },
+    {
+      "id": "stitch-not-where",
+      "when": { "stitch": true },
+      "needs": ["stitchDrawn"],
+      "rank": 15,
+      "title": "This is not how big these places are either.",
+      "body": "{stitchDrawn} small places are drawn at one fixed size, whatever their square mileage, and the continents behind them are ghosted. It is the only way a map can show that Gibraltar, Aden, Malta and Singapore were load-bearing — and it is a deliberate distortion of area, made in the opposite direction to the usual one."
+    },
+    {
+      "id": "silence-holes",
+      "when": { "silence": true },
+      "needs": ["silenceDrawn"],
+      "rank": 15,
+      "title": "The holes are not empty land.",
+      "body": "{silenceDrawn} places are drawn as coastline with bare paper inside. Somebody destroyed or withheld the record, on a date, under an instruction. A map that filled those shapes with a colour would be reporting a fact that nobody is allowed to check."
+    },
+    {
+      "id": "definition-controlled-hides-informal",
+      "when": { "definition": "controlled" },
+      "needs": ["informalCount"],
+      "rank": 9,
+      "title": "This hides everywhere Britain ran without a flag.",
+      "body": "On the strictest definition the map draws only full sovereignty. {informalCount} at this year are places Britain shaped through trade, debt, loans or a warship in the harbour, and none of them is drawn. Gallagher and Robinson (1953) argued that this was the larger empire."
+    },
+    {
+      "id": "definition-controlled-plain",
+      "when": { "definition": "controlled" },
+      "rank": 8,
+      "title": "The strictest rule is still a rule somebody chose.",
+      "body": "Only full direct sovereignty is drawn here — degree 5, nothing less. Everything Britain ran through a resident, a treaty or a company has gone off the plate, and it did not stop happening when it left the map."
+    },
+    {
+      "id": "definition-claimed-is-the-poster",
+      "when": { "definition": "claimed" },
+      "rank": 9,
+      "title": "Claimed is the loosest test on the switch, and it is the poster's test.",
+      "body": "A place with a garrison, a place with a resident and a treaty, and a place a governor visited twice a year are all one colour here. That is exactly the move the 1886 pink map makes. Press 2 and 3 and watch how much of it goes."
+    },
+    {
+      "id": "definition-administered-judgement",
+      "when": { "definition": "administered" },
+      "rank": 9,
+      "title": "The threshold is our judgement, not a measurement.",
+      "body": "We drew the line at control degree 3 because that is where British officials collected revenue or ran courts. A different historian would move some places a rung up or down, and the map would change shape without a single fact changing."
+    },
+    {
+      "id": "definition-influenced-unfalsifiable",
+      "when": { "definition": "influenced" },
+      "rank": 9,
+      "title": "Stretched far enough, this definition cannot be wrong.",
+      "body": "Once influence counts, almost any trading partner can be argued into the empire, and a claim that nothing could refute is not a historical claim. That is the standard objection to Gallagher and Robinson, and it applies to what is on your screen right now."
+    },
+    {
+      "id": "layer-status-flattens",
+      "when": { "layer": "status" },
+      "rank": 7,
+      "title": "One colour per legal status still hides who could vote.",
+      "body": "Jamaica after 1866 and Hong Kong after 1898 are both crown colonies and share this exact fill. The status tells you where the decision was made. It does not tell you who was allowed to make it, which is in the dossier under franchise."
+    },
+    {
+      "id": "layer-tenure-flattens",
+      "when": { "layer": "tenure" },
+      "rank": 7,
+      "title": "Length of rule says nothing about what happened in it.",
+      "body": "A hundred quiet years and a hundred violent ones sit in the same band of this ramp. The ramp is a duration, and duration is the least interesting thing on this page."
+    },
+    {
+      "id": "layer-mechanism-flattens",
+      "when": { "layer": "mechanism" },
+      "rank": 7,
+      "title": "One mechanism per place flattens a process that took decades.",
+      "body": "Most of these were taken more than once and by more than one method — a treaty signed after a war, a company charter converted into a Crown colony. The colour shows the mechanism the dataset files first, and the dossier shows the rest."
+    },
+    {
+      "id": "layer-exit-flattens",
+      "when": { "layer": "exit" },
+      "rank": 7,
+      "title": "A departure mechanism is a legal event, not the story.",
+      "body": "\"Negotiated independence\" can sit on top of an emergency, a detention camp and an election Britain lost. The word is the paperwork at the end; look at the years just before it."
+    },
+    {
+      "id": "layer-informal-argument",
+      "when": { "layer": "informal" },
+      "rank": 7,
+      "title": "This layer is an argument, not a measurement.",
+      "body": "The haze has no border because Britain claimed none. Its radius must encode one stated, cited quantity or it encodes the mapmaker's opinion — and where this atlas has no cited quantity, it draws no radius and says so."
+    },
+    {
+      "id": "layer-system-argument",
+      "when": { "layer": "system" },
+      "rank": 7,
+      "title": "The links are drawn, not modelled.",
+      "body": "Every node and every line here has a date and a source. Nothing is a simulation: this map does not recompute a sailing time, does not route around a cut cable and cannot tell you what would have happened if Suez had closed earlier."
+    },
+    {
+      "id": "exact-date",
+      "rank": 4,
+      "title": "The date is exact and the change was not.",
+      "body": "A status flips here on the day a document was signed. Power arrived before that day and did not leave on it. {yearLabel} is a legal instant, and the map cannot draw the decade around it."
+    },
+    {
+      "id": "polygon-edge",
+      "rank": 3,
+      "title": "A polygon has a hard edge. Authority did not.",
+      "body": "Every boundary on this plate is a line somebody drew, usually later and usually in a European capital. Where British control genuinely did not fill a unit, the fill breaks into bands — but a band is still our drawing, not the frontier as anyone policed it."
+    },
+    {
+      "id": "modern-geometry",
+      "needs": ["unitCount", "drawnUnits"],
+      "rank": 3,
+      "title": "These outlines are modern.",
+      "body": "The atlas holds {unitCount} geographic units and colours {drawnUnits} of them at {yearLabel}. They are today's coastlines and today's internal borders, tinted by hand for each year. No historical survey is being redrawn, so where a unit did not exist as an entity at this date you are looking at a modern container holding an older fact."
+    },
+    {
+      "id": "empty-sea",
+      "needs": ["tinyDrawn"],
+      "rank": 2,
+      "title": "The sea is empty, and most of the empire was at sea.",
+      "body": "Shipping lanes, telegraph cables and coaling stations held this together, and a land map draws none of them. {tinyDrawn} of the units drawn at {yearLabel} are marked tiny, which is the atlas admitting that its loudest visual channel — area — is pointed at the wrong thing. Press S to see them at one size."
+    },
+    {
+      "id": "area-is-loudest-barbados",
+      "needs": ["barbadosArea"],
+      "rank": 3,
+      "title": "Area is the loudest mark on any map, and it is rarely the point.",
+      "body": "Barbados is {barbadosArea} on this plate at {yearLabel}. In the 1700s its sugar mattered more to ministers in London than the whole North American mainland, and no map made of coloured area can show you that."
+    },
+    {
+      "id": "area-is-loudest",
+      "needs": ["smallestName", "smallestArea", "largestName", "largestArea", "sizeRatio"],
+      "rank": 2,
+      "title": "Area is the loudest mark on any map, and it is rarely the point.",
+      "body": "The largest thing drawn at {yearLabel} is {largestName} at {largestArea}; the smallest is {smallestName} at {smallestArea} — {sizeRatio} times smaller, and drawn that way. Historical weight often ran the other way, and no map made of coloured area can show you that."
+    },
+    {
+      "id": "no-plate",
+      "when": { "plate": "none" },
+      "rank": 20,
+      "title": "There is no plate on screen to criticise yet.",
+      "body": "The map renderer has not reported a drawn frame, so everything below describes the encoding this legend defines rather than pixels you can see. When the plate draws, this list changes."
+    }
+  ]
+}

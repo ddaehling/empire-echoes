@@ -1,0 +1,198 @@
+/**
+ * map/names.js — what to call a place in the year that is on the map.
+ *
+ * Round 1 labelled the 1913 plate with the names of 2026: Vanuatu for the New
+ * Hebrides, Botswana for the Bechuanaland Protectorate, Kenya for the East
+ * Africa Protectorate, United Arab Emirates for the Trucial States. That is not
+ * a cosmetic slip. Naming is one of the things this subject is *about* — the
+ * dataset carries `namesOverTime` with a `usedBy` field precisely so a student
+ * can see who called a place what, and when — and a map that silently uses the
+ * successor state's name teaches that the colony and the country are the same
+ * object under one continuous title. They are not.
+ *
+ * The rule, in order:
+ *   1  the name British officials used in this year, if the dataset records one;
+ *   2  otherwise any contemporary English name in the window;
+ *   3  otherwise the territory's own title in the dataset;
+ *   4  and where the only contemporary name in the window is in another
+ *      language, that name is carried alongside, because it is the one the
+ *      people there used.
+ *
+ * The modern name is never dropped — it is what the student can find on a map
+ * today — it just stops being the headline. Nothing here is invented: every
+ * string returned comes out of the shard.
+ */
+
+/**
+ * Unit ids whose OWN name is younger than the geometry it labels.
+ *
+ * The geometry index is a modern file: it splits out the ground that is still
+ * British today so the atlas can draw it, and it files that ground under the
+ * name it acquired when it was split. `cy-akrotiri-dhekelia` is the case that
+ * matters. The Sovereign Base Areas were created by the Treaty of
+ * Establishment on 16 August 1960 — the same date the Cyprus record in this
+ * dataset opens its "The Sovereign Base Areas stay British" span. Before that
+ * date the ground existed and the name did not, so a 1913 plate that reads
+ * "Akrotiri and Dhekelia, in Cyprus" is doing the exact thing this file exists
+ * to stop: calling a place by its successor's name.
+ *
+ * `year` is the first year the name was in use; `was` is what to call the
+ * ground before it, and `why` is printed to the student so the split is
+ * legible as a decision of this atlas rather than as a fact about 1913.
+ */
+export const UNIT_NAME_FROM = {
+  'cy-akrotiri-dhekelia': {
+    year: 1960,
+    was: null,          // fall back to the territory's own period name
+    why: 'this atlas draws the two areas separately because they stayed British after 16 August 1960 as the Akrotiri and Dhekelia Sovereign Base Areas; before that date this ground had no separate name',
+  },
+};
+
+const yearOf = (v) => {
+  if (v == null) return null;
+  const raw = typeof v === 'object' ? (v.value != null ? v.value : v.display) : v;
+  const m = String(raw == null ? '' : raw).match(/-?\d{3,4}/);
+  return m ? Number(m[0]) : null;
+};
+
+export function makeNamer(data) {
+  const cache = new Map();          // territoryId -> normalised entries
+  const out = new Map();            // territoryId + '@' + year -> resolved
+
+  const entries = (t) => {
+    let list = cache.get(t.id);
+    if (list) return list;
+    list = (t.namesOverTime || [])
+      .filter((n) => n && n.name)
+      .map((n) => ({
+        name: String(n.name),
+        from: yearOf(n.from), to: yearOf(n.to),
+        usedBy: n.usedBy || '', language: n.language || '',
+      }));
+    cache.set(t.id, list);
+    return list;
+  };
+
+  /**
+   * periodName(territoryId, year) ->
+   *   { name, modern, local, formal, source } | null
+   * `name` is what the map should say. `local` is set only when the only
+   * contemporary name recorded is not English.
+   */
+  function periodName(territoryId, year) {
+    if (!territoryId) return null;
+    const key = territoryId + '@' + year;
+    if (out.has(key)) return out.get(key);
+    const t = data.byId && data.byId.get(territoryId);
+    if (!t) { out.set(key, null); return null; }
+    const list = entries(t);
+    const inWindow = list.filter((n) => (n.from == null || year >= n.from) && (n.to == null || year <= n.to));
+    const official = inWindow.find((n) => n.usedBy === 'british-official');
+    const english = inWindow.find((n) => n.language === 'English' && n.usedBy !== 'modern');
+    const modernEntry = list.find((n) => n.usedBy === 'modern');
+    const nonEnglish = inWindow.find((n) => n.language && n.language !== 'English' && n.usedBy !== 'modern');
+    const picked = official || english || null;
+    const rec = {
+      name: picked ? picked.name : (t.name || null),
+      source: picked ? (picked.usedBy === 'british-official' ? 'the name British officials used' : 'a name in use in this year')
+        : 'the title this atlas files the territory under',
+      // Only worth saying when it is actually a different word.
+      local: nonEnglish && nonEnglish.name !== (picked ? picked.name : (t.name || '')) ? nonEnglish : null,
+      picked: !!picked,               // was a CONTEMPORARY name found for this year?
+      modern: modernEntry ? modernEntry.name : null,
+      formal: t.formalName || null,
+      territoryName: t.name || null,
+      unitCount: (t.units || []).length,
+    };
+    out.set(key, rec);
+    return rec;
+  }
+
+  const norm = (s) => String(s || '').toLowerCase().replace(/^the\s+/, '').replace(/[^a-z]/g, '');
+
+  /**
+   * Every place name this dataset can DATE.
+   *
+   * The geometry index is a modern file: it calls a shape `in-odisha`,
+   * `in-maharashtra`, `zm-northern-rhodesia` and prints Odisha, Maharashtra
+   * and Zambia. Those are the names of 2026. The only names this atlas can put
+   * a year on are the ones in the shards — a territory's own title, its formal
+   * name, and every entry in `namesOverTime`. So the rule for a unit inside a
+   * larger territory is: use the unit's own name only if the dataset attests
+   * it somewhere as a name for a place; otherwise say what the territory was
+   * called in this year, which is a name with a date on it. "Odisha" in 1913
+   * becomes "Bengal Presidency"; "Assam", "Mysore", "Sindh" and "Elmina" are
+   * attested and stay.
+   */
+  let attested = null;
+  const isAttested = (name) => {
+    if (!attested) {
+      attested = new Set();
+      for (const t of data.territories || []) {
+        for (const n of [t.name, t.formalName, t.shortName]) if (n) attested.add(norm(n));
+        for (const n of t.namesOverTime || []) if (n && n.name) attested.add(norm(n.name));
+      }
+    }
+    return attested.has(norm(name));
+  };
+
+  /**
+   * label(unitId, territoryId, year) -> the words on the focus ring and in the
+   * screen reader's ear, in this year's language.
+   */
+  function label(unitId, territoryId, year) {
+    const unitName = (data.unitName ? data.unitName(unitId) : null) || unitId;
+    const p = periodName(territoryId, year);
+    const anach = UNIT_NAME_FROM[unitId];
+    if (anach && year < anach.year) {
+      // The ground is here; the name is not yet. Say the territory's own
+      // period name, and carry the reason so the dossier and the screen
+      // reader can explain the split rather than hide it.
+      const base = anach.was || (p && p.name) || unitName;
+      return { text: base, period: p, modern: unitName, anachronism: anach.why, notYet: unitName };
+    }
+    if (!p || !p.name) return { text: unitName, period: null, modern: null };
+    const same = norm(p.name) === norm(unitName);
+    if (same) return { text: unitName, period: p, modern: null };
+    // One unit, one territory: the period name is the headline and the modern
+    // name is the parenthesis. A unit inside a larger territory keeps its own
+    // geography and takes the period name as the answer to "whose was it".
+    const text = p.unitCount <= 1
+      ? `${p.name} (now ${unitName})`
+      : `${unitName}, in ${p.name}`;
+    return { text, period: p, modern: unitName };
+  }
+
+  /**
+   * short(unitId, territoryId, year) -> the words that fit ON the plate.
+   *
+   * A label drawn on a map has room for a name and nothing else, so the
+   * parentheses that `label()` carries for the screen reader are dropped here.
+   * The rule is unchanged: the name in use in this year wins, and where the
+   * unit's own name is younger than the year it is not used at all.
+   */
+  function short(unitId, territoryId, year, opts = {}) {
+    const unitName = (data.unitName ? data.unitName(unitId) : null) || unitId;
+    const anach = UNIT_NAME_FROM[unitId];
+    const p = periodName(territoryId, year);
+    if (anach && year < anach.year) return (anach.was || (p && p.name) || unitName);
+    if (!p || !p.name) return unitName;
+    // A unit that is no longer held is named by the territory this atlas files
+    // it under — which is right for South West Africa in 1960 and wrong for the
+    // Anglo-Egyptian Sudan in 1960, four years after it stopped existing. So
+    // when the caller says the territory is only a fallback, the period name
+    // is used ONLY if the dataset records that name as in use in this year.
+    if (opts.strict && !p.picked) return unitName;
+    // One unit, one territory: the territory's period name IS the place.
+    if (p.unitCount <= 1) return p.name;
+    // A unit inside a bigger territory keeps its own geography — Bengal inside
+    // British India is Bengal — as long as the dataset can date the name.
+    if (p.modern && norm(p.modern) === norm(unitName)) return p.name;
+    if (!isAttested(unitName)) return p.name;
+    return unitName;
+  }
+
+  return { periodName, label, short };
+}
+
+export default { makeNamer, UNIT_NAME_FROM };

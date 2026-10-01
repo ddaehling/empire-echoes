@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The British Empire · A classroom atlas</title>
+    <meta
+      name="description"
+      content="Explore the changing British Empire through an interactive map, three short lessons and a thoughtful knowledge check. A free, offline-ready classroom atlas."
+    />
+    <meta name="theme-color" content="#f7f8f5" />
+    <link rel="icon" href="assets/atlas-mark.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/fonts/source-sans-3-var-roman-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/classroom.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a
+        class="brand"
+        href="#explore"
+        aria-label="The British Empire, explore the atlas"
+      >
+        <img src="assets/atlas-mark.svg" width="36" height="36" alt="" />
+        <span
+          ><strong>The British Empire</strong
+          ><small>A classroom atlas</small></span
+        >
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#explore" data-view="explore" aria-current="page">Explore</a>
+        <a href="#learn" data-view="learn">Guided lessons</a>
+        <a href="#check" data-view="check">Quick check</a>
+      </nav>
+      <a
+        href="#teacher"
+        class="teacher-link"
+        data-view="teacher"
+        aria-label="For teachers"
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-3H4zm16 0h-4a3 3 0 0 0-3 3v14a4 4 0 0 1 4-3h3z"
+          /></svg
+        ><span>For teachers</span></a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section id="explore-view" class="view" aria-labelledby="explore-title">
+        <div class="page-intro">
+          <div>
+            <p class="intro-label"><span></span>History, in perspective</p>
+            <h1 id="explore-title">An empire. <em>Many stories.</em></h1>
+            <p>
+              Explore a changing world. Meet the people who shaped it.<br
+                class="desktop-break"
+              />
+              Look beyond the colour on the map.
+            </p>
+          </div>
+          <a class="button button-primary" href="#learn"
+            >Find your first lesson <span aria-hidden="true">↗</span></a
+          >
+        </div>
+
+        <div class="atlas-workspace" aria-busy="true" id="atlas-workspace">
+          <div class="atlas-main">
+            <div class="map-toolbar">
+              <div class="map-heading">
+                <span class="live-dot" aria-hidden="true"></span>
+                <h2>The world in <span id="map-year">1922</span></h2>
+              </div>
+              <div class="segmented" role="group" aria-label="Map colour view">
+                <button
+                  type="button"
+                  data-map-mode="extent"
+                  aria-pressed="true"
+                >
+                  Empire</button
+                ><button
+                  type="button"
+                  data-map-mode="rule"
+                  aria-pressed="false"
+                >
+                  Types of rule
+                </button>
+              </div>
+            </div>
+            <div class="map-wrap">
+              <div id="world-map" class="world-map">
+                <div class="map-loading" role="status">
+                  <span class="loading-globe" aria-hidden="true">◎</span>
+                  <p>Opening the atlas…</p>
+                </div>
+              </div>
+              <div class="map-zoom" role="group" aria-label="Map zoom">
+                <button id="zoom-in" aria-label="Zoom in" title="Zoom in">
+                  +</button
+                ><button id="zoom-out" aria-label="Zoom out" title="Zoom out">
+                  −</button
+                ><button
+                  id="zoom-reset"
+                  aria-label="Reset map view"
+                  title="Reset map view"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+                  </svg>
+                </button>
+              </div>
+              <div class="map-hint" aria-hidden="true">
+                Select a place to discover its story
+              </div>
+            </div>
+            <div class="map-legend" id="map-legend">
+              <span><i class="swatch empire"></i>Under British authority</span
+              ><span><i class="swatch land"></i>Outside British authority</span
+              ><span class="legend-partial"
+                ><i class="swatch partial"></i>Partial extent</span
+              >
+            </div>
+            <div class="timeline">
+              <div class="timeline-top">
+                <label for="year-slider">Travel through time</label>
+                <div class="year-control">
+                  <button id="year-back" aria-label="Previous year">←</button
+                  ><output id="year-output" for="year-slider">1922</output
+                  ><button id="year-forward" aria-label="Next year">→</button>
+                </div>
+                <button
+                  class="play-button"
+                  id="play-years"
+                  aria-pressed="false"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 5 10 7-10 7z" /></svg
+                  ><span>Play timeline</span>
+                </button>
+              </div>
+              <input
+                id="year-slider"
+                type="range"
+                min="1600"
+                max="1997"
+                value="1922"
+                step="1"
+                aria-label="Map year"
+                aria-valuetext="1922"
+              />
+              <div class="timeline-ticks" aria-label="Jump to a key year">
+                <button data-year="1600">1600</button
+                ><button data-year="1757">1757</button
+                ><button data-year="1858">1858</button
+                ><button data-year="1922" class="is-active">1922</button
+                ><button data-year="1947">1947</button
+                ><button data-year="1997">1997</button>
+              </div>
+            </div>
+          </div>
+          <aside class="discovery-panel" aria-label="Discover the history">
+            <div class="search-area">
+              <label for="place-search" class="sr-only">Find a place</label
+              ><svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m16 16 5 5" /></svg
+              ><input
+                id="place-search"
+                type="search"
+                role="combobox"
+                aria-autocomplete="list"
+                placeholder="Find a place…"
+                autocomplete="off"
+                aria-controls="search-results"
+                aria-expanded="false"
+              /><span class="search-shortcut" aria-hidden="true">/</span>
+              <div
+                id="search-results"
+                class="search-results"
+                role="listbox"
+                aria-label="Places"
+                hidden
+              ></div>
+            </div>
+            <div id="discovery-content" class="discovery-content">
+              <p class="panel-label">A moment in history</p>
+              <span class="moment-year">1922</span>
+              <h2>The empire at its widest</h2>
+              <p>
+                The map is loading. Choose a year or a place to begin exploring.
+              </p>
+            </div>
+          </aside>
+        </div>
+        <div class="map-caption">
+          <span
+            >Annual snapshots · Approximate extent, using modern boundaries as a
+            guide.</span
+          ><button
+            class="text-button"
+            id="map-note-toggle"
+            aria-expanded="false"
+            aria-controls="map-note"
+          >
+            How to read this map <span aria-hidden="true">ⓘ</span>
+          </button>
+        </div>
+        <div id="map-note" class="map-note" hidden>
+          <h3>A map is a starting point.</h3>
+          <p>
+            Colour shows places under a form of British authority during the
+            selected year. A single colour includes very different arrangements:
+            direct rule, indirect rule and limited authority. Choose
+            <strong>Types of rule</strong> to compare these simplified levels of
+            authority. Select a place for its specific form of government.
+            Hatched areas represent partial coverage.
+          </p>
+          <p>
+            Boundaries are approximate and use modern geographic units. Changes
+            within a year are simplified; a place can remain coloured in its
+            year of independence. The map does not measure informal influence,
+            people’s experiences, or the human cost of empire.
+          </p>
+          <a class="text-link" href="research.html"
+            >Open the full research atlas <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <section class="story-section" aria-labelledby="story-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="story-heading">A place to begin</h2>
+              <p>Three stories that make the bigger picture clearer.</p>
+            </div>
+            <a href="#learn" class="text-link"
+              >All guided lessons <span aria-hidden="true">→</span></a
+            >
+          </div>
+          <div id="story-preview" class="story-grid"></div>
+        </section>
+      </section>
+
+      <section
+        id="learn-view"
+        class="view"
+        aria-labelledby="learn-title"
+        hidden
+      ></section>
+      <section
+        id="check-view"
+        class="view"
+        aria-labelledby="check-title"
+        hidden
+      ></section>
+      <section
+        id="teacher-view"
+        class="view"
+        aria-labelledby="teacher-title"
+        hidden
+      ></section>
+    </main>
+    <footer class="site-footer">
+      <p>History is more than a map. <span>Keep asking questions.</span></p>
+      <div>
+        <span class="offline-note"
+          ><i aria-hidden="true"></i>No account. Works offline.</span
+        ><a href="research.html">Research atlas ↗</a>
+      </div>
+    </footer>
+    <div
+      class="sr-only"
+      id="live-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <noscript
+      ><div class="no-script">
+        <h2>Enable JavaScript to explore the map.</h2>
+        <p>
+          The atlas runs entirely from local files, with no account. Your
+          browser needs JavaScript for the map, lessons and knowledge check.
+        </p>
+      </div></noscript
+    >
+    <script type="module" src="js/classroom/main.js"></script>
+    <script>
+      setTimeout(function () {
+        var w = document.getElementById("atlas-workspace");
+        if (w.getAttribute("aria-busy") === "true") {
+          var m = document.getElementById("world-map");
+          m.innerHTML =
+            '<div class="map-loading"><h2>The atlas could not open.</h2><p>Start the local server with <code>npm start</code>, then reload this page.</p><button class="button" onclick="location.reload()">Try again</button></div>';
+          w.setAttribute("aria-busy", "false");
+        }
+      }, 15000);
+    </script>
+  </body>
+</html>

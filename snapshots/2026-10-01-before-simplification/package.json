@@ -1,0 +1,33 @@
+{
+  "name": "british-empire",
+  "version": "1.0.0",
+  "description": "A British Empire classroom atlas with an unfolding globe, territory stories, a written evidence rallye and a teacher key.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node tools/serve.js",
+    "test": "node tools/classroom-test.js",
+    "test:next": "node tools/next-test.js",
+    "test:journey": "node tools/journey-test.js",
+    "test:journey:unfold": "node tools/journey-unfold-test.js",
+    "test:journey:fullscreen": "node tools/journey-fullscreen-test.js",
+    "test:journey:unit": "node tools/journey-unit-test.js",
+    "test:journey:focus": "node tools/journey-focus-test.js",
+    "test:journey:map": "node tools/journey-map-semantics-test.js && node tools/journey-map-experience-test.js",
+    "validate:data": "node tools/validate-data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  },
+  "dependencies": {
+    "d3-array": "^3.2.4",
+    "d3-geo": "^3.1.1",
+    "d3-geo-projection": "^4.0.0",
+    "mapshaper": "^0.7.56",
+    "topojson-client": "^3.1.0",
+    "topojson-server": "^3.0.1"
+  }
+}

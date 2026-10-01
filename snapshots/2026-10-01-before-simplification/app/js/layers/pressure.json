@@ -1,0 +1,151 @@
+{
+  "$note": "P06's informal-empire layer. FEATURE_SPEC §1 charge 5 requires the haze radius to encode ONE stated, cited quantity. This file is that quantity and nothing else. A place with `value: null` gets NO haze — a ring and a printed reason instead — because a radius nobody can source is the same lie as a fill nobody can source. Two of these places carry a figure. The rest do not, and that is the layer's finding, not its failure.",
+  "metric": {
+    "id": "british-capital-1913",
+    "label": "British capital invested, 1913",
+    "unit": "£ million, nominal",
+    "year": 1913,
+    "how": "The nominal value of British-held securities — government loans, railway and utility companies — in each country, at the last count before the First World War.",
+    "sourceId": "feis-1930",
+    "cannotTellYou": "It is a stock of paper, not a flow of goods and not a measure of who gave orders to whom. Nominal issue values overstate what was actually transferred, and they say nothing about the years before 1870 or after 1914."
+  },
+  "sources": {
+    "feis-1930": {
+      "author": "Herbert Feis",
+      "work": "Europe: The World's Banker, 1870–1914",
+      "year": 1930,
+      "kind": "book",
+      "publisher": "Yale University Press",
+      "supports": "The standard reconstruction of British overseas investment by country in 1913."
+    },
+    "stone-1977": {
+      "author": "Irving Stone",
+      "work": "British Direct and Portfolio Investment in Latin America Before 1914",
+      "year": 1977,
+      "kind": "article",
+      "publisher": "The Journal of Economic History, vol. 37",
+      "supports": "A later, higher reworking of the Latin American figures from the issue records."
+    },
+    "gallagher-robinson-1953": {
+      "author": "John Gallagher and Ronald Robinson",
+      "work": "The Imperialism of Free Trade",
+      "year": 1953,
+      "kind": "article",
+      "publisher": "The Economic History Review, vol. 6",
+      "supports": "The argument that Britain ruled informally where it could and formally only where it had to — the reason this layer exists."
+    },
+    "platt-1968": {
+      "author": "D. C. M. Platt",
+      "work": "Finance, Trade, and Politics in British Foreign Policy 1815–1914",
+      "year": 1968,
+      "kind": "book",
+      "publisher": "Clarendon Press",
+      "supports": "The sceptical case: that the British government rarely acted for investors, and that 'informal empire' claims more than the evidence carries."
+    },
+    "ferns-1960": {
+      "author": "H. S. Ferns",
+      "work": "Britain and Argentina in the Nineteenth Century",
+      "year": 1960,
+      "kind": "book",
+      "publisher": "Clarendon Press",
+      "supports": "Argentina as a partnership of two economies rather than a dependency."
+    }
+  },
+  "places": [
+    {
+      "unitId": "ar-buenos-aires",
+      "name": "Argentina",
+      "value": 320,
+      "low": 320,
+      "high": 360,
+      "sourceIds": ["feis-1930", "stone-1977"],
+      "note": "About a tenth of all British overseas investment, and more than in any colony except India: two thirds of a 33,000-kilometre railway network, the meat packers, the trams and the port works. Feis's 1930 table gives about £320 million; Irving Stone's reworking from the issue records is higher. Britain governed nothing here. Peron bought the railways back in 1948.",
+      "cuts": "Argentina found the limits of it. Britain and France blockaded Buenos Aires in 1845, were fought at the Vuelta de Obligado, and in 1849 signed a treaty that apologised and saluted the Argentine flag."
+    },
+    {
+      "unitId": "uruguay",
+      "name": "Uruguay",
+      "value": 36,
+      "low": 36,
+      "high": 40,
+      "sourceIds": ["feis-1930"],
+      "note": "Railways, the Montevideo waterworks and government loans. Britain had midwifed the state itself in 1828, brokering its independence to keep the mouth of the River Plate out of the hands of either neighbour."
+    },
+    {
+      "unitId": "turkey",
+      "name": "The Ottoman Empire",
+      "value": null,
+      "sourceIds": ["feis-1930"],
+      "why": "British holdings were a minority share of an Ottoman public debt held mainly in France and Germany, and this atlas will not draw a circle whose size would say the pressure was small. From 1881 the Ottoman Public Debt Administration — a council of foreign bondholders' representatives, one of them British — collected a substantial part of the empire's revenue at source. That is the pressure, and it is not a number this metric can carry."
+    },
+    {
+      "unitId": "iran",
+      "name": "Persia",
+      "value": null,
+      "sourceIds": ["platt-1968"],
+      "why": "The pressure here was concessions, not portfolio capital: in 1901 the D'Arcy concession handed one British subject the oil rights over most of Persia, and in 1914 the British government bought a controlling share of the Anglo-Persian Oil Company. In 1907 Britain and Russia divided the country into spheres in a convention Persia was not party to. None of that is £ million invested, so no haze is drawn."
+    },
+    {
+      "unitId": "japan",
+      "name": "Japan",
+      "value": null,
+      "sourceIds": ["platt-1968"],
+      "why": "The unequal treaties of 1858 fixed Japan's tariffs and gave British subjects their own courts on Japanese soil. Japan got them revised in 1894 and abolished by 1911, and by 1913 it was an ally with a navy built in British yards. The relationship reversed inside sixty years, which no radius can show."
+    },
+    {
+      "unitId": "thailand",
+      "name": "Siam",
+      "value": null,
+      "sourceIds": ["platt-1968"],
+      "why": "The Bowring Treaty of 1855 capped Siam's import duties at three per cent and gave British subjects extraterritorial courts. Siam kept its independence by conceding territory on both flanks to Britain and France. The quantity that matters here is a tariff ceiling, not a capital stock."
+    },
+    {
+      "unitId": "oman",
+      "name": "Muscat and Oman",
+      "value": null,
+      "why": "A treaty of protection and a British political agent, not an investment. The metric does not reach places that were controlled through their rulers' foreign policy rather than through their debt."
+    },
+    {
+      "unitId": "bahrain",
+      "name": "Bahrain",
+      "value": null,
+      "why": "Bound by exclusive agreements from 1880 and 1892: no foreign relations, no territory disposed of, without British consent. There is no capital figure to draw and there was no doubt about who decided."
+    },
+    {
+      "unitId": "qatar",
+      "name": "Qatar",
+      "value": null,
+      "why": "An exclusive agreement of 1916 on the same pattern. No figure."
+    },
+    {
+      "unitId": "united-arab-emirates",
+      "name": "The Trucial States",
+      "value": null,
+      "why": "A maritime truce from 1835 and an exclusive agreement in 1892, enforced by the Royal Navy. No figure."
+    },
+    {
+      "unitId": "nepal",
+      "name": "Nepal",
+      "value": null,
+      "why": "Never colonised, and tied to British India by the treaty of 1816 and by the recruitment of Gurkha soldiers, which is a transfer of people rather than of capital."
+    },
+    {
+      "unitId": "afghanistan",
+      "name": "Afghanistan",
+      "value": null,
+      "why": "Three wars, a border drawn by Mortimer Durand in 1893, and control of Afghan foreign policy from 1879 to 1919 — with, so far as this atlas can cite, no British capital at stake worth drawing."
+    },
+    {
+      "unitId": "maldives",
+      "name": "The Maldives",
+      "value": null,
+      "why": "A protected sultanate from 1887, kept for the sea lane. No figure."
+    },
+    {
+      "unitId": "bhutan",
+      "name": "Bhutan",
+      "value": null,
+      "why": "The Treaty of Punakha, 1910: British India guided Bhutan's foreign relations in return for a subsidy. No figure."
+    }
+  ]
+}

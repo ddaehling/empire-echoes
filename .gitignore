@@ -1,0 +1,14 @@
+node_modules/
+tools/.cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+.vercel/
+dist/
+coverage/
+test-results/
+playwright-report/
+undefined/
+--*/
+.impeccable/

@@ -1,0 +1,10 @@
+{ "region": "south-asia", "territories": [
+  { "id": "bengal", "title": "Bengal", "alsoKnownAs": ["Bangla"], "isoCodes": ["IND","BGD"],
+    "periods": [ { "from": 1757, "to": 1858, "type": "company-rule", "circa": false },
+                 { "from": 1858, "to": 1947, "type": "crown-rule" },
+                 { "from": 1947, "until": null, "type": "independent" } ],
+    "events": [ { "year": 1770, "type": "famine", "title": "Great Bengal famine" } ],
+    "populationNote": "passed straight through" },
+  { "id": "ceylon", "name": "Ceylon", "units": ["LKA"],
+    "spans": [ { "start": 1796, "end": 1948, "status": "crown-colony", "contested": true } ] }
+] }

@@ -1,0 +1,101 @@
+{
+  "checked": "2026-10-01",
+  "purpose": "Archival evidence for territory reading pages. Images are historical source material, not generated decoration.",
+  "notes": [
+    "Image rights statements are recorded from each linked Commons description page. Source pages give the detailed jurisdictional basis.",
+    "Downloaded at appropriate web resolution with no AI editing, recolouring or synthetic reconstruction.",
+    "Captions separate visible evidence, collection descriptions and interpretation."
+  ],
+  "images": [
+    {
+      "territoryId": "british-india",
+      "src": "./assets/territories/india-salt-march.jpg",
+      "alt": "Gandhi bends to pick up salt while other participants watch.",
+      "caption": "Gandhi at Dandi during the Salt March, April 1930. Making salt challenged the colonial salt monopoly; the photograph captures an act of civil disobedience.",
+      "credit": "Photographer unknown, via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gandhi_at_Dandi,_5_April_1930.jpg",
+      "license": "Public domain (PD-India; PD-1996)",
+      "file": "india-salt-march.jpg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Gandhi_at_Dandi%2C_5_April_1930.jpg/1280px-Gandhi_at_Dandi%2C_5_April_1930.jpg",
+      "sha256": "d1ded0958e9d038b99e8036f054bd6bb2d901aaac0a3843f32ca88d699009c9c",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:Gandhi_at_Dandi,_5_April_1930.jpg",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Source filename gives 5 April, while accounts of the salt-law breach commonly date it 6 April. Caption deliberately gives month only. Downloaded Commons thumbnail; no editing."
+    },
+    {
+      "territoryId": "jamaica",
+      "src": "./assets/territories/jamaica-cane-workers.jpg",
+      "alt": "A group of workers stand and cut sugar cane in a Jamaican field.",
+      "caption": "Cane cutters in Jamaica, 1891. This photograph was taken decades after emancipation. It shows plantation work continuing, not people who can be identified as enslaved.",
+      "credit": "Valentine & Sons / The Caribbean Photo Archive, via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Valentine_and_Sons_-_Cane_Cutters,_Jamaica,_1891_17298876952.jpg",
+      "license": "Public domain (PD-Jamaica; PD-US-expired)",
+      "file": "jamaica-cane-workers.jpg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Valentine_and_Sons_-_Cane_Cutters%2C_Jamaica%2C_1891_17298876952.jpg/1280px-Valentine_and_Sons_-_Cane_Cutters%2C_Jamaica%2C_1891_17298876952.jpg",
+      "sha256": "f75e60594ed3b797af8e08fb07586baef797b256cb0a06b3c206beb29a73224b",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:Valentine_and_Sons_-_Cane_Cutters,_Jamaica,_1891_17298876952.jpg",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Do not caption these people as enslaved: photograph dates to 1891. Downloaded Commons thumbnail; no editing."
+    },
+    {
+      "territoryId": "hong-kong",
+      "src": "./assets/territories/hong-kong-dock-workers.jpg",
+      "alt": "Dock workers pull a loaded cart beside sailing ships in Hong Kong.",
+      "caption": "Dock workers in Hong Kong, catalogued as 1890. The image brings human labour into a history often told through ports, treaties and trade totals.",
+      "credit": "Photographer unidentified, via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hongkong_dock_workers_1890.jpg",
+      "license": "Public domain (PD-old; Public Domain Mark)",
+      "file": "hong-kong-dock-workers.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Hongkong_dock_workers_1890.jpg",
+      "sha256": "84c9ec8f8db62c6aeaa46727a95afffd3e41ac88314020c9a39e273cde41169a",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:Hongkong_dock_workers_1890.jpg",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Commons record dates photograph 1890; creator not identified. Original600px file retained without upscaling or editing."
+    },
+    {
+      "territoryId": "canada",
+      "src": "./assets/territories/canada-charlottetown.jpg",
+      "alt": "Delegates pose on the steps of Government House during the Charlottetown Conference.",
+      "caption": "Delegates at the Charlottetown Conference, September 1864. The meeting helped prepare Confederation. Consider whose participation this formal group portrait records—and whose voice it leaves outside the frame.",
+      "credit": "George P. Roberts / Library and Archives Canada, C-000733, via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Charlottetown_Conference_Delegates,_September_1864.JPG",
+      "license": "Public domain (PD-Canada; PD-US-expired)",
+      "file": "canada-charlottetown.jpg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Charlottetown_Conference_Delegates%2C_September_1864.JPG/1280px-Charlottetown_Conference_Delegates%2C_September_1864.JPG",
+      "sha256": "0ad803400d71341c3dd3acd469d31677809f810e5139fa3e83c1b7738acccc01",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:Charlottetown_Conference_Delegates,_September_1864.JPG",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Commons sourced to Library and Archives Canada MIKAN3623696. Downloaded Commons thumbnail; no editing."
+    },
+    {
+      "territoryId": "commonwealth-of-australia",
+      "src": "./assets/territories/australia-federation.jpg",
+      "alt": "A crowd and uniformed troops gather outside the decorated Treasury building in Brisbane.",
+      "caption": "Federation Day in Brisbane, 1901. Lord Lamington reads the proclamation from the Treasury building as a crowd gathers below. Flags and ceremony connect the new Commonwealth with the Empire.",
+      "credit": "H. W. Mobsby / John Oxley Library, State Library of Queensland, image 139704, via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:StateLibQld_1_139704_Lord_Lamington_addresses_Federation_Day_crowds,_Brisbane,_1901.jpg",
+      "license": "Public domain (PD-Australia)",
+      "file": "australia-federation.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/StateLibQld_1_139704_Lord_Lamington_addresses_Federation_Day_crowds%2C_Brisbane%2C_1901.jpg",
+      "sha256": "01635e1d9f83959f8852d9805bbfbd635d200fc186f2c3162313f9545c8049ef",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:StateLibQld_1_139704_Lord_Lamington_addresses_Federation_Day_crowds,_Brisbane,_1901.jpg",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Original765×1000file downloaded; no editing. Keep complete portrait composition where possible."
+    },
+    {
+      "territoryId": "kenya",
+      "src": "./assets/territories/kenya-nairobi-station.jpg",
+      "alt": "Passengers and workers stand beside a steam train and the station building in Nairobi.",
+      "caption": "Nairobi station on the Uganda Railway, about the 1900s. The postcard records infrastructure and everyday activity, but cannot by itself explain who benefited or how the railway was built.",
+      "credit": "D. V. Figueira, Mombasa (postcard publisher; photographer unidentified), via Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Postcard_photograph_of_Nairobi_Station,_Uganda_Railway,_by_D._V._Figueira,_Mombasa,_B.E.A.,_ca.1900%27s.jpg",
+      "license": "Public domain (PD-scan; PD-old)",
+      "file": "kenya-nairobi-station.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/5/55/Postcard_photograph_of_Nairobi_Station%2C_Uganda_Railway%2C_by_D._V._Figueira%2C_Mombasa%2C_B.E.A.%2C_ca.1900%27s.jpg",
+      "sha256": "bff33391469c73355e7765896ce689dd59416d274c61da701d315d7801f6a7e1",
+      "rightsRecord": "https://commons.wikimedia.org/wiki/File:Postcard_photograph_of_Nairobi_Station,_Uganda_Railway,_by_D._V._Figueira,_Mombasa,_B.E.A.,_ca.1900%27s.jpg",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "provenanceNote": "Publisher visible on postcard. Commons gives approximate1900s date and unknown photographer. Original940×601file downloaded; no editing."
+    }
+  ]
+}

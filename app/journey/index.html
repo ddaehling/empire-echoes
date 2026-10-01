@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f5f6f8" />
+    <title>Empire / Echoes — A history that lives on</title>
+    <meta
+      name="description"
+      content="Explore the changing British Empire, investigate the lives and places behind the map, and trace its echoes in Britain today through a 45-minute classroom rallye."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='6' fill='%2318233b'/%3E%3Cpath d='M31 8 17 40' stroke='%23e97535' stroke-width='4'/%3E%3C/svg%3E"
+    />
+    <link
+      rel="preload"
+      href="../assets/fonts/source-sans-3-var-roman-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="../assets/fonts/source-serif-4-var-roman-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/experience.css" />
+    <link rel="stylesheet" href="css/map-experience.css" />
+    <link rel="stylesheet" href="css/fullscreen.css" />
+    <link rel="stylesheet" href="css/territory.css" />
+    <link rel="stylesheet" href="css/rallye.css" />
+    <link rel="stylesheet" href="css/teacher.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="#explore" aria-label="Empire and Echoes — explore">
+        <span class="brand-wordmark"
+          >Empire <i aria-hidden="true">/</i> Echoes</span
+        >
+        <span class="brand-caption">The British Empire, reconsidered.</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#explore" data-view="explore" aria-current="page">Atlas</a>
+        <a href="#rallye" data-view="rallye"
+          >The rallye
+          <span id="nav-count" aria-label="Rallye progress">0/7</span></a
+        >
+        <a href="#teacher" data-view="teacher">Teacher key</a>
+      </nav>
+      <a class="original-link" href="../next/" target="_blank" rel="noopener"
+        >Previous version <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main" tabindex="-1">
+      <section
+        class="explore-view"
+        id="explore-view"
+        aria-labelledby="explore-title"
+      >
+        <div class="explore-intro">
+          <div class="intro-title">
+            <p class="folio-label">
+              <span class="folio-rule" aria-hidden="true"></span>Four centuries.
+              Unfinished histories.
+            </p>
+            <h1 id="explore-title">The past is <em>present.</em></h1>
+          </div>
+          <div class="intro-aside">
+            <p class="intro-copy">
+              An empire changed the world. How does its history still shape
+              Britain — and the people who call it home?
+            </p>
+            <a class="intro-rallye-link" href="#rallye"
+              >Investigate in 45 minutes <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+        <section
+          class="atlas-experience"
+          aria-label="Interactive historical atlas"
+          id="atlas-experience"
+          aria-busy="true"
+        >
+          <div class="experience-toolbar">
+            <div class="surface-title">
+              <span class="atlas-symbol" aria-hidden="true">◎</span
+              ><strong>The living atlas</strong
+              ><span class="toolbar-divider" aria-hidden="true"></span
+              ><span id="view-description">A world in perspective</span>
+            </div>
+            <div class="toolbar-actions">
+              <div
+                class="view-switch"
+                role="group"
+                aria-label="Atlas projection"
+              >
+                <button id="globe-view" aria-pressed="true">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" />
+                    <ellipse cx="12" cy="12" rx="4" ry="9" />
+                    <path d="M3 12h18" /></svg
+                  >Globe
+                </button>
+                <button id="flat-view" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"
+                    /></svg
+                  >Flat map
+                </button>
+              </div>
+              <button
+                id="fullscreen-toggle"
+                class="fullscreen-toggle"
+                aria-label="Enter fullscreen"
+                aria-pressed="false"
+                title="Enter fullscreen"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg
+                ><span>Fullscreen</span>
+              </button>
+            </div>
+          </div>
+          <div class="scene-grid">
+            <div class="world-column">
+              <div class="scene-stage" id="scene-stage">
+                <div class="year-annotation">
+                  <span>At year end</span><strong id="hero-year">1922</strong>
+                </div>
+                <div id="globe-container" class="globe-container">
+                  <div class="atlas-loading" role="status">
+                    <span aria-hidden="true">◎</span>
+                    <p>Bringing the world into view…</p>
+                  </div>
+                </div>
+                <div id="flat-container" class="flat-container" hidden></div>
+                <div
+                  class="scene-controls"
+                  role="group"
+                  aria-label="Atlas camera"
+                >
+                  <button id="zoom-in" aria-label="Zoom in" title="Zoom in">
+                    +</button
+                  ><button id="zoom-out" aria-label="Zoom out" title="Zoom out">
+                    −</button
+                  ><button
+                    id="reset-view"
+                    aria-label="Reset view"
+                    title="Reset view"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M3 10a9 9 0 1 1 2 8M3 4v6h6" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="interaction-hint" id="interaction-hint">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m6 8-4 4 4 4m12-8 4 4-4 4M2 12h20" /></svg
+                  ><span>Drag to rotate · Select a place</span>
+                </div>
+                <div class="projection-note" id="projection-note">
+                  Borders tell part of the story.
+                </div>
+              </div>
+              <div class="legend-row">
+                <div class="legend-items" id="legend-items"></div>
+                <label class="rule-choice" for="colour-mode"
+                  >Colour by<select id="colour-mode">
+                    <option value="extent">Empire extent</option>
+                    <option value="rule">Type of authority</option>
+                  </select></label
+                >
+              </div>
+              <div class="time-machine">
+                <div class="time-heading">
+                  <label for="year-slider">Move through time</label>
+                  <div class="year-step">
+                    <button id="previous-year" aria-label="Previous year">
+                      ←</button
+                    ><output id="year-output" for="year-slider">1922</output
+                    ><button id="next-year" aria-label="Next year">→</button>
+                  </div>
+                  <button
+                    id="play-timeline"
+                    class="play-button"
+                    aria-pressed="false"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m8 5 11 7-11 7z" /></svg
+                    ><span>Play history</span>
+                  </button>
+                </div>
+                <input
+                  type="range"
+                  id="year-slider"
+                  min="1600"
+                  max="1997"
+                  step="1"
+                  value="1922"
+                  aria-label="Map year"
+                />
+                <div class="range-endpoints" aria-hidden="true">
+                  <span>1600</span><span>1997</span>
+                </div>
+                <div
+                  class="year-waypoints"
+                  aria-label="Jump to a historical turning point"
+                >
+                  <button data-year="1600" title="1600 — Trade">
+                    <span>1600</span>Trade</button
+                  ><button data-year="1757" title="1757 — Company power">
+                    <span>1757</span>Company power</button
+                  ><button data-year="1858" title="1858 — Crown rule">
+                    <span>1858</span>Crown rule</button
+                  ><button
+                    data-year="1922"
+                    title="1922 — Imperial reach"
+                    class="is-active"
+                  >
+                    <span>1922</span>Imperial reach</button
+                  ><button data-year="1947" title="1947 — Independence">
+                    <span>1947</span>Independence</button
+                  ><button data-year="1997" title="1997 — Legacies">
+                    <span>1997</span>Legacies
+                  </button>
+                </div>
+              </div>
+              <div
+                id="map-experience"
+                class="map-experience"
+                aria-label="Changes across the map"
+              ></div>
+            </div>
+            <aside class="context-panel" aria-label="Historical context">
+              <div class="place-search">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="10" cy="10" r="6" />
+                  <path d="m15 15 6 6" /></svg
+                ><label class="sr-only" for="place-search">Find a place</label
+                ><input
+                  id="place-search"
+                  type="search"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-controls="place-results"
+                  aria-expanded="false"
+                  autocomplete="off"
+                  placeholder="Find a territory…"
+                /><kbd aria-hidden="true">/</kbd>
+                <div
+                  id="place-results"
+                  class="place-results"
+                  role="listbox"
+                  aria-label="Places"
+                  hidden
+                ></div>
+              </div>
+              <div id="historical-context" class="historical-context">
+                <p class="context-label">The bigger picture</p>
+                <h2>Territory was vast.<br />Control was uneven.</h2>
+                <p>
+                  The atlas is opening. Choose a year or a place to explore.
+                </p>
+              </div>
+              <div class="place-shortcuts" id="place-shortcuts">
+                <span>Three places to begin</span>
+                <div>
+                  <button data-place="british-india">
+                    India <span aria-hidden="true">↗</span></button
+                  ><button data-place="jamaica">
+                    Jamaica <span aria-hidden="true">↗</span></button
+                  ><button data-place="kenya">
+                    Kenya <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+        <div class="atlas-footnote">
+          <span
+            >Year-end snapshots · Historical coverage approximated with modern
+            boundaries.</span
+          ><button
+            id="read-map"
+            aria-expanded="false"
+            aria-controls="map-reading"
+          >
+            How to read this map <span aria-hidden="true">ⓘ</span>
+          </button>
+        </div>
+        <section class="map-reading" id="map-reading" hidden>
+          <div>
+            <h2>The colour is only a beginning.</h2>
+            <p>
+              “British” could mean direct government, a protectorate, a company
+              or a self-governing dominion. Change the colour view and select a
+              place to see the distinction.
+            </p>
+          </div>
+          <div>
+            <p>
+              Hatched areas show partial coverage. Borders are approximate; each
+              snapshot shows the end of the selected year. Uncoloured land was
+              never empty or without a history.
+            </p>
+            <p>
+              A globe avoids the distortions of a flat projection, but neither
+              view shows consent, lived experience or informal influence. Use
+              the sources to ask whose perspective is missing.
+            </p>
+          </div>
+        </section>
+        <section class="rallye-invitation" aria-labelledby="invitation-title">
+          <div class="invitation-copy">
+            <p class="invitation-label">The 45-minute classroom rallye</p>
+            <h2 id="invitation-title">
+              Follow the history.<br /><em>Question the legacy.</em>
+            </h2>
+            <p>
+              Travel between places and centuries. Read the evidence, hear
+              different perspectives, and build your own argument about Britain
+              today.
+            </p>
+          </div>
+          <div class="invitation-action">
+            <span class="journey-mark" aria-hidden="true">↗</span
+            ><a href="#rallye" class="button button-primary" id="assessment-cta"
+              >Begin the rallye <span aria-hidden="true">→</span></a
+            ><span id="assessment-status"
+              >Your progress is saved on this device.</span
+            >
+          </div>
+        </section>
+      </section>
+      <section
+        id="territory-view"
+        class="territory-view"
+        aria-label="Territory story"
+        hidden
+      ></section>
+      <section
+        id="rallye-view"
+        class="rallye-view"
+        aria-label="Classroom rallye"
+        hidden
+      ></section>
+      <section
+        id="teacher-view"
+        class="teacher-view"
+        aria-label="Teacher key"
+        hidden
+      ></section>
+      <div id="boot-error" class="boot-error" role="alert" hidden>
+        <h2>The atlas couldn’t open.</h2>
+        <p id="boot-error-message">
+          Check that the local server is running and the project files are
+          available.
+        </p>
+        <button class="button button-primary" id="reload-app">Try again</button
+        ><a href="../next/" class="text-link">Open the previous version →</a>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>
+        <strong>Empire / Echoes</strong
+        ><span>History is an enquiry, not a single story.</span>
+      </p>
+      <div>
+        <a href="#teacher">Teacher key</a
+        ><a href="../next/" target="_blank" rel="noopener"
+          >Previous classroom version ↗</a
+        >
+      </div>
+    </footer>
+    <div
+      class="sr-only"
+      id="live-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <noscript
+      ><div class="noscript">
+        <h2>This atlas needs JavaScript.</h2>
+        <p>
+          Enable JavaScript to explore and complete the rallye. All programme
+          files and data are served from this project.
+        </p>
+        <a href="../next/">Open the previous version</a>
+      </div></noscript
+    >
+    <script type="module" src="js/main.js"></script>
+    <script>
+      setTimeout(function () {
+        if (!document.documentElement.dataset.ready) {
+          document.getElementById("boot-error").hidden = false;
+          document.getElementById("reload-app").onclick = function () {
+            location.reload();
+          };
+          document
+            .getElementById("atlas-experience")
+            .setAttribute("aria-busy", "false");
+        }
+      }, 18000);
+    </script>
+  </body>
+</html>

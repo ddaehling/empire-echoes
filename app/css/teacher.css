@@ -1,0 +1,1866 @@
+/* teacher.css — P20, the teaching desk.
+ *
+ * Owned by app/js/teacher/. It styles nothing outside `.tp-entry`, `.tp*` and
+ * `.tp-paper`, and it declares no grid on `.app` (docs/LAYOUT_BUDGET.md B9).
+ *
+ * The desk is the atlas's back matter, so it is set like back matter: a warm
+ * page, one measure of serif prose, tables in the mono figure face, and five
+ * type sizes. Every colour is a token; there is not one hex value in this file.
+ *
+ * PRINT. `.tp-paper` is display:none on screen and the only visible thing in
+ * print. The rule that hides everything else is guarded by
+ * `body:has(> .tp-paper)`, so printing any other part of this app is untouched
+ * by this stylesheet.
+ */
+
+/* ====================================================== the one entry == */
+
+.tp-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tr-ui);
+  color: var(--text-secondary);
+  background: none;
+  border: var(--rule-fine) solid transparent;
+  border-radius: var(--radius-none);
+  cursor: pointer;
+}
+.tp-entry:hover { color: var(--text-body); border-color: var(--border-soft); }
+.tp-entry.is-on { color: var(--accent-ink); border-color: var(--accent); }
+/* The same control, doing its second job: offering the move that is standing at
+   this beat. It is marked, not shouted — LAYOUT_BUDGET §6 gives the one filled
+   madder control to the shell, and this is ink on paper like everything else. */
+.tp-entry--move { color: var(--accent-ink); border-color: var(--accent); }
+.tp-entry--move .tp-entry__mark {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  opacity: 1;
+  color: var(--accent-ink);
+}
+.tp-entry__arrow { opacity: 0.75; }
+.tp-entry__mark { font-family: var(--font-serif); font-size: 1.05em; opacity: 0.75; }
+
+/* ============================================================ the desk == */
+
+/* THE DESK IS THE RAIL SHEET, not a layer over the map. FEATURE_SPEC §2 rule 1
+   is unconditional and names ledgers in it: "Plates, matrices, ledgers and
+   parallel texts compress the map; they do not cover it." So there is no
+   `position: fixed` in this block, no z-index, no backdrop and no scroll
+   container — `.cx-sheet__body` is the scroller, chrome.css owns it, and this
+   is a document flowing inside it. */
+
+.tp {
+  display: block;
+  color: var(--text-body);
+  /* A 255px column has no room for a word that will not break. Measured at
+     900x700: five blocks in the Workshop and one in the Classroom asked for up
+     to 37px more than the column had, all of them on an unbreakable token — a
+     deep link, a shard path, a hyphenated name. */
+  overflow-wrap: break-word;
+  /* The sheet body has its own padding; the desk's nav wants to run to both
+     edges so the section strip reads as the head of the column. */
+  margin: calc(var(--space-lg) * -1);
+  padding: 0;
+}
+
+/* base.css sets `code` to 0.92em, which is right beside 16px prose and wrong
+   beside a 12px label: it printed shard paths at 11.04px, under the 12px floor
+   DESIGN.md §3.1 sets. Inside the desk, mono matches its line. */
+.tp code, .tp kbd, .tp samp { font-size: 1em; }
+
+.tp__nav {
+  /* Sticky against the sheet's scrollport, which is its PADDING box: the desk is
+     pulled out to the column's edges with a negative margin, so the offset has
+     to be pulled back by the same amount or the strip pins itself one padding
+     step down and the ledger's controls print above it. Measured, not guessed. */
+  position: sticky;
+  top: calc(var(--space-lg) * -1);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-sm);
+  padding: var(--space-xs) var(--space-lg);
+  background: var(--surface-panel);
+  border-block-end: var(--rule-fine) solid var(--rule-colour);
+}
+
+.tp__tabs { display: flex; flex-wrap: wrap; gap: var(--space-3xs); align-items: stretch; min-width: 0; }
+.tp-tab {
+  display: block;
+  flex: 0 0 auto;
+  min-height: 32px;
+  text-align: start;
+  padding: var(--space-2xs) var(--space-2xs);
+  background: none;
+  border: var(--rule-fine) solid transparent;
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.tp-tab:hover { color: var(--text-body); background: var(--surface-well); }
+.tp-tab.is-on {
+  color: var(--text-heading);
+  background: var(--surface-page);
+  border-color: var(--rule-colour);
+  box-shadow: inset 0 -2px 0 0 var(--accent);
+}
+.tp-tab:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
+.tp-tab__label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-ui);
+}
+
+.tp__version {
+  margin: 0;
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  font-variant-numeric: tabular-nums;
+}
+
+.tp__pages { display: block; }
+/* `hidden` HAS TO WIN. Both of these carry a `display` of their own, and a
+   `display` in a rule beats the user-agent's `[hidden] { display: none }`, so
+   setting `.hidden = true` in JS left them on screen — measured, at 390x844,
+   with the Workshop's prose showing underneath the "not here" card that had
+   replaced it. `teacher/index.js::_applyFit()` is the only thing that sets it. */
+.tp__pages[hidden], .tp__nav[hidden] { display: none !important; }
+.tp-page {
+  max-width: none;
+  margin: 0;
+  padding: var(--space-lg) var(--space-lg) var(--space-3xl);
+}
+.tp-page:focus-visible { outline: var(--focus-ring); outline-offset: -4px; }
+
+/* ============================================== the pack, at the Close == */
+
+/* Appended by index.js into the sheet the Close is already occupying, so that
+   DIDACTIC §8's minute 29 has its printed pages under it instead of two clicks
+   away. It is a `.cx-panel` like every other block in that column and it is
+   deliberately the quietest thing in the Close: the Close's own primary control
+   is the revision sheet, and this must not compete with it. */
+.tp-atclose { margin-block-start: var(--space-xl); }
+.tp-atclose__say {
+  margin: var(--space-xs) 0 var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.tp-atclose__row { display: grid; gap: var(--space-xs); }
+.tp-atclose__go {
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--rule-colour);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  min-height: 44px;
+}
+.tp-atclose__go:hover { border-color: var(--accent); background: var(--surface-well); }
+.tp-atclose__go:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+.tp-atclose__lab {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  color: var(--accent-ink);
+}
+.tp-atclose__lab::after { content: '\00a0\2192'; color: var(--text-min); }
+.tp-atclose__note {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-min);
+}
+.tp-atclose .cx-more { margin-block-start: var(--space-md); }
+
+/* ============================================================== prose == */
+
+/* Blocks run the full column; the prose inside them is held to one measure.
+   Capping the block as well would produce a second, narrower column and a
+   ragged right edge on every table. */
+.tp-prose, .tp-block { max-width: none; }
+.tp-kicker {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-h {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h2);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-tight);
+  color: var(--text-heading);
+}
+.tp-lede-p {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+  max-width: var(--measure);
+}
+.tp-prose__p {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  max-width: var(--measure);
+}
+.tp-page__intro { margin-block-end: var(--space-2xl); }
+.tp-version {
+  margin: var(--space-sm) 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.tp-version .num, .tp__version { font-family: var(--font-mono); }
+.tp-inline { color: var(--link); }
+.tp-dim { color: var(--text-min); }
+code { font-family: var(--font-mono); font-size: 0.92em; }
+
+.tp-block { margin-block: var(--space-xl); }
+.tp-block__title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.tp-acts { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-block-start: var(--space-md); }
+
+/* ============================================================ workshop == */
+
+/* ====================================================== not here ======== *
+
+   THE DESK, WHEN THERE IS NOT ROOM TO READ IT. `teacher/small.js` carries the
+   measurement and the argument; this is one screen of type, set to be read at
+   223 pixels of height and 390 of width, which is the window it exists for. So:
+   no grid, no two columns, nothing that needs a hover, and a type scale that
+   starts at the prose size rather than at a heading — a 24px heading in a 223px
+   window spends a tenth of the window saying nothing. */
+.tp-small { padding-block-end: var(--space-lg); }
+.tp-small__lead {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-primary);
+}
+.tp-small__why {
+  margin: 0 0 var(--space-lg);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: 2px solid var(--rule-colour-firm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.tp-small__h {
+  margin: var(--space-lg) 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-small__where, .tp-small__note {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.tp-small__addr { margin: 0 0 var(--space-sm); }
+.tp-small__addr code {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--surface-sunk, transparent);
+  border: var(--rule-fine) solid var(--rule-colour);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-heading);
+  /* A teacher who wants to send this to themselves selects it; on a phone that
+     means a long press, and a code span that breaks across lines cannot be
+     selected cleanly. */
+  white-space: nowrap;
+}
+.tp-small__list, .tp-small__lessons { margin: 0; padding: 0; list-style: none; }
+.tp-small__li, .tp-small__lesson {
+  display: grid;
+  gap: 1px;
+  padding-block: var(--space-xs);
+  border-block-start: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-small__n, .tp-small__ln {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.tp-small__w, .tp-small__lc {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.tp-small__lr { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-secondary); }
+.tp-small__lesson .cx-more { margin-block-start: var(--space-2xs); justify-self: start; }
+
+/* =========================================================== the unit ==== *
+
+   WHICH LESSON THIS PAGE IS ABOUT. DIDACTIC_SPEC §8 is a two-lesson unit and
+   §8.5 makes it a law that every surface naming a route says which lesson it
+   is, what it covers, and what the other one covers. The alternative to this
+   control was two of every block on one page — two boards, two plans, two pack
+   lists, twelve print buttons — which is the wall-of-everything this project
+   keeps having to undo. So: one page, one lesson, and the other named in words
+   underneath.
+
+   TWO BUTTONS, NOT A SELECT AND NOT A TAB STRIP. A `<select>` hides the second
+   option and the second option is half the unit; a tab strip claims the content
+   below is a panel of a whole, which is exactly the reading §8.4(5) bans — a
+   lesson is not part of something unfinished. Each button carries its own name,
+   its own subject and its own honest length, so the choice is made on what the
+   lesson IS rather than on which tab is lit.
+
+   The chosen one is marked with `aria-pressed` and with ink, not with colour
+   alone: the left rule is 3px of accent and the ground shifts, and both survive
+   forced-colours because the rule is a border. */
+.tp-unit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-sm);
+  margin-block: var(--space-lg) var(--space-md);
+}
+.tp-unit__b {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-sm) var(--space-md);
+  text-align: start;
+  cursor: pointer;
+  background: var(--surface-sunk, transparent);
+  border: var(--rule-fine) solid var(--rule-colour);
+  border-inline-start: 3px solid transparent;
+  border-radius: 2px;
+  color: var(--text-secondary);
+}
+.tp-unit__b:hover { border-color: var(--rule-colour-firm); color: var(--text-heading); }
+.tp-unit__b.is-on {
+  border-inline-start-color: var(--accent-ink);
+  background: var(--surface-raised, transparent);
+  color: var(--text-heading);
+}
+.tp-unit__n {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-unit__t {
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-snug);
+  color: inherit;
+}
+/* THE HONEST LENGTH, and it is not a caption. `--text-min` measures 4.84
+   against paper and 4.57 against lamplit — over AA, and the same treatment the
+   move-locations line gets — but this is the number a head of department
+   chooses on at 08:55, so it takes `--text-secondary` (7.51 / 7.37) instead.
+   Measured in both themes with tools/scenarios/pk/19-contrast.js. */
+.tp-unit__r { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-secondary); }
+.tp-unit__why { grid-column: 1 / -1; margin: 0; }
+
+/* The coverage sentence under the lesson's own heading. §8.5 again: items in
+   words, never counts. The second half — what the other lesson covers — is set
+   quieter, because it is context and not this page's instruction. */
+.tp-lesson__cov { margin-block: 0 var(--space-sm); }
+/* WHAT THE OTHER LESSON COVERS, SET QUIETER. §8.4(5) requires it to be named as
+   a subject and not as a deficit, so it is the same size and the same face as
+   the sentence before it — only the ink steps back, because it is context for
+   the page rather than an instruction on it. `--text-secondary` measures 7.51
+   against paper and 7.37 against lamplit, so it is well clear of AA. */
+.tp-lesson__oth { color: var(--text-secondary); }
+
+.tp-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-block: var(--space-lg) var(--space-2xl);
+  padding-block: var(--space-sm);
+  border-block: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-jump__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+}
+.tp-jump__item:hover { color: var(--accent-ink); }
+.tp-jump__n {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--accent-ink);
+}
+
+.tp-move {
+  margin-block: var(--space-3xl);
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-mid) solid var(--rule-colour-firm);
+  scroll-margin-block-start: var(--space-xl);
+}
+.tp-move__n {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-move__name {
+  margin: var(--space-2xs) 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h3);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-tight);
+  color: var(--text-heading);
+}
+.tp-move__strap {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+  max-width: var(--measure);
+}
+
+.tp-steps { margin: 0 0 var(--space-xl); padding: 0; list-style: none; counter-reset: s; max-width: var(--measure); }
+.tp-steps__i {
+  counter-increment: s;
+  position: relative;
+  padding-inline-start: 2.1rem;
+  margin-block-end: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tp-steps__i::before {
+  content: counter(s);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.15em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--accent-ink);
+}
+.tp-steps__k { color: var(--text-heading); font-weight: var(--w-semibold); }
+
+.tp-q {
+  margin: var(--space-lg) 0 var(--space-md);
+  padding-inline-start: var(--space-md);
+  border-inline-start: 3px solid var(--accent);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+  max-width: var(--measure);
+}
+.tp-q__mark {
+  display: inline-block;
+  margin-inline-end: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--accent-ink);
+  vertical-align: 0.15em;
+}
+.tp-q__marks {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+/* weak against strong — both permanently rendered, never tabs */
+.tp-vs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--space-lg);
+  margin-block: var(--space-lg);
+}
+.tp-vs__col { border-block-start: var(--rule-heavy) solid var(--rule-colour); padding-block-start: var(--space-sm); }
+.tp-vs__col--weak { border-block-start-color: var(--border-soft); }
+.tp-vs__col--strong { border-block-start-color: var(--accent); }
+.tp-vs__tag {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.tp-vs__col--strong .tp-vs__tag { color: var(--accent-ink); }
+.tp-vs__body { margin: 0; padding: 0; border: 0; }
+.tp-vs__body p {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tp-vs__col--weak .tp-vs__body p { color: var(--text-secondary); }
+
+.tp-annot { position: relative; padding-inline-start: 1.9rem; }
+.tp-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-on-accent, var(--ink-invert));
+  background: var(--accent-ink);
+  border-radius: var(--radius-pill);
+  flex: 0 0 auto;
+}
+.tp-annot > .tp-mark { position: absolute; inset-inline-start: 0; top: 0.15em; }
+
+.tp-key { margin: 0 0 var(--space-lg); padding: 0; list-style: none; max-width: var(--measure); }
+.tp-key__i {
+  display: flex;
+  gap: var(--space-sm);
+  margin-block-end: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  line-height: var(--lh-snug);
+}
+
+.tp-diff { margin-block: var(--space-lg); }
+.tp-diff__list { margin: var(--space-sm) 0 0; padding: 0; list-style: none; counter-reset: d; max-width: var(--measure); }
+.tp-diff__i {
+  counter-increment: d;
+  position: relative;
+  padding-inline-start: 2.1rem;
+  margin-block-end: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tp-diff__i::before {
+  content: counter(d);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.15em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--accent-ink);
+}
+.tp-diff__i strong { color: var(--text-heading); }
+
+/* your turn */
+.tp-do {
+  margin-block-start: var(--space-xl);
+  padding: var(--space-lg);
+  background: var(--surface-well);
+  border: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-write-wrap { max-width: var(--measure); }
+.tp-write__label {
+  display: block;
+  margin-block: var(--space-md) var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.tp-write {
+  display: block;
+  width: 100%;
+  padding: var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none);
+  resize: vertical;
+}
+.tp-write:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+.tp-count {
+  margin: var(--space-2xs) 0 var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.tp-count.is-ready { color: var(--ok, var(--accent-ink)); }
+.tp-reveal { margin-block-start: var(--space-sm); }
+
+.tp-model {
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-mid) solid var(--accent);
+}
+.tp-model__h {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.tp-model__h:focus-visible { outline: var(--focus-ring); outline-offset: 3px; }
+.tp-model__body { margin: 0 0 var(--space-md); padding: 0; }
+.tp-model__body p {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tp-model__note {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+.tp-scheme { margin-block-start: var(--space-md); }
+.tp-scheme__list { margin: var(--space-sm) 0; padding: 0; list-style: none; }
+.tp-scheme__i {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr;
+  gap: var(--space-xs);
+  align-items: start;
+  margin-block-end: var(--space-xs);
+}
+.tp-scheme__i input { margin-block-start: 0.35em; width: 1rem; height: 1rem; accent-color: var(--accent); }
+.tp-scheme__i label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.tp-scheme__i label strong { color: var(--text-heading); }
+.tp-scheme__tally {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--accent-ink);
+}
+
+/* ------------------------------------------------------------ sources -- */
+
+.tp-source { margin-block: var(--space-md); max-width: var(--measure-wide); }
+.tp .tp-source .src { font-size: var(--fs-caption); }
+.tp-source--own {
+  margin: var(--space-md) 0;
+  padding: var(--space-lg);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-source__prov { margin: 0 0 var(--space-md); display: grid; gap: var(--space-2xs); }
+.tp-source__k {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.tp-source__v {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+}
+.tp-source__q { margin: 0; padding-inline-start: var(--space-md); border-inline-start: 3px solid var(--accent); }
+.tp-source__q p { margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+.tp-source__cap {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.tp-check {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  line-height: var(--lh-snug);
+}
+.tp-check__k { letter-spacing: var(--tr-caps-wide); text-transform: uppercase; }
+.defect { color: var(--danger); font-weight: var(--w-semibold); }
+
+/* --------------------------------------------------------- live counts -- */
+
+.tp-bars { margin: var(--space-sm) 0; padding: 0; list-style: none; }
+.tp-bars__i {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr 3rem;
+  gap: var(--space-sm);
+  align-items: center;
+  margin-block-end: 2px;
+}
+.tp-bars__k { font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.tp-bars__bar { height: 0.7rem; background: var(--surface-well); border: var(--rule-hair) solid var(--rule-colour-soft); }
+.tp-bars__fill { display: block; height: 100%; background: var(--accent); }
+.tp-bars__n { font-family: var(--font-mono); font-size: var(--fs-caption); text-align: end; }
+.tp-bars__total { margin: var(--space-xs) 0 0; font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-min); }
+
+.tp-facts { margin: var(--space-sm) 0; padding: 0; list-style: none; }
+.tp-facts__i { margin-block-end: var(--space-sm); }
+.tp-facts__v { font-family: var(--font-mono); font-size: var(--fs-h4); color: var(--text-heading); display: block; }
+.tp-facts__l { font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--text-min); display: block; }
+.tp-facts__n { display: block; margin-block-start: var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-caption); color: var(--text-secondary); line-height: var(--lh-snug); }
+
+.tp-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: var(--space-md); margin-block: var(--space-sm); }
+.tp-case { padding: var(--space-md); background: var(--surface-page); border: var(--rule-fine) solid var(--rule-colour); }
+.tp-case__name { margin: 0; font-family: var(--font-serif); font-size: var(--fs-base); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-case__mech { margin: var(--space-2xs) 0 var(--space-xs); font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--accent-ink); }
+.tp-case__date { display: block; text-transform: none; letter-spacing: 0; font-family: var(--font-mono); color: var(--text-min); }
+.tp-case__how { margin: 0 0 var(--space-sm); font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-snug); color: var(--text-secondary); }
+.tp-vote-row { display: flex; gap: var(--space-2xs); margin-block: var(--space-xs) var(--space-sm); }
+.tp-vote {
+  flex: 1 1 auto;
+  padding: var(--space-2xs) var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  background: var(--surface-well);
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tp-vote:hover { border-color: var(--ink-ghost); color: var(--text-body); }
+.tp-vote.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); font-weight: var(--w-semibold); }
+.tp-case__reveal { border-block-start: var(--rule-fine) solid var(--rule-colour); padding-block-start: var(--space-xs); }
+.tp-sorter__tally {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--accent-ink);
+  max-width: var(--measure);
+}
+
+/* ============================================================== ledger == */
+
+.tp-sum__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); gap: var(--space-md); margin: var(--space-sm) 0; padding: 0; list-style: none; }
+.tp-sum__i { border-block-start: var(--rule-fine) solid var(--rule-colour); padding-block-start: var(--space-xs); }
+.tp-sum__v { display: block; font-family: var(--font-mono); font-size: var(--fs-h3); line-height: var(--lh-solid); color: var(--text-heading); }
+.tp-sum__k { display: block; font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--text-secondary); }
+.tp-sum__n { display: block; margin-block-start: var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-snug); }
+
+/* The ledger's controls stack in a rail column: one field per row, the filter
+   chips wrapping under them, and the two actions last. `align-items: end` and a
+   `margin-inline-start: auto` both assumed a 96rem document and both put the
+   Print control off the end of a 400px column. */
+.tp-led__tools { display: grid; gap: var(--space-md); margin-block: var(--space-lg) var(--space-sm); }
+.tp-led__field { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.tp-led__lab { font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--text-min); }
+.tp-led__search,
+.tp-led__sort {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none);
+}
+.tp-led__sortrow { display: flex; gap: var(--space-xs); align-items: stretch; }
+.tp-led__sortrow .tp-led__sort { flex: 1 1 auto; }
+.tp-led__dir {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tp-led__dir:hover:not(:disabled) { color: var(--accent-ink); border-color: var(--accent); }
+.tp-led__dir:disabled { opacity: 0.5; cursor: default; }
+.tp-led__dirg { font-family: var(--font-mono); }
+.tp-led__chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.tp-chip {
+  padding: var(--space-2xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+}
+.tp-chip:hover { border-color: var(--ink-ghost); color: var(--text-body); }
+.tp-chip.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.tp-led__acts { display: flex; gap: var(--space-md); align-items: center; flex-wrap: wrap; }
+.tp-led__count { margin: 0 0 var(--space-sm); font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-min); }
+
+/* ------------------------------------------------- one figure, one record */
+
+.tp-led__recs { margin: 0; padding: 0; list-style: none; border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-led__rec {
+  padding: var(--space-sm) 0;
+  border-block-end: var(--rule-hair) solid var(--rule-colour-soft);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+}
+/* The one judgement the whole table exists to surface gets a mark in the
+   margin rather than another colour: low confidence, on the leading edge. */
+.tp-led__rec[data-conf='low'] { border-inline-start: 3px solid var(--danger); padding-inline-start: var(--space-sm); }
+.tp-led__h { margin: 0 0 var(--space-2xs); }
+.tp-led__link { color: var(--accent-ink); text-decoration: none; font-weight: var(--w-semibold); font-size: var(--fs-small); }
+.tp-led__link:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+.tp-led__link::after { content: '\00a0\2192'; color: var(--text-min); }
+.tp-led__fig { display: block; color: var(--text-heading); }
+.tp-led__vline { margin: 0 0 var(--space-2xs); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-sm); }
+.tp-led__v { font-family: var(--font-mono); font-size: var(--fs-base); color: var(--text-heading); }
+.tp-led__u { font-family: var(--font-sans); color: var(--text-min); }
+.tp-led__yr { font-family: var(--font-mono); color: var(--text-min); }
+.tp-led__tags { margin: 0 0 var(--space-2xs); display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.tp-led__src { margin: 0 0 var(--space-2xs); color: var(--text-secondary); }
+.tp-led__auth { color: var(--text-body); }
+.tp-led__sup { margin: 0 0 var(--space-2xs); color: var(--text-secondary); line-height: var(--lh-snug); }
+.tp-led__note { display: block; margin-block-start: 2px; color: var(--text-min); }
+.tp-led__note--miss { color: var(--warn); }
+.tp-led__path { margin: 0; color: var(--text-min); overflow-wrap: anywhere; }
+
+.tp-tag {
+  display: inline-block;
+  padding: 1px var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  color: var(--text-secondary);
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--rule-colour);
+}
+.tp-tag[data-conf='low'] { color: var(--danger); border-color: var(--danger); }
+.tp-tag[data-conf='medium'] { color: var(--warn); border-color: var(--warn); }
+.tp-tag[data-level='record'] { color: var(--warn); }
+.tp-tag--warn { color: var(--warn); border-color: var(--warn); }
+
+/* =========================================================== classroom == */
+
+.tp-board__q { margin: 0 0 var(--space-md); font-family: var(--font-serif); font-size: var(--fs-h4); line-height: var(--lh-snug); color: var(--text-heading); }
+.tp-board__hold { margin: 0 0 var(--space-lg); padding-inline-start: 1.4rem; }
+.tp-board__i { margin-block-end: var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+.tp-board__sentence { margin: var(--space-xs) 0 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: 2.1; color: var(--text-secondary); max-width: var(--measure); }
+
+/* THE BOARD SCHEDULE. Five moments, each with the wall-clock time it goes up.
+   The time is the scanning column — a teacher checks it against the clock on
+   the wall — so it is monospaced, right of nothing, and first. One column below
+   30rem, because a 5rem gutter inside a 280px rail leaves no measure at all. */
+.tp-board__sched { margin: 0; padding: 0; list-style: none; }
+.tp-board__si {
+  display: grid; grid-template-columns: 4.2rem 1fr; gap: var(--space-sm);
+  padding-block: var(--space-sm);
+  border-block-start: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-board__si:first-child { border-block-start: 0; padding-block-start: 0; }
+.tp-board__st { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--accent-ink); }
+.tp-board__sl { margin: 0 0 var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--text-secondary); }
+.tp-board__sx { margin: 0 0 var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); color: var(--text-heading); }
+.tp-board__sn { margin: 0; font-family: var(--font-sans); font-size: var(--fs-micro); line-height: var(--lh-snug); color: var(--text-min); }
+/* NARROW: THE TIME KEEPS ITS JOB. Stacking it above the label lost the
+   scanning column — a teacher checking the wall clock against this list had to
+   read every row. It sits beside the eyebrow instead, and only the text and
+   the note run full width. */
+@media (max-width: 30rem) {
+  .tp-board__si { grid-template-columns: auto 1fr; column-gap: var(--space-sm); row-gap: var(--space-2xs); }
+  .tp-board__st { grid-row: 1; }
+  .tp-board__sl { grid-column: 2; grid-row: 1; margin: 0; }
+  .tp-board__sx, .tp-board__sn { grid-column: 1 / -1; }
+}
+
+.tp-lesson { margin: var(--space-md) 0 0; padding: 0; list-style: none; }
+.tp-lesson__b { display: grid; grid-template-columns: 5rem 1fr; gap: var(--space-md); padding-block: var(--space-md); border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-lesson__at { margin: 0; font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--accent-ink); }
+.tp-lesson__t { margin: 0 0 var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-base); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-lesson__do { margin: 0 0 var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); }
+.tp-lesson__ask { margin: 0 0 var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); color: var(--text-secondary); }
+.tp-lesson__askk { font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--accent-ink); }
+.tp-lesson__link { display: inline-block; margin-inline-start: var(--space-sm); font-size: var(--fs-micro); color: var(--text-min); }
+/* The two links on a lesson row do different things and are not interchangeable:
+   the step link rejoins the guided run, the state link moves only the map. The
+   step line is set above the map line and carries the counter reading, because
+   that is the number a teacher checks against the screen. */
+.tp-lesson__step { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs); margin: 0 0 var(--space-2xs); }
+.tp-lesson__stepn { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--accent-ink); }
+
+/* Where the four transferable moves are offered on this route. Computed, never
+   typed: see `moveBlock()` in classroom.js. */
+.tp-moves { margin-block: var(--space-lg) 0; }
+.tp-moves__l { margin: var(--space-sm) 0 var(--space-sm); padding: 0; list-style: none; }
+.tp-moves__i {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: var(--space-2xs) var(--space-md);
+  padding-block: var(--space-xs);
+  border-block-start: var(--rule-fine) solid var(--rule-colour);
+}
+.tp-moves__n { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--accent-ink); }
+.tp-moves__t { font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); }
+.tp-moves__w {
+  grid-column: 2;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+.tp-link { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; margin-block: var(--space-sm); }
+.tp-link__lab { flex: 1 0 100%; font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--text-min); }
+.tp-link__out {
+  flex: 1 1 22rem;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-body);
+  background: var(--surface-well);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none);
+}
+.tp-link__said { font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--accent-ink); }
+
+.tp-forms { margin: var(--space-md) 0; padding: 0; list-style: none; border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-forms__i { padding-block: var(--space-sm); border-block-end: var(--rule-hair) solid var(--rule-colour-soft); }
+.tp-forms__n { margin: 0; font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-forms__d { margin: 2px 0 var(--space-2xs); display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-sm); font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.tp-forms__deg { font-family: var(--font-mono); }
+.tp-forms__cc[data-on='yes'] { color: var(--accent-ink); }
+.tp-forms__w { margin: 0; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-snug); color: var(--text-secondary); }
+
+.tp-keys { margin: var(--space-md) 0; border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-keys__k { margin: 0; padding-block-start: var(--space-sm); display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-2xs); align-items: baseline; }
+.tp-keys__k code { color: var(--text-heading); font-weight: var(--w-semibold); }
+.tp-keys__ex code { color: var(--text-min); font-weight: var(--w-regular); }
+.tp-keys__w { margin: 0 0 var(--space-sm); padding-block-end: var(--space-sm); font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-secondary); line-height: var(--lh-snug); border-block-end: var(--rule-hair) solid var(--rule-colour-soft); }
+
+.tp-qs__q { padding-block: var(--space-md); border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-qs__meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; margin: 0 0 var(--space-xs); font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.tp-qs__marks { font-family: var(--font-mono); }
+.tp-qs__text { margin: 0 0 var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); color: var(--text-heading); max-width: var(--measure); }
+.tp-qs__atlas { margin: 0 0 var(--space-xs); font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.tp-qs__scheme { margin-block-start: var(--space-sm); padding-inline-start: var(--space-md); border-inline-start: var(--rule-mid) solid var(--rule-colour-firm); max-width: var(--measure); }
+.tp-qs__band { margin: 0 0 var(--space-sm); font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); }
+.tp-qs__band--floor { color: var(--text-min); }
+.tp-qs__ev { margin: 0; padding-inline-start: 1.2rem; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); color: var(--text-secondary); }
+
+.tp-packs { margin: var(--space-md) 0 0; padding: 0; list-style: none; }
+.tp-packs__i { display: flex; gap: var(--space-md); align-items: start; justify-content: space-between; padding-block: var(--space-md); border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-packs__t { margin: 0 0 var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-base); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-packs__w { margin: 0; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); color: var(--text-secondary); max-width: var(--measure); }
+
+/* ============================================================= methods == */
+
+.tp-counts { margin: var(--space-sm) 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-xl); font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.tp-counts__n { font-family: var(--font-mono); font-size: var(--fs-h4); color: var(--text-heading); display: block; }
+
+.tp-pos { margin: var(--space-sm) 0 0; }
+.tp-pos__k { margin-block-start: var(--space-md); font-family: var(--font-serif); font-size: var(--fs-base); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-pos__v { margin: var(--space-2xs) 0 0; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); color: var(--text-secondary); max-width: var(--measure); }
+
+.tp-rej, .tp-gaps { margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+.tp-rej__i, .tp-gaps__i { padding-block: var(--space-md); border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-rej__k, .tp-gaps__k { margin: 0 0 var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-base); font-weight: var(--w-semibold); color: var(--text-heading); }
+.tp-rej__w, .tp-gaps__v { margin: 0; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); color: var(--text-secondary); max-width: var(--measure); }
+.tp-rej__r { margin: var(--space-xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+
+.tp-concede { border-inline-start: 3px solid var(--warn); }
+.tp-concede__i { padding-block: var(--space-md); border-block-start: var(--rule-fine) solid var(--rule-colour); }
+.tp-concede__n { margin: 0; font-family: var(--font-sans); font-size: var(--fs-micro); letter-spacing: var(--tr-caps-wide); text-transform: uppercase; color: var(--warn); }
+.tp-concede__t { margin: var(--space-2xs) 0 var(--space-sm); font-family: var(--font-serif); font-size: var(--fs-h4); font-weight: var(--w-semibold); color: var(--text-heading); }
+
+.tp-store, .tp-build, .tp-dis { margin: var(--space-sm) 0 0; padding-inline-start: 1.2rem; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-prose); max-width: var(--measure); }
+.tp-store { list-style: none; padding-inline-start: 0; }
+.tp-store li, .tp-build__i, .tp-dis li { margin-block-end: var(--space-sm); }
+.tp-build { list-style: none; padding-inline-start: 0; font-family: var(--font-sans); }
+
+
+/* ================================================== moves, in the sheet == */
+/* The on-path move card. It lives inside `.cx-sheet__body`, which is the rail,
+   which LAYOUT_BUDGET §3 level 3 guarantees at least 280px and its own scroll.
+   Everything here is sized off the shared tokens: this is a reading surface at
+   the same reading size as every other reading surface in the app, and it must
+   not invent a sixth type register to say four things. */
+
+.tp-mv { max-width: var(--measure); }
+
+.tp-mv__one {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.tp-mv__where {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+/* The primer appears only when a move has been re-homed onto a beat that has
+   not taught the thing its sentences are about — the default route skipping the
+   princely states is the one live case. It is set apart from `where` because it
+   is a fact the reader has not been given, not a reminder of one they have. */
+.tp-mv__primer {
+  margin: calc(var(--space-lg) * -1) 0 var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-inline-start: 2px solid var(--rule-colour);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+
+.tp-mv__src {
+  margin: 0 0 var(--space-lg);
+  padding-inline-start: var(--space-md);
+  border-inline-start: 3px solid var(--accent);
+}
+.tp-mv__srcq {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-heading);
+}
+.tp-mv__srcc {
+  margin: var(--space-2xs) 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  line-height: var(--lh-snug);
+}
+.tp-mv__srcf {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.tp-mv__srck {
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+
+.tp-mv__ask { margin-block-end: var(--space-md); }
+
+.tp-mv__opts { margin: 0 0 var(--space-md); padding: 0; list-style: none; }
+.tp-mv__opts li { margin-block-end: var(--space-xs); }
+
+.tp-mv__opt {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: var(--space-sm);
+  width: 100%;
+  text-align: start;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--rule-colour);
+  color: var(--text-body);
+  cursor: pointer;
+  font: inherit;
+}
+.tp-mv__opt:hover { border-color: var(--ink-ghost); }
+.tp-mv__opt:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+/* THREE STATES AFTER A COMMIT, and they must not be confusable. The one you
+   chose is outlined; the one that is the move is filled. Before this the chosen
+   answer took the accent outline whether it was right or wrong, so a wrong
+   choice looked like an endorsement — which is the one thing a commit-first
+   card must never do. `is-right` is added to every option in the same pass that
+   settles a choice, and never before it. */
+.tp-mv__opt.is-on { border-color: var(--warn); }
+.tp-mv__opt.is-right {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.tp-mv__opt.is-right .tp-mv__optk { color: var(--accent-ink); font-weight: var(--w-semibold); }
+.tp-mv__opt.is-on::after {
+  content: 'you';
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--warn);
+}
+.tp-mv__opt.is-on.is-right::after { content: 'you · and the move'; color: var(--accent-ink); }
+.tp-mv__optk {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-min);
+  line-height: var(--lh-prose);
+}
+.tp-mv__optt {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+}
+
+.tp-mv__result {
+  border-block-start: var(--rule-mid) solid var(--rule-colour-firm);
+  padding-block-start: var(--space-md);
+}
+.tp-mv__verdict {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--warn);
+}
+.tp-mv__verdict[data-good='yes'] { color: var(--accent-ink); }
+.tp-mv__why {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tp-mv__why--right { color: var(--text-secondary); }
+.tp-mv__rk {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-mv__close {
+  margin: 0 0 var(--space-md);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-hair) solid var(--rule-colour-soft);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.tp-mv__out { margin: 0; }
+
+/* ================================================== off this map ======== */
+
+.tp-port__claim {
+  margin-block: var(--space-lg) var(--space-xl);
+  padding: var(--space-md) var(--space-lg);
+  border-inline-start: 3px solid var(--accent);
+  background: var(--surface-well);
+}
+.tp-port__claimk {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.tp-port__claimv {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+
+.tp-port__case { display: flex; flex-direction: column; }
+.tp-port__power {
+  display: block;
+  margin-block-start: var(--space-3xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-regular);
+  color: var(--text-min);
+}
+.tp-port__engine {
+  margin: var(--space-xs) 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.tp-port__enk {
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-port__verdict {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tp-port__vk {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  font-weight: var(--w-semibold);
+}
+.tp-port__hist { margin: 0 0 var(--space-sm); padding: 0; list-style: none; }
+.tp-port__h {
+  margin-block-end: var(--space-sm);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-hair) solid var(--rule-colour-soft);
+}
+.tp-port__hw {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.tp-port__hw strong { color: var(--text-heading); }
+.tp-port__hs {
+  margin: var(--space-3xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.tp-port__adds {
+  margin: 0;
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-hair) solid var(--rule-colour-soft);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.tp-port__addsk {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.tp-port__own { margin-block-start: var(--space-2xl); }
+
+/* the shared provenance note under a pair of figures */
+.tp-facts__shared {
+  margin: var(--space-sm) 0 0;
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-fine) solid var(--rule-colour);
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+  max-width: var(--measure);
+}
+.tp-facts__sharedk {
+  display: block;
+  margin-block-end: var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.tp-facts__shared + .cx-note { margin-block-start: var(--space-md); }
+.tp-led__note--gloss { color: var(--text-secondary); }
+
+/* The warrant line on a ledger record: the record filed against THIS number,
+   as opposed to the reading list for the record it sits in. Quiet, because it
+   is the answer to a question a reader asks second — but present on the row,
+   because a reader who asks it should not have to leave. */
+.tp-led__warr {
+  margin: var(--space-3xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-tight);
+  color: var(--text-secondary);
+}
+.tp-led__warrk {
+  font-weight: 600;
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  /* NOT `--text-min`. Measured at 12px: 4.84:1 in paper and 4.57:1 in lamplit
+     — passing, but by a margin that a token change would spend, and round
+     three found two 12px labels elsewhere in the app already under AA at 4.21
+     and 4.41. The eyebrow is set apart by its caps and its weight, not by
+     being fainter. `--text-secondary` measures 7.51 / 7.37. */
+  color: var(--text-secondary);
+}
+
+/* ======================================================== one width ==== */
+
+/* THE DESK IS ALWAYS NARROW NOW. It used to be a 96rem document and these were
+   the rules for a phone; the rail is 304px at 900x700 and 432px at 1440x900, so
+   the "narrow" case is the only case there is, and a `@media (max-width: 62rem)`
+   guard on them meant a 431px column at 1440 still laid its lesson plan out on a
+   5rem label gutter it did not have. They are unconditional. If the rail ever
+   gets wider, widen these deliberately rather than by accident. */
+
+.tp__version { margin-inline-start: 0; flex-basis: 100%; }
+.tp-lesson__b { grid-template-columns: 1fr; gap: var(--space-2xs); }
+.tp-packs__i { flex-direction: column; }
+.tp-annot { padding-inline-start: 1.7rem; }
+.tp-port__claimv { font-size: var(--fs-prose); }
+.tp-counts { gap: var(--space-sm) var(--space-lg); }
+
+/* ============================================================== print === */
+
+.tp-paper { display: none; }
+
+/* THE LINE AT THE HEAD OF EVERY PRINTED LESSON SHEET. §8.5: which lesson, what
+   it covers, what the other covers — so a head of department holding two of
+   these can see they are two halves of one unit rather than two drafts of one
+   lesson. It is a rule and a line of type, not a box: a box on paper reads as
+   an aside, and this is the first thing to read. */
+.tp-paper__unit {
+  margin: 0 0 3mm;
+  padding-block-end: 2mm;
+  border-block-end: 0.4pt solid #999;
+  font-family: var(--font-sans);
+  font-size: 8.5pt;
+  line-height: 1.45;
+  color: #111;
+}
+.tp-paper__unito { color: #555; }
+
+@media print {
+  /* THE PAGE CANVAS, AND THE BLACK A4 THAT WAS COMING OUT OF THE PRINTER.
+     `body` was given a white background here and it did nothing, because the
+     canvas — everything outside the sheet, including the whole @page margin —
+     takes its colour from the ROOT element when the root has one, and in the
+     lamplit theme `html` is near-black. Measured by printing the answer key
+     with the app in lamplit and background graphics on: a black frame around
+     every side, on all seventeen sheets. The paper is white in both themes and
+     it is not the theme's business, so the root is pinned white for as long as
+     a sheet exists, and only then. */
+  /* `color-scheme: light` is the half that actually does it: with the root
+     declared dark, Chrome paints the PAGE BOX black however white the
+     root's own background is — measured, both set and still black. */
+  html:has(> body > .tp-paper) { background: #fff !important; color-scheme: light !important; }
+  body:has(> .tp-paper) { overflow: visible !important; height: auto !important; background: #fff !important; }
+  body:has(> .tp-paper) > *:not(.tp-paper) { display: none !important; }
+
+  .tp-paper {
+    display: block;
+    position: static;
+    color: #000;
+    background: #fff;
+    font-family: var(--font-serif);
+    /* No trailing padding. It existed to keep the last page's text clear of a
+       fixed-position footer; the footer is a `tfoot` now and reserves its own
+       height on every page, so the padding only bought blank final pages —
+       measured on the extension task sheet, a fifth side with nothing on it. */
+    padding: 0;
+  }
+  .tp-paper__head { margin-block-end: 6mm; padding-block-end: 2mm; border-block-end: 1px solid #000; }
+  .tp-paper__title { margin: 0; font-family: var(--font-sans); font-size: 8pt; letter-spacing: 0.09em; text-transform: uppercase; }
+  .tp-paper__pack { margin: 1mm 0 0; font-size: 13pt; font-weight: 600; }
+  /* The sheet is one single-column table so the footer can be a `tfoot`,
+     which Chrome both repeats on every page and reserves height for. See the
+     comment in print.js for the two measured failures of the fixed-position
+     footer this replaces. */
+  /* `min-height: 100vh` pins the footer to the foot of a short sheet. In
+     Chrome's paged mode vh resolves against the page box, so a one-page sheet
+     (the board sheet, the map sheet) gets its version line at the bottom of
+     the page rather than floating under the last ruled line, and a sheet that
+     already runs to several pages is unaffected. */
+  .tp-paper__sheet { width: 100%; border-collapse: collapse; min-height: 100vh; }
+  .tp-paper__cell { padding: 0; vertical-align: top; }
+  .tp-paper__foot { display: table-footer-group; }
+  .tp-paper__foot td {
+    padding: 1.5mm 0 0;
+    border-block-start: 0.5pt solid #666;
+    font-family: var(--font-mono);
+    font-size: 6.5pt;
+    color: #333;
+  }
+  /* A link a printed sheet could not resolve prints as words, never as a
+     number this build could not check. */
+  .tp-paper__nolink { font-family: var(--font-sans); font-style: italic; }
+  .tp-paper__v { display: inline-block; }
+  .tp-paper__url { float: inline-end; }
+  .tp-paper__url { max-width: 90mm; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .tp-paper__h1 { font-size: 20pt; line-height: 1.2; margin: 0 0 6mm; }
+  .tp-paper__h2 { font-family: var(--font-sans); font-size: 9pt; letter-spacing: 0.09em; text-transform: uppercase; margin: 4.5mm 0 1.5mm; }
+  .tp-paper__stand { font-size: 10pt; line-height: 1.45; margin: 0 0 4mm; max-width: 150mm; }
+  .tp-paper__end { font-size: 9.5pt; line-height: 1.45; margin: 0; }
+  .tp-paper__standsm { font-size: 8.5pt; line-height: 1.45; margin: -2mm 0 4mm; color: #333; max-width: 150mm; }
+  .tp-paper__counts { font-family: var(--font-mono); font-size: 8pt; margin: 0 0 4mm; }
+  .tp-paper__hold { font-size: 11pt; line-height: 1.5; margin: 0 0 4mm; padding-inline-start: 6mm; }
+  .tp-paper__fill { font-size: 12pt; line-height: 2.4; }
+  .tp-paper__blank { display: inline-block; border-block-end: 0.5pt solid #000; min-width: 6ch; }
+  .tp-paper__rules { margin-block-start: 5mm; }
+  /* 24pt of ruling — 8.47mm. School exercise books are ruled at 8mm; this is
+     a little wider, which is what a sheet a student writes on once should be,
+     and it is what lets the core sheet hold thirty-one lines of writing space
+     in four sides rather than five.
+     WHY 24pt AND NOT 8.5mm. Every rule on these sheets is one hairline border
+     on a fixed-height box, and the raster grid decides how many device dots
+     that hairline gets. 8.5mm is 100.39 dots at 300dpi, so the strip drifts
+     0.39 dots per line and every third or fourth rule rounds up to four dots
+     while its neighbours get three. Measured on the printed extension sheet:
+     rules at y=228, 328, 428, 531 — a 103-dot gap in a run of 100s — and
+     round three's head of history saw the consequence on the ordering strip
+     of Task 3, "the second rule renders visibly heavier than the other four".
+     24pt is exactly 100 dots at 300dpi, 200 at 600, 32 CSS px on screen, so
+     every rule in a strip sits at the same sub-pixel phase and rasterises
+     identically. Every repeated vertical pitch on these sheets is a multiple
+     of 6pt for that reason; do not convert them back to millimetres. */
+  .tp-paper__rule { display: block; border-block-end: 0.4pt solid #999; height: 24pt; }
+
+  .tp-paper__table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 8pt; }
+  .tp-paper__table th, .tp-paper__table td { text-align: start; vertical-align: top; padding: 1.2mm 2mm; border-block-end: 0.4pt solid #bbb; }
+  .tp-paper__table thead th { font-size: 7pt; letter-spacing: 0.08em; text-transform: uppercase; border-block-end: 0.8pt solid #000; }
+  .tp-paper__table thead { display: table-header-group; }
+  .tp-paper__table tr { break-inside: avoid; }
+  /* THE LEDGER'S NINE COLUMNS, SIZED RATHER THAN LEFT TO THE BROWSER.
+     Auto layout gave the monospace `Where in the data` path a quarter of the
+     sheet and squeezed the Source citation to about 60px, so every citation
+     set one word per line and a row that holds four lines of text ran to
+     twelve. Measured: 74 sides for 898 rows. Fixed widths put the two text
+     columns in proportion to the text they carry; the path column wraps
+     because it is a path and a wrapped path is still findable. */
+  .tp-paper__table--led { font-size: 7pt; table-layout: fixed; }
+  /* base.css sets `overflow-wrap: break-word` on everything, which in a fixed
+     table breaks INSIDE a word rather than moving it to the next line: the
+     first fixed-width draft printed the year 1774 as "177 / 4", "contested" as
+     "conteste / d" and the header RANGE as "RA / NG / E". Words wrap between
+     words here; the one column allowed to break inside a token is the data
+     path, which is a path. */
+  .tp-paper__table--led th, .tp-paper__table--led td {
+    padding: 1mm 1.5mm; overflow-wrap: normal; word-break: keep-all; hyphens: none;
+  }
+  .tp-paper__table--led code { font-size: 6.5pt; overflow-wrap: anywhere; }
+  .tp-paper__table--led th:nth-child(1), .tp-paper__table--led td:nth-child(1) { width: 11%; }
+  .tp-paper__table--led th:nth-child(2), .tp-paper__table--led td:nth-child(2) { width: 9%; }
+  .tp-paper__table--led th:nth-child(3), .tp-paper__table--led td:nth-child(3) { width: 10%; }
+  .tp-paper__table--led th:nth-child(4), .tp-paper__table--led td:nth-child(4) { width: 5%; }
+  .tp-paper__table--led th:nth-child(5), .tp-paper__table--led td:nth-child(5) { width: 8%; }
+  .tp-paper__table--led th:nth-child(6), .tp-paper__table--led td:nth-child(6) { width: 7%; }
+  .tp-paper__table--led th:nth-child(7), .tp-paper__table--led td:nth-child(7) { width: 22%; }
+  .tp-paper__table--led th:nth-child(8), .tp-paper__table--led td:nth-child(8) { width: 19%; }
+  .tp-paper__table--led th:nth-child(9), .tp-paper__table--led td:nth-child(9) { width: 9%; }
+
+  .tp-paper__src, .tp-paper__q { break-inside: avoid; margin-block-end: 6mm; padding-block-end: 4mm; border-block-end: 0.4pt solid #bbb; }
+  .tp-paper__srcn, .tp-paper__qn { margin: 0; font-family: var(--font-sans); font-size: 7.5pt; letter-spacing: 0.09em; text-transform: uppercase; }
+  .tp-paper__srch { margin: 1mm 0 2mm; font-size: 11pt; }
+  .tp-paper__prov, .tp-paper__ms { margin: 0 0 3mm; font-size: 8.5pt; line-height: 1.4; }
+  .tp-paper__prov dt, .tp-paper__ms dt { font-family: var(--font-sans); font-size: 7pt; letter-spacing: 0.08em; text-transform: uppercase; margin-block-start: 1.5mm; }
+  .tp-paper__prov dd, .tp-paper__ms dd { margin: 0.5mm 0 0; }
+  .tp-paper__quote { margin: 2mm 0; padding-inline-start: 4mm; border-inline-start: 1pt solid #000; font-size: 10.5pt; line-height: 1.45; }
+  .tp-paper__quote p { margin: 0; }
+  .tp-paper__speaker, .tp-paper__check, .tp-paper__qa, .tp-paper__qe { margin: 1mm 0 0; font-family: var(--font-sans); font-size: 7.5pt; }
+  .tp-paper__qt { margin: 1mm 0 2mm; font-size: 11pt; line-height: 1.35; }
+
+  .tp-paper__map { display: block; width: 100%; max-width: 100%; border: 0.5pt solid #000; }
+  .tp-paper__cap { font-size: 9pt; line-height: 1.4; margin: 3mm 0; max-width: 165mm; }
+  .tp-paper__key { display: flex; flex-wrap: wrap; gap: 2mm 6mm; margin: 0; padding: 0; list-style: none; font-family: var(--font-sans); font-size: 8pt; }
+  .tp-paper__keyi { display: inline-flex; align-items: center; gap: 1.5mm; }
+  .tp-paper__sw { display: inline-block; width: 3.4mm; height: 3.4mm; border: 0.4pt solid #333; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .tp-paper__keyn { font-family: var(--font-mono); margin-inline-start: 1.5mm; color: #444; }
+
+
+  /* ---------------------------------------------- the classroom pack ---
+   * Five sheets that print what the screen never shows: the plan, three task
+   * sheets and the answer key. The rule that governs all of it is that a
+   * writing space is sized by the answer the key expects, not by what is left
+   * on the page — round five's charge was "the 28 students are given eight
+   * ruled lines" and the fix is arithmetic, not sympathy: 9mm of rule per
+   * line of expected answer, cells a pencil fits in, and a loop with room to
+   * label four arrows.
+   */
+
+  /* --- the plan ------------------------------------------------------- */
+  /* base.css resets list-style on ol/ul, so a numbered list in print has to
+     ask for its numerals back. Measured: the plan's Do lists printed as five
+     unmarked paragraphs, which is not a sequence of instructions. */
+  /* `ol[class]` in base.css is 0,1,1 and strips the markers, so a numbered
+     list in print has to match it. Measured: the plan's Do lists printed as
+     unmarked paragraphs, which is not a sequence of instructions. */
+  /* `ol[class], ul[class] { list-style: none; padding: 0 }` in base.css is
+     0,1,1, so a class alone loses to it on BOTH properties. Measured: the
+     plan's Do lists computed `list-style-type: decimal` and
+     `padding-inline-start: 0px`, which puts the markers outside a zero
+     padding box — invisible. The type and the indent have to be reclaimed
+     together, at matching specificity. */
+  ol.tp-paper__pre, ol.tp-paper__dolist, ol.tp-paper__hold { list-style: decimal; padding-inline-start: 6mm; }
+  ul.tp-paper__beats, ul.tp-paper__how { list-style: disc; padding-inline-start: 5mm; }
+  ol.tp-paper__order, ul.tp-paper__ticks, ul.tp-paper__say,
+  ul.tp-paper__packs { list-style: none; padding-inline-start: 0; }
+  .tp-paper__pre { font-size: 9.5pt; line-height: 1.5; margin: 0 0 5mm; padding-inline-start: 6mm; }
+  .tp-paper__pre li { margin-block-end: 1.5mm; }
+  /* A SEGMENT MAY BREAK; ITS HEADING MAY NOT LEAVE ITS FIRST LINE. Measured:
+     with the whole segment atomic the plan ran to seven sides for 4.0 sides of
+     content — nearly half of two pages white. The heading, the link and the
+     Say block are glued forward instead, so a break lands between blocks. */
+  /* SEVEN SEGMENTS, AND THE PLAN IS PAGINATED BY THEIR FURNITURE.
+     Round two added the step link and the "if you lose the run" box, which cost
+     a sixth side carrying five lines. Measured with the page-fill probe: pages
+     1–5 ran at 94% ink and page 6 at 16%. A millimetre and a half off each
+     segment's own gap and half a millimetre off each of its three labels is
+     21mm across the sheet — one printed side — and nothing on the page reads
+     tighter for it. */
+  .tp-paper__seg {
+    break-inside: auto;
+    margin-block-end: 3.5mm;
+    padding-block-end: 2mm;
+    border-block-end: 0.4pt solid #bbb;
+  }
+  .tp-paper__segn {
+    display: flex; align-items: baseline; gap: 3mm; flex-wrap: wrap;
+    margin: 0 0 1.5mm; padding-block-end: 1mm; border-block-end: 0.8pt solid #000;
+  }
+  .tp-paper__segt { font-family: var(--font-mono); font-size: 9pt; font-weight: 600; }
+  /* The wall-clock time this segment opens at, beside its elapsed span. A
+     teacher glances at the clock on the wall, not at a stopwatch. */
+  .tp-paper__segwall { font-family: var(--font-mono); font-size: 7.5pt; color: #555; }
+  /* A SEGMENT THIS ROUTE DOES NOT RUN. Not hidden — a department may be running
+     a longer route — but set back, so a cover teacher's eye does not stop on
+     an instruction the run cannot carry out. */
+  .tp-paper__seg--ext { border-inline-start: 1.2pt solid #999; padding-inline-start: 3mm; }
+  .tp-paper__seg--ext .tp-paper__segt { color: #555; }
+  /* The same word on a student's own sheet, in the place the step chip would
+     otherwise be. */
+  .tp-paper__taskext {
+    font-family: var(--font-sans); font-size: 7pt; letter-spacing: 0.09em;
+    text-transform: uppercase; padding: 0.2mm 1.2mm;
+    border: 0.5pt solid #000; border-radius: 0.6mm;
+  }
+  .tp-paper__task--ext .tp-paper__taskno { color: #333; }
+  .tp-paper__ktask--ext { border-inline-start: 1.2pt solid #999; padding-inline-start: 3mm; }
+  /* THE ROUTE PARAGRAPH. The one paragraph on the plan a head of history reads
+     before deciding whether to use it: which route, how long, does it fit. */
+  .tp-paper__route { border-block: 0.8pt solid #000; padding-block: 1.5mm; }
+  /* The board schedule, on paper: the time, then the line, then why. */
+  .tp-paper__sched { margin: 0 0 4mm; padding: 0; list-style: none; }
+  .tp-paper__si {
+    display: grid; grid-template-columns: 14mm 1fr; gap: 3mm;
+    padding-block: 1.6mm; border-block-start: 0.4pt solid #bbb; break-inside: avoid;
+  }
+  .tp-paper__si:first-child { border-block-start: 0; }
+  .tp-paper__st { font-family: var(--font-mono); font-size: 9pt; font-weight: 600; }
+  .tp-paper__sl {
+    grid-column: 2; font-family: var(--font-sans); font-size: 7pt;
+    letter-spacing: 0.09em; text-transform: uppercase; color: #333;
+  }
+  .tp-paper__sx { grid-column: 2; font-size: 10.5pt; line-height: 1.45; }
+  .tp-paper__sn { grid-column: 2; font-size: 8pt; line-height: 1.35; color: #444; }
+  .tp-paper__segd { font-size: 12pt; font-weight: 600; }
+  .tp-paper__segk {
+    margin-inline-start: auto; font-family: var(--font-sans); font-size: 7pt;
+    letter-spacing: 0.08em; color: #444;
+  }
+  .tp-paper__segn, .tp-paper__seglink, .tp-paper__lab { break-after: avoid; }
+  .tp-paper__beats, .tp-paper__warn,
+  .tp-paper__ans, .tp-paper__ansq { break-inside: avoid; }
+  /* The Say list flows; each quotation is atomic. Holding the whole list
+     together pushed a five-line block of script to the next page and cost the
+     plan a sixth side. */
+  .tp-paper__say { break-inside: auto; }
+  .tp-paper__say li { break-inside: avoid; }
+  .tp-paper__ansq { break-after: avoid; }
+  .tp-paper__seglink { font-size: 8.5pt; line-height: 1.4; margin: 0 0 1.5mm; }
+  .tp-paper__seglink code { font-family: var(--font-mono); font-size: 8pt; }
+  .tp-paper__beats { margin: 0 0 1.5mm; padding-inline-start: 5mm; font-size: 8.5pt; line-height: 1.4; }
+  .tp-paper__beath { font-style: italic; }
+  .tp-paper__beato { color: #555; }
+  /* THE PAGE NUMBER, ON PAPER. Monospaced so it reads as an address and not as
+     prose, and boxed on the beat line so a teacher scanning the plan mid-lesson
+     finds it without reading the sentence around it. */
+  .tp-paper__beatn {
+    display: inline-block; margin-inline-end: 1.5mm; padding: 0.2mm 1mm;
+    border: 0.4pt solid #666; border-radius: 0.6mm;
+    font-family: var(--font-mono); font-size: 7pt; color: #333;
+  }
+  .tp-paper__seglink2 { color: #444; }
+  .tp-paper__segstep {
+    font-family: var(--font-mono); font-size: 7.5pt; color: #333;
+  }
+  .tp-paper__taskstep {
+    font-family: var(--font-mono); font-size: 7.5pt; color: #444;
+    padding: 0.2mm 1mm; border: 0.4pt solid #999; border-radius: 0.6mm;
+  }
+  .tp-paper__stepcell { font-family: var(--font-mono); white-space: nowrap; }
+  .tp-paper__beatm { font-family: var(--font-mono); font-size: 7.5pt; color: #555; }
+  /* A gate, an argument or a recall standing between two of a segment's beats.
+     It is set apart from the beat list because it is the one thing on the run
+     where Next does not work, and a plan that buries that has failed. */
+  .tp-paper__stop {
+    margin: 0 0 1.5mm; font-size: 8.5pt; line-height: 1.4;
+    padding-inline-start: 5mm; color: #333; break-inside: avoid;
+  }
+  /* A RECALL STOP IS A SEGMENT IN MINIATURE. It is a step a cover teacher has
+     to run, so it carries the same Say / It asks / The answer block a beat does
+     — indented under the step line, ruled on the inside edge so it reads as one
+     unit that must not break across a page, and set one point smaller than a
+     segment's own so a scanning eye still ranks the segments first.
+
+     AND IT COSTS A SIXTH SIDE, WHICH IS MEASURED AND ACCEPTED RATHER THAN
+     SHAVED AWAY. With this block and the room-arithmetic box the plan is 4,370
+     print px against a page of about 850, so page 6 carries roughly 15% ink —
+     the shape the note further down this file went to some trouble to remove
+     once. It is left standing this time because the plan is printed duplex and
+     five sides and six sides are the same three sheets of paper: the sixth side
+     is the back of a sheet that was blank before, and the alternative is a
+     cover teacher with nothing to say when a class of twenty-eight is asked to
+     guess a famine death toll. Do not tighten the type to reclaim it; if the
+     plan ever reaches a SEVENTH side, that is a real page and this block is
+     where to look first. */
+  .tp-paper__stopc {
+    margin: 0 0 2mm; padding-inline-start: 5mm; break-inside: avoid;
+  }
+  .tp-paper__stopc .tp-paper__stop { padding-inline-start: 0; margin-block-end: 0.9mm; }
+  .tp-paper__stopl, .tp-paper__stopw {
+    margin: 0 0 0.5mm; font-size: 7.8pt; line-height: 1.32; color: #222;
+    padding-inline-start: 2.5mm; border-inline-start: 0.6pt solid #999;
+  }
+  .tp-paper__stopw { color: #333; }
+  .tp-paper__warn {
+    font-size: 8.5pt; line-height: 1.4; margin: 0 0 2mm;
+    padding: 1.2mm 2mm; border: 0.5pt solid #000; border-inline-start-width: 2pt;
+  }
+  .tp-paper__lab {
+    font-family: var(--font-sans); font-size: 7pt; letter-spacing: 0.09em;
+    text-transform: uppercase; margin: 1.8mm 0 0.7mm; color: #333;
+  }
+  .tp-paper__say { margin: 0; padding-inline-start: 4mm; list-style: none; }
+  .tp-paper__say li {
+    font-size: 10.5pt; line-height: 1.45; margin-block-end: 1.2mm;
+    padding-inline-start: 3mm; border-inline-start: 1pt solid #000;
+  }
+  .tp-paper__dolist { margin: 0; padding-inline-start: 6mm; font-size: 9pt; line-height: 1.45; }
+  .tp-paper__ans { margin: 0 0 1.5mm; }
+  .tp-paper__ansq { margin: 0; font-size: 9.5pt; font-weight: 600; line-height: 1.35; }
+  .tp-paper__ansa, .tp-paper__answ { margin: 0.8mm 0 0; font-size: 8.5pt; line-height: 1.4; }
+  .tp-paper__answ { color: #333; }
+  /* AN ANSWER LINE FOR A BEAT THIS LESSON DOES NOT RUN. It is worth having —
+     a teacher who takes the extension needs it — and it must not read as one
+     of the four questions the projector really asks. Ruled off rather than
+     greyed, because grey at 8.5pt on a departmental photocopier is nothing. */
+  .tp-paper__ans--ext {
+    padding-inline-start: 3mm; border-inline-start: 0.5pt dashed #666;
+  }
+  .tp-paper__anse { font-weight: 400; font-style: italic; color: #444; }
+  /* MEASURED, NOT CHOSEN. The plan is paginated by the furniture between its
+     seven segments' blocks, and round two added the step link, the "if you lose
+     the run" box and the four-moves line to the front of it — 25mm, which is
+     six lines on a sixth side. These four shaves come to about the same 25mm
+     across the sheet and none of them is visible at reading distance. */
+  .tp-paper__watch, .tp-paper__write, .tp-paper__short {
+    margin: 1.2mm 0 0; font-size: 8.5pt; line-height: 1.4;
+  }
+
+  /* --- the task sheets ------------------------------------------------ */
+  .tp-paper__namebar {
+    display: flex; align-items: baseline; gap: 2mm;
+    margin: 0 0 4mm; padding-block-end: 2mm; border-block-end: 0.5pt solid #000;
+  }
+  .tp-paper__namel {
+    font-family: var(--font-sans); font-size: 7pt; letter-spacing: 0.09em; text-transform: uppercase;
+  }
+  .tp-paper__namef { flex: 1 1 auto; border-block-end: 0.5pt solid #000; height: 6mm; }
+  .tp-paper__namef--sm { flex: 0 0 24mm; }
+
+  /* A TASK MAY BREAK; ITS FURNITURE MAY NOT. Measured: with `break-inside:
+     avoid` on the whole task, a seven-task sheet printed roughly one task a
+     page and ran to seven sides — 45% of every page white, and 196 sides for a
+     class of twenty-eight. So the task itself flows and everything a pencil
+     lands in (a table, the loop, the ordering strip, a tick list, a matching
+     column) is atomic, with the heading glued to its first instruction. */
+  .tp-paper__task { break-inside: auto; margin-block-end: 4mm; }
+  /* The last thing on a sheet carries no trailing margin. Measured: the
+     supported task sheet printed a fifth page containing nothing but the
+     repeated footer, because 5mm of margin after the last task plus the
+     block's own bottom padding crossed the page edge by a few millimetres. */
+  .tp-paper__task:last-child, .tp-paper__ktask:last-child,
+  .tp-paper__kseg:last-child, .tp-paper__seg:last-child { margin-block-end: 0; }
+  .tp-paper__task:last-child > *:last-child { margin-block-end: 0; }
+  .tp-paper__grid, .tp-paper__loop, .tp-paper__match,
+  .tp-paper__order, .tp-paper__ticks, .tp-paper__bank,
+  .tp-paper__abox, .tp-paper__circle { break-inside: avoid; }
+  .tp-paper__taskn, .tp-paper__taskq, .tp-paper__lead { break-after: avoid; }
+  .tp-paper__lead + .tp-paper__rules { break-before: avoid; }
+  .tp-paper__taskn {
+    display: flex; align-items: baseline; gap: 3mm; flex-wrap: wrap;
+    margin: 0 0 1.5mm; padding-block-end: 1mm; border-block-end: 0.8pt solid #000;
+  }
+  .tp-paper__taskno { font-family: var(--font-sans); font-size: 9pt; font-weight: 700; letter-spacing: 0.04em; }
+  .tp-paper__taskt { font-size: 10.5pt; }
+  .tp-paper__taskk {
+    margin-inline-start: auto; font-family: var(--font-mono); font-size: 7.5pt; color: #444;
+  }
+  .tp-paper__taskq { margin: 0 0 2mm; font-size: 10pt; line-height: 1.4; }
+  .tp-paper__taskq--then { margin-block-start: 3mm; }
+  .tp-paper__bank {
+    margin: 0 0 2.5mm; padding: 1.5mm 2mm; border: 0.5pt solid #000;
+    font-family: var(--font-sans); font-size: 8.5pt; line-height: 1.6;
+  }
+  .tp-paper__bankl {
+    display: block; font-size: 6.5pt; letter-spacing: 0.09em; text-transform: uppercase; color: #444;
+  }
+  .tp-paper__banksep { margin: 0 1.5mm; color: #777; }
+  .tp-paper__lead { margin: 2mm 0 0; font-size: 10pt; font-style: italic; }
+  .tp-paper__lead + .tp-paper__rules { margin-block-start: 2mm; }
+
+  .tp-paper__abox { display: flex; align-items: flex-end; gap: 3mm; margin: 0 0 2.5mm; }
+  .tp-paper__aboxl { font-family: var(--font-sans); font-size: 8pt; }
+  .tp-paper__aboxf { flex: 0 0 34mm; height: 11mm; border: 0.6pt solid #000; }
+
+  .tp-paper__circle { margin: 0 0 3mm; font-size: 11pt; }
+  .tp-paper__circlel {
+    font-family: var(--font-sans); font-size: 6.5pt; letter-spacing: 0.09em;
+    text-transform: uppercase; color: #444; margin-inline-end: 3mm;
+  }
+  .tp-paper__copt { display: inline-block; padding: 0.8mm 2mm; }
+  .tp-paper__csep { color: #999; }
+
+  .tp-paper__ticks { list-style: none; margin: 0 0 3mm; padding: 0; column-count: 2; column-gap: 8mm; }
+  .tp-paper__tick { font-size: 10pt; line-height: 1.75; break-inside: avoid; }
+  .tp-paper__tbox {
+    display: inline-block; width: 4mm; height: 4mm; margin-inline-end: 2mm;
+    border: 0.6pt solid #000; vertical-align: -0.4mm;
+  }
+
+  /* THE ORDERING STRIP, ON A 30pt PITCH. Five slots whose rules must look
+     like five of the same thing; see the note on `.tp-paper__rule` for why
+     the pitch is 24pt + 6pt rather than 8mm + 2mm. 30pt is 125 device dots at
+     300dpi and 40 CSS px on screen — integral at both, so no rule in the
+     strip is a dot heavier than its neighbour. */
+  .tp-paper__order { list-style: none; margin: 0 0 3mm; padding: 0; counter-reset: none; }
+  .tp-paper__oi { display: flex; align-items: flex-end; gap: 2.5mm; margin-block-end: 6pt; }
+  .tp-paper__on { font-family: var(--font-mono); font-size: 9pt; width: 4mm; }
+  .tp-paper__oyear { flex: 0 0 20mm; height: 24pt; border: 0.6pt solid #000; }
+  .tp-paper__orule { flex: 1 1 auto; height: 24pt; border-block-end: 0.5pt solid #000; }
+
+  .tp-paper__loop {
+    display: grid;
+    grid-template-columns: 1fr 34mm 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2mm;
+    align-items: center;
+    margin: 0 0 3mm;
+  }
+  .tp-paper__lbox {
+    border: 0.8pt solid #000; height: 16mm; padding: 1.5mm;
+    display: flex; align-items: center; gap: 2mm;
+  }
+  .tp-paper__lnum { font-family: var(--font-mono); font-size: 8pt; color: #666; }
+  .tp-paper__lword { font-size: 10pt; font-weight: 600; }
+  .tp-paper__larm { display: flex; flex-direction: column; align-items: center; gap: 0.5mm; }
+  .tp-paper__lgl { font-size: 12pt; line-height: 1; }
+  .tp-paper__lrule { display: block; width: 30mm; border-block-end: 0.5pt solid #000; height: 5mm; }
+  .tp-paper__lmid {
+    text-align: center; font-family: var(--font-sans); font-size: 7pt;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #666;
+  }
+
+  .tp-paper__match { width: 100%; border-collapse: collapse; margin: 0 0 3mm; }
+  .tp-paper__match td { padding: 3mm 0; vertical-align: middle; font-size: 10pt; }
+  .tp-paper__ml { text-align: end; width: 32%; font-family: var(--font-mono); font-weight: 600; }
+  .tp-paper__mgap { width: 26%; }
+  .tp-paper__mr { text-align: start; width: 42%; }
+
+  .tp-paper__grid { width: 100%; border-collapse: collapse; margin: 0 0 3mm; }
+  .tp-paper__grid th {
+    text-align: start; padding: 1.2mm 2mm; border: 0.5pt solid #000;
+    font-family: var(--font-sans); font-size: 7pt; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .tp-paper__gcell {
+    border: 0.5pt solid #000; height: 10mm; padding: 1.2mm 2mm;
+    font-size: 9.5pt; vertical-align: middle;
+  }
+  .tp-paper__gcell.is-given { font-weight: 600; background: #f2f2f2; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+  /* --- the answer key -------------------------------------------------
+   * The container is `.tp-paper__answers`, NOT `.tp-paper__key`: that class
+   * already belongs to the printed map sheet's colour key, which is a flex
+   * row, and reusing it turned the answer key's first heading into a column
+   * beside its own standfirst. Found on the printed page.
+   */
+  .tp-paper__how { font-size: 9pt; line-height: 1.45; margin: 0 0 5mm; padding-inline-start: 6mm; }
+  .tp-paper__how li { margin-block-end: 1.5mm; }
+  .tp-paper__kseg { margin-block-end: 5mm; }
+  .tp-paper__kbeat {
+    margin: 0 0 2mm; padding-inline-start: 3mm; border-inline-start: 1pt solid #000;
+    font-size: 8.5pt; line-height: 1.4;
+  }
+  .tp-paper__kbeatw { color: #444; }
+  /* The key is a marking document and it is long: twenty-one tasks, six
+     fields each. Held atomic it printed twelve sides for 8.5 sides of content.
+     A task may now break between its fields — the heading stays with the
+     question, the say-this box never splits, and a marker never loses the
+     name of the task they are reading. */
+  .tp-paper__ktask {
+    break-inside: auto; margin-block-end: 3.5mm; padding-block-end: 2.5mm;
+    border-block-end: 0.4pt solid #ccc;
+  }
+  .tp-paper__ktier, .tp-paper__kq, .tp-paper__kdl dt { break-after: avoid; }
+  .tp-paper__ksay, .tp-paper__kbeat, .tp-paper__fig { break-inside: avoid; }
+  .tp-paper__kdl dd { break-inside: avoid; }
+  .tp-paper__ktier {
+    margin: 0; font-family: var(--font-sans); font-size: 7pt;
+    letter-spacing: 0.09em; text-transform: uppercase; color: #333;
+  }
+  .tp-paper__kq { margin: 0.5mm 0 1.5mm; font-size: 9.5pt; line-height: 1.35; font-style: italic; }
+  .tp-paper__kdl { margin: 0; font-size: 8.5pt; line-height: 1.38; }
+  .tp-paper__kdl dt {
+    font-family: var(--font-sans); font-size: 6.8pt; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-block-start: 1.2mm; color: #444;
+  }
+  .tp-paper__kdl dd { margin: 0.4mm 0 0; }
+  .tp-paper__ksay {
+    margin: 1.5mm 0 0; padding: 1.5mm 2mm; border: 0.6pt solid #000;
+    font-size: 9.5pt; line-height: 1.4;
+  }
+  .tp-paper__ksayl {
+    display: block; font-family: var(--font-sans); font-size: 6.5pt;
+    letter-spacing: 0.09em; text-transform: uppercase; color: #444;
+  }
+  .tp-paper__fig { margin: 1.5mm 0 0; font-size: 8pt; line-height: 1.4; }
+  .tp-paper__fign { color: #444; }
+  .tp-paper__figw { color: #444; }
+  /* A figure with no record against it is marked on paper the way it is
+     marked on screen: as a defect, not as a neutral value. */
+  .tp-paper__bare { font-weight: 700; }
+  .tp-paper__movew { color: #444; }
+  .tp-paper__figv { font-family: var(--font-mono); }
+
+  @page { size: A4; margin: 14mm 12mm 16mm; }
+}

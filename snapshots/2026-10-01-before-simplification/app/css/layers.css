@@ -1,0 +1,570 @@
+/* =============================================================================
+   layers.css — P06, thematic layers.
+   Owner: layers. Consumes tokens.css and the shared chrome classes only.
+
+   Nothing here declares a grid on `.app` (LAYOUT_BUDGET B9), nothing here sets
+   a font size below --fs-micro (DESIGN §3.1), and nothing here contains a hex.
+   Two rules matter more than the rest and are stated here so a reviewer can
+   check them in one place:
+
+     · `.ly-over` is `pointer-events: none`. P02 treats every pointer-receiving
+       child of every mount slot as an obstacle its label placer must route
+       around, so a full-plate SVG that took pointer events would delete every
+       name on the map. Only the 44px hit targets take events.
+     · `.ly-key` takes pointer events so its one control is usable, but it is
+       NOT in P02's obstacle set: the map only inspects the direct children of
+       a mount slot, and this piece's one direct child is `pointer-events:
+       none`. That is deliberate — a full-plate obstacle would delete every
+       place-name on the map — and the cost is that a name can be drawn under
+       the key card. The card is opaque, so it covers rather than collides, and
+       it stands in the one corner of the plate that is ocean at world zoom.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- the bar -- */
+
+.ly-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-inline-start: var(--space-sm);
+}
+
+/* LAYOUT_BUDGET §3 level 0: nineteen controls, and none of them is this one.
+   A re-encoding needs something to be a re-encoding OF. */
+#app[data-stage='plate'] .ly-bar { display: none; }
+
+.ly-bar__back {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font: var(--fs-base) / 1 var(--font-sans);
+  padding: 0 var(--space-2xs);
+  min-width: 24px;
+}
+.ly-bar__back:hover { color: var(--accent-ink); }
+
+/* The control carries its own state: a reading is on, and this says which. */
+.ly-bar[data-on='yes'] .ly-bar__open { font-weight: var(--w-semibold); }
+
+/* TWO LABELS, ONE CONTROL, AND THE SHORT ONE EARNS ITS KEEP EARLIER THAN A
+   PHONE. The masthead is a single row shared with the wordmark, the teaching
+   desk, search, compare and the entry chip, and the round-2 critic found it
+   clipping "Taken → left" mid-word at 1366 with no scroll and no collapse.
+   Ninety pixels of this piece's is ninety pixels the shell does not have to
+   find; "Layers" says the same thing to anyone who has pressed it once. The
+   long label survives only where there is room for everything. */
+.ly-bar__label { white-space: nowrap; }
+@media (max-width: 87.999rem) {
+  .ly-bar { margin-inline-start: var(--space-2xs); }
+}
+
+/* --------------------------------------------------------- over the plate - */
+
+.ly-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ly-layer[data-on='no'] .ly-over { display: none; }
+
+.ly-over {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* The haze. Its colour is the admiralty blue the atlas already uses for
+   "you are here" and for the timeline — deliberately NOT a status fill, because
+   this is not a status and must never read as one. */
+.ly-over { --ly-haze: var(--accent-2-ink); }
+
+.ly-haze__edge {
+  fill: none;
+  stroke: var(--accent-2-ink);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  opacity: 0.55;
+}
+.ly-haze__none {
+  fill: none;
+  stroke: var(--text-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 1 5;
+  opacity: 0.9;
+}
+.ly-haze__node { fill: var(--accent-2-ink); }
+.ly-haze__val {
+  font: var(--w-semibold) var(--fs-micro) / 1 var(--font-mono);
+  fill: var(--map-label);
+  paint-order: stroke fill;
+  stroke: var(--map-label-halo);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* The pins. Shape carries the kind; colour is a second channel, never the
+   only one (DESIGN §6.4). */
+.ly-pin__glyph {
+  stroke: var(--map-label-halo);
+  stroke-width: 1.6;
+  paint-order: stroke fill;
+}
+.ly-pin__glyph--ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+}
+.ly-pin__glyph--x {
+  fill: none;
+  stroke: var(--map-occupied);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.ly-pin__glyph--tri { fill: var(--warn); }
+.ly-pin[data-recent='no'] { opacity: 0.62; }
+
+.ly-node__glyph {
+  fill: var(--map-label);
+  stroke: var(--map-label-halo);
+  stroke-width: 1.4;
+  paint-order: stroke fill;
+}
+.ly-node[data-role='cable-station'] .ly-node__glyph { fill: var(--accent-2-ink); }
+.ly-node[data-role='coaling-station'] .ly-node__glyph { fill: var(--map-company-rule); }
+.ly-node[data-role='chokepoint'] .ly-node__glyph { fill: var(--accent); }
+
+.ly-link { fill: none; stroke-linecap: round; }
+.ly-link--cable { stroke: var(--accent-2-ink); stroke-width: 1.4; opacity: 0.85; }
+.ly-link--coaling,
+.ly-link--route {
+  stroke: var(--text-secondary);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 4;
+  opacity: 0.75;
+}
+
+.ly-hit {
+  fill: transparent;
+  pointer-events: all;
+  cursor: pointer;
+  outline: none;
+}
+.ly-hit:focus-visible {
+  stroke: var(--focus-ring, var(--accent));
+  stroke-width: 2.5;
+  fill: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+
+/* ------------------------------------------------------------- the key ---- */
+
+/* ONE CORNER, ONE STACK. Round 1 put the key bottom-left and the caveat
+   bottom-right, which put two of this piece's panels on two corners of a plate
+   that already carries P02's dial along the foot and its zooms at the top
+   right. Both now sit in one column, caveat under key, the way a plate key and
+   its note sit in a printed atlas — and the whole column stands ON TOP of
+   whatever P02 has at the foot, measured from its own obstacle report and
+   published here as --ly-floor. */
+.ly-stack {
+  position: absolute;
+  inset-inline-start: var(--space-xs);
+  inset-block-end: var(--ly-floor, 3.4rem);
+  /* A share of the PLATE, not of the window. index.js publishes the plate's
+     measured rectangle as --ly-plate-w / --ly-plate-h on every draw. */
+  max-inline-size: min(15.5rem, calc(var(--ly-plate-w, 40rem) * 0.34));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  /* The stack may never take more than half the plate. If both the key and
+     the caveat want more than that, the caveat is the one that gives — its
+     full text is one control away, in the sheet, and on the box's own title. */
+  /* Never taller than this share of the plate, and never taller than the paper
+     left above whatever P02 is standing on at the foot of it. The share is
+     larger in the side band than it was, because there the card is a 15.5rem
+     column over open ocean and 52% of a 410px plate cut a seven-row key to
+     four and a half rows at 900x700. In the sheet band the card runs the full
+     width of the plate, so it must take much less of its height. */
+  max-block-size: min(calc(var(--ly-plate-h, 30rem) * 0.66), calc(100% - var(--ly-floor, 3.4rem) - 8px));
+  /* The stack CLIPS. Without this the key card simply overflowed its own
+     allowance and was drawn underneath P02's dial, which stacks above this
+     slot — so the card's note and its one route to the sources were on screen,
+     invisible, at 1024x640. Clipped, the row list scrolls instead and the
+     footer stays where a reader can reach it. */
+  overflow: hidden;
+  pointer-events: none;
+}
+/* WHEN THE TWO OF THEM WANT MORE ROOM THAN THE PLATE HAS, THE ROWS WIN.
+   Round 2's comment three lines above said "the caveat is the one that gives" and
+   the flex declarations said the opposite: the caption was `flex: 0 0 auto` and
+   the key was the only shrinkable child. Measured at 900x700 with the rail open,
+   on the pressure plate: the key card rendered its head, its note and its route
+   to the sources, and NO ROWS AT ALL — the scrollbox was flexed to zero height
+   and the one thing a key exists for was the one thing that disappeared. Now the
+   rows have a floor of two, the caption shrinks (its full text is one control
+   away and is also the box's own title, so nothing is lost), and the stack is
+   allowed more of the plate when it is carrying both. */
+.ly-keyhost {
+  pointer-events: none;
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+.ly-caphost { pointer-events: none; flex: 0 1 auto; min-block-size: 0; }
+.ly-layer:has(.ly-caption) .ly-stack {
+  max-block-size: min(calc(var(--ly-plate-h, 30rem) * 0.8), calc(100% - var(--ly-floor, 3.4rem) - 8px));
+}
+.ly-keyhost > .ly-key { max-block-size: 100%; }
+.ly-key {
+  pointer-events: auto;          /* so P02 routes its place-names around us */
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-xs) var(--space-sm);
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ly-key__scroll { overflow: auto; flex: 1 1 auto; min-block-size: 2.6rem; position: relative; }
+.ly-key__note, .ly-key__more, .ly-key > .cx-panel__head { flex: 0 0 auto; }
+/* THE FADE IS ONLY DRAWN WHEN THERE IS SOMETHING BELOW IT.
+   index.js measures the box after layout and sets data-more; a permanent fade
+   over a list that fits is a promise of content that is not there. */
+.ly-key__scroll[data-more='yes'] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 0.8rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.1rem), transparent 100%);
+}
+.ly-key .cx-panel__head { margin: 0 0 2px; }
+.ly-key__say {
+  margin: 0 0 var(--space-2xs);
+  font: var(--fs-micro) / 1.34 var(--font-sans);
+  color: var(--text-secondary);
+}
+.ly-key__list { list-style: none; margin: 0; padding: 0; }
+.ly-key__row {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 1px 0;
+  font: var(--fs-micro) / 1.3 var(--font-sans);
+  color: var(--text-primary);
+}
+.ly-key__row--none { grid-template-columns: 1fr; }
+.ly-key__n { color: var(--text-secondary); font-size: var(--fs-micro); }
+.ly-key__note { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); }
+.ly-key__more { margin-block-start: var(--space-2xs); font-size: var(--fs-micro); }
+
+/* The swatch is the audited pair: the fill AND the texture proved with it. */
+.ly-sw {
+  inline-size: 13px;
+  block-size: 13px;
+  display: inline-block;
+  background-color: var(--sw-fill, var(--map-never-british));
+  background-image: var(--sw-tex, none);
+  border: var(--rule-hair) solid var(--sw-edge, var(--map-coast));
+}
+.ly-sw--absence {
+  background: var(--paper-sunk);
+  border: var(--rule-hair) dashed var(--map-coast);
+}
+.ly-sw--informal {
+  background: none;
+  border: var(--rule-fine) dashed var(--text-secondary);
+}
+
+/* --------------------------------------------------------- the caption ---- */
+
+.ly-caption {
+  pointer-events: auto;
+  display: block;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-panel);
+  border-inline-start: var(--rule-heavy) solid var(--warn);
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--fs-micro);
+  line-height: 1.36;
+}
+.ly-caption__lead { color: var(--text-primary); }
+.ly-caption__body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.ly-caption__more { margin-inline-start: var(--space-2xs); font-size: var(--fs-micro); }
+
+/* Mark swatches: the same glyph the overlay draws, at key size. */
+.ly-sw--mark {
+  border: 0;
+  background: none;
+  position: relative;
+}
+.ly-sw--mark::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+}
+.ly-sw--mark[data-mark='ring-hot']::before {
+  inline-size: 9px; block-size: 9px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+.ly-sw--mark[data-mark='ring']::before {
+  inline-size: 11px; block-size: 11px;
+  border: 1px dotted var(--text-secondary);
+  border-radius: 50%;
+}
+.ly-sw--mark[data-mark='haze']::before {
+  inline-size: 13px; block-size: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    color-mix(in oklab, var(--accent-2-ink) 46%, transparent) 0%,
+    color-mix(in oklab, var(--accent-2-ink) 18%, transparent) 62%,
+    transparent 100%);
+}
+.ly-sw--mark[data-mark='x']::before {
+  inline-size: 10px; block-size: 10px;
+  background:
+    linear-gradient(45deg, transparent 44%, var(--map-occupied) 44% 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, var(--map-occupied) 44% 56%, transparent 56%);
+}
+.ly-sw--mark[data-mark='tri']::before {
+  inline-size: 0; block-size: 0;
+  border-inline: 6px solid transparent;
+  border-block-end: 10px solid var(--warn);
+}
+.ly-sw--mark[data-mark='square']::before {
+  inline-size: 9px; block-size: 9px;
+  background: var(--map-label);
+}
+.ly-sw--mark[data-mark='dot']::before {
+  inline-size: 9px; block-size: 9px;
+  border-radius: 50%;
+  background: var(--map-company-rule);
+}
+.ly-sw--mark[data-mark='diamond']::before {
+  inline-size: 8px; block-size: 8px;
+  rotate: 45deg;
+  background: var(--accent-2-ink);
+}
+.ly-sw--mark[data-mark='bar']::before {
+  inline-size: 12px; block-size: 5px;
+  background: var(--accent);
+}
+.ly-sw--mark[data-mark='cable']::before {
+  inline-size: 13px; block-size: 0;
+  border-block-start: 2px solid var(--accent-2-ink);
+}
+.ly-sw--mark[data-mark='route']::before {
+  inline-size: 13px; block-size: 0;
+  border-block-start: 2px dashed var(--text-secondary);
+}
+
+/* ------------------------------------------------------------- the sheet -- */
+
+.ly-sheet__lead { margin-block-end: var(--space-md); }
+.ly-sheet__group { margin-block-end: var(--space-md); }
+.ly-sheet__layers { list-style: none; margin: var(--space-xs) 0 0; padding: 0; }
+.ly-sheet__layer + .ly-sheet__layer { margin-block-start: var(--space-2xs); }
+
+.ly-sheet__pick {
+  display: block;
+  inline-size: 100%;
+  text-align: start;
+  appearance: none;
+  background: none;
+  border: 0;
+  border-block-end: var(--rule-hair) solid var(--border-subtle, var(--border-default));
+  padding: var(--space-2xs) 0;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+.ly-sheet__pick:hover .ly-sheet__name { color: var(--accent-ink); }
+.ly-sheet__name {
+  display: block;
+  font: var(--w-semibold) var(--fs-base) / 1.3 var(--font-sans);
+}
+.ly-sheet__sent {
+  display: block;
+  font: var(--fs-caption) / 1.4 var(--font-sans);
+  color: var(--text-secondary);
+}
+.ly-sheet__layer[data-on='yes'] .ly-sheet__name { color: var(--accent-ink); }
+.ly-sheet__layer[data-on='yes'] .ly-sheet__pick {
+  border-inline-start: var(--rule-heavy) solid var(--accent-2-ink);
+  padding-inline-start: var(--space-xs);
+}
+.ly-sheet__byline {
+  margin: var(--space-2xs) 0;
+  font: var(--fs-caption) / 1.5 var(--font-sans);
+  color: var(--text-secondary);
+}
+.ly-sheet__cap { margin: 0 0 var(--space-xs); }
+
+.ly-sheet__key { list-style: none; margin: var(--space-xs) 0 0; padding: 0; }
+.ly-sheet__krow { margin-block-end: var(--space-xs); }
+.ly-sheet__kbtn {
+  display: grid;
+  grid-template-columns: 15px 1fr auto;
+  align-items: center;
+  gap: var(--space-xs);
+  inline-size: 100%;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: var(--space-3xs) 0;
+  cursor: pointer;
+  text-align: start;
+  font: var(--fs-small) / 1.35 var(--font-sans);
+  color: var(--text-primary);
+}
+.ly-sheet__kbtn:disabled { cursor: default; opacity: 0.6; }
+.ly-sheet__kbtn[aria-pressed='true'] { color: var(--accent-ink); font-weight: var(--w-semibold); }
+.ly-sheet__kn { font-family: var(--font-mono); color: var(--text-secondary); }
+.ly-sheet__krow .cx-note { margin: 0 0 0 calc(15px + var(--space-xs)); }
+.ly-sheet__members { font-style: italic; }
+.ly-sheet__figs { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: var(--space-xs); }
+
+/* ---------------------------------------------------------------- the run - */
+
+/* Four steps, in the rail, in the shared chrome vocabulary. There is no new box
+   treatment here: the head is `.cx-panel__head`, the title `.cx-panel__title`,
+   the question `.cx-ask`, the escape `.cx-more`. Only the counter and the two
+   nav buttons are this file's, and the nav buttons are the same shape as the
+   tour's own Back/Next so a reader learns one control, once. */
+.ly-run__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-sm); }
+.ly-run__count { color: var(--text-min); letter-spacing: 0; }
+.ly-run__lead { margin-block-end: var(--space-sm); }
+.ly-run__title { margin-block: var(--space-2xs) var(--space-sm); }
+.ly-run__now {
+  margin: var(--space-sm) 0 var(--space-2xs);
+  font: var(--w-semibold) var(--fs-base) / 1.4 var(--font-sans);
+  color: var(--accent-ink);
+}
+.ly-run__then { margin-block-end: var(--space-sm); }
+.ly-run__cta { display: inline-block; margin-block-end: var(--space-sm); }
+.ly-run__answer { margin-block-end: var(--space-sm); }
+
+.ly-run__nav {
+  display: flex;
+  gap: var(--space-xs);
+  margin-block: var(--space-md) var(--space-xs);
+}
+.ly-run__b {
+  appearance: none;
+  cursor: pointer;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  text-align: start;
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-default);
+  padding: var(--space-xs) var(--space-sm);
+  font: var(--fs-caption) / 1.35 var(--font-sans);
+  color: var(--text-primary);
+}
+.ly-run__b:first-child { flex: 0 0 auto; }
+.ly-run__b:hover:not(:disabled) { border-color: var(--accent-ink); color: var(--accent-ink); }
+.ly-run__b:disabled { opacity: 0.38; cursor: not-allowed; }
+.ly-run__b--next {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-on-accent);
+  font-weight: var(--w-semibold);
+}
+.ly-run__b--next:hover { background: var(--accent-hover, var(--accent)); border-color: var(--accent-hover, var(--accent)); color: var(--text-on-accent); }
+.ly-run__out { display: inline-block; }
+.ly-sheet__run { display: inline-block; margin-block-end: var(--space-sm); }
+
+/* --------------------------------------------------------- the prediction - */
+
+.ly-predict__b {
+  display: block;
+  inline-size: 100%;
+  text-align: start;
+  appearance: none;
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-default);
+  padding: var(--space-xs) var(--space-sm);
+  margin-block-end: var(--space-2xs);
+  cursor: pointer;
+  font: var(--fs-base) / 1.4 var(--font-sans);
+  color: var(--text-primary);
+}
+.ly-predict__b:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
+
+/* ------------------------------------------------------------- narrow ----- */
+
+/* WHICH BAND WE ARE IN IS THE SHELL'S ANSWER, NOT A WIDTH GUESS.
+   Round 2 keyed the narrow treatment on `@media (max-width: 62rem)`. The shell
+   publishes `#app[data-rail]` from its own media condition — and those two are
+   NOT the same condition: the rail is a side column at 900x700 (`side`) and a
+   bottom sheet only on a phone or a tall narrow window (`sheet`). Measured at
+   900x700 on the round-2 build: the key card obeyed the width query, stretched
+   to 888px across the plate, and printed "settled on land…" cut mid-word at
+   the right edge behind a horizontal scrollbar. LAYOUT_BUDGET §2A exists so no
+   piece re-derives this; this one now reads it. */
+#app[data-rail='sheet'] .ly-stack {
+  max-block-size: min(calc(var(--ly-plate-h, 30rem) * 0.42), calc(100% - var(--ly-floor, 3.4rem) - 8px));
+  inset-inline: var(--space-xs);
+  max-inline-size: none;
+}
+/* THE HEAD GOES, AND THE HEIGHT GROWS. In the sheet band the lede band is
+   already printing this layer's sentence at reading size directly above the
+   plate, so the card's eyebrow is the same thought twice in 26 pixels the key
+   rows need. Measured at 390x844 before this: two of seven categories visible.
+   After: six, in two columns, whole words, with the seventh counted in the
+   note. The card keeps its accessible name, so a screen reader still meets the
+   meaning before the swatches. */
+#app[data-rail='sheet'] .ly-key { max-block-size: 11.5rem; }
+#app[data-rail='sheet'] .ly-key > .cx-panel__head { display: none; }
+/* A GRID THAT WRAPS, NOT A STRIP THAT SCROLLS SIDEWAYS.
+   The round-2 phone key was one nowrap row in an `overflow-x: auto` box: at 390
+   a reader saw two and a half of nine categories, the third cut mid-word, and
+   the way to the rest was a horizontal scrollbar with no affordance. Two
+   columns of whole words, wrapping, scrolling down inside a capped box, shows
+   six at 390 and the count of what is left is printed in the note below. */
+#app[data-rail='sheet'] .ly-key__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+  gap: 0 var(--space-sm);
+}
+#app[data-rail='sheet'] .ly-caphost { display: none; }
+
+/* WHEN THE RAIL IS A BOTTOM SHEET AND IT IS OPEN, THE KEY IS NOT ON THE PLATE.
+   Measured at 390x844 with this piece's own sheet open: the plate runs
+   y=156..632, the sheet's top edge is at y=307, and 151px of map is left — the
+   floor LAYOUT_BUDGET §2A guarantees. The key card is 184px tall and is
+   anchored to the foot of the plate, so every pixel of it was underneath the
+   sheet: present in the DOM, counted by a probe, and invisible to a reader.
+   There is no arithmetic that fits a nine-row key into 151px of map, and there
+   is no need for one: the open rail is what the reader is looking at, and it
+   is already printing this layer's name, its sentence, its byline and its
+   caveat at reading size. The key returns the moment the rail closes. */
+#app[data-rail='sheet'][data-sheet='open'] .ly-stack,
+#app[data-rail='sheet'][data-dossier='open'] .ly-stack { display: none; }
+
+/* The word never gets cut mid-glyph, at any width, in any band: it wraps. */
+.ly-key__word { min-inline-size: 0; overflow-wrap: anywhere; }
+.ly-key__row { align-items: start; }
+.ly-key__row .ly-sw { margin-block-start: 2px; }
+
+/* --------------------------------------------------------------- motion --- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .ly-haze__fill { transition: opacity var(--dur-slow, 320ms) var(--ease-out); }
+}
+
+/* --------------------------------------------------------- forced colours - */
+
+@media (forced-colors: active) {
+  .ly-key, .ly-caption { border: 1px solid CanvasText; }
+  .ly-link { stroke: CanvasText; }
+  .ly-node__glyph, .ly-pin__glyph--dot, .ly-pin__glyph--tri { fill: CanvasText; }
+  .ly-pin__glyph--x { stroke: CanvasText; }
+}

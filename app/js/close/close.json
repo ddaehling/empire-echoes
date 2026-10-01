@@ -1,0 +1,268 @@
+{
+  "$note": "P21 — the twelve-line argument. A line is printed in full only when this student has actually done the beat that supplies its evidence; otherwise it is set greyed with the evidence named and its price in seconds, taken from the beat's own cost_s. `mine` is the sentence that carries this student's own number, their own first wrong guess, their own gate placement or their own dissent — it is only printed when the Ledger has the entry it names. `mine.ask` names the question the beat put to the student in their own words: a line whose beat was walked past without answering it is greyed for THAT reason and says so, because a Close that counts steps visited rather than work done tells a student who tapped Next thirty times that they can defend all thirteen lines.",
+  "version": "p05.1",
+  "lines": [
+    {
+      "n": 1,
+      "requires": [
+        "poster",
+        "spine"
+      ],
+      "evidenceBy": {
+        "poster": "the poster itself",
+        "spine": "the four-engine spine"
+      },
+      "text": "Britain did not build one empire. It built four, overlapping — sugar and slavery, a company that became a state, an industrial and strategic system, and dissolution — and the single pink on the classroom map hid all four.",
+      "mine": {
+        "claimId": "p05:poster:statusCount",
+        "beat": "poster",
+        "$beat": "The poster puts the guess; the spine sweeps the four engines and asks nothing. See line 12's `$beat` and `close/index.js::_askOf`.",
+        "say": "You said the map showed {said}. It showed {answer}.",
+        "ask": "how many kinds of rule the one pink was hiding"
+      },
+      "evidence": "the poster and the four-band sweep"
+    },
+    {
+      "n": 2,
+      "requires": [
+        "barbados"
+      ],
+      "text": "The Atlantic empire ran on sugar, and sugar ran on people. Barbados was settled in 1627 on an island whose own people had been carried off by Iberian slave raiders a century earlier, and {{fig:barbados-landed}} African people were landed on it.",
+      "evidence": "Barbados, 1655"
+    },
+    {
+      "n": 3,
+      "requires": [
+        "resistance"
+      ],
+      "text": "Enslaved people resisted continuously — Tacky 1760, Haiti 1791, Bussa 1816, Demerara 1823, Sam Sharpe 1831 — and every one of those is before the 1833 Abolition Act. The order is the argument.",
+      "evidence": "Bussa's rebellion, April 1816"
+    },
+    {
+      "n": 4,
+      "requires": [
+        "compensation"
+      ],
+      "text": "When slavery ended, the money went to the owners: {{fig:compensation-barbados-money}} to Barbadian slave-owners for {{fig:compensation-barbados-people}} people, £0 to the people themselves, four more years of unpaid apprenticeship, and a national bill of {{fig:compensation-national}} financed by borrowing redeemed only in {{fig:compensation-loan-2015}}.",
+      "mine": {
+        "claimId": "p05:compensation:order",
+        "say": "You put those five in the order {said}. {answer}",
+        "ask": "the order the money went in when slavery ended"
+      },
+      "evidence": "the compensation ledger, 1836"
+    },
+    {
+      "n": 5,
+      "requires": [
+        "who-took-bengal"
+      ],
+      "text": "India was taken by a chartered company with shareholders in London, not by the British government. The state arrived a hundred and one years later, and only because of a rebellion.",
+      "mine": {
+        "claimId": "p05:who-took-bengal:q",
+        "say": "Asked who conquered Bengal, you first answered {said}.",
+        "ask": "who actually conquered Bengal"
+      },
+      "evidence": "Plassey, 1757"
+    },
+    {
+      "n": 6,
+      "requires": [
+        "revenue-loop"
+      ],
+      "text": "The mechanism was a loop, not a list: Bengal's land revenue paid for sepoys, sepoys took the next province, the next province paid for more sepoys. Conquest was largely funded and largely carried out by the conquered — and when the sepoys stopped in 1857, rule stopped with them.",
+      "mine": {
+        "claimId": "p05:loop:cut",
+        "say": "You cut Bengal's revenue and watched the loop stall at the sepoys.",
+        "ask": "what the loop does when Bengal’s revenue is cut"
+      },
+      "evidence": "the diwani of 1765, stepped and cut"
+    },
+    {
+      "n": 7,
+      "requires": [
+        "nationalisation"
+      ],
+      "text": "The state did not conquer India; it took over from a company that had. When the sepoys of the Bengal army rose in 1857 and it took fourteen months and Indian troops to beat them, Parliament abolished the Company and moved its territories, its treasury and its {{fig:company-army-1858}}-strong army to the Crown — then paid the shareholders off, until 1874, out of Indian revenue.",
+      "evidence": "the status of British India at 1857 against 1859"
+    },
+    {
+      "n": 8,
+      "requires": [
+        "princely"
+      ],
+      "text": "'British India' was never all of India: {{fig:princely-states-count}} princely states covered {{fig:princely-share}} of it, and about a thousand covenanted officers administered the rest of a population past {{fig:india-population}}. Empire was mostly run by the colonised.",
+      "evidence": "the definition switch at 1909"
+    },
+    {
+      "n": 9,
+      "requires": [
+        "egypt"
+      ],
+      "text": "A colour on a map is a legal claim, not a description of who obeyed whom. Britain occupied Egypt in 1882 for the canal and the bondholders and stayed seventy-four years without annexing it — occupied province, protectorate, nominally independent kingdom with British troops, then 1956.",
+      "evidence": "Egypt's four labels"
+    },
+    {
+      "n": 10,
+      "requires": [
+        "scramble"
+      ],
+      "$why": "ROUND 9, the historian, and it is the hole this file had that none of the routes had: “on every route including `sixty` it says nothing about the partition of Africa. Every other machine in the spine has a line; machine III has Egypt (line 9) and the franchise asymmetry (line 11) and no acquisition.” True. Most of the empire’s African territory was acquired under the rules agreed at Berlin, and the Close — the app’s own statement of what a student can defend — did not say so. This line is earned by `scramble` on `core`, `thirty` and `sixty`, and greyed with its own price on `period` and `eight`, which is exactly how the other thirteen behave. It sits after Egypt because Berlin is 1884–85 and the occupation of Egypt is 1882, and the lines are read in order.",
+      "text": "Most of Britain's African territory was claimed on paper before it was occupied. Fourteen powers met at Berlin between November 1884 and February 1885, with no African state in the room, and agreed that a claim required “effective occupation” — which set the method: take a concession from a ruler, then send a column when the ruler objects. Lobengula put his mark to one in 1888 and wrote to Victoria to say he had been deceived about what it contained. It became a royal charter anyway.",
+      "evidence": "Berlin 1884–85, and Lobengula's letter"
+    },
+    {
+      "n": 11,
+      "requires": [
+        "two-track"
+      ],
+      "text": "Self-government was distributed by race and explained in other terms. In the same years Canada, Australia, New Zealand and South Africa got their own parliaments, Indian and African subjects who asked were told they were not yet ready — and this atlas records, span by span, who could actually vote.",
+      "mine": {
+        "claimId": "p05:two-track:sort",
+        "say": "You sorted four 1913 legislatures and got {said} of them right first time.",
+        "ask": "which of four 1913 legislatures let whom vote"
+      },
+      "evidence": "the 1913 franchise sort"
+    },
+    {
+      "n": 12,
+      "requires": [
+        "two-in-tension"
+      ],
+      "$fix": "This line required “amritsar”, which is not a beat id and never has been — the Amritsar beat is `two-in-tension`, Dyer’s evidence to the Hunter Committee against Tagore’s letter returning the knighthood. So line 11 was greyed on all four routes, including the one whose own strap in tours.json claims to be “the only route that fills every line of the Close”. Nothing caught it because no code checked a `requires` id against the beats that exist. `close/index.js` `_audit()` now does, at mount, and calls console.error when it fails.",
+      "text": "Where subjects asked anyway, the answer was sometimes Jallianwala Bagh: about ten minutes of fire into a walled garden, 379 dead by the official count and considerably more by Indian ones. Dyer was relieved of command and a British public subscription raised a large sum in his honour — and that second fact moved Indian opinion further than the first.",
+      "mine": {
+        "claimId": "p05:two-in-tension:tension",
+        "say": "Before you read a word either man wrote, you said: {said}",
+        "ask": "what Dyer and Tagore were each placed to know, and what each wanted from writing it down"
+      },
+      "evidence": "Amritsar, 13 April 1919"
+    },
+    {
+      "n": 13,
+      "requires": [
+        "singapore",
+        "exits"
+      ],
+      "text": "The empire came apart between 1942 and 1997 because the people it ruled had organised for decades and Britain went broke — and where Britain thought it could win, it fought: Malaya, Kenya, Cyprus, Aden, Palestine.",
+      "mine": {
+        "claimId": "p05:exits:armedExitShare",
+        "beat": "exits",
+        "$beat": "WHICH OF THIS LINE'S BEATS ASKED THE QUESTION — round 8, and it is the round-5 `amritsar` defect in a third file. `close/index.js::_askOf()` maps a beat to \"the question that beat put to this student\", and it built that map by pointing EVERY beat in a line's `requires` at the line's one claim. This line requires two, and only `exits` asks anything: `singapore` is a `present` beat with nothing to commit to. So on any route that carries `singapore` without `exits` — the one-period route — the through-line's closing clause was keyed to a question that route never puts, and blank 6 could never fill however completely the student did the lesson. `mine.beat` names the asker; `_askOf` uses it; `_audit()` requires it on every line with more than one `requires` and checks it is one of them, at mount, so the class cannot come back in a fourth file.",
+        "say": "You guessed {said} of exits were armed. The tally in this atlas is {answer}.",
+        "ask": "what share of the exits were armed"
+      },
+      "evidence": "Singapore 1942 and the exit tally",
+      "$evidenceBy": "ROUND 7, the phone critic: this line needs two beats and `core` carries one of them, so a route that had shown the reader the exit tally was told 'not on this route: Singapore 1942 and the exit tally'. Naming the whole of a line's evidence when half of it is behind you overstates the omission by half. One clause per beat; the panel prints the clauses for the beats that are actually missing.",
+      "evidenceBy": {
+        "singapore": "Singapore 1942",
+        "exits": "the exit tally"
+      }
+    },
+    {
+      "n": 14,
+      "requires": [
+        "fourteen"
+      ],
+      "text": "It is not finished. This atlas still draws places with no end date, and how many there are depends on what you are willing to count — the same question the definition switch has been asking since minute one.",
+      "evidence": "1997 and what remains"
+    }
+  ],
+  "doors": [
+    {
+      "label": "Informal empire",
+      "say": "Places Britain ran without ever claiming them — through trade, debt and the navy. Widen the map from what Britain claimed to what Britain influenced, and watch what arrives.",
+      "book": "John Gallagher and Ronald Robinson, 'The Imperialism of Free Trade', Economic History Review (1953)",
+      "do": {
+        "kind": "definition",
+        "value": "influenced",
+        "label": "Widen the map to “influenced”",
+        "key": "4"
+      }
+    },
+    {
+      "label": "Did empire pay, and whom?",
+      "say": "The balance-sheet question, and why the balance sheet is the wrong instrument.",
+      "book": "P. J. Cain and A. G. Hopkins, British Imperialism (1993), against Shashi Tharoor, Inglorious Empire (2017)"
+    },
+    {
+      "label": "Who wrote the archive?",
+      "say": "Some of what a historian would want was destroyed rather than lost, and this atlas draws those places as holes in the paper. Open the list of them, with who destroyed what, and when.",
+      "book": "Caroline Elkins, Britain's Gulag (2005), and David Anderson, Histories of the Hanged (2005) — read with the dispute about scale in view",
+      "do": {
+        "kind": "silences",
+        "label": "What this atlas cannot tell you",
+        "key": "H"
+      }
+    }
+  ],
+  "$lessons": "DIDACTIC_SPEC §8.4 — THE CLOSE RULE, amended wave 9, and this block is what it asks for. “A Close is an ending, not a progress bar. A student who finishes Lesson One has finished something, and the Close must say so before it says anything else.” Before wave 9 this surface opened with “9 of 14 lines below you have the evidence for” — a fraction, at the top, to somebody who had just finished a whole lesson. The fraction is still there and is still true; it is no longer the first thing said. (1) `finished` names what was finished, in words. (2) Finishing is REACHING THE LAST BEAT and nothing else — never a score, never a signature, never a gate placement — so `close/index.js::_finishedLesson()` asks the Ledger whether the route's last required beat is in the record and asks nothing else. (5) `next` names the other lesson AS A SUBJECT: it says what that lesson covers and offers a control that starts it, and the words `incomplete`, `unfinished`, `you missed`, `remaining` and `left to go` are banned from this slot, along with every percentage and every meter. A student who does one lesson and no more has done a whole lesson. (6) `raises` names, by name and with one press each, the items this lesson RAISED AND DID NOT TEACH — §3.1's extension items, hosted by this lesson's own beats. Naming a thing you did not teach, and putting it one press away, is honest; leaving it unnamed is not. Every `beat` named below is checked against tours.json at mount by `_audit()`, and `route` says which route to open it on.",
+  "lessons": {
+    "lesson-one": {
+      "finished": "You have finished Lesson One: how it was taken.",
+      "$did": "ONE CLAUSE PER BEAT, AND A CLAUSE PRINTS ONLY WHEN THAT BEAT IS IN THE STUDENT\u2019S RECORD. Wave 9 round 2, the phone critic: the Close named three beats a walked run never put on screen, \u201cbecause it is reading the route rather than the run\u201d. DIDACTIC_SPEC \u00a78.4(1) makes this sentence an achievement, so it may only name what was achieved. See close/index.js::_didSay.",
+      "did": [
+        { "beat": "poster", "say": "the poster that lies" },
+        { "beat": "spine", "say": "the four engines" },
+        { "beat": "barbados", "say": "three islands and the crossing" },
+        { "beat": "resistance", "say": "the people who never stopped resisting" },
+        { "beat": "compensation", "say": "the compensation ledger" },
+        { "beat": "who-took-bengal", "say": "who actually took Bengal" },
+        { "beat": "revenue-loop", "say": "the company that found taxing Bengal beat trading with it" }
+      ],
+      "next": {
+        "id": "lesson-two",
+        "say": "Lesson Two covers how Britain ruled what it had taken and how it lost it: 1857 and the Crown, the 565 princely states, the Scramble and Berlin 1884–85, who was given self-rule and who was refused, February 1942, how the exits actually happened, and what is still British.",
+        "cta": "Start Lesson Two"
+      },
+      "raises": [
+        {
+          "say": "Bengal 1770 — what the loop did when the harvest failed, and the three famines shaped the same way",
+          "beat": "revenue-loop"
+        },
+        {
+          "say": "The African supply side — who sold, to whom, and what that does to the sentence above",
+          "beat": "resistance"
+        }
+      ]
+    },
+    "lesson-two": {
+      "finished": "You have finished Lesson Two: how it was ruled, and how it ended.",
+      "did": [
+        { "beat": "spine", "say": "the spine restated" },
+        { "beat": "nationalisation", "say": "1857 and the Crown" },
+        { "beat": "princely", "say": "the princely third of India" },
+        { "beat": "scramble", "say": "Berlin 1884\u201385 and the Scramble" },
+        { "beat": "two-track", "say": "self-rule given and refused" },
+        { "beat": "singapore", "say": "February 1942" },
+        { "beat": "exits", "say": "how the exits actually happened" },
+        { "beat": "fourteen", "say": "the fourteen still there" }
+      ],
+      "next": {
+        "id": "lesson-one",
+        "say": "Lesson One covers how it was taken: Jamestown, Barbados and Jamaica, the crossing counted, enslaved people who rebelled continuously, the £20 million that went to owners and the £0 that went to the freed, and the Company’s revenue loop.",
+        "cta": "Start Lesson One"
+      },
+      "raises": [
+        {
+          "say": "Egypt: one place, four legal labels, 1882 to 1956",
+          "beat": "egypt",
+          "route": "thirty"
+        },
+        {
+          "say": "Amritsar, 13 April 1919 — who was refused, and what happened when they asked",
+          "beat": "two-in-tension",
+          "route": "thirty"
+        },
+        {
+          "say": "Famine as policy — Bengal 1770, Ireland 1845–52, Bengal 1943",
+          "beat": "revenue-loop",
+          "route": "thirty"
+        },
+        {
+          "say": "A thousand covenanted officers over three hundred million people",
+          "beat": "princely"
+        }
+      ]
+    }
+  }
+}

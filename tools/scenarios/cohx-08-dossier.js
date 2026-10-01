@@ -1,0 +1,29 @@
+/* AUDIT 2026-09-06 (wave 9) — ONE-SHOT PROBE from an earlier round. NOT in the
+ * acceptance suite: `tools/acceptance.js` does not run it and nothing depends on
+ * it staying green. It protects no standing guarantee — it was written to measure
+ * one thing once. Status when the whole directory was run: runs clean.
+ * Before trusting anything it prints, check its selectors and its route against
+ * the app as it is now; most of this directory predates the two-lesson unit and
+ * walks `#tour=thirty`, which has not been the default since wave 8. */
+module.exports = async ({ page, shot, log }) => {
+  await page.waitForFunction(() => document.documentElement.dataset.boot === 'ready', {timeout:30000}).catch(()=>{});
+  await page.waitForTimeout(1500);
+  const units = await page.evaluate(() => [...document.querySelectorAll('[data-unit]')].map(e=>e.getAttribute('data-unit')).slice(0,400));
+  log('hit targets:', units.length, units.slice(0,40).join(','));
+  // Select India via store to be reliable
+  await page.evaluate(() => window.BEA.store.act.select('british-india'));
+  await page.waitForTimeout(1400);
+  await shot('dossier-india-1900');
+  log('dossier:', await page.evaluate(() => (document.querySelector('[data-mount=dossier]')||{}).innerText?.replace(/\s+/g,' ').slice(0,3000)));
+  log('app dataset:', await page.evaluate(()=>JSON.stringify({...document.getElementById('app').dataset})));
+  // now scrub past independence
+  await page.evaluate(() => window.BEA.store.act.setYear(1990));
+  await page.waitForTimeout(1400);
+  await shot('dossier-india-1990');
+  log('dossier@1990:', await page.evaluate(() => (document.querySelector('[data-mount=dossier]')||{}).innerText?.replace(/\s+/g,' ').slice(0,1800)));
+  // deselect
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(900);
+  await shot('after-escape');
+  log('sel after Esc:', await page.evaluate(()=>window.BEA.store.getState().selectedTerritoryId));
+};

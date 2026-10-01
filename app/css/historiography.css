@@ -1,0 +1,838 @@
+/* historiography.css — HISTORIANS DISAGREE (P16).
+ *
+ * Two surfaces: a card that stands in the dossier column, and the argument
+ * itself in the rail sheet. Both live at LAYOUT_BUDGET level 3 (the rail), so
+ * nothing in this file may position anything on the plate, in the lede band or
+ * in the time bar, and nothing here declares grid on .app (rule B9).
+ *
+ * The chrome vocabulary is adopted whole: .cx-panel, .cx-panel__head,
+ * .cx-note, .cx-more, .cx-ask, .cx-src. What is added below is only what those
+ * classes have no word for — a position card, a two-column parallel text, a
+ * greyed lens row — and each of those is built out of the same tokens.
+ */
+
+/* ---------------------------------------------------------------- the card --
+ * In the dossier, below the fold, under its own eyebrow. It prints the
+ * argument's own question and the names of the people having it, because a
+ * category label is not a claim.
+ */
+.hgx-card { margin-block-start: var(--space-lg); }
+.hgx-card__q {
+  margin: var(--space-2xs) 0 var(--space-3xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+/* The names, as a byline. Not in an accent ink: three proper nouns set in the
+   colour this app uses for controls read as three links, and they are not. */
+.hgx-card__who {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.hgx-card__say { margin: 0 0 var(--space-xs); }
+.hgx-card__go { margin: 0; }
+.hgx-card__more { list-style: none; margin: var(--space-xs) 0 0; padding: 0; }
+.hgx-card__more li { margin-block-start: var(--space-3xs); }
+.hgx-card__more .cx-more { text-align: start; }
+
+/* THE RESTING STATE. Printed on the 196 entries no argument covers, so the
+   fourteen are reachable from every dossier and not only from the sixty-four.
+   Quieter than the card it stands in for: it is a route, not a claim. */
+.hgx-card--rest .hgx__eyebrow { opacity: .8; }
+.hgx-card--rest .hgx-card__say { margin-block-end: var(--space-2xs); }
+
+/* --------------------------------------------------------------- the sheet --
+ * `.hgx` is the body node handed to ask:sheet. It never sets a width: the rail
+ * owns that, at one width, at every viewport (rule B7).
+ */
+.hgx { display: flow-root; }
+.hgx > * + * { margin-block-start: var(--space-lg); }
+/* The question IS the title of this surface, so it is set as one. It takes the
+   larger rank only where the rail is a full-height column: measured at 390x844
+   the sheet body is 407px tall and the same question at 22px filled 250px of it
+   before a single position was on screen. */
+.hgx__q {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+  text-wrap: pretty;
+}
+#app[data-rail='side'] .hgx__q { font-size: var(--fs-h4); }
+#app[data-rail='sheet'] .hgx__stake { font-size: var(--fs-base); line-height: var(--lh-ui); }
+.hgx__stake {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx__stop { border-block-start: var(--rule-fine) dashed var(--border-soft); padding-block-start: var(--space-sm); }
+.hgx__eyebrow { margin-block-end: var(--space-xs); }
+.hgx-k { color: var(--text-min); }
+
+/* ----------------------------------------------------------- the positions --
+ * One card per named historian, stacked. Never tabs, never an accordion
+ * (FEATURE_SPEC §2 rule 2): every position is permanently rendered and the
+ * reader can hold them against each other by scrolling one column.
+ */
+.hgx-grid { display: grid; gap: var(--space-md); }
+.hgx-pos {
+  border: var(--rule-fine) solid var(--border-soft);
+  border-inline-start: var(--rule-heavy) solid var(--accent-2, var(--accent));
+  background: var(--surface-panel);
+  padding: var(--space-md);
+}
+.hgx-pos:nth-child(2n) { border-inline-start-color: var(--accent); }
+.hgx-pos__who {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.hgx-pos__who b { font-weight: var(--w-semibold); }
+.hgx-pos__n {
+  display: inline-block;
+  min-width: 1.35em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.hgx-pos__badge {
+  margin: 0 0 var(--space-xs);
+  padding-inline-start: 1.35em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  color: var(--text-min);
+}
+.hgx-pos__short {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.hgx-pos__claim {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-pos__ev { margin: var(--space-sm) 0 0; }
+.hgx-pos__ev dt {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min);
+}
+.hgx-pos__ev dd {
+  margin: var(--space-3xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.hgx-pos__against { border-inline-start: var(--rule-mid) solid var(--warn); padding-inline-start: var(--space-sm); }
+
+/* --------------------------------------------------------------- the ask ----
+ * The branch. Adopts .cx-ask whole; only the choice list is different, because
+ * each choice carries a sentence and a row of pills would truncate it.
+ */
+.hgx-ask { display: block; }
+.hgx-ask__q { margin-block-end: var(--space-2xs); }
+.hgx-choices { display: grid; gap: var(--space-2xs); margin-block: var(--space-sm); }
+.hgx-choice {
+  appearance: none;
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--dur-instant) var(--ease-standard),
+              border-color var(--dur-instant) var(--ease-standard);
+}
+.hgx-choice b { display: block; font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--text-heading); }
+.hgx-choice span { display: block; font-size: var(--fs-micro); line-height: var(--lh-ui); color: var(--text-secondary); }
+.hgx-choice:hover { border-color: var(--accent); background: var(--surface-page); }
+.hgx-choice[data-chosen='yes'] {
+  border-color: var(--accent);
+  border-width: var(--rule-mid);
+  background: var(--surface-page);
+}
+.hgx-choice[data-chosen='yes'] b::before { content: '\2713\00a0'; color: var(--accent-ink); }
+
+.hgx-ask__label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.hgx-ask__why {
+  display: block;
+  width: 100%;
+  margin-block-start: var(--space-2xs);
+  padding: var(--space-xs);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+  resize: vertical;
+}
+.hgx-ask__help { margin-block-start: var(--space-2xs); }
+.hgx-ask__go {
+  appearance: none;
+  margin-block-start: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  min-height: 2.25rem;
+  border: var(--rule-fine) solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  cursor: pointer;
+}
+.hgx-ask__go:hover:not(:disabled) { background: var(--accent-hover, var(--accent)); }
+.hgx-ask__go:disabled { background: none; color: var(--text-min); border-color: var(--border-soft); cursor: default; }
+.hgx-ask__need { margin-block-start: var(--space-2xs); }
+
+/* ------------------------------------------------------------ the reveal ---- */
+.hgx-mine {
+  border-inline-start: var(--rule-heavy) solid var(--accent-2, var(--accent));
+  padding-inline-start: var(--space-sm);
+}
+.hgx-mine__pick { margin: var(--space-3xs) 0 var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-base); }
+.hgx-mine__why { margin: 0; }
+.hgx-mine__why p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.hgx-mine__why p::before { content: '\201C'; }
+.hgx-mine__why p::after { content: '\201D'; }
+
+.hgx-v__balance { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs); margin: 0 0 var(--space-xs); }
+.hgx-chip {
+  display: inline-block;
+  padding: 1px var(--space-2xs);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-body);
+  background: var(--surface-well);
+}
+.hgx-chip[data-balance='open'] { border-color: var(--info, var(--accent-2)); color: var(--info, var(--accent-2-ink)); }
+.hgx-chip[data-balance='weighted'] { border-color: var(--accent); color: var(--accent-ink); }
+.hgx-chip[data-balance='settled-on-fact'] { border-color: var(--warn); color: var(--warn); }
+.hgx-v__gloss { font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.hgx-v__lead {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.hgx-v__text, .hgx-settle p, .hgx-atlas p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-v__note {
+  margin: var(--space-sm) 0 0;
+  border-inline-start: var(--rule-mid) solid var(--warn);
+  padding-inline-start: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-atlas .cx-more { margin-block-start: var(--space-xs); }
+.hgx-atlas .cx-note { margin-block-start: var(--space-2xs); }
+
+/* --------------------------------------------------------------- the lens --- */
+.hgx-lens__go { display: inline-block; margin-block-end: var(--space-xs); }
+.hgx-lens__count { margin: 0 0 var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-caption); }
+.hgx-lens__list { list-style: none; margin: 0; padding: 0; }
+.hgx-lens__row {
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+  padding-block: var(--space-xs);
+}
+.hgx-lens__claim { margin: 0; font-family: var(--font-serif); font-size: var(--fs-base); line-height: var(--lh-snug); color: var(--text-body); }
+.hgx-lens__src { margin: var(--space-3xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.hgx-lens__row[data-greyed='yes'] { opacity: .42; }
+.hgx-lens__row[data-greyed='yes'] .hgx-lens__claim { text-decoration: line-through; text-decoration-thickness: 1px; }
+.hgx-lens__cap { margin-block-start: var(--space-sm); }
+
+/* ------------------------------------------------------- the parallel texts --
+ * The rail is one column between 279px and 432px wide at every viewport in the
+ * budget, so two columns of running serif is not a layout that exists here. The
+ * pairing is structural: each disputed clause with its counterpart beneath it.
+ * The full texts sit below and go side by side only when the block itself is
+ * wide enough — a container query, measured on this block, not on the window.
+ */
+.hgx-par { container-type: inline-size; }
+.hgx-par__note { margin: 0 0 var(--space-sm); }
+.hgx-par__pairs { display: grid; gap: var(--space-sm); margin-block-end: var(--space-lg); }
+.hgx-pair { padding: var(--space-md); }
+.hgx-pair__k {
+  margin: var(--space-xs) 0 var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min);
+}
+.hgx-pair__k:first-child { margin-block-start: 0; }
+.hgx-pair__t {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.hgx-pair__t::before { content: '\201C'; }
+.hgx-pair__t::after { content: '\201D'; }
+.hgx-pair__g { margin: var(--space-sm) 0 0; }
+
+.hgx-par__cols { display: grid; gap: var(--space-md); }
+@container (min-width: 46rem) {
+  .hgx-par__cols[data-n='2'] { grid-template-columns: 1fr 1fr; }
+  .hgx-par__cols[data-n='3'] { grid-template-columns: repeat(3, 1fr); }
+  .hgx-par__cols > * + * { border-inline-start: var(--rule-fine) solid var(--border-soft); padding-inline-start: var(--space-md); }
+}
+.hgx-par__col > .src { height: 100%; }
+.hgx-seg {
+  appearance: none;
+  /* A span, not a button (see segEl in index.js): `display: inline` on a
+     <button> is ignored for layout in Blink and WebKit, which laid every
+     wrapping clause out in a block of its own and stranded the paragraph's
+     opening quotation mark on the line above it. */
+  display: inline;
+  cursor: pointer;
+  padding: 0 2px;
+  border: 0;
+  border-block-end: var(--rule-mid) solid var(--accent-2, var(--accent));
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.hgx-seg[data-lit='yes'] { background: var(--accent-veil, var(--surface-well)); color: var(--accent-ink); }
+.hgx-par .cx-more { margin-block-start: var(--space-md); }
+
+/* --------------------------------------------------------------- the index -- */
+.hgx-index__lede {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-index__list { list-style: none; margin: var(--space-md) 0 0; padding: 0; }
+.hgx-index__row {
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+  padding-block: var(--space-sm);
+}
+.hgx-index__go { text-align: start; font-size: var(--fs-small); }
+.hgx-index__who { margin: var(--space-3xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.hgx-index__row[data-judged='yes'] .hgx-index__go::before { content: '\2713\00a0'; color: var(--accent-ink); }
+.hgx-index__foot { margin-block-start: var(--space-lg); }
+
+/* ------------------------------------------------------------- keyboard -----
+ * 2px, matching base.css's own `:focus-visible`. These rules used `--rule-mid`,
+ * which is 1.5px and lands as 1px used width — thinner than the ring every
+ * other control in the app draws, on the controls a keyboard reader lives in.
+ */
+.hgx-choice:focus-visible,
+.hgx-ask__go:focus-visible,
+.hgx-seg:focus-visible,
+.hgx-ask__why:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.hgx-verdict:focus { outline: none; }
+.hgx-verdict:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hgx-choice, .hgx-seg { transition: none; }
+}
+
+/* The judgement, read back in the dossier's own "Your record this session"
+   list. That list is the dossier's; only the sentence a judgement adds to a row
+   is styled here, and it is the same treatment the sentence gets in the panel
+   it was written in. */
+.dsr__answhy { margin: var(--space-2xs) 0 0; border-inline-start: var(--rule-mid) solid var(--border-firm); padding-inline-start: var(--space-sm); }
+.dsr__answhy p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+
+/* The shape of the evidence base, before a word of the argument is read. */
+.hgx-shape__figs { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-block: var(--space-xs) var(--space-sm); }
+.hgx-shape .cx-note { margin: 0; }
+
+/* ============================================================== CHAPTERS ====
+ * THE PHONE. Measured on the running app with an argument open, before this:
+ *
+ *   390x844   sheet body 390x198,  argument 3,016px   15.3 : 1
+ *   768x1024  sheet body 768x223,  argument 2,012px    9.0 : 1
+ *   900x700   rail column 303x571                      6.7 : 1
+ *   1440x900  rail column 431x767                      3.7 : 1
+ *
+ * Below 62rem the shell gives the rail exactly --cx-sheet-min (LAYOUT_BUDGET B8,
+ * 280px) and its head takes 81 of that at 390. There is no more room to ask for
+ * — RESPONSIVE_LAW §2's arithmetic closes at 844 with the panel already at its
+ * floor — so the fix is not more height, it is less at once. In that band the
+ * argument is paged: the question, then one historian per screen, then the
+ * commitment; and after the commitment, the verdict, what would settle it, the
+ * map, and the sources.
+ *
+ * `hidden` on a chapter is presentation only. Every chapter is in the DOM at
+ * every viewport, `paginate()` re-runs on chrome:layout, and the rule that
+ * keeps the verdict out of the document before a commitment is upstream of all
+ * of this, in renderFull's own branch.
+ */
+.hgx-chaps { display: contents; }
+.hgx-chap { display: block; }
+.hgx-chap + .hgx-chap { margin-block-start: var(--space-lg); }
+.hgx-chap[hidden] { display: none; }
+
+/* The pager is sticky at the top of the scroller: in a 198px window a control
+   at the foot of a chapter is a control nobody finds. It is hidden at and above
+   62rem, where the whole argument is one column and paging it would be a
+   ceremony over a scroll that already works. */
+.hgx-pager {
+  position: sticky;
+  /* `--hgx-pager-lift` is written by liftPager() and is 0 unless something else
+     is stuck across this scroller's foot — at 390 the Close module's through-line
+     block is, inside the same 198px body, and Back and Next were drawn under it.
+     See render.js, "two things pinned to one scroller's foot". */
+  inset-block-end: calc(var(--hgx-pager-lift, 0px) - var(--space-lg));
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: var(--space-md) calc(var(--space-lg) * -1) calc(var(--space-lg) * -1);
+  padding: var(--space-3xs) var(--space-lg);
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+  background: var(--surface-raised, var(--surface-page));
+}
+/* The pager is pinned to the foot of the scroller, so the tail of a chapter
+   would otherwise be read through it. */
+.hgx[data-paged='on'] .hgx-chap { padding-block-end: calc(2.5rem + var(--hgx-pager-lift, 0px)); }
+.hgx-pager[hidden] { display: none; }
+/* ================================= THE STRIP THE LIFT LEFT OPEN ==============
+ * Measured at 390x844 with an exercise open in the rail: lifting the pager over
+ * the Close's through-line block clears OUR bar off their furniture, but the
+ * scroller still runs a few pixels past the foot of that block — and the tail of
+ * the chapter was being read down there, in a 20px letterbox under everything
+ * else. In the shot it was the amber “Every other document in this atlas is
+ * printed with four labelled…” cut off below the through-line.
+ *
+ * The pager's own background continues downward through the whole lifted
+ * region. Their block paints over it (z-index 4 against our 2), so nothing of
+ * theirs is hidden; what goes is the sliver of our text underneath. Paint only:
+ * `pointer-events: none`, so every control down there is still theirs to press. */
+.hgx-pager { position: sticky; }
+.hgx[data-paged='on'] .hgx-pager::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  block-size: calc(var(--hgx-pager-lift, 0px) + var(--space-lg));
+  pointer-events: none;
+  background: var(--surface-raised, var(--surface-page));
+}
+/* ============================================ THE LINE THE PAGER CUT IN HALF ==
+ * Measured on the running app at 390x844, across twenty-four chapter views in
+ * four arguments: eight of them ended with a line of prose sliced horizontally
+ * through its x-height by this bar — “Rudrangshu Mukherjee”, “David Anderson”,
+ * “This is the case where a real scholarly disagreeme…”. The bar is sticky and
+ * its background is opaque, so it does not clip on the line box; it paints over
+ * whatever happens to be under it, and where that is the middle of a line the
+ * reader gets the tops of the letters and nothing else.
+ *
+ * The cure is the one this application already uses wherever a line runs out of
+ * room (close.css, dossier.css): fade it. A 2rem gradient in the pager's own
+ * background colour rides directly above the bar, so the last line dissolves
+ * into the bar instead of being cut by it, and the fade itself says there is
+ * more below. Painted only — `pointer-events: none` — and only where the
+ * argument is actually chaptered: `.hgx[data-paged]` is written by paginate()
+ * itself, so the fade follows the pager and not the viewport width. Round 3
+ * moved the band off the width and this selector had to move with it — at
+ * 1366x768 the two parallel-text arguments are now chaptered in a rail column
+ * that is not a sheet, and under the old selector they were chaptered with the
+ * fade switched off, which is the sliced line back again on a laptop.
+ *
+ * Not a taller `padding-block-end` on the chapter: padding moves the END of the
+ * chapter, and the slice happens in the MIDDLE of one, wherever the reader has
+ * stopped scrolling.
+ */
+.hgx[data-paged='on'] .hgx-pager::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 100%;
+  block-size: 2rem;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in oklab, var(--surface-raised, var(--surface-page)) 0%, transparent) 0%,
+    color-mix(in oklab, var(--surface-raised, var(--surface-page)) 72%, transparent) 62%,
+    var(--surface-raised, var(--surface-page)) 100%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .hgx[data-paged='on'] .hgx-pager::before { block-size: 1rem; }
+}
+/* ================================= THE LINE SOMEBODY ELSE'S BAR CUT IN HALF ==
+ * Sibling to the pager fade, for the surfaces that have no pager: the index of
+ * all fourteen, and any argument short enough to read as one column.
+ *
+ * Measured at 390x844 with `#panel=historiography` open: the Close module pins
+ * its through-line block inside `.cx-sheet__body`, 33px tall at z-index 4, and
+ * the index's opening paragraph ran under it — `explain away, and asks you to
+ * choose and say` sliced horizontally through its x-height, exactly the defect
+ * the pager's own gradient exists to prevent on the other surface.
+ *
+ * `liftPager()` measures whatever is stuck across the foot of our reading
+ * window and writes `--hgx-foot-clear` and `data-footclear`. Nothing is painted
+ * unless something really is stuck there, so at 900, 1366 and 1440 — where the
+ * sheet's foot is ours — this costs nothing and renders nothing.
+ */
+.hgx-veil { display: none; }
+[data-footclear='on'] > .hgx-veil {
+  display: block;
+  position: sticky;
+  inset-block-end: var(--hgx-veil-at, 0px);
+  /* Tall enough to do both jobs: 2rem of gradient dissolving the line above
+     their bar, and a solid tail the height of the bar itself. Our z-index is
+     below theirs, so the tail paints BEHIND the bar and fills the strip of
+     scroller left under it, where a line of prose was showing through. */
+  block-size: calc(2rem + var(--hgx-foot-clear, 0px));
+  margin-block-start: calc(-2rem - var(--hgx-foot-clear, 0px));
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in oklab, var(--surface-raised, var(--surface-page)) 0%, transparent) 0,
+    color-mix(in oklab, var(--surface-raised, var(--surface-page)) 72%, transparent) 1.25rem,
+    var(--surface-raised, var(--surface-page)) 2rem,
+    var(--surface-raised, var(--surface-page)) 100%);
+}
+/* And the end of the list clears their bar rather than stopping under it. */
+[data-footclear='on'] { padding-block-end: var(--hgx-foot-clear, 0px); }
+@media (prefers-reduced-transparency: reduce) {
+  [data-footclear='on'] > .hgx-veil {
+    block-size: calc(1rem + var(--hgx-foot-clear, 0px));
+    margin-block-start: calc(-1rem - var(--hgx-foot-clear, 0px));
+  }
+}
+
+.hgx-pager__go {
+  appearance: none;
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  background: none;
+  padding: var(--space-3xs) var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  color: var(--text-body);
+  cursor: pointer;
+  min-height: 26px;
+}
+.hgx-pager__go:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-ink); }
+.hgx-pager__go:disabled { color: var(--text-min); border-color: var(--border-soft); cursor: default; }
+.hgx-pager__at {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+.hgx-pager__n { font-weight: var(--w-semibold); color: var(--text-heading); }
+.hgx-pager__lab { color: var(--text-heading); }
+/* Same defect, found in the same measurement, in the control that matters most:
+   `--focus-ring` is a colour, so this rule set the colour and left the style at
+   `none`. Back and Next — the only way through a chaptered argument — had no
+   visible focus ring at any viewport, for four rounds. */
+.hgx-pager__go:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* In the sheet band the type comes down one notch and the blocks tighten, so a
+   chapter is one screen rather than one-and-a-bit. Measured at 390x844: the
+   opening chapter went from 612px to 470px against a 198px window, and the
+   longest position card from 690px to 548px. */
+#app[data-rail='sheet'] .hgx-chap .hgx-pos { padding: var(--space-sm); }
+#app[data-rail='sheet'] .hgx-chap .hgx-pos__claim { font-size: var(--fs-small); line-height: var(--lh-ui); }
+#app[data-rail='sheet'] .hgx-chap .hgx-pos__ev dd { font-size: var(--fs-micro); }
+#app[data-rail='sheet'] .hgx-shape__figs { gap: var(--space-md); margin-block: var(--space-2xs) var(--space-2xs); }
+#app[data-rail='sheet'] .hgx > * + * { margin-block-start: var(--space-md); }
+
+/* What would decide it, named before it is discussed. */
+.hgx-settle p.hgx-settle__key {
+  margin: 0 0 var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+  padding-inline-start: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.hgx-settle p.hgx-settle__key .hgx-k { display: block; color: var(--text-min); }
+
+/* The years an argument is about, and the heading over texts from outside them.
+   A document made sixty-five years later is still evidence; it is not evidence
+   made at the time, and this is the line that says so. */
+.hgx-shape__span { margin-block-start: var(--space-2xs) !important; }
+.hgx-ev__when {
+  margin: var(--space-lg) 0 var(--space-2xs);
+  padding-block-start: var(--space-2xs);
+  border-block-start: var(--rule-fine) dashed var(--border-soft);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+/* The gate the lesson path mounts. It stands in somebody else's panel, so it
+   carries no card of its own — the surface around it is already a card. */
+.hgx--gate .hgx__lede {
+  margin-block-start: var(--space-2xs);
+  border-inline-start: var(--rule-mid) solid var(--accent);
+  padding-inline-start: var(--space-sm);
+}
+
+/* One source per chapter: a document, its four questions, and the words. The
+   wrapper carries no panel of its own — renderSource() already draws the card,
+   and above 62rem these run one after another in a single column exactly as
+   they did when they were one block. */
+.hgx-evpart > * + * { margin-block-start: var(--space-md); }
+.hgx-evpart .hgx__eyebrow { margin-block-end: var(--space-2xs); }
+
+/* =============================================== THE FOUR LINES YOU WRITE ====
+ * produce.js. Four documents in this module carry an exercise: the words are
+ * printed, the four provenance answers are not, and the student writes them
+ * before this atlas prints its own beside them.
+ *
+ * There is almost nothing new here on purpose. The boxes are `.hgx-ask__why`
+ * with a different name, the button is `.hgx-ask__go`, the panels are
+ * `.cx-panel`, and the chaptering, the pager and the fade are the module's
+ * own and know nothing about this file. What IS new is the comparison block,
+ * because nothing in the app had a shape for "your sentence, ours, and the
+ * thing a strong answer notices" — three registers that have to be told apart
+ * at a glance and in a 198px window.
+ */
+
+/* The document, alone. A quotation at prose size with nothing above it: the
+   four answers that normally stand there are the exercise. */
+.hgx-src__why {
+  margin: var(--space-2xs) 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.hgx-src__quote {
+  margin: 0;
+  border-inline-start: var(--rule-heavy) solid var(--accent);
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-sm);
+}
+.hgx-src__quote p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-src__cite {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.hgx-src__check { margin-block-start: var(--space-2xs); }
+.hgx-src__check .hgx-k { display: block; }
+.hgx-src__lead {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+
+/* The four boxes. Each carries its question and the hint that says what the
+   question is asking for, because "origin" on its own teaches nothing. */
+.hgx-src__form { display: block; }
+.hgx-src__ask { margin-block-end: var(--space-sm); }
+.hgx-src__field { margin-block-start: var(--space-md); }
+.hgx-src__flab {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.hgx-src__fhint { margin: var(--space-3xs) 0 var(--space-2xs); }
+.hgx-src__in {
+  display: block;
+  width: 100%;
+  padding: var(--space-xs);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+  resize: vertical;
+}
+/* `--focus-ring` is a COLOUR token, not an outline shorthand. Written as
+   `outline: var(--focus-ring)` it sets the colour, leaves `outline-style` at
+   `none`, and there is no ring at all — measured: getComputedStyle on a
+   keyboard-focused box returned "3px none". Every other focus rule in this
+   file spells out the width and the style, and so do these. */
+.hgx-src__in:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.hgx-src__count { margin-block-start: var(--space-sm); }
+.hgx-src__go { margin-block-start: var(--space-2xs); }
+.hgx-src__skip { display: block; margin-block-start: var(--space-sm); text-align: start; }
+.hgx-src__price { margin-block-start: var(--space-3xs); }
+
+/* ------------------------------------------------------- yours against ours --
+ * Three registers in one card, and the rules between them do the telling apart:
+ * the student's own sentence carries the accent edge this app uses for "you
+ * said" everywhere else; the atlas's is plain; and the criterion under both is
+ * set in the sans, smaller, as apparatus rather than as prose.
+ */
+.hgx-src__afterlede {
+  margin: var(--space-2xs) 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-src__quote--again { margin-block-start: var(--space-sm); }
+.hgx-src__cmp .hgx__eyebrow { display: block; margin-block-end: var(--space-2xs); }
+.hgx-src__hard { margin-block-end: var(--space-xs); }
+.hgx-src__side { margin-block-start: var(--space-sm); }
+.hgx-src__side .hgx-k { display: block; margin-block-end: var(--space-3xs); }
+.hgx-src__side[data-who='you'] {
+  border-inline-start: var(--rule-heavy) solid var(--accent-2, var(--accent));
+  padding-inline-start: var(--space-sm);
+}
+.hgx-src__side[data-who='atlas'] {
+  border-inline-start: var(--rule-fine) solid var(--border-firm);
+  padding-inline-start: var(--space-sm);
+}
+.hgx-src__said {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.hgx-src__said[data-empty='yes'] { color: var(--text-min); font-style: italic; }
+.hgx-src__notice {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+}
+.hgx-src__strong, .hgx-src__weak {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.hgx-src__weak { margin-block-start: var(--space-xs); color: var(--text-secondary); }
+.hgx-src__strong .hgx-k { display: block; color: var(--ok, var(--text-min)); }
+.hgx-src__weak .hgx-k { display: block; color: var(--warn, var(--text-min)); }
+/* THE PAIRING, under “what was it made to do?” and nowhere else.
+   It is a second criterion rather than a second answer, so it reads as an
+   aside: indented off a rule, in the caption size, with its own key. */
+.hgx-src__pair {
+  margin-block-start: var(--space-sm);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-fine) solid var(--border-soft);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.hgx-src__pair .hgx-k { display: block; color: var(--text-min); }
+#app[data-rail='sheet'] .hgx-chap .hgx-src__pair { font-size: var(--fs-micro); }
+
+.hgx-src__whole > * + * { margin-block-start: var(--space-sm); }
+.hgx-src__onward { margin-block-start: var(--space-md); }
+.hgx-src__when { margin-block-start: var(--space-2xs); }
+
+/* The index's own route to the four, under the fourteen. */
+.hgx-index__src { margin-block-start: var(--space-lg); }
+.hgx-index__list--src { margin-block-start: var(--space-sm); }
+
+/* In the sheet band the exercise tightens the same way a position card does:
+   the hints and the criteria come down a notch so one field is one screen. */
+#app[data-rail='sheet'] .hgx-chap .hgx-src__lead,
+#app[data-rail='sheet'] .hgx-chap .hgx-src__afterlede,
+#app[data-rail='sheet'] .hgx-chap .hgx-src__said,
+#app[data-rail='sheet'] .hgx-chap .hgx-src__quote p { font-size: var(--fs-small); line-height: var(--lh-ui); }
+#app[data-rail='sheet'] .hgx-chap .hgx-src__strong,
+#app[data-rail='sheet'] .hgx-chap .hgx-src__weak,
+#app[data-rail='sheet'] .hgx-chap .hgx-src__fhint { font-size: var(--fs-micro); }
+#app[data-rail='sheet'] .hgx-chap .hgx-src__field { margin-block-start: var(--space-sm); }
+
+/* The exercise's own commit button. Same treatment as the argument's, its own
+   class: two commitments on one surface need two names, or a selector meant
+   for one finds the other. */
+.hgx-src__go {
+  appearance: none;
+  display: block;
+  margin-block-start: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  min-height: 2.25rem;
+  border: var(--rule-fine) solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  cursor: pointer;
+}
+.hgx-src__go:hover:not(:disabled) { background: var(--accent-hover, var(--accent)); }
+.hgx-src__go:disabled { background: none; color: var(--text-min); border-color: var(--border-soft); cursor: default; }
+.hgx-src__go:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

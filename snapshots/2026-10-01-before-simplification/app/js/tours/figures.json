@@ -1,0 +1,418 @@
+{
+  "$note": "P05/P21 — NO CHECK, NO NUMBER, ON THE PATH.\n\nThe historian's round-1 ask and round 2's `must fix` for this piece: `core/warrant.js` enforces the rule for the dossier and `viz/content.js` for the charts, but THE NUMBERS A STUDENT MEETS ON THE PATH had neither. Beat 6 printed '£1.72m paid to Barbadian slave-owners for 83,150 people' — a Legacies of British Slave-ownership figure — while the Barbados dossier's evidence works were Beckles and Dunn supporting 'the whole narrative'. A figure traced to a whole narrative is not traced.\n\nSo every quantity the authored path prints in its own voice is registered here with the record that warrants it, and it is printed by writing `{{fig:<id>}}` in the prose rather than by typing the number. `tours/figures.js` substitutes the value, numbers the marker, and prints the warrant at the foot of the beat through core/warrant.js — the same four required fields, the same three classes, the same defect marker when one is missing. `tools/check-path-numbers.js` reads this file and every string in tours.json, gates.json and close.json and fails the build on a bare quantity that is not on its own allowlist.\n\nWHY SOME FIGURES CARRY TWO WARRANTS. A range is a claim about method as much as about magnitude, and one citation for both halves would be a lie about one of them. The Bengal 1770 toll rests on Dalrymple for the range this atlas prints and on Datta for the reason the range is that wide; the Amritsar toll rests on the two inquiries that produced the two counts. `readWarrants()` takes a list.\n\nWHY A FIGURE MAY CARRY A `dispute`. DIDACTIC_SPEC M18: 'Numbers about the past are estimates with methods behind them. Knowing why a number is uncertain is a higher skill than knowing the number.' A figure with a `dispute` prints a control that says why, in the words of the people who disagree, at the point where the number is met.",
+  "version": 1,
+  "figures": {
+    "compensation-barbados-money": {
+      "value": "£1.72 million",
+      "label": "paid to Barbadian slave-owners in 1836",
+      "warrant": {
+        "author": "Nicholas Draper",
+        "work": "The Price of Emancipation: Slave-Ownership, Compensation and British Society at the End of Slavery",
+        "year": 2010,
+        "kind": "book",
+        "supports": "The 1836 compensation award for Barbados: £1,721,345 to the registered owners of 83,150 enslaved people on the island.",
+        "check": "Legacies of British Slave-ownership, University College London — the database transcribes the Slave Compensation Commission's registers, T71, The National Archives, Kew."
+      }
+    },
+    "compensation-barbados-people": {
+      "value": "83,150",
+      "label": "enslaved people on Barbados, counted for the award and paid nothing",
+      "warrant": {
+        "author": "Nicholas Draper",
+        "work": "The Price of Emancipation",
+        "year": 2010,
+        "kind": "book",
+        "supports": "The number of enslaved people registered in the Barbados compensation claims: 83,150. Not one of them received any part of the award.",
+        "check": "Legacies of British Slave-ownership, University College London — Slave Compensation Commission registers, T71, The National Archives, Kew."
+      }
+    },
+    "compensation-national": {
+      "value": "£20 million",
+      "label": "the national compensation bill, 1834",
+      "warrant": {
+        "author": "Nicholas Draper",
+        "work": "The Price of Emancipation",
+        "year": 2010,
+        "kind": "book",
+        "supports": "The Slavery Abolition Act's compensation fund: £20 million, about 40 per cent of annual Treasury spending, paid to owners and not to the freed.",
+        "check": "Slave Compensation Commission, T71, The National Archives; Draper's appendix tables."
+      }
+    },
+    "compensation-loan-2015": {
+      "value": "2015",
+      "label": "the year the borrowing that paid for it was finally redeemed",
+      "warrant": {
+        "author": "UK Debt Management Office",
+        "work": "Redemption of the 4% Consolidated Loan",
+        "year": 2015,
+        "kind": "government record",
+        "supports": "The 1835 compensation borrowing was folded into undated consolidated stock, and the last of that stock was redeemed on 1 February 2015.",
+        "check": "UK Debt Management Office announcements, October 2014 and January 2015; HM Treasury's own statement of the redemption.",
+        "note": "The link between the 1835 loan and the 2015 redemption runs through the consolidated stock, not through a single traceable bond. That is what the record supports and it is the honest way to say it."
+      }
+    },
+    "bengal-1770-deaths": {
+      "value": "between roughly one and ten million people",
+      "label": "died in the Bengal famine of 1769–70",
+      "rangeReason": "There was no census. Every figure comes from an estimate made by someone with a reason to make it: the Company's own servants had reasons to minimise, its critics in London reasons to maximise, and the nineteenth-century 'one third of the province' came from a colonial administrator working back from revenue rolls.",
+      "dispute": {
+        "ask": "Why is this number disputed?",
+        "positions": [
+          "The high end — up to ten million, about a third of Bengal — comes from W. W. Hunter's *The Annals of Rural Bengal* (1868), which worked back from the Company's own revenue and settlement records. It has been reproduced ever since, including by people arguing against empire.",
+          "Rajat Datta's *Society, Economy and the Market* (2000) reads the district grain and price data and argues the mortality was far lower than Hunter's figure and very unevenly spread — catastrophic in some districts, survivable in others.",
+          "What is not disputed is the Company's conduct: the land revenue was collected through the famine, and its Governor wrote to London two years later that it had been \"violently kept up to its former standard\"."
+        ],
+        "lesson": "Knowing why a number is uncertain is a higher skill than knowing the number. This one is uncertain because the people who produced the estimates were parties to the event."
+      },
+      "warrant": [
+        {
+          "author": "William Dalrymple",
+          "work": "The Anarchy: The Relentless Rise of the East India Company",
+          "year": 2019,
+          "kind": "book",
+          "supports": "The 1770 Bengal famine's death toll, given as between roughly one and ten million, against a Company revenue collection that did not fall.",
+          "check": "Bloomsbury, 2019, chapter 6; and the Company's Bengal revenue records, IOR/E, British Library."
+        },
+        {
+          "author": "Rajat Datta",
+          "work": "Society, Economy and the Market: Commercialization in Rural Bengal, c.1760–1800",
+          "year": 2000,
+          "kind": "book",
+          "supports": "The reason the range is that wide: the mortality estimates rest on colonial revenue rolls rather than on any count, and Datta's district price and grain series argue for the low end.",
+          "check": "Manohar, 2000, chapters 8–9."
+        }
+      ]
+    },
+    "amritsar-official-dead": {
+      "value": "379",
+      "label": "the official count of the dead at Jallianwala Bagh, 13 April 1919",
+      "rangeReason": "Two inquiries counted, and they were counting different things: the official committee counted bodies identified and claimed, in a city under martial law where claiming a body was dangerous.",
+      "warrant": [
+        {
+          "author": "Disorders Inquiry Committee (the Hunter Committee)",
+          "work": "Report of the Committee appointed to investigate the disturbances in the Punjab, etc.",
+          "year": 1920,
+          "kind": "official inquiry",
+          "supports": "The official death toll at Jallianwala Bagh: 379 dead, with about 1,200 wounded, from roughly ten minutes of rifle fire.",
+          "check": "Cmd. 681, HMSO, 1920, and the evidence volumes Cmd. 534."
+        },
+        {
+          "author": "Indian National Congress Punjab Sub-Committee",
+          "work": "Report of the Commissioners appointed by the Punjab Sub-Committee of the Indian National Congress",
+          "year": 1920,
+          "kind": "inquiry",
+          "supports": "The Congress inquiry's own count, in the region of a thousand dead, taken from families rather than from official identification.",
+          "check": "Bombay, 1920, volume I."
+        }
+      ]
+    },
+    "barbados-landed": {
+      "value": "between 350,000 and 600,000",
+      "label": "African people landed in Barbados",
+      "rangeReason": "Barbados was a re-export market as well as a destination — captives were landed and sold on to other colonies — and the voyage records are incomplete, so the count of people landed and the count of people kept are different numbers and neither is complete.",
+      "warrant": [
+        {
+          "author": "David Eltis and David Richardson",
+          "work": "Atlas of the Transatlantic Slave Trade",
+          "year": 2010,
+          "kind": "reference work",
+          "supports": "The number of enslaved Africans disembarked in Barbados across the whole trade, given as a range because of re-export and incomplete voyage records.",
+          "check": "Yale University Press, 2010, and the underlying voyage records in the Trans-Atlantic Slave Trade Database (slavevoyages.org), which prints its own estimate ranges."
+        }
+      ]
+    },
+    "bengal-1943-deaths": {
+      "value": "two to three million",
+      "label": "died in the Bengal famine of 1943",
+      "rangeReason": "There was no vital registration to count from. The Famine Inquiry Commission of 1945 put the figure at about 1.5 million and later demographic work revised it upward; the range is the range of the methods, not of opinion.",
+      "warrant": [
+        {
+          "author": "Cormac Ó Gráda",
+          "work": "Famine: A Short History",
+          "year": 2009,
+          "kind": "book",
+          "supports": "The 1943 Bengal famine's excess mortality, and why the published estimates run from about 1.5 to about 3 million.",
+          "check": "Princeton University Press, 2009, chapter 4, with the demographic reworkings of the Famine Inquiry Commission's 1945 figure it reviews."
+        },
+        {
+          "author": "Amartya Sen",
+          "work": "Poverty and Famines: An Essay on Entitlement and Deprivation",
+          "year": 1981,
+          "kind": "book",
+          "supports": "That the 1943 deaths were a collapse in what a wage could buy rather than an absence of food — the entitlement argument this beat rests on.",
+          "check": "Clarendon Press, 1981, chapter 6."
+        }
+      ]
+    },
+    "ireland-famine": {
+      "value": "about a million dead and a million gone",
+      "label": "Ireland, 1845–52",
+      "rangeReason": "Excess mortality is worked back from the 1841 and 1851 censuses against the trend, and emigration from passenger lists that miss the poorest; both halves are estimates with a method behind them.",
+      "warrant": [
+        {
+          "author": "Cormac Ó Gráda",
+          "work": "Black '47 and Beyond: The Great Irish Famine in History, Economy, and Memory",
+          "year": 1999,
+          "kind": "book",
+          "supports": "Excess mortality in Ireland 1845–52 of roughly one million, with emigration of a comparable order, worked from the census returns.",
+          "check": "Princeton University Press, 1999, chapter 3; and the Census of Ireland, 1851, General Report."
+        }
+      ]
+    },
+    "company-army-1858": {
+      "value": "200,000",
+      "label": "men in the army the Company handed to the Crown in 1858, overwhelmingly Indian sepoys",
+      "warrant": [
+        {
+          "author": "Douglas M. Peers",
+          "work": "India under Colonial Rule 1700–1885",
+          "year": 2006,
+          "kind": "book",
+          "supports": "The size and composition of the East India Company's armies at the transfer to the Crown: on the order of 200,000 men, the great majority of them Indian sepoys under a small British officer corps.",
+          "check": "Pearson Longman, 2006, chapters 3 and 5."
+        }
+      ]
+    },
+    "jamaica-1831": {
+      "value": "perhaps sixty thousand",
+      "label": "people who left the fields in the Jamaica rising of Christmas 1831",
+      "rangeReason": "Nobody counted the people who came out; the figure is worked back from the estates that stopped and from the number tried afterwards, and the planters who reported it had reasons to make it large.",
+      "warrant": [
+        {
+          "author": "Michael Craton",
+          "work": "Testing the Chains: Resistance to Slavery in the British West Indies",
+          "year": 1982,
+          "kind": "book",
+          "supports": "The scale of the 1831–32 Jamaica rising — the Baptist War — led by the deacon Samuel Sharpe, and the estimate that on the order of sixty thousand enslaved people took part.",
+          "check": "Cornell University Press, 1982, part IV; and Mary Reckord, ‘The Jamaica Slave Rebellion of 1831’, Past and Present 40 (1968)."
+        }
+      ]
+    },
+    "singapore-surrender": {
+      "value": "80,000",
+      "label": "British, Indian and Australian troops who surrendered at Singapore, 15 February 1942",
+      "warrant": [
+        {
+          "author": "Ashley Jackson",
+          "work": "The British Empire and the Second World War",
+          "year": 2006,
+          "kind": "book",
+          "supports": "The size of the garrison that surrendered to a smaller Japanese force at Singapore on 15 February 1942, and what the surrender did to the claim of invincibility.",
+          "check": "Hambledon Continuum, 2006, the chapters on Malaya and Singapore; and C. M. Turnbull, A History of Modern Singapore, 1819–2005 (NUS Press, 2009)."
+        }
+      ]
+    },
+    "india-ww1-served": {
+      "value": "roughly 1.4 million",
+      "label": "Indians who served in the First World War",
+      "warrant": [
+        {
+          "author": "Santanu Das",
+          "work": "India, Empire and First World War Culture: Writings, Images, and Songs",
+          "year": 2018,
+          "kind": "book",
+          "supports": "The number of Indians recruited into the combatant and non-combatant services of the First World War, on the order of 1.4 million.",
+          "check": "Cambridge University Press, 2018, introduction; the India Office recruiting returns, IOR/L/MIL, British Library."
+        }
+      ]
+    },
+    "india-ww1-dead": {
+      "value": "about 74,000",
+      "label": "of them died",
+      "warrant": [
+        {
+          "author": "Commonwealth War Graves Commission",
+          "work": "Registers of the Indian forces commemorated for the First World War",
+          "year": 1931,
+          "kind": "record",
+          "supports": "The Indian dead of the First World War, commemorated on the Commission's registers and on the memorial at Neuve-Chapelle and the India Gate at Delhi.",
+          "check": "The Commission's own casualty records; the India Gate inscription lists the names it was able to record.",
+          "note": "A commemoration register is a count of the dead somebody recorded. Non-combatant followers were recorded less completely than soldiers, so this is a floor rather than a total."
+        }
+      ]
+    },
+    "india-ww2-volunteers": {
+      "value": "around 2.5 million",
+      "label": "Indians who volunteered for the Second World War — the largest volunteer army in history",
+      "warrant": [
+        {
+          "author": "Yasmin Khan",
+          "work": "The Raj at War: A People's History of India's Second World War",
+          "year": 2015,
+          "kind": "book",
+          "supports": "The size of the Indian volunteer army of 1939–45, and that it was raised without conscription in a country that was not asked whether it wished to be at war.",
+          "check": "The Bodley Head, 2015, introduction and chapters 2–3."
+        }
+      ]
+    },
+    "bengal-army-peak-1857": {
+      "value": "near 280,000",
+      "label": "the Company's armies at their peak, on the eve of 1857",
+      "warrant": [
+        {
+          "author": "Douglas M. Peers",
+          "work": "India under Colonial Rule 1700–1885",
+          "year": 2006,
+          "kind": "book",
+          "supports": "The size of the East India Company's three presidency armies immediately before the 1857 rebellion, and the disbandment of the mutinied Bengal regiments that brought the transferred force below it.",
+          "check": "Pearson Longman, 2006, chapter 5; and the Company's own army returns, IOR/L/MIL, British Library."
+        }
+      ]
+    },
+    "fled-to-british-lines": {
+      "value": "around twenty thousand",
+      "label": "enslaved people who reached British lines in the American war, 1775–83",
+      "rangeReason": "An older figure of a hundred thousand circulated for two centuries with no evidence behind it. Pybus rebuilt the number from the embarkation registers, muster rolls and claims records, which is why it is both smaller and checkable.",
+      "warrant": [
+        {
+          "author": "Cassandra Pybus",
+          "work": "Epic Journeys of Freedom: Runaway Slaves of the American Revolution and their Global Quest for Liberty",
+          "year": 2006,
+          "kind": "book",
+          "supports": "The number of enslaved people who reached British lines during the American war, reconstructed from the records rather than from the traditional estimate.",
+          "check": "Beacon Press, 2006, appendix; and Pybus, ‘Jefferson's Faulty Math: The Question of Slave Defections in the American Revolution’, William and Mary Quarterly 62 (2005)."
+        }
+      ]
+    },
+    "black-loyalists-nova-scotia": {
+      "value": "roughly three thousand",
+      "label": "carried to Nova Scotia as free people in 1783",
+      "warrant": [
+        {
+          "author": "British headquarters, New York",
+          "work": "The Book of Negroes",
+          "year": 1783,
+          "kind": "primary source",
+          "supports": "The embarkation register of Black Loyalists evacuated from New York in 1783, name by name, with age, former owner and the ship taken.",
+          "check": "PRO 30/55, The National Archives, Kew; transcribed in Cassandra Pybus, Epic Journeys of Freedom (2006)."
+        }
+      ]
+    },
+    "residential-schools": {
+      "value": "about 150,000",
+      "label": "First Nations, Inuit and Métis children taken into Canada's residential schools",
+      "warrant": [
+        {
+          "author": "Truth and Reconciliation Commission of Canada",
+          "work": "Honouring the Truth, Reconciling for the Future: Summary of the Final Report",
+          "year": 2015,
+          "kind": "official inquiry",
+          "supports": "The number of Indigenous children who passed through the residential school system between the 1880s and 1996, and the Commission's own finding of cultural genocide.",
+          "check": "The Commission's summary volume, 2015, and its six-volume final report; the school records themselves are in Library and Archives Canada."
+        }
+      ]
+    },
+    "partition-dead": {
+      "value": "from about 200,000 to about two million",
+      "label": "killed in the Partition of India, 1947",
+      "rangeReason": "No census was taken across the line and no authority counted. The low end comes from official and police returns made by administrations that had every reason to under-report; the high end from demographic work on the missing population of the 1951 censuses.",
+      "warrant": [
+        {
+          "author": "Yasmin Khan",
+          "work": "The Great Partition: The Making of India and Pakistan",
+          "year": 2007,
+          "kind": "book",
+          "supports": "The range of published estimates for the Partition dead, and why the range is that wide.",
+          "check": "Yale University Press, 2007, chapter 6."
+        },
+        {
+          "author": "Ian Talbot and Gurharpal Singh",
+          "work": "The Partition of India",
+          "year": 2009,
+          "kind": "book",
+          "supports": "The methods behind the two ends of the range: official returns against demographic reconstruction from the 1951 censuses.",
+          "check": "Cambridge University Press, 2009, chapter 3."
+        }
+      ]
+    },
+    "partition-displaced": {
+      "value": "between twelve and eighteen million",
+      "label": "people who crossed the new border in 1947–48",
+      "rangeReason": "The refugee counts are from relief camps and rail returns, which recorded people who used them; the 1951 censuses on both sides give a different and larger figure for people out of place.",
+      "warrant": [
+        {
+          "author": "Ian Talbot and Gurharpal Singh",
+          "work": "The Partition of India",
+          "year": 2009,
+          "kind": "book",
+          "supports": "The scale of the 1947–48 migration across the Radcliffe line, given as a range because the camp records and the census reconstructions do not agree.",
+          "check": "Cambridge University Press, 2009, chapter 3; and the Census of India and Census of Pakistan, 1951."
+        }
+      ]
+    },
+    "mau-mau-settlement": {
+      "value": "£19.9 million",
+      "label": "paid by the British government in 2013",
+      "warrant": [
+        {
+          "author": "William Hague, Secretary of State for Foreign and Commonwealth Affairs",
+          "work": "Statement to the House of Commons on the settlement of the Mau Mau claims",
+          "year": 2013,
+          "kind": "government record",
+          "supports": "The settlement of the Kenyan claimants' case: a payment and a statement of regret from the British government, without an admission of liability.",
+          "check": "Hansard, House of Commons, 6 June 2013; and Mutua and others v Foreign and Commonwealth Office [2012] EWHC 2678 (QB)."
+        }
+      ]
+    },
+    "mau-mau-claimants": {
+      "value": "5,228",
+      "label": "Kenyan claimants in the 2013 settlement",
+      "warrant": [
+        {
+          "author": "William Hague, Secretary of State for Foreign and Commonwealth Affairs",
+          "work": "Statement to the House of Commons on the settlement of the Mau Mau claims",
+          "year": 2013,
+          "kind": "government record",
+          "supports": "The number of surviving Kenyans covered by the 2013 settlement, each of whom had been detained during the Emergency.",
+          "check": "Hansard, House of Commons, 6 June 2013; the claimants' schedule in Mutua and others v FCO."
+        }
+      ]
+    },
+    "india-population": {
+      "value": "three hundred million",
+      "label": "the population of the Indian empire the Indian Civil Service administered",
+      "warrant": [
+        {
+          "author": "Government of India",
+          "work": "Census of India, 1911",
+          "year": 1911,
+          "kind": "official record",
+          "supports": "The population of the Indian empire, British provinces and princely states together, passing three hundred million in the decade before the First World War.",
+          "check": "Census of India 1911, volume I, General Report; the 1901 census gives 294 million on the same basis.",
+          "note": "A colonial census counts what an administration could reach and classifies people the way it wanted them classified. It is the best figure there is for this and it is not a neutral one."
+        }
+      ]
+    },
+    "princely-states-count": {
+      "value": "565",
+      "label": "princely states at independence, none of them British territory",
+      "warrant": [
+        {
+          "author": "Barbara N. Ramusack",
+          "work": "The Indian Princes and their States (The New Cambridge History of India III.6)",
+          "year": 2004,
+          "kind": "book",
+          "supports": "The number of princely states surviving to 1947 — conventionally given as 565 — held under British paramountcy by treaty rather than annexed, from Hyderabad, larger than Britain, down to estates of a few square miles.",
+          "check": "Ian Copland, The Princes of India in the Endgame of Empire, 1917–1947 (Cambridge University Press, 1997), chapter 1; and the Indian States tables of the Census of India, 1941.",
+          "note": "565 is the Political Department's own count of states in treaty relations. Counts range from about 550 to over 600 depending on whether the smallest estates and jagirs are included; the atlas prints the standard figure rather than pretending the boundary is sharp."
+        }
+      ]
+    },
+    "princely-share": {
+      "value": "two fifths",
+      "label": "of the subcontinent's area, never British territory",
+      "warrant": [
+        {
+          "author": "Barbara N. Ramusack",
+          "work": "The Indian Princes and their States (The New Cambridge History of India III.6)",
+          "year": 2004,
+          "kind": "book",
+          "supports": "The princely states covered roughly two fifths of the area of the subcontinent and about a quarter of its people at independence; the rest was British India, administered directly.",
+          "check": "Ian Copland, The Princes of India in the Endgame of Empire, 1917–1947 (Cambridge University Press, 1997); the areas tabulated in the Census of India, 1941, give about 1.85 of 4.2 million square kilometres.",
+          "note": "Two fifths is a share of AREA. The princely share of the population was smaller — about a quarter — because British India held the great cities and the most densely settled plains, which is why a map of direct rule looks bigger than it was and a census of it looks smaller."
+        }
+      ],
+      "$why": "DIDACTIC_SPEC §3's T11 says 'around a third'. This atlas's own dataset says two fifths in six places, including the M9 correction card for this exact misconception and the 1818 significance line, and the dossier prints it to the reader. Round 7, the historian: 'Pick one, and pick two fifths.' The beat, the Close and the dossier now agree, and this figure is where the agreement is warranted."
+    }
+  }
+}

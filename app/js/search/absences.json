@@ -1,0 +1,136 @@
+{
+  "$note": "AUTHORED POINTERS, NOT AUTHORED FACTS. silence.js derives every archival silence in this atlas from the shards themselves — a toll note that says nobody counted, a contested note that says no census exists, a record of files destroyed. This file adds only the four things a shard cannot compute: the question a student would actually type, the NAMED AGENT where the record names one (records do not get destroyed, people destroy them), the pointer to the disclosure event, and the 'what would settle it' line. Every number, every quotation and every date still comes from the dataset. An entry whose `anchor` no longer resolves is dropped silently, so this file can never assert a silence the data does not carry.",
+  "version": 1,
+  "entries": [
+    {
+      "id": "kenya-emergency",
+      "anchor": { "eventId": "mau-mau-emergency-1952" },
+      "also": [{ "territoryId": "kenya", "path": "consequences.violence" }],
+      "ask": "How many people died in the Kenya emergency?",
+      "answer": "This atlas will not give you one number, and the reason is not arithmetic.",
+      "triggers": [
+        "kenya deaths", "kenya dead", "mau mau deaths", "how many died in kenya",
+        "operation legacy", "hanslope", "hanslope park", "migrated archives",
+        "kenya records", "kenya files", "fco 141", "kenya killed"
+      ],
+      "agent": "Officials of the colonial government in Nairobi, at independence in 1963. What they did not burn, the Foreign and Commonwealth Office removed to Hanslope Park in Buckinghamshire and said did not exist.",
+      "disclosureEventId": "migrated-archives-2011",
+      "whatWouldSettleIt": "A complete, name-by-name register of who was detained, who was released and who died in the camps. The files that survive were chosen for removal, not left at random, so the gap they leave is not a random gap either. Until then the range is the honest answer and the reason for the range is the record, not the counting.",
+      "goto": { "year": 1954 }
+    },
+    {
+      "id": "stolen-generations",
+      "anchor": { "eventId": "stolen-generations" },
+      "also": [{ "territoryId": "commonwealth-of-australia", "path": "consequences.populationTransfer" }],
+      "ask": "How many Aboriginal children were taken from their families?",
+      "answer": "The 1997 inquiry refused to give a total, and said why.",
+      "triggers": [
+        "stolen generations", "aboriginal children removed", "how many aboriginal children",
+        "bringing them home", "australia removals"
+      ],
+      "agentUnknown": true,
+      "whatWouldSettleIt": "The mission, police and welfare-board registers for every Australian state and territory, complete, and matched against the testimony the inquiry collected. Bringing Them Home gave a proportion rather than a total precisely because it could not do that.",
+      "goto": { "year": 1937 }
+    },
+    {
+      "id": "residential-schools",
+      "anchor": { "territoryId": "canada", "path": "consequences.populationTransfer" },
+      "ask": "How many children died in Canada's residential schools?",
+      "answer": "The Truth and Reconciliation Commission published a floor, not a total, and said so.",
+      "triggers": [
+        "residential schools", "canada residential school deaths", "unmarked graves",
+        "how many children died in residential schools", "truth and reconciliation"
+      ],
+      "agentUnknown": true,
+      "whatWouldSettleIt": "The school-by-school admission and death registers, complete, held against the burial grounds now being surveyed. The Commission worked from what survived and said in terms that the real number is higher.",
+      "goto": { "year": 1930 }
+    },
+    {
+      "id": "amritsar-count",
+      "anchor": { "eventId": "amritsar-massacre-1919" },
+      "ask": "How many people were killed at Jallianwala Bagh?",
+      "answer": "Three counts exist and they do not agree. The geography is why.",
+      "triggers": [
+        "amritsar deaths", "jallianwala bagh deaths", "how many died at amritsar",
+        "amritsar killed", "hunter commission"
+      ],
+      "agent": "The Hunter Commission, appointed by the Government of India, which could not compel evidence and did not go into the garden with a list. The Congress inquiry counted separately, and the Amritsar civil authorities asked families to come forward afterwards; 501 came.",
+      "whatWouldSettleIt": "A list of the dead made at the garden, by someone with the authority to compel evidence. The Hunter Commission had neither the access nor that power, and the Amritsar authorities' list of 501 names was made afterwards, by asking families to come forward. This is the one figure in this atlas set beside an official count on purpose: 379 is a counted number, and it is still not the answer.",
+      "goto": { "year": 1919 }
+    },
+    {
+      "id": "partition-count",
+      "anchor": { "eventId": "partition-of-india-1947" },
+      "ask": "How many people died at Partition?",
+      "answer": "No authority was counting while it happened.",
+      "triggers": [
+        "partition deaths", "how many died at partition", "partition dead",
+        "radcliffe line deaths", "partition displaced"
+      ],
+      "agent": "No one. The administration that would have registered the deaths was itself being partitioned in the same weeks, and both new governments had reasons not to publish a total afterwards.",
+      "whatWouldSettleIt": "A civil registration system running through August and September 1947 in Punjab and Bengal. There was none: the administration that would have kept it was itself being divided. The 1951 censuses of two new states are what historians reason from, and they can only show who was missing afterwards.",
+      "goto": { "year": 1947 }
+    },
+    {
+      "id": "bengal-1770",
+      "anchor": { "eventId": "bengal-famine-1770" },
+      "ask": "How many people died in the Bengal famine of 1770?",
+      "answer": "The estimates were made by the people being blamed.",
+      "triggers": [
+        "bengal famine 1770 deaths", "how many died in the bengal famine",
+        "bengal 1770", "third of bengal"
+      ],
+      "agent": "The East India Company's own servants, who supplied the estimate of a third of Bengal dead — and whose revenue policy during the famine is what the estimate is used to judge.",
+      "whatWouldSettleIt": "A population count of Bengal before 1769 and another after 1771. Neither exists; the first Indian census was taken a century later. Every figure on either side of this argument is an inference from revenue records kept by the Company whose revenue policy is what is being argued about.",
+      "goto": { "year": 1770 }
+    },
+    {
+      "id": "asante-dead",
+      "anchor": { "territoryId": "ashanti", "path": "consequences.violence" },
+      "ask": "How many Asante people were killed in the wars with Britain?",
+      "answer": "One side kept returns. The other side is an estimate.",
+      "triggers": [
+        "asante deaths", "ashanti deaths", "how many asante died", "kumasi burned"
+      ],
+      "agent": "British military returns, which counted British and West African troops in British pay. Nobody was appointed to count Asante dead, and the decision not to appoint anyone is the silence.",
+      "whatWouldSettleIt": "Asante's own casualty records, if any survive the burning of Kumasi in 1874 and the occupation of 1896. Failing that, the silence itself is the finding: the British army counted the people it was responsible for and did not count the people it fought.",
+      "goto": { "year": 1900 }
+    },
+    {
+      "id": "oman-jebel-akhdar",
+      "anchor": { "eventId": "jebel-akhdar-war-1957" },
+      "ask": "How many Omanis were killed in the Jebel Akhdar war?",
+      "answer": "The RAF counted its sorties. Nobody counted the people underneath them.",
+      "triggers": [
+        "oman deaths", "jebel akhdar deaths", "oman bombing deaths", "jebel akhdar"
+      ],
+      "agent": "The Royal Air Force kept the operations record: over a thousand sorties, and the deliberate destruction of falaj irrigation channels and crops. No one was recording what happened on the ground under them.",
+      "whatWouldSettleIt": "Ground casualty reporting of any kind from the mountain villages in 1958–59. What exists instead is an operations record of the aircraft, which is a count of what was sent and not of what it hit.",
+      "goto": { "year": 1958 }
+    },
+    {
+      "id": "ina-dead",
+      "anchor": { "eventId": "indian-national-army-1942-1946" },
+      "ask": "How many soldiers of the Indian National Army died?",
+      "answer": "An army in retreat destroyed its own paperwork.",
+      "triggers": [
+        "indian national army deaths", "ina deaths", "bose army deaths", "imphal retreat deaths"
+      ],
+      "agentUnknown": true,
+      "whatWouldSettleIt": "The INA's own nominal rolls, or the Japanese formation returns that would have carried them. The estimate here is built from unit strengths at the start of the 1944 campaign and from who was still alive to be tried in 1945.",
+      "goto": { "year": 1945 }
+    },
+    {
+      "id": "chagos-removed",
+      "anchor": { "eventId": "chagos-removal-1968" },
+      "ask": "How many Chagossians were removed from the islands?",
+      "answer": "The dispute is about who counted as an islander, and Britain wrote that definition.",
+      "triggers": [
+        "chagos removal", "how many chagossians", "diego garcia removal", "chagos islanders"
+      ],
+      "agent": "The British government, which drew the line between a contract worker and a resident and then applied it to the people it was removing.",
+      "whatWouldSettleIt": "The plantation registers read against a definition of residence that the removing government did not draft. Classing long-settled families as contract workers was the mechanism by which the population could be described as having no permanent inhabitants.",
+      "goto": { "year": 1971 }
+    }
+  ]
+}

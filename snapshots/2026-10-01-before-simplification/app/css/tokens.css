@@ -1,0 +1,739 @@
+/* =============================================================================
+   THE BRITISH EMPIRE ATLAS — DESIGN TOKENS
+   Owned by the design-system agent. Other agents: consume these, never fork them.
+   Rationale, palette proofs and the rules you must follow: docs/DESIGN.md
+   Colour proof: node tools/design/cvd-check.js --both
+
+   The feeling: a great printed historical atlas — hand-tinted plates, engraved
+   lettering, rag paper — that has come alive under glass. Warm, authoritative,
+   precise. Restraint over pastiche: no fake sepia, no torn paper, no neon.
+
+   Contents
+     1  Fonts (vendored, offline)
+     2  Type scale, leading, tracking, measure
+     3  Space, rules, radii, shadows
+     4  Motion
+     5  Z layers
+     6  Palette — paper (light, primary)
+     7  Palette — lamplit (night)
+     8  Map palette (light + night) — the most important colours in the app
+     9  Semantic aliases
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   1  FONTS — all vendored under app/assets/fonts/. Nothing is fetched at runtime.
+
+   Source Serif 4  (Frank Grießhammer, SIL OFL) — a transitional serif in the
+      Fournier / Baskerville line, with a real optical-size axis. Prose and
+      display. It has the sharp, engraved gravity of an atlas plate and it
+      survives being set at 11px in a dossier table.
+   Source Sans 3   (Paul D. Hunt, SIL OFL) — humanist sans, drawn to the same
+      proportions. UI chrome only: buttons, labels, legend, controls.
+   IBM Plex Mono   (Mike Abbink & Bold Monday, SIL OFL) — tabular figures for
+      every date, count and duration. Digits are the same width, so 1815 and
+      1947 line up in a column the way they do in a printed gazetteer.
+
+   Variable where the family offers it: one file covers 200–900, so weight is
+   free. font-display: swap + unicode-range so latin-ext only loads for the
+   macrons and accents that colonised place-names actually need.
+----------------------------------------------------------------------------- */
+
+/* --- Source Serif 4 : variable 200–900, roman --- */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../assets/fonts/source-serif-4-var-roman-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../assets/fonts/source-serif-4-var-roman-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* --- Source Serif 4 : variable 200–900, italic --- */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../assets/fonts/source-serif-4-var-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../assets/fonts/source-serif-4-var-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --- Source Sans 3 : variable 300–700 roman, 400–600 italic --- */
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../assets/fonts/source-sans-3-var-roman-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../assets/fonts/source-sans-3-var-roman-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/source-sans-3-var-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/source-sans-3-var-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --- IBM Plex Mono : 400 / 500 / 600 + 400 italic --- */
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-400-roman-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-400-roman-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-500-roman-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-500-roman-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-600-roman-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-600-roman-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-400-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('../assets/fonts/ibm-plex-mono-400-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  /* ---------------------------------------------------------------------------
+     2  TYPE
+     Fallbacks are real: each stack degrades to a system face of the same class
+     and similar metrics, so a swap does not reflow the page into a new shape.
+  --------------------------------------------------------------------------- */
+  --font-serif: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino,
+                'Book Antiqua', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                'Helvetica Neue', 'Lucida Grande', Arial, sans-serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SF Mono', SFMono-Regular, Menlo,
+                Consolas, 'DejaVu Sans Mono', monospace;
+
+  /* Weight — variable axes, so these are exact, not rounded to 400/700. */
+  --w-light: 300;
+  --w-book: 380;          /* body serif: a hair under regular, prints lighter    */
+  --w-regular: 400;
+  --w-medium: 520;
+  --w-semibold: 600;
+  --w-bold: 680;
+  --w-heavy: 780;         /* display only                                        */
+
+  /* Type scale — a 1.213 ratio, tuned by hand at the small end where a pure
+     geometric run gives unusable half-pixels. Nothing below 12px exists. */
+  --fs-micro:   0.75rem;    /* 12px — the floor. Legend keys, source sigla.      */
+  --fs-caption: 0.8125rem;  /* 13px — captions, table notes, axis labels         */
+  --fs-small:   0.875rem;   /* 14px — UI default, dense tables                   */
+  --fs-base:    1rem;       /* 16px — UI body, buttons                           */
+  --fs-prose:   1.0625rem;  /* 17px — serif reading size                         */
+  --fs-lede:    1.1875rem;  /* 19px — standfirst, pull quotes                    */
+  --fs-h4:      1.375rem;   /* 22px                                              */
+  --fs-h3:      1.6875rem;  /* 27px                                              */
+  --fs-h2:      2.0625rem;  /* 33px                                              */
+  --fs-h1:      2.5rem;     /* 40px                                              */
+  --fs-display: 3.0625rem;  /* 49px — chapter openers                            */
+  --fs-plate:   3.8125rem;  /* 61px — the title plate, used once                 */
+
+  /* The display sizes are for a wide plate. On a phone they must come down or a
+     two-word heading breaks the layout — so the four largest steps are fluid.
+     Everything from --fs-lede down is fixed: reading sizes should not wobble. */
+
+  /* Leading */
+  --lh-solid: 1;
+  --lh-tight: 1.14;      /* display headings                                     */
+  --lh-snug: 1.28;       /* headings, legend rows                                */
+  --lh-ui: 1.42;         /* UI text, buttons                                     */
+  --lh-prose: 1.62;      /* body serif at --fs-prose                             */
+  --lh-loose: 1.78;      /* footnotes, wide measure                              */
+
+  /* Tracking. Serif display wants negative; small caps and micro labels want
+     positive. Never track lowercase body text. */
+  --tr-plate: -0.022em;
+  --tr-display: -0.016em;
+  --tr-heading: -0.009em;
+  --tr-normal: 0;
+  --tr-ui: 0.006em;
+  --tr-micro: 0.02em;
+  --tr-caps: 0.075em;    /* the small-caps utility                               */
+  --tr-caps-wide: 0.13em;/* eyebrow labels above a heading                       */
+
+  /* Measure — Bringhurst's 66 characters, with a narrow and a wide sibling. */
+  --measure: 66ch;
+  --measure-narrow: 48ch;
+  --measure-wide: 74ch;
+
+  /* ---------------------------------------------------------------------------
+     3  SPACE, RULES, RADII, SHADOWS
+  --------------------------------------------------------------------------- */
+  --space-3xs: 0.125rem;  /*  2px */
+  --space-2xs: 0.25rem;   /*  4px */
+  --space-xs:  0.375rem;  /*  6px */
+  --space-sm:  0.5rem;    /*  8px */
+  --space-md:  0.75rem;   /* 12px */
+  --space-lg:  1rem;      /* 16px */
+  --space-xl:  1.5rem;    /* 24px */
+  --space-2xl: 2rem;      /* 32px */
+  --space-3xl: 3rem;      /* 48px */
+  --space-4xl: 4rem;      /* 64px */
+  --space-5xl: 6rem;      /* 96px */
+
+  /* Rule weights. An engraver has four line weights and no more. */
+  --rule-hair: 0.5px;   /* graticule, table row separators                       */
+  --rule-fine: 1px;     /* panel edges, coastlines, the default                  */
+  --rule-mid: 1.5px;    /* selected territory outline, active tab underline      */
+  --rule-heavy: 3px;    /* section rule under a chapter title                    */
+
+  /* Radii — this is print. Corners are square unless a control needs to read as
+     pressable. Nothing is ever a "pill" except a status chip. */
+  --radius-none: 0;
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 5px;
+  --radius-pill: 999px;
+
+  /* Shadows — a card lying on paper under glass. Warm, low, never blue-black,
+     never glowing. Every one carries a hairline so the edge survives on a
+     light ground where the blur alone would vanish. */
+  --shadow-hairline: 0 0 0 1px var(--edge-soft);
+  --shadow-raised:
+      0 0 0 1px var(--edge-soft),
+      0 1px 1px rgb(45 34 20 / 0.045),
+      0 2px 5px -2px rgb(45 34 20 / 0.07);
+  --shadow-panel:
+      0 0 0 1px var(--edge-soft),
+      0 1px 2px rgb(45 34 20 / 0.05),
+      0 8px 20px -10px rgb(45 34 20 / 0.16);
+  --shadow-lifted:
+      0 0 0 1px var(--edge-soft),
+      0 2px 4px rgb(45 34 20 / 0.06),
+      0 18px 44px -18px rgb(45 34 20 / 0.26);
+  --shadow-plate:               /* the map itself, sunk under glass */
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      inset 0 0 0 1px var(--edge-soft),
+      inset 0 12px 24px -18px rgb(45 34 20 / 0.30);
+  --shadow-well: inset 0 1px 2px rgb(45 34 20 / 0.10);
+
+  /* ---------------------------------------------------------------------------
+     4  MOTION — paper does not bounce. Things settle.
+  --------------------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:       cubic-bezier(0.55, 0, 0.85, 0.25);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-settle:   cubic-bezier(0.22, 1, 0.28, 1);  /* a plate laid under glass */
+
+  --dur-instant: 80ms;    /* hover tint, focus ring                              */
+  --dur-fast: 140ms;      /* button press, chip toggle                           */
+  --dur-normal: 220ms;    /* panel open, tooltip                                 */
+  --dur-slow: 360ms;      /* dossier slide-in                                    */
+  --dur-deliberate: 560ms;/* map re-projection, chapter change                   */
+  --dur-map-year: 700ms;  /* one year of timeline playback                       */
+
+  /* ---------------------------------------------------------------------------
+     5  Z LAYERS — named, so nobody ever writes z-index: 9999 again.
+  --------------------------------------------------------------------------- */
+  --z-below: -1;
+  --z-base: 0;
+  --z-map-overlay: 10;   /* graticule labels, scale bar                          */
+  --z-panel: 20;         /* dossier, legend                                      */
+  --z-sticky: 30;        /* sticky table headers, timeline rail                  */
+  --z-header: 40;        /* app masthead                                         */
+  --z-popover: 50;       /* territory hover card                                 */
+  --z-tooltip: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+  --z-max: 90;           /* skip link, nothing else                              */
+}
+
+/* Fluid display sizes. Below 30rem the plate size is 34px, at 64rem and above it
+   is the full 61px; the same curve carries h1 and h2 with it. */
+@media (max-width: 64rem) {
+  :root {
+    --fs-plate:   clamp(2.125rem, 1.05rem + 5.4vw, 3.8125rem);
+    --fs-display: clamp(1.875rem, 1.05rem + 4.1vw, 3.0625rem);
+    --fs-h1:      clamp(1.6875rem, 1.05rem + 3.2vw, 2.5rem);
+    --fs-h2:      clamp(1.5rem, 1.10rem + 2.0vw, 2.0625rem);
+    --fs-h3:      clamp(1.375rem, 1.16rem + 1.1vw, 1.6875rem);
+  }
+}
+
+/* =============================================================================
+   6  PALETTE — PAPER (light). The primary theme. This is the one the app opens in.
+
+   Never pure black and never pure white: --ink is a warm near-black at L* 13,
+   --paper a rag off-white at L* 96. Pure #000 on #FFF is a screen accident;
+   printed ink on printed paper never does that, and the eye tires under it.
+   ========================================================================== */
+:root,
+:root[data-theme='paper'] {
+  color-scheme: light;
+
+  /* Surfaces, lightest to deepest */
+  --paper:        #F8F5F0;  /* the page                                          */
+  --paper-raised: #FDFBF7;  /* panels, cards, the dossier                        */
+  --paper-sunk:   #F0EBE2;  /* wells, table stripes, inactive tabs               */
+  --paper-edge:   #E7E0D4;  /* the margin outside the map plate                  */
+  --paper-veil:   rgb(248 245 240 / 0.86);  /* scrim over the map               */
+
+  /* Ink */
+  --ink:        #241F19;  /* 15.03:1 on --paper                                  */
+  --ink-strong: #14110D;  /* headings only                                       */
+  --ink-muted:  #5A5148;  /*  7.14:1 — captions, secondary prose                 */
+  --ink-faint:  #776E64;  /*  4.60:1 — the floor for any text at all             */
+  --ink-ghost:  #A79D90;  /*  2.7:1  — DECORATIVE ONLY. Never set type in this.  */
+  --ink-invert: #FBF8F3;  /* type on a dark or saturated fill                    */
+
+  /* Rules and edges */
+  --rule-colour:      #DCD4C6;
+  --rule-colour-soft: #EAE3D7;
+  --rule-colour-firm: #BFB5A3;
+  --edge-soft: rgb(45 34 20 / 0.085);
+  --edge-firm: rgb(45 34 20 / 0.18);
+
+  /* Accent — the imperial madder, taken straight from the map's crown-colony
+     fill so the interface and the territory speak with one voice. Used for
+     links, the current year, the focus ring. Never for decoration. */
+  --accent:        #AE3D35;  /* = --map-crown-conquered                          */
+  --accent-ink:    #8A2B26;  /* 7.87:1 on paper — link and button text           */
+  --accent-hover:  #7A2521;
+  --accent-soft:   #F3DED9;  /* tinted background behind a selected row          */
+  --accent-veil:   rgb(174 61 53 / 0.12);
+
+  /* Secondary accent — the admiralty blue of a chart's compass rose. Used for
+     the timeline rail and "you are here" marks, so the map's madder stays rare. */
+  --accent-2:      #2F5D80;
+  --accent-2-ink:  #244B69;  /* 6.9:1 on paper                                   */
+  --accent-2-soft: #DDE8F0;
+
+  /* States. Colour is never the only signal: pair each with an icon or a word. */
+  --ok:      #3F6B45;  --ok-soft:      #E0EBDF;
+  --warn:    #8A6116;  --warn-soft:    #F6EAD1;   /* "date contested"            */
+  --danger:  #99342B;  --danger-soft:  #F5DFDB;
+  --info:    #2F5D80;  --info-soft:    #DDE8F0;
+
+  --selection-bg: #F0DCC9;
+  --selection-fg: #241F19;
+  --focus-ring:   #8A2B26;
+  --focus-halo:   #FBF8F3;
+
+  --scrollbar-thumb: #C9C0B0;
+  --scrollbar-thumb-hover: #ADA290;
+  --scrollbar-track: transparent;
+
+  /* --- 8a  MAP PALETTE, PAPER --------------------------------------------
+     Generated by tools/design/build-palette.js from tuned OKLCH anchors and
+     proved by tools/design/cvd-check.js. Worst-case separation across all 45
+     category pairs, under normal / protanopia / deuteranopia / tritanopia:
+     6.81 dE00. 36 pairs clear 12 dE00 on colour alone; the other 9 also carry
+     a different engraved texture (--tex-* below). Do not hand-edit a hex here. */
+  --map-sea:        #BCD8EB;
+  --map-sea-deep:   #A9CCE4;   /* ocean beyond the continental shelf             */
+  --map-coast:      #6E7F8C;   /* the coastline hairline. Always drawn.          */
+  --map-graticule:  rgb(45 34 20 / 0.10);
+  --map-border:     rgb(45 34 20 / 0.34);  /* political boundary                 */
+  --map-border-hot: #241F19;               /* boundary of the selected place     */
+  --map-label:      #241F19;
+  --map-label-sea:  #46617A;
+  --map-label-halo: rgb(248 245 240 / 0.88);
+  --map-plate-edge: #BFB5A3;   /* the ruled frame around the whole map           */
+
+  --map-never-british: #EEE9DE;
+  --map-never-british-hover: #E2DBCA;
+  --map-never-british-selected: #D6CCB4;
+  --map-never-british-stroke: #88847B;
+  --map-never-british-on: #14110D;
+
+  --map-lost-former: #BBB6B1;
+  --map-lost-former-hover: #B2A99F;
+  --map-lost-former-selected: #A79A8B;
+  --map-lost-former-stroke: #5B5753;
+  --map-lost-former-on: #14110D;
+
+  --map-dominion: #FDC3B9;
+  --map-dominion-hover: #FAB0A4;
+  --map-dominion-selected: #F49C8E;
+  --map-dominion-stroke: #91635C;
+  --map-dominion-on: #14110D;
+
+  --map-settlement: #CF786F;
+  --map-settlement-hover: #EC7B71;
+  --map-settlement-selected: #FF857A;
+  --map-settlement-stroke: #641F1C;
+  --map-settlement-on: #14110D;
+
+  --map-crown-conquered: #AE3D35;
+  --map-crown-conquered-hover: #AF0D14;
+  --map-crown-conquered-selected: #9C0006;
+  --map-crown-conquered-stroke: #FFA99E;
+  --map-crown-conquered-on: #FBF8F3;
+
+  --map-company-rule: #DAAF64;
+  --map-company-rule-hover: #D59E33;
+  --map-company-rule-selected: #CA8F00;
+  --map-company-rule-stroke: #725000;
+  --map-company-rule-on: #14110D;
+
+  --map-lease: #61A093;
+  --map-lease-hover: #3D9786;
+  --map-lease-selected: #008C79;
+  --map-lease-stroke: #014238;
+  --map-lease-on: #14110D;
+
+  --map-protectorate: #5583B0;
+  --map-protectorate-hover: #3977B0;
+  --map-protectorate-selected: #0F69AE;
+  --map-protectorate-stroke: #B6DCFF;
+  --map-protectorate-on: #14110D;
+
+  --map-mandate: #694479;
+  --map-mandate-hover: #7B4990;
+  --map-mandate-selected: #8E50A7;
+  --map-mandate-stroke: #C39ED3;
+  --map-mandate-on: #FBF8F3;
+
+  --map-occupied: #493A2F;
+  --map-occupied-hover: #594432;
+  --map-occupied-selected: #6B4E37;
+  --map-occupied-stroke: #9F9084;
+  --map-occupied-on: #FBF8F3;
+
+  /* Tenure ramp — how long a place was held. One hue, seven steps, monotone in
+     L* under every vision model (steps of 8–12 L*), so it can never be mistaken
+     for a status. tenure-1 = under 10 years … tenure-7 = 150 years or more. */
+  --tenure-1: #F5E6E2;
+  --tenure-2: #E6C4BC;
+  --tenure-3: #D6A299;
+  --tenure-4: #C58177;
+  --tenure-5: #B25F57;
+  --tenure-6: #9E3C3A;
+  --tenure-7: #890C1D;
+  --tenure-none: #EEE9DE;   /* never held */
+
+  /* Engraved texture ink — the plate hatching drawn over a status fill. */
+  --tex-ink: rgb(45 34 20 / 0.22);
+  --tex-ink-soft: rgb(45 34 20 / 0.13);
+}
+
+/* =============================================================================
+   7  PALETTE — LAMPLIT (night). A map room after dark: one warm lamp, deep
+   inky sea, land the colour of old leather. Not a dark-mode dashboard — the
+   ground stays warm and the plates keep their hue identity from the day theme.
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='paper']) {
+    color-scheme: dark;
+
+    --paper:        #15120E;
+    --paper-raised: #1E1A15;
+    --paper-sunk:   #100D0A;
+    --paper-edge:   #0C0A07;
+    --paper-veil:   rgb(21 18 14 / 0.88);
+
+    --ink:        #EFE7D7;  /* 15.19:1 on --paper                                */
+    --ink-strong: #FBF5E9;
+    --ink-muted:  #B4A891;  /*  8.0:1                                            */
+    --ink-faint:  #8C8271;  /*  4.93:1 — the floor                               */
+    --ink-ghost:  #5E574B;
+    --ink-invert: #15120E;
+
+    --rule-colour:      #342E25;
+    --rule-colour-soft: #26211B;
+    --rule-colour-firm: #4C4437;
+    --edge-soft: rgb(255 244 220 / 0.10);
+    --edge-firm: rgb(255 244 220 / 0.22);
+
+    --accent:        #C7594B;
+    --accent-ink:    #E48A78;  /* 7.4:1 on --paper                               */
+    --accent-hover:  #F0A08D;
+    --accent-soft:   #3A211B;
+    --accent-veil:   rgb(199 89 75 / 0.20);
+
+    --accent-2:      #5F94BE;
+    --accent-2-ink:  #8FB8D9;
+    --accent-2-soft: #1B2833;
+
+    --ok:      #79A87E;  --ok-soft:      #1D281E;
+    --warn:    #D2A44E;  --warn-soft:    #302615;
+    --danger:  #DE7C6E;  --danger-soft:  #331B17;
+    --info:    #7FAAD0;  --info-soft:    #16222D;
+
+    --selection-bg: #4A3623;
+    --selection-fg: #FBF5E9;
+    --focus-ring:   #E4B36A;
+    --focus-halo:   #15120E;
+
+    --scrollbar-thumb: #453C30;
+    --scrollbar-thumb-hover: #5E5343;
+    --scrollbar-track: transparent;
+
+    --shadow-hairline: 0 0 0 1px var(--edge-soft);
+    --shadow-raised:
+        0 0 0 1px var(--edge-soft),
+        0 1px 2px rgb(0 0 0 / 0.45);
+    --shadow-panel:
+        0 0 0 1px var(--edge-soft),
+        0 2px 4px rgb(0 0 0 / 0.40),
+        0 10px 26px -12px rgb(0 0 0 / 0.72);
+    --shadow-lifted:
+        0 0 0 1px var(--edge-firm),
+        0 3px 6px rgb(0 0 0 / 0.45),
+        0 24px 56px -20px rgb(0 0 0 / 0.85);
+    --shadow-plate:
+        inset 0 1px 0 rgb(255 244 220 / 0.06),
+        inset 0 0 0 1px var(--edge-soft),
+        inset 0 14px 30px -20px rgb(0 0 0 / 0.85);
+    --shadow-well: inset 0 1px 3px rgb(0 0 0 / 0.55);
+
+    /* --- 8b  MAP PALETTE, LAMPLIT ----------------------------------------
+       Tuned in its own right, not derived from the day set. Worst-case
+       separation across all 45 pairs and all four vision models: 8.44 dE00.
+       Land stands >= 12 dE00 off the sea; because two near-blacks compress in
+       CIEDE2000, the night theme ALWAYS draws --map-coast. */
+    --map-sea:        #0B1B2A;
+    --map-sea-deep:   #071523;
+    --map-coast:      #6E8496;
+    --map-graticule:  rgb(220 230 240 / 0.10);
+    --map-border:     rgb(239 231 215 / 0.30);
+    --map-border-hot: #FBF5E9;
+    --map-label:      #EFE7D7;
+    --map-label-sea:  #93A9BC;
+    --map-label-halo: rgb(11 27 42 / 0.85);
+    --map-plate-edge: #4C4437;
+
+    --map-never-british: #27231E;
+    --map-never-british-hover: #352F25;
+    --map-never-british-selected: #463D2E;
+    --map-never-british-stroke: #77746E;
+    --map-never-british-on: #F3ECDE;
+
+    --map-lost-former: #423F3B;
+    --map-lost-former-hover: #534B43;
+    --map-lost-former-selected: #655A4D;
+    --map-lost-former-stroke: #989490;
+    --map-lost-former-on: #F3ECDE;
+
+    --map-dominion: #FFC9BF;
+    --map-dominion-hover: #F9B3A7;
+    --map-dominion-selected: #F09D8F;
+    --map-dominion-stroke: #936860;
+    --map-dominion-on: #0F0C09;
+
+    --map-settlement: #C57670;
+    --map-settlement-hover: #E47D75;
+    --map-settlement-selected: #FF857D;
+    --map-settlement-stroke: #5C1E1C;
+    --map-settlement-on: #0F0C09;
+
+    --map-crown-conquered: #B14936;
+    --map-crown-conquered-hover: #D24831;
+    --map-crown-conquered-selected: #F3482C;
+    --map-crown-conquered-stroke: #FFB4A4;
+    --map-crown-conquered-on: #F3ECDE;
+
+    --map-company-rule: #D6AC60;
+    --map-company-rule-hover: #CF9929;
+    --map-company-rule-selected: #BF8700;
+    --map-company-rule-stroke: #704D00;
+    --map-company-rule-on: #0F0C09;
+
+    --map-lease: #6AA69A;
+    --map-lease-hover: #65BAA9;
+    --map-lease-selected: #61D0BB;
+    --map-lease-stroke: #0D483E;
+    --map-lease-on: #0F0C09;
+
+    --map-protectorate: #5587B6;
+    --map-protectorate-hover: #5297D4;
+    --map-protectorate-selected: #52A8F4;
+    --map-protectorate-stroke: #002C50;
+    --map-protectorate-on: #0F0C09;
+
+    --map-mandate: #795288;
+    --map-mandate-hover: #8D59A2;
+    --map-mandate-selected: #A463BD;
+    --map-mandate-stroke: #D4ADE4;
+    --map-mandate-on: #F3ECDE;
+
+    --map-occupied: #5B4431;
+    --map-occupied-hover: #705035;
+    --map-occupied-selected: #865D39;
+    --map-occupied-stroke: #B39C89;
+    --map-occupied-on: #F3ECDE;
+
+    --tenure-1: #3C2F2C;
+    --tenure-2: #5C403A;
+    --tenure-3: #7E5149;
+    --tenure-4: #A16259;
+    --tenure-5: #C6736B;
+    --tenure-6: #EB847E;
+    --tenure-7: #FF9693;
+    --tenure-none: #27231E;
+
+    --tex-ink: rgb(255 244 220 / 0.20);
+    --tex-ink-soft: rgb(255 244 220 / 0.11);
+  }
+}
+
+/* An explicit choice always wins over the system preference, in both
+   directions. [data-theme="lamplit"] repeats the night block verbatim. */
+:root[data-theme='lamplit'] {
+  color-scheme: dark;
+
+  --paper: #15120E;  --paper-raised: #1E1A15;  --paper-sunk: #100D0A;
+  --paper-edge: #0C0A07;  --paper-veil: rgb(21 18 14 / 0.88);
+  --ink: #EFE7D7;  --ink-strong: #FBF5E9;  --ink-muted: #B4A891;
+  --ink-faint: #8C8271;  --ink-ghost: #5E574B;  --ink-invert: #15120E;
+  --rule-colour: #342E25;  --rule-colour-soft: #26211B;  --rule-colour-firm: #4C4437;
+  --edge-soft: rgb(255 244 220 / 0.10);  --edge-firm: rgb(255 244 220 / 0.22);
+  --accent: #C7594B;  --accent-ink: #E48A78;  --accent-hover: #F0A08D;
+  --accent-soft: #3A211B;  --accent-veil: rgb(199 89 75 / 0.20);
+  --accent-2: #5F94BE;  --accent-2-ink: #8FB8D9;  --accent-2-soft: #1B2833;
+  --ok: #79A87E;  --ok-soft: #1D281E;
+  --warn: #D2A44E;  --warn-soft: #302615;
+  --danger: #DE7C6E;  --danger-soft: #331B17;
+  --info: #7FAAD0;  --info-soft: #16222D;
+  --selection-bg: #4A3623;  --selection-fg: #FBF5E9;
+  --focus-ring: #E4B36A;  --focus-halo: #15120E;
+  --scrollbar-thumb: #453C30;  --scrollbar-thumb-hover: #5E5343;  --scrollbar-track: transparent;
+
+  --shadow-hairline: 0 0 0 1px var(--edge-soft);
+  --shadow-raised: 0 0 0 1px var(--edge-soft), 0 1px 2px rgb(0 0 0 / 0.45);
+  --shadow-panel: 0 0 0 1px var(--edge-soft), 0 2px 4px rgb(0 0 0 / 0.40), 0 10px 26px -12px rgb(0 0 0 / 0.72);
+  --shadow-lifted: 0 0 0 1px var(--edge-firm), 0 3px 6px rgb(0 0 0 / 0.45), 0 24px 56px -20px rgb(0 0 0 / 0.85);
+  --shadow-plate: inset 0 1px 0 rgb(255 244 220 / 0.06), inset 0 0 0 1px var(--edge-soft), inset 0 14px 30px -20px rgb(0 0 0 / 0.85);
+  --shadow-well: inset 0 1px 3px rgb(0 0 0 / 0.55);
+
+  --map-sea: #0B1B2A;  --map-sea-deep: #071523;  --map-coast: #6E8496;
+  --map-graticule: rgb(220 230 240 / 0.10);  --map-border: rgb(239 231 215 / 0.30);
+  --map-border-hot: #FBF5E9;  --map-label: #EFE7D7;  --map-label-sea: #93A9BC;
+  --map-label-halo: rgb(11 27 42 / 0.85);  --map-plate-edge: #4C4437;
+
+  --map-never-british: #27231E;  --map-never-british-hover: #352F25;
+  --map-never-british-selected: #463D2E;  --map-never-british-stroke: #77746E;  --map-never-british-on: #F3ECDE;
+  --map-lost-former: #423F3B;  --map-lost-former-hover: #534B43;
+  --map-lost-former-selected: #655A4D;  --map-lost-former-stroke: #989490;  --map-lost-former-on: #F3ECDE;
+  --map-dominion: #FFC9BF;  --map-dominion-hover: #F9B3A7;
+  --map-dominion-selected: #F09D8F;  --map-dominion-stroke: #936860;  --map-dominion-on: #0F0C09;
+  --map-settlement: #C57670;  --map-settlement-hover: #E47D75;
+  --map-settlement-selected: #FF857D;  --map-settlement-stroke: #5C1E1C;  --map-settlement-on: #0F0C09;
+  --map-crown-conquered: #B14936;  --map-crown-conquered-hover: #D24831;
+  --map-crown-conquered-selected: #F3482C;  --map-crown-conquered-stroke: #FFB4A4;  --map-crown-conquered-on: #F3ECDE;
+  --map-company-rule: #D6AC60;  --map-company-rule-hover: #CF9929;
+  --map-company-rule-selected: #BF8700;  --map-company-rule-stroke: #704D00;  --map-company-rule-on: #0F0C09;
+  --map-lease: #6AA69A;  --map-lease-hover: #65BAA9;
+  --map-lease-selected: #61D0BB;  --map-lease-stroke: #0D483E;  --map-lease-on: #0F0C09;
+  --map-protectorate: #5587B6;  --map-protectorate-hover: #5297D4;
+  --map-protectorate-selected: #52A8F4;  --map-protectorate-stroke: #002C50;  --map-protectorate-on: #0F0C09;
+  --map-mandate: #795288;  --map-mandate-hover: #8D59A2;
+  --map-mandate-selected: #A463BD;  --map-mandate-stroke: #D4ADE4;  --map-mandate-on: #F3ECDE;
+  --map-occupied: #5B4431;  --map-occupied-hover: #705035;
+  --map-occupied-selected: #865D39;  --map-occupied-stroke: #B39C89;  --map-occupied-on: #F3ECDE;
+
+  --tenure-1: #3C2F2C;  --tenure-2: #5C403A;  --tenure-3: #7E5149;  --tenure-4: #A16259;
+  --tenure-5: #C6736B;  --tenure-6: #EB847E;  --tenure-7: #FF9693;  --tenure-none: #27231E;
+  --tex-ink: rgb(255 244 220 / 0.20);  --tex-ink-soft: rgb(255 244 220 / 0.11);
+}
+
+/* =============================================================================
+   9  SEMANTIC ALIASES — what components should actually reference. If you find
+   yourself reaching past these into a raw --paper-* or --map-* value, say why.
+   ========================================================================== */
+:root {
+  --surface-page: var(--paper);
+  --surface-panel: var(--paper-raised);
+  --surface-well: var(--paper-sunk);
+  --surface-margin: var(--paper-edge);
+
+  --text-body: var(--ink);
+  --text-heading: var(--ink-strong);
+  --text-secondary: var(--ink-muted);
+  --text-caption: var(--ink-muted);
+  --text-min: var(--ink-faint);
+  --text-on-accent: var(--ink-invert);
+
+  --link: var(--accent-ink);
+  --link-hover: var(--accent-hover);
+
+  --border-default: var(--rule-colour);
+  --border-soft: var(--rule-colour-soft);
+  --border-firm: var(--rule-colour-firm);
+
+  /* Every date, year, count, percentage and duration in this app uses these. */
+  --font-figures: var(--font-mono);
+  --figures-feature: 'tnum' 1, 'zero' 1;
+
+  /* The engraved textures, as ready-made background-images. Sized in px so they
+     stay the same weight whatever the map is zoomed to. Layer one of these over
+     a status fill; the map renderer mirrors them as SVG <pattern> elements. */
+  --tex-plain: none;
+  --tex-rule-h: repeating-linear-gradient(0deg,
+      var(--tex-ink) 0 0.5px, transparent 0.5px 6px);
+  --tex-rule-v: repeating-linear-gradient(90deg,
+      var(--tex-ink) 0 0.5px, transparent 0.5px 6px);
+  --tex-hatch-45: repeating-linear-gradient(45deg,
+      var(--tex-ink) 0 0.5px, transparent 0.5px 6px);
+  --tex-hatch-135: repeating-linear-gradient(135deg,
+      var(--tex-ink) 0 0.5px, transparent 0.5px 6px);
+  --tex-hatch-135-dense: repeating-linear-gradient(135deg,
+      var(--tex-ink) 0 0.75px, transparent 0.75px 3.5px);
+  --tex-cross:
+      repeating-linear-gradient(0deg, var(--tex-ink) 0 0.5px, transparent 0.5px 7px),
+      repeating-linear-gradient(90deg, var(--tex-ink) 0 0.5px, transparent 0.5px 7px);
+  --tex-stipple: radial-gradient(var(--tex-ink) 0.65px, transparent 0.75px);
+  --tex-stipple-size: 5px 5px;
+  --tex-stipple-coarse: radial-gradient(var(--tex-ink) 0.9px, transparent 1px);
+  --tex-stipple-coarse-size: 9px 9px;
+}

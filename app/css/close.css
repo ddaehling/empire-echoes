@@ -1,0 +1,1041 @@
+/* ==========================================================================
+   close.css — P21. THE THROUGH-LINE, AT EVERY WIDTH.
+
+   WHY THIS FILE EXISTS. The through-line — the sentence a student assembles
+   across the whole lesson and signs at the Close — is rendered into
+   `data-mount="statusbar"`, which lives in `.app__foot`. Measured on the build
+   before this pass, cold-loaded into a beat of the authored path:
+
+     390x844   data-foot="off"  .cl-bar 0x0     six clauses in the DOM, NONE drawn
+     768x1024  data-foot="off"  .cl-bar 0x0     six clauses in the DOM, NONE drawn
+     900x700   data-foot="on"   .cl-bar 564x18  TWO of six drawn
+     1366x768  data-foot="on"   .cl-bar 924x18  FIVE of six drawn from beat 9 on
+     1440x900  data-foot="on"   .cl-bar 976x18  FIVE of six drawn from beat 9 on
+
+   So the app's memorability centrepiece was invisible on the device most
+   students hold, and shortened even on a 1440 projector — and the clause it
+   dropped first was clause 1, the oldest, which is the one a student is
+   furthest from remembering.
+
+   TWO RULES, AND THEY ARE THE WHOLE FILE.
+
+   1. A CLAUSE IS NEVER DROPPED. The line no longer sheds its oldest clause to
+      fit; it scrolls. All six are in the box at every width, the sentence can
+      be read end to end with a thumb or with Tab, and the ellipsis that used
+      to stand for lost words is gone.
+   2. WHERE THERE IS NO STRIP, THERE IS STILL A SENTENCE. At
+      `#app[data-foot="off"]` (RESPONSIVE_LAW §6) the strip does not exist at
+      all, so the through-line renders as the beat panel's own last block —
+      full clauses, wrapped, in the column the student is already reading, with
+      the route to the Close on it. That route matters twice over: the footer
+      control is the only pointer route to the Any-Exit Close, and at
+      390x844 it was not on screen, which left Esc Esc — a key a phone does not
+      have — as the only way in.
+
+   Owner: P21. It is loaded after tours.css and overrides §6 of it on purpose.
+   ========================================================================== */
+
+/* ==========================================================================
+   0. EVERY `.cl-` CLASS IS STYLED HERE NOW.
+
+   Until this wave the through-line strip, the Any-Exit Close, the revision
+   drawer and the signature block were styled in `tours.css` §6 — another
+   piece's stylesheet, on the argument that the path and its ending are one
+   experience. That section is gone from `tours.css` as of this wave and the
+   Close came back unstyled: the stand line lost its figures, the twelve-line
+   argument lost its grid, and the greyed lines lost the one thing that makes
+   them read as greyed.
+
+   ARCHITECTURE §2 says a module owns one directory and one stylesheet. So the
+   ink for every element `app/js/close/` renders is here, in the file that
+   belongs to the piece that renders it, and it cannot be taken away again.
+   Every value is a token; nothing below invents a colour or a size.
+   ========================================================================== */
+
+/* 0.1 The strip in the footer: the sentence, and the way out of it. */
+.cl-bar {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-lg);
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+.cl-bar[hidden] { display: none !important; }
+
+/* The scroller's margin. It exists to carry the two chevrons: a mask fade is a
+   hint and an arrow is a fact, and round 3 read the fade as "no visible cue
+   that there is more to the left". */
+.cl-say__wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+.cl-say__wrap::before,
+.cl-say__wrap::after {
+  position: absolute;
+  inset-block: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-bold);
+  line-height: 1;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+.cl-say__wrap::before { content: '\2039'; inset-inline-start: -0.55rem; }
+.cl-say__wrap::after  { content: '\203A'; inset-inline-end: -0.55rem; }
+.cl-say__wrap[data-more='start']::before,
+.cl-say__wrap[data-more='both']::before { display: flex; }
+.cl-say__wrap[data-more='end']::after,
+.cl-say__wrap[data-more='both']::after  { display: flex; }
+/* The chevron stands OUTSIDE the box, in the gap the strip's own flex gap
+   leaves, so it never sits on a word: a cue drawn over the text it is a cue
+   about is a cue that costs a word to give. */
+.cl-say__wrap[data-more='start'],
+.cl-say__wrap[data-more='both'] { margin-inline-start: 0.85rem; }
+.cl-say__wrap[data-more='end'],
+.cl-say__wrap[data-more='both'] { margin-inline-end: 0.85rem; }
+
+/* "Read it whole". Measured after a full walk of the path: the sentence is
+   1,258px and the strip's window is 446px at 900x700 and 806px at 1366x768, so
+   two thirds of it is off the end of the box at every width the strip exists
+   at. Scrolling reads it serially; this control reads it as one thing. */
+.cl-bar__whole {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 0.45em 0.2em;
+  margin: -0.45em 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-colour-firm);
+  text-underline-offset: 0.22em;
+}
+.cl-bar__whole:hover { color: var(--accent-ink); text-decoration-color: var(--accent-ink); }
+.cl-bar__whole:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.cl-bar__whole[aria-expanded='true'] { color: var(--accent-ink); }
+
+/* The sentence opened out, pinned from JS-measured numbers against the strip's
+   own rectangle. `position: fixed` rather than `bottom: 100%`, because the
+   strip lives in a row 26-32px tall whose overflow belongs to the shell; and
+   capped at the top of the time bar, so it never reaches the plate — which
+   RESPONSIVE_LAW §1 forbids outright in the docked band, where 900x700 is. */
+.cl-say__all {
+  position: fixed;
+  inset-inline-start: var(--cl-all-left, 0);
+  inline-size: var(--cl-all-w, 20rem);
+  inset-block-end: var(--cl-all-bottom, 2rem);
+  max-block-size: var(--cl-all-max, 9rem);
+  overflow-y: auto;
+  z-index: 60;
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  background: var(--paper-raised);
+  border: var(--rule-fine) solid var(--rule-colour-firm);
+  border-radius: var(--radius-sm, 2px);
+  box-shadow: var(--shadow-lifted);
+}
+/* THE FOOTER IS A ONE-LINE ROW AND EVERYTHING IN IT INHERITS THAT. Measured:
+   the opened copy came out 924x69 with the sentence running off its own right
+   edge at "turned into a global syst" — a box built to wrap, not wrapping,
+   because `white-space: nowrap` reaches it from the strip it is anchored to.
+   It is re-set here, on the box and on the paragraph, and nowhere else. */
+.cl-say__all,
+.cl-say__all * { white-space: normal; }
+.cl-say__all .cl-blk__say {
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  max-inline-size: var(--measure, 46em);
+}
+.cl-say__all .cl-blk__head { margin-block-end: var(--space-2xs); }
+
+.cl-say {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+/* The lead and the joins are the sentence's own words, not furniture, and the
+   strip sits on `--paper-sunk` rather than `--paper`: measured, `--text-min`
+   comes out at 4.21:1 on that ground — under the floor tokens.css sets for any
+   text at all. `--text-secondary` is 6.54:1 there and still stands the joins
+   down behind the clauses the student has earned, which are set in
+   `--text-body`. */
+.cl-say__lead, .cl-say__join { color: var(--text-secondary); }
+.cl-say__g { white-space: nowrap; }
+.cl-say__filled { color: var(--text-body); font-style: italic; }
+.cl-say__blank {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.35em 0.15em;
+  margin: -0.35em 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--text-min);
+}
+.cl-say__blank--flat { cursor: default; }
+.cl-say__rule {
+  display: inline-block;
+  inline-size: 2.4rem;
+  block-size: 0.7em;
+  border-block-end: var(--rule-mid) solid var(--border-firm);
+}
+.cl-say__blank:hover .cl-say__rule,
+.cl-say__blank:focus-visible .cl-say__rule { border-block-end-color: var(--accent-ink); }
+.cl-say__blank:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.cl-finish { flex: 0 0 auto; white-space: nowrap; }
+.cl-finish[data-primary='yes'] { color: var(--accent-ink); font-weight: var(--w-bold); }
+
+/* 0.2 The Any-Exit Close. */
+.cl-close { font-family: var(--font-sans); }
+.cl-close__stand {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.cl-close__standnote {
+  display: block;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.cl-close__sheetnote {
+  margin: 0 0 var(--space-lg);
+  padding-block-end: var(--space-md);
+  border-block-end: var(--rule-fine) solid var(--border-soft);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.cl-close__toprint { display: inline-block; }
+
+/* 0.3 The twelve-line argument. A line the student can defend is set in full;
+   one they cannot is greyed, and carries the evidence and its price. */
+.cl-lines { list-style: none; margin: 0 0 var(--space-xl); padding: 0; }
+.cl-line {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  column-gap: var(--space-sm);
+  margin-block-end: var(--space-md);
+}
+.cl-line__n { font-family: var(--font-figures); font-size: var(--fs-caption); color: var(--text-min); }
+.cl-line__text {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+  max-inline-size: var(--measure, 66ch);
+}
+/* A LINE THIS STUDENT CANNOT YET DEFEND IS STILL A LINE THEY MUST BE ABLE TO
+   READ. It used to be set in `--ink-ghost`, which tokens.css labels in as many
+   words "2.7:1 — DECORATIVE ONLY. Never set type in this" — and for a student
+   who stops after four beats that is ten of the thirteen lines of the
+   argument, at a contrast the design system forbids. `--text-min` is the
+   floor for text (4.60:1 light, 4.93:1 dark) and still reads as clearly
+   stood-down beside the 15:1 of a line they have earned. */
+.cl-line[data-can='no'] .cl-line__text { color: var(--text-min); }
+.cl-line[data-can='no'] .cl-line__n { color: var(--text-min); }
+.cl-line__mine {
+  grid-column: 2;
+  margin: var(--space-xs) 0 0;
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--accent-ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.cl-line__minelab {
+  color: var(--accent-ink);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  font-size: var(--fs-micro);
+}
+.cl-line__missing {
+  grid-column: 2;
+  margin: var(--space-xs) 0 0;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.cl-line__lab {
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.cl-line__go { margin-inline-start: var(--space-sm); }
+
+/* 0.4 The blocks under it: the gates placed, the push-back, what is left, the
+   signature, the doors, the actions. */
+.cl-block {
+  margin-block: var(--space-xl);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+}
+.cl-block__row {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.cl-block__row--declined { color: var(--danger); }
+
+.cl-push__field, .cl-sign__field {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 34rem;
+  margin-block: var(--space-sm);
+  padding: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: 2px;
+  resize: vertical;
+}
+.cl-push__field:focus-visible, .cl-sign__field:focus-visible,
+.cl-sign__name:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+
+.cl-sign__scaffold {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+  color: var(--text-secondary);
+}
+.cl-sign__gap { border-block-end: var(--rule-mid) solid var(--border-firm); padding-inline: 1.6em; }
+.cl-sign__row { display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap; }
+.cl-sign__name {
+  flex: 1 1 8rem;
+  min-inline-size: 0;
+  max-inline-size: 18rem;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: 2px;
+}
+.cl-sign__done { color: var(--accent-ink); font-size: var(--fs-caption); margin-block-start: var(--space-sm); }
+
+.cl-remaining__names {
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  line-height: var(--lh-loose);
+}
+
+.cl-door { margin-block-end: var(--space-md); }
+.cl-door__l { margin: 0; font-family: var(--font-serif); font-size: var(--fs-base); line-height: var(--lh-prose); color: var(--text-body); }
+.cl-door__b { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); line-height: var(--lh-ui); color: var(--text-min); }
+
+.cl-actions {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-block-start: var(--space-xl);
+}
+
+/* 0.5 The drawer: everything this student committed to, in their own voice. */
+.cl-ledger__row { padding-block: var(--space-sm); border-block-end: var(--rule-hair) solid var(--border-soft); }
+.cl-ledger__kind {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+.cl-ledger__said { margin: var(--space-2xs) 0; font-family: var(--font-serif); font-size: var(--fs-base); line-height: var(--lh-prose); }
+.cl-ledger__lab { color: var(--text-min); }
+.cl-ledger__ans { margin: 0; font-size: var(--fs-caption); color: var(--text-secondary); }
+
+/* ==========================================================================
+   1. THE LINE — one row, all six clauses, scrolled not shortened.
+   ========================================================================== */
+
+.cl-say {
+  /* `text-overflow: ellipsis` on a nowrap line cuts wherever the pixel runs
+     out, which is why tours.css §6 had to shed whole clauses to keep from
+     ending a word mid-letter. A scroll container has no such problem: nothing
+     is cut, so nothing has to be thrown away. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-overflow: clip;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline proximity;
+  /* A 26px strip cannot carry a scrollbar without becoming a scrollbar. The
+     affordance is the fade at the ends (§1.1) and the clauses themselves,
+     which are buttons and therefore Tab stops. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.cl-say::-webkit-scrollbar { block-size: 0; inline-size: 0; display: none; }
+.cl-say__g { scroll-snap-align: start; }
+
+/* 1.1 The end fade — only when there is something past the edge, and only at
+   the end there is something past. Set from JS as `data-more`, because CSS
+   cannot ask a box whether it is scrolled. */
+/* The fade never reaches zero at the edge. A mask that starts fully
+   transparent ghosts the first WHOLE word as well as the half-word behind it —
+   measured at 900x700, the "I" of "India, on Indian money" came out at about a
+   quarter of its ink — and a clause a student has earned may not be the price
+   of an affordance. 15 % at the edge is enough to read "there is more this
+   way" and not enough to take a word away. */
+.cl-say[data-more='end']   { mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.75rem), rgba(0,0,0,0.15) 100%); }
+.cl-say[data-more='start'] { mask-image: linear-gradient(to right, rgba(0,0,0,0.15) 0, #000 1.75rem, #000 100%); }
+.cl-say[data-more='both']  { mask-image: linear-gradient(to right, rgba(0,0,0,0.15) 0, #000 1.75rem, #000 calc(100% - 1.75rem), rgba(0,0,0,0.15) 100%); }
+
+/* A scrollable region with no focusable child cannot be reached by a keyboard
+   (WCAG 2.1.1), and once every clause is filled there are no buttons left in
+   it. JS gives it `tabindex="0"` in exactly that case. */
+.cl-say[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The clause a reader has just earned is the one worth looking at, so the line
+   is scrolled to it. It gets a hairline underneath for one beat so the reader
+   can see WHICH word arrived, rather than being handed a moved line. */
+.cl-say__filled[data-new='yes'],
+.cl-blk__filled[data-new='yes'] { border-block-end: var(--rule-mid) solid var(--accent-ink); }
+
+/* ==========================================================================
+   2. THE BLOCK — the through-line where there is no strip.
+   `#app[data-foot="off"]`: 390x844 and 768x1024, per RESPONSIVE_LAW §6.
+   ========================================================================== */
+
+/* THE SPINE. Measured on the build this replaces, at 390x844 inside beat 9:
+   `.cx-sheet__body` is a 198px window on 386px of content, `.cl-blk` was 172px
+   of that content, and its top edge sat at y=660 — the window's last pixel. Six
+   clauses in the document, none drawn, and the beat paying 172px of scroll for
+   the privilege. Sticky to the foot of the same scroller it already lived in,
+   it is 28px, always on screen, immediately above the timeline, and it gives
+   the beat back 144px of scroll length. */
+.cl-blk {
+  position: sticky;
+  inset-block-end: 0;
+  z-index: 4;
+  display: block;
+  margin-block: var(--space-md) 0;
+  padding: 0;
+  border-block-start: var(--rule-mid) solid var(--border-firm);
+  background: var(--paper-raised);
+}
+.cl-blk__spine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+  min-block-size: 1.75rem;
+  padding-block: var(--space-3xs);
+}
+/* The toggle carries the count, so the count IS the visible label and the
+   accessible name opens with it (WCAG 2.5.3). The hit box is 44 x 28 with the
+   negative margin giving the height back to the row. */
+.cl-blk__toggle {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  border: 0;
+  background: transparent;
+  padding: 0.5em 0.3em;
+  margin: -0.35em -0.15em;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.cl-blk__toggle:hover { color: var(--accent-ink); }
+.cl-blk__toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.cl-blk__chev::before { content: '\25BE'; font-size: var(--fs-micro); line-height: 1; }
+.cl-blk[data-open='yes'] .cl-blk__chev::before { content: '\25B4'; }
+/* Opened, the one-line copy stands down: the wrapped paragraph directly below
+   it is the same sentence in fuller words, and two of them is two sentences. */
+.cl-blk[data-open='yes'] .cl-blk__spine > .cl-say__wrap { display: none; }
+/* Opened, the row is the toggle and the way out, and the block below names
+   itself. Two labels for one sentence is one label too many. */
+.cl-blk[data-open='yes'] .cl-blk__finish { margin-inline-start: auto; }
+/* The opened block is capped by the scroller it is sticky inside — `--cl-port`
+   is that scroller's own clientHeight, published from JS in `_paintPanel`,
+   because CSS cannot ask an ancestor how tall it is. Without the cap a spine
+   taller than its port cannot be sticky at all and the sentence goes back
+   under the fold it was just rescued from. */
+.cl-blk__full {
+  max-block-size: calc(var(--cl-port, 12rem) - 3.25rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block: var(--space-sm) var(--space-sm);
+  border-block-start: var(--rule-fine) solid var(--rule-colour-soft);
+}
+.cl-blk__full[hidden] { display: none; }
+.cl-blk__line { flex: 1 1 auto; }
+.cl-blk__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-sm);
+}
+.cl-blk__lab {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-caps);
+  color: var(--text-min);
+}
+.cl-blk__count {
+  font-family: var(--font-figures);
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.cl-blk__say {
+  margin: 0;
+  font-family: var(--font-serif);
+  /* A REFERENCE BLOCK AT THE FOOT OF A PANEL, NOT THE PANEL'S HEADLINE.
+     Measured at 390x844: the beat panel's scroller (`.cx-sheet__body`) is
+     223px tall and beat 1 is already 929px long, so a through-line set at
+     `--fs-base` with `--lh-loose` cost 360px — a screen and a half of a panel
+     the student is reading for something else. At caption size with prose
+     leading it is about 150, and it still wraps, which is the whole advantage
+     a block has over a one-line strip. */
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+}
+.cl-blk__filled { color: var(--text-body); font-style: italic; }
+
+/* A ruled gap with its number on it. The question that fills it travels on the
+   control — `title` for a pointer, `aria-label` for a screen reader — and the
+   next one is named in full in the foot, where it is a route out rather than
+   an interruption in the middle of a sentence. */
+.cl-blk__gap {
+  appearance: none;
+  display: inline-block;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text-min);
+  /* A TOUCH TARGET, WITHOUT MOVING THE LINE. Measured at 390x844, the hit box
+     is 56 x 38 — over WCAG 2.5.8's 24 x 24 with room to spare, and as tall as
+     it can be before two blanks on adjacent lines start overlapping each
+     other's targets on a 22px line. The negative margin gives the height back
+     to the paragraph, so six of these do not add six line-heights to a panel
+     with 223px of viewport. */
+  padding: 0.6em 0.2em;
+  margin: -0.6em 0;
+  vertical-align: baseline;
+}
+.cl-blk__rule {
+  display: inline-block;
+  inline-size: 2.6rem;
+  block-size: 0.7em;
+  border-block-end: var(--rule-mid) solid var(--border-firm);
+}
+.cl-blk__n {
+  font-family: var(--font-figures);
+  font-size: var(--fs-micro);
+  vertical-align: super;
+  line-height: 1;
+  color: var(--text-min);
+  margin-inline-start: 0.15em;
+}
+.cl-blk__gap:hover .cl-blk__rule,
+.cl-blk__gap:focus-visible .cl-blk__rule { border-block-end-color: var(--accent-ink); }
+.cl-blk__gap:hover .cl-blk__n, .cl-blk__gap:focus-visible .cl-blk__n { color: var(--accent-ink); }
+.cl-blk__gap:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+/* Before the reader has touched anything the sentence is a promise, not a
+   menu — the same rule tours.css states for `.cl-say__blank--flat`. */
+.cl-blk__gap--flat { cursor: default; }
+
+.cl-blk__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-sm) 0 0;
+}
+.cl-blk__note {
+  margin: 0;
+  flex: 1 1 10rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.cl-blk__next {
+  flex: 1 1 10rem;
+  text-align: start;
+  font-size: var(--fs-micro);
+}
+.cl-blk__finish {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 0.5em 0.3em;
+  margin: -0.35em -0.15em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-colour-firm);
+  text-underline-offset: 0.22em;
+}
+.cl-blk__finish:hover { color: var(--accent-ink); text-decoration-color: var(--accent-ink); }
+.cl-blk__finish:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.cl-blk__finish[data-primary='yes'] { color: var(--accent-ink); font-weight: var(--w-bold); }
+
+/* The block belongs to the through-line, not to whatever panel is holding it,
+   so it never inherits a beat's own measure. */
+.cl-blk .cl-blk__say { max-width: var(--measure, 34em); }
+
+/* It is a reading block, never a printed one: the revision sheet carries the
+   signed sentence in full and does not need this scaffold twice. */
+@media print { .cl-blk, .cl-say__all { display: none !important; } }
+
+/* ==========================================================================
+   3. THE CLOSE'S OWN ADDITIONS. `.cl-close` and its blocks are styled in
+   tours.css §6; this file is loaded after it and adds only what did not exist
+   there — the doors' controls, the off-map offer, and the writing surface a
+   phone keyboard cannot cover.
+   ========================================================================== */
+
+/* 3.1 A door that opens. The control sits under its own sentence, not beside
+   the book, because the book is a citation and this is an action. */
+.cl-door__go,
+.cl-offmap__go { margin-block-start: var(--space-2xs); }
+
+/* 3.2 The frame, off this map. Three cases, each a claim and a route. */
+.cl-offmap__case {
+  margin-block: var(--space-md) 0;
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+.cl-offmap__case:first-of-type { border-block-start: 0; }
+.cl-offmap__price {
+  font-family: var(--font-figures);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  margin-inline-start: var(--space-xs);
+  white-space: nowrap;
+}
+
+/* 3.3 THE WRITING SURFACE, ABOVE THE KEYBOARD.
+   Measured at 390x844: `.cl-sign__field` is 358x96 with the name row under it
+   at the foot of a 198px scroller, and an iOS keyboard covers about the bottom
+   340px of the window — the whole sheet. The shell's grid is fixed, so the
+   browser cannot scroll the caret into view: there is nowhere to scroll to.
+   While the field has focus at phone width the block stands up at the TOP of
+   the visual viewport, which is the one band a keyboard never covers. It is
+   not furniture — it exists only while a student is typing, and `Done`, a
+   blur, or signing puts it straight back into the panel. */
+.cl-sign__ok { display: none; }
+
+.cl-sign[data-compose='on'] {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-start: auto;
+  inset-block-end: var(--cl-vv-bottom, 0px);
+  z-index: var(--z-modal);
+  margin: 0;
+  padding: var(--space-md) var(--space-md) var(--space-md);
+  /* THE CEILING IS THE FOOT OF THE PLATE. `--dock-key-y` is the shell's own
+     published y for the colour ribbon, which is where the drawn map stops
+     (RESPONSIVE_LAW §3.3). The surface therefore fills the room between that
+     line and the top of the keyboard and no more — measured at 390x844 with a
+     336px keyboard: plate ends 348, keyboard starts 508, surface 156. The 9rem
+     floor is deliberate: a field too short to write a sentence in would be a
+     rule kept and a student lost, and at that size the surface scrolls. */
+  max-block-size: max(9rem, min(
+    calc(var(--cl-vv-win, 100vh) - var(--cl-vv-bottom, 0px) - var(--dock-key-y, 0px) - 4px),
+    calc(var(--cl-vv-h, 100vh) - 3rem)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface-panel);
+  border-block-start: var(--rule-mid) solid var(--border-firm);
+  border-block-end: 0;
+  box-shadow: var(--shadow-lifted);
+}
+.cl-sign[data-compose='on'] .cl-sign__ok { display: inline-block; }
+/* WHAT IS IN IT: the field, the name, and the two buttons. Nothing else.
+   Between the foot of the plate and the top of an iPhone keyboard there are
+   about 160 pixels, and the heading, the prompt and the five-line scaffold are
+   all still on the panel directly behind this surface, where the student read
+   them a second ago. The field keeps the sentence's own opening as its
+   placeholder, so the thing they are continuing is in front of them. */
+.cl-sign[data-compose='on'] .cx-panel__head,
+.cl-sign[data-compose='on'] .cl-sign__prompt,
+.cl-sign[data-compose='on'] .cl-sign__scaffold,
+.cl-sign[data-compose='on'] .cl-sign__done { display: none; }
+.cl-sign[data-compose='on'] .cl-sign__field {
+  min-block-size: 4.5rem;
+  margin-block: 0 var(--space-xs);
+  max-inline-size: none;
+}
+
+@media print {
+  .cl-sign[data-compose='on'] { position: static; box-shadow: none; }
+}
+
+/* ==========================================================================
+   4. THE REVISION SHEET — the page that outlives the browser.
+
+   `app/js/close/index.js` builds `.tr-print` and arms it with
+   `documentElement.dataset.p05print`. Its ink used to be in `tours.css`; that
+   section is gone with the rest of §6, and a print stylesheet that is missing
+   does not fail loudly — it prints the whole application, chrome and all, on
+   however many sheets of A4 that takes. So the sheet is styled here, by the
+   piece that builds it.
+
+   FEATURE_SPEC P21 asks for: one A4 page, the signed sentence at the top, the
+   four phases, the people this student named, what they got wrong with a link
+   back to the evidence, two contested numbers, their own dissents unedited,
+   the content version — no branding, no QR code, and a wide margin for pencil.
+   ========================================================================== */
+
+/* On screen it is never drawn. It is in the document so that the browser's own
+   print command a minute later prints the same page the button did. */
+.tr-print { display: none; }
+
+@media print {
+  /* THE MARGIN FOR PENCIL IS INSIDE THE SHEET, NOT ONLY IN `@page`. Measured:
+     Chromium's own PDF path ignores an `@page` margin altogether and applies
+     its default, so a page box asking for 34mm on the left came out at 10 —
+     and a wide margin that only exists when the user's print dialogue is set
+     to "default margins" is not a margin, it is a hope. 18mm of padding on the
+     sheet itself is honoured on every path, and adds to whatever the page box
+     gives. */
+  /* The vertical margin is the printer's; the horizontal pencil margin is the
+     sheet's own 16mm of padding, which every print path honours. 10mm top and
+     bottom is what buys the last block of the sheet its page. */
+  @page { margin: 10mm 12mm; }
+
+  /* The application does not print. The sheet does. */
+  html[data-p05print='on'] body > *:not(.tr-print) { display: none !important; }
+  html[data-p05print='on'] .tr-print {
+    display: block;
+    padding-inline-start: 16mm;
+    font-family: var(--font-serif);
+    /* ROUND 2: set at 10.5pt/1.45 the sheet ran to 1,877px — near two pages —
+       after a completed route. At 9.6/1.34, with the growing lists set two-up
+       above, the same content is one page for the thirty-minute route. It is a
+       reference sheet with a 16mm pencil margin, not a reading text. */
+    font-size: 9.4pt;
+    line-height: 1.32;
+    color: #1a1a1a;
+  }
+
+  .tr-print__h {
+    margin: 0 0 1.6mm;
+    font-family: var(--font-serif);
+    font-size: 15pt;
+    font-weight: var(--w-bold);
+    line-height: 1.22;
+    color: #000;
+  }
+  .tr-print__by {
+    margin: 0 0 3.4mm;
+    padding-block-end: 2mm;
+    border-block-end: 0.5pt solid #666;
+    font-family: var(--font-sans);
+    font-size: 8.5pt;
+    color: #444;
+  }
+  .tr-print__s { margin: 0 0 2.2mm; break-inside: avoid; }
+  /* ONE A4 PAGE, AND IT IS A PROMISE THIS FILE HAS TO KEEP.
+     ROUND 2, the classroom critic: "The revision sheet is promised as one A4
+     page (FEATURE_SPEC P21, and the Close itself says 'This ends in one A4 page
+     you can print and write on'). Under A4 print emulation after a completed
+     route it is three." Measured here at 794x1122 with a full ledger — sixteen
+     beats done, sixteen named people, five corrections, a signed sentence —
+     the sheet was 1,877px, 1.88 pages, and the single largest block was 840px
+     of people set one to a line down a 794px measure.
+     The lists that can grow with the length of the lesson are therefore set in
+     two columns: the people, the four engines and the two ranges. A column
+     rule keeps them readable, `break-inside: avoid` keeps a person off two
+     columns, and the left margin for pencil is untouched. */
+  .tr-print__s--cols {
+    columns: 2;
+    column-gap: 7mm;
+    column-rule: 0.5pt solid #ccc;
+  }
+  .tr-print__s--cols h2 { column-span: all; }
+  .tr-print__s--cols p { break-inside: avoid; }
+  .tr-print__s h2 {
+    margin: 0 0 1.5mm;
+    font-family: var(--font-sans);
+    font-size: 8.5pt;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #333;
+  }
+  .tr-print__s p { margin: 0 0 0.9mm; }
+  .tr-print__s strong { font-weight: var(--w-bold); }
+  /* A link a student can type back in. It is the only URL on the page and it
+     is set to break rather than to run off the edge. */
+  .tr-print__link {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 7.5pt;
+    color: #555;
+    word-break: break-all;
+  }
+  .tr-print__foot {
+    margin: 4mm 0 0;
+    padding-block-start: 2mm;
+    border-block-start: 0.5pt solid #999;
+    font-family: var(--font-sans);
+    font-size: 8pt;
+    color: #555;
+  }
+}
+
+/* ==========================================================================
+   5. THE HIT BOXES.
+
+   Measured at 390x844 with the Close open: every control in this panel was
+   between 17 and 18 pixels tall — `.cl-line__go` ("180 seconds") 83x18,
+   `.cl-door__go` 189x18, `.cl-offmap__go` 144x18. They are set as text and
+   they should stay set as text, so the ink does not change; what changes is
+   that each one now carries its own touch target, given back to the paragraph
+   with a negative margin so six of them do not add six line-heights to a
+   panel with 198 pixels of viewport. The pattern is the one `.cl-blk__gap`
+   already uses, and it is measured rather than asserted: `w6-tap.js`.
+   ========================================================================== */
+
+.cl-line__go,
+.cl-door__go,
+.cl-offmap__go,
+.cl-remaining__go,
+.cl-actions__go,
+.cl-ledger__go,
+.cl-sign__ok,
+.cl-close__toprint,
+.cl-blk__finish,
+.cl-blk__next {
+  padding-block: 0.8em;
+  margin-block: -0.8em;
+}
+/* THE STRIP IS THE ONE PLACE THAT DOES NOT GET A BIGGER TARGET, and the
+   reason is measured rather than conceded. `.cl-bar` is the last row of the
+   window inside the shell's 26–28px foot: padding the controls made the row
+   30px, pushed its bottom edge to y=770 in a 768px window, and wave5's rule
+   T4 — the only pointer route to the Close must be inside the viewport —
+   failed at 900, 1366 and 1440 the moment it went on. WCAG 2.5.8 has an
+   exception written for exactly this shape: a target inline in a sentence,
+   whose size is set by the line-height of the text around it, is exempt. The
+   blanks are words in a sentence and the strip only exists at
+   `#app[data-foot="on"]`, which is 62rem and up. Where there is room — the
+   block at phone width, and the Close — every target is 29–39px above. */
+
+
+/* ==========================================================================
+   6. THE CLOSE COUNTS WORK, NOT STEPS — the ink for the three states.
+
+   Round 3, measured: a tap-through of thirty-four presses of Next in sixteen
+   seconds printed "13 of 13 lines below you have the evidence for" with none
+   greyed. There are three standings now, not two — earned, walked past
+   unanswered, and never seen — and the middle one is the new one.
+   ========================================================================== */
+
+.cl-close__speed {
+  margin: 0 0 var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-inline-start: var(--rule-heavy) solid var(--accent-ink);
+  background: var(--paper-sunk);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+
+/* A line you walked past is not a line you have not reached: it is greyed the
+   same way, and it names the question rather than the evidence, because only
+   one of the two can be fixed in ten seconds. */
+.cl-line[data-why='unanswered'] .cl-line__lab { color: var(--accent-ink); }
+
+/* ROUND 6, W2. AND A LINE THIS ROUTE NEVER OFFERED IS A THIRD THING AGAIN.
+   It is not counted in the headline above and it is not the student's debt, so
+   it is set one step further back than the two greys that are: the number in
+   the margin is drawn as a rule rather than a figure, and the label says where
+   the evidence lives instead of what is missing. It keeps its price and its
+   control, because the whole point of leaving it on the page is that a student
+   can go and take it. */
+.cl-line[data-why='offroute'] { opacity: 0.82; }
+.cl-line[data-why='offroute'] .cl-line__n { color: var(--text-min); font-variant-numeric: normal; }
+.cl-line[data-why='offroute'] .cl-line__lab { color: var(--text-min); }
+.cl-line__away { color: var(--text-min); font-style: italic; }
+/* The sentence a student who finished their route has earned: the two figures
+   are equal and the headline says so in words, so the emphasis goes on the
+   words and not on a second reading of the same number. */
+.cl-close__stand[data-done='yes'] .num { color: var(--accent-ink); }
+
+.cl-close__speed--dec { border-inline-start-color: var(--rule-colour-firm); }
+
+.cl-block__row--flag {
+  border-inline-start: var(--rule-mid) solid var(--rule-colour-firm);
+  padding-inline-start: var(--space-sm);
+}
+
+
+/* ==========================================================================
+   7. THE CLOSE'S OWN FRAME — the reading fit, and the foot that goes with it.
+
+   ROUND 2, THE PHONE, AS THIS PIECE'S BIGGEST GAP. Measured at 390x844 after a
+   finished `core` route:
+
+     .stage__map        390x170   a plate nobody at the Close is reading
+     .app__sheet        390x280   the ending, the sign and the print
+     .cx-sheet__body    390x242   THE READING WINDOW, holding 6,342px
+     .app__time         390x184   a time control 0.76x the size of the window
+     .tr-panel__foot    none      no MORE, no MAP, no way back to the map
+
+   26.2 screenfuls. "It is the most textual surface in the application and the
+   only one that never collapses the map."
+
+   The band is taken the way a beat takes it — `tours/index.js` publishes
+   `data-tour-fit="text"` while this panel is mounted and the shell resolves
+   `#app[data-read]` from it, RESPONSIVE_LAW §11.2 — so nothing here duplicates
+   the shell's arithmetic. What is here is the FRAME: below 62rem the Close is
+   a two-row grid, its prose scrolls in row one, and the foot is row two, a
+   real edge rather than a raft. Sticky was tried on the beat panel three
+   rounds ago and resolves against the scrollport's CONTENT box: it came to
+   rest 16px above the visible edge and guillotined the line under it
+   (tours.css §THE FRAME). Above 62rem the grid is not applied, the shell's own
+   scroller keeps the page, and the foot is simply its last block.
+
+   After: window 532, sheet 570, map 44, time 52 — 11.9 screenfuls, with the
+   cue and the mask a student already knows from every beat.
+   ========================================================================== */
+
+@media (max-width: 61.999rem) {
+  #app[data-rail='sheet'] .cx-sheet__body > .cl-close {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-block-size: 0;
+    /* The body's own padding, bled through at the head and the two sides, so
+       the reading window keeps every pixel it had. The bottom is not bled: the
+       foot stops at the content-box edge and the quiet ground under it is
+       never a sliced line. */
+    margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg)) 0;
+    block-size: calc(100% + var(--space-lg));
+    max-block-size: calc(100% + var(--space-lg));
+  }
+  #app[data-rail='sheet'] .cl-close__scroll {
+    min-block-size: 0;
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    padding: var(--space-lg) var(--space-lg) var(--space-sm);
+  }
+  /* The same fade, at both edges, and only where there is something to fade —
+     0.75rem, half a line of leading, so the last line in the window is
+     softened rather than erased. */
+  #app[data-rail='sheet'] .cl-close[data-more='yes'] > .cl-close__scroll {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 0.75rem), rgba(0, 0, 0, .35) calc(100% - 0.28rem), transparent);
+  }
+  #app[data-rail='sheet'] .cl-close[data-up='yes'] > .cl-close__scroll {
+    mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .4) 0.15rem, #000 0.45rem);
+  }
+  #app[data-rail='sheet'] .cl-close[data-more='yes'][data-up='yes'] > .cl-close__scroll {
+    mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .4) 0.15rem, #000 0.45rem, #000 calc(100% - 0.75rem), rgba(0, 0, 0, .35) calc(100% - 0.28rem), transparent);
+  }
+}
+.cl-foot__print { flex: 0 0 auto; }
+
+/* ==========================================================================
+   8. THE SENTENCE YOU ARE ABOUT TO SIGN HAS TO BE READABLE.
+
+   ROUND 2, the phone: "the Close's signature textarea is a fixed three-line box
+   that clips the student's own sentence with no scroll affordance
+   ('...became a company that taxed Bengal and used the' cut mid-clause). You
+   cannot read back what you are about to sign."
+
+   Measured at 390x844: `.cl-sign__field` rows=3, clientHeight 94, and the
+   scaffolded sentence a finished route hands the student is 280 characters —
+   six lines at that measure. It grows to its content now, in JS, from `input`
+   and on first paint, with a floor of three lines and a ceiling of fourteen so
+   it can never eat the panel it sits in.
+   ========================================================================== */
+
+.cl-sign__field {
+  resize: vertical;
+  overflow-y: auto;
+  max-block-size: 22rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * THE END OF A LESSON — DIDACTIC_SPEC §8.4.
+ *
+ * "A Close is an ending, not a progress bar." The first line names what
+ * was finished and is set as the sentence it is; the arithmetic under
+ * it keeps its own quieter weight. The other lesson is a SUBJECT, so it
+ * is set like the doors that follow it — an offer, not a deficit — and
+ * carries no bar, no meter and no unfilled remainder anywhere near it.
+ * ------------------------------------------------------------------ */
+.cl-close__finished {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--step-1, 1.15rem);
+  line-height: 1.4;
+  color: var(--text-body);
+}
+.cl-close__finished strong { color: var(--text-strong, var(--text-body)); }
+.cl-close__which {
+  margin: 0 0 var(--space-xs);
+  color: var(--text-quiet);
+}
+.cl-next__say { margin: 0 0 var(--space-sm); color: var(--text-body); }
+.cl-next__go { margin-block-end: var(--space-sm); }
+.cl-next__lab2 { margin-block-start: var(--space-sm); }
+.cl-next__raises { margin: 0; padding-inline-start: 1.1em; }
+.cl-next__raise { margin-block-end: 0.35em; }
+.cl-next__rgo { display: inline; }
+
+/* ------------------------------------------------------------------ *
+ * THE END OF THE UNIT — DIDACTIC_SPEC §8.4(7).
+ *
+ * "The unit Close exists and fires once. A student whose record shows
+ * both lessons finished gets it, whether they did them a week apart or
+ * in one sitting." It is the same ending, one degree louder: an
+ * achievement sentence naming both lessons, and under it the ONE count
+ * this surface is allowed — the unit against §3's floor of fourteen.
+ * No bar, no meter, no percentage, here least of all.
+ * ------------------------------------------------------------------ */
+.cl-close__unit {
+  margin-block-end: var(--space-md);
+  padding-block-end: var(--space-sm);
+  border-block-end: var(--rule-heavy, 3px) solid var(--border-firm);
+}
+.cl-close__unitcount { margin: 0; }

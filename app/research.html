@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en-GB" data-boot="loading" data-theme="auto" data-motion="auto" data-stage="plate">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The British Empire — an interactive atlas</title>
+<meta name="description" content="An interactive historical atlas of the British Empire: what was held, when it was taken, and how each part became independent.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F8F5F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15120E" media="(prefers-color-scheme: dark)">
+
+<!-- tokens.css and base.css are owned by the design-system agent.
+     layout.css (geometry) and chrome.css (shared panel language + staging)
+     are owned by the shell / art direction. See docs/LAYOUT_BUDGET.md. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/chrome.css">
+</head>
+<body>
+
+<a class="skip-link" href="#stage">Skip to the map</a>
+<a class="skip-link" href="#timebar">Skip to the timeline</a>
+
+<!-- ============================================================ the shell ==
+     Every `data-mount="…"` element below is a slot owned by another module.
+     The shell never writes content into them; it only creates, labels and
+     lays them out. See docs/ARCHITECTURE.md and docs/LAYOUT_BUDGET.md.
+
+     THE COMPOSITION, top to bottom:
+       bar    the masthead — quiet, 52px, identification only
+       lede   ONE sentence, at reading size. The app's single prose channel
+              above the map. Owned by app/js/chrome; fed by `chrome:say`.
+       stage  the map plate. The subject of the page. Nothing may cover it.
+       key    the colour ribbon, a strip along the foot of the plate
+       time   the year. Hard-capped height; see --time-h.
+       rail   the dossier and the sheet, one column, one width
+       foot   provenance
+     ======================================================================= -->
+<div class="app" id="app" data-dossier="closed" data-sheet="closed" data-stage="plate" hidden>
+
+  <header class="app__bar" id="chrome">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="12" cy="12" r="9.2"/>
+          <ellipse cx="12" cy="12" rx="4.1" ry="9.2"/>
+          <path d="M2.9 9.1h18.2M2.9 14.9h18.2"/>
+        </svg>
+      </span>
+      <span class="brand__text">
+        <strong class="brand__title">The British Empire</strong>
+        <span class="brand__sub">an interactive atlas</span>
+      </span>
+    </div>
+    <!-- THE TWO CONTROL STRIPS, AND THE ONE BUTTON THAT HOLDS THEM.
+
+         Six modules put a control in this bar. At 1366 they fit on one line and
+         `.bar__tools` is `display: contents`, so the two strips are direct flex
+         children of the masthead exactly as they always were. In the sheet band
+         they do not fit: measured at 390x844 with a beat open, the end strip
+         asked for 317px of 196 and the Recall button's right edge sat at x=388,
+         half of it off the screen, while the wordmark read "The Bri…". A strip
+         that scrolls sideways with no affordance is not a way to reach a
+         control a fifteen-year-old does not know is there.
+
+         So below that width the wrapper becomes a panel under the masthead and
+         `Tools` is the only thing left in the bar. Nothing moves in the DOM —
+         the mount slots keep their parent, their modules and their listeners —
+         and every control gets its full label back and a 44px target. -->
+    <!-- THE PATH'S OWN TRANSPORT LIVES IN THIS SLOT and it is never collapsed:
+         Back and Next are not tools, they are the lesson. So `toolbar` stays a
+         direct child of the masthead at every width and only `chrome-end` — the
+         six entrances to the app's other surfaces — moves into the panel. -->
+    <div class="bar__slot bar__slot--main" data-mount="toolbar"></div>
+    <!-- THE STEP DOCK. docs/RESPONSIVE_LAW.md, the dock-slot contract.
+
+         Below 62rem nothing may float inside the map rectangle, and the lesson
+         transport is the largest thing that did: measured at 390x844 on beat 9,
+         `.tr-dock` was 206x40 pinned at y=234 inside a map band that ran from
+         y=156 to y=306, taking 8,240 px2 (13.9%) out of the only 150 pixels of
+         atlas a student on a phone ever sees. It is not a tool and it may not
+         go behind `Tools`, so it gets a reserved box of its own in the
+         masthead — the same strip it already occupies above 62rem, so there is
+         one place to look for Back and Next at every width.
+
+         The box is real and empty. It reserves the room (the brand and `Tools`
+         lay out around it) and the shell publishes its measured rectangle as
+         --dock-step-x/y/w/h, so a piece that has not yet moved its markup can
+         be pinned into it from chrome.css SS-E. -->
+    <div class="bar__dock" id="dock-step" data-mount="dock-step" data-dock-slot="step"></div>
+    <button type="button" class="bar__more" id="bar-more" aria-expanded="false" aria-controls="bar-tools" hidden>
+      <span class="bar__more-w">Tools</span>
+      <span class="bar__more-c" aria-hidden="true">▾</span>
+    </button>
+    <div class="bar__tools" id="bar-tools">
+      <div class="bar__slot bar__slot--end" data-mount="chrome-end"></div>
+    </div>
+  </header>
+
+  <!-- The one-sentence band. At most one sentence and at most one primary
+       control exist here, ever. app/js/chrome owns it. -->
+  <div class="app__lede" id="lede" data-mount="lede"></div>
+
+  <main class="app__stage" id="stage" tabindex="-1" aria-label="Map of the British Empire">
+    <div class="stage__map" data-mount="map"></div>
+    <div class="stage__over" data-mount="map-overlay"></div>
+    <!-- Deferred apparatus. At data-stage="plate" this column is not on screen:
+         it is the byline's home from data-stage="apparatus" upward. -->
+    <div class="stage__apparatus">
+      <div class="stage__note" data-mount="stage-note"></div>
+    </div>
+    <!-- THE FOOT DOCK, then the colour ribbon: two strips along the foot of
+         the plate, in that order, both outside the map rectangle.
+
+         The dock is where every control OVER the whole map goes below 62rem —
+         the zooms, the "British means" dial, any route out of the plate — so
+         that none of them stands on it. Measured at 900x700 on beat 1 before
+         this existed: `.map__foot` took 57,792 px2 of a 234,824 px2 plate
+         (24.6%), the zoom column 5,704 and the transport 8,240, and the three
+         of them between them put a hole in Australia, one in Siberia and one
+         across the Southern Ocean.
+
+         It is 0 tall at data-stage="plate" — at second zero the only control
+         over the map is the zoom cluster, and that rides the ribbon strip —
+         and 2.25rem from "working" upward. The shell publishes its measured
+         rectangle as --dock-foot-x/y/w/h. -->
+    <div class="stage__dock" id="dock-foot" data-mount="dock-foot" data-dock-slot="foot"></div>
+    <!-- The colour ribbon: one line, along the foot of the plate, full width. -->
+    <div class="stage__key stage__legend" data-mount="legend"></div>
+  </main>
+
+  <!-- ONE right-hand rail, ONE width. The dossier lives in it; the sheet (full
+       key, historiography, rate, criticism) opens over it. Both compress the
+       map; neither ever covers it. -->
+  <aside class="app__dossier" id="dossier" aria-label="Territory dossier">
+    <div class="dossier__body" data-mount="dossier"></div>
+  </aside>
+  <section class="app__sheet" id="sheet" aria-label="Reference" hidden>
+    <div class="sheet__body" data-mount="sheet"></div>
+  </section>
+
+  <section class="app__time" id="timebar" aria-label="Time controls">
+    <div class="time__slot" data-mount="timeline"></div>
+  </section>
+
+  <footer class="app__foot">
+    <div class="foot__slot" data-mount="statusbar"></div>
+    <p class="foot__note" id="shell-note"></p>
+  </footer>
+
+  <!-- Full-screen layer: tours, quiz, onboarding, about. Empty and inert until used. -->
+  <div class="app__overlay" data-mount="overlay"></div>
+</div>
+
+<!-- ======================================================== boot / errors == -->
+<div class="boot" id="boot" data-state="loading" role="status" aria-live="polite">
+  <div class="boot__inner">
+    <p class="boot__eyebrow">An interactive atlas</p>
+    <h1 class="boot__title">The British Empire</h1>
+    <p class="boot__blurb">What was held, when it was taken, and how each part became independent.</p>
+
+    <div class="boot__loading">
+      <div class="boot__rule"><span class="boot__rule-fill" id="boot-progress"></span></div>
+      <p class="boot__status" id="boot-status">Opening the atlas…</p>
+      <p class="boot__promise">Nothing here is loaded from the internet. The maps, the dates and the sources
+        are all on this machine.</p>
+      <p class="boot__slow" id="boot-slow" hidden>This is taking longer than it should. The atlas is still
+        working; if nothing happens in a few more seconds, reloading the page usually clears it.</p>
+    </div>
+
+    <div class="boot__error" hidden>
+      <p class="boot__error-kicker">Something broke while opening</p>
+      <h2 class="boot__error-title" id="boot-error-title">The atlas could not open</h2>
+      <p class="boot__error-msg" id="boot-error-msg"></p>
+      <p class="boot__error-help">This is a fault in the app, not something you did, and nothing you have done
+        has been lost. Reloading clears most of them. If it does not, the lines below say exactly what broke,
+        which is what a developer needs.</p>
+      <pre class="boot__error-detail" id="boot-error-detail" hidden></pre>
+      <div class="boot__actions">
+        <button type="button" class="btn btn--primary" id="boot-reload">Reload the atlas</button>
+        <button type="button" class="btn" id="boot-continue" hidden>Open it anyway</button>
+      </div>
+      <p class="boot__error-fallback">The underlying history is plain text either way:
+        <code>app/data/territories/</code> holds one file per region, and <code>docs/SOURCES.md</code>
+        lists where every date comes from.</p>
+    </div>
+  </div>
+</div>
+
+<noscript>
+  <div class="noscript">
+    <h1>The British Empire — an interactive atlas</h1>
+    <p><strong>This atlas needs JavaScript.</strong> It is a map you scrub through time: the year controls
+      what the map shows, so there is no static version that would tell you the truth.</p>
+    <p>Turn JavaScript on for this page and reload. Nothing is loaded from the internet — the whole atlas,
+      including its maps and sources, is served from this machine.</p>
+    <p>If you cannot enable JavaScript, the underlying data is plain JSON and readable directly:
+      <code>app/data/territories/</code> holds one file per region, and <code>docs/SOURCES.md</code>
+      lists where every date comes from.</p>
+  </div>
+</noscript>
+
+<!-- Screen-reader announcements. util.announce() writes here. -->
+<div id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+<div id="live-alert" class="sr-only" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- THE WATCHDOG. It is inline and it is not a module on purpose: if
+     js/main.js — or anything it imports — fails to parse, no module script in
+     this document ever runs, and the reader is left looking at "Opening the
+     atlas…" for ever with no way to know that is what happened. Measured: with
+     js/core/data.js unreachable the loading screen sat there indefinitely. This
+     is the only code in the document that can still speak at that point.
+
+     It says nothing while the atlas is opening normally; it only names two
+     facts the reader cannot otherwise get at — that it is slow, and then that
+     it is not coming. -->
+<script>
+(function () {
+  var root = document.documentElement;
+  var SLOW = 6000, DEAD = 14000;
+  function ok() { return root.dataset.boot !== 'loading'; }
+  setTimeout(function () {
+    if (ok()) return;
+    var n = document.getElementById('boot-slow');
+    if (n) n.hidden = false;
+  }, SLOW);
+  setTimeout(function () {
+    if (ok()) return;
+    var boot = document.getElementById('boot');
+    if (!boot || boot.dataset.state === 'error') return;
+    root.dataset.boot = 'error';
+    boot.dataset.state = 'error';
+    var msg = document.getElementById('boot-error-msg');
+    if (msg) msg.textContent = 'The atlas did not finish opening. Its program files loaded, but nothing '
+      + 'reported back within ' + Math.round(DEAD / 1000) + ' seconds.';
+    // main.js never ran, so the buttons it wires do not work. Wire the one
+    // that can still help, and hide the one that cannot: there is nothing to
+    // continue into when no module script in the document has executed.
+    var reload = document.getElementById('boot-reload');
+    if (reload) reload.addEventListener('click', function () { location.reload(); });
+    var cont = document.getElementById('boot-continue');
+    if (cont) cont.hidden = true;
+    var detail = document.getElementById('boot-error-detail');
+    if (detail) {
+      detail.textContent = 'boot watchdog\nlast step: '
+        + ((document.getElementById('boot-status') || {}).textContent || 'unknown')
+        + '\nurl: ' + location.href;
+      detail.hidden = false;
+    }
+  }, DEAD);
+})();
+</script>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

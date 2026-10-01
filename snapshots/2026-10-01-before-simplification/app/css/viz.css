@@ -1,0 +1,964 @@
+/* =============================================================================
+   viz.css — P08. The Tension Plate, the Ratio Line and extent over time.
+   Owned by the viz agent. Everything here obeys, in this order:
+     docs/LAYOUT_BUDGET.md  — geometry, staging, the shared chrome classes
+     docs/DESIGN.md         — no colour that is not a token, square corners,
+                              five type sizes, nothing below 12px
+
+   THIS PIECE ADDS NOTHING TO THE PLATE STAGE. It has no chip, no toolbar item
+   and no panel over the map. Every rule below styles content that lives inside
+   the shell's rail sheet, which is opened by a control the reader pressed.
+   There is therefore no `data-stage` rule in this file: at `plate` this piece
+   renders nothing at all, which is the strongest form of compliance available.
+
+   It adopts .cx-panel, .cx-panel--tight, .cx-ask, .cx-note, .cx-src, .cx-more
+   and .num rather than inventing a twenty-eighth box treatment.
+   ========================================================================== */
+
+/* THE ONE CONTROL THIS PIECE PUTS ON SCREEN.
+   Hidden by default and revealed only by an ancestor at data-stage="apparatus"
+   — never the reverse. At `plate` and `working` it has no box, no width and no
+   tab stop, so the layout budget reads the same with this module installed as
+   without it. */
+.viz-entry { display: none; }
+#app[data-stage="apparatus"] .viz-entry { display: inline; }
+
+.viz-index__intro { margin: 0 0 var(--space-md); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-snug); color: var(--text-body); }
+.viz-index__l { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-md); }
+.viz-index__i { display: grid; gap: 2px; padding-block-end: var(--space-md); border-block-end: var(--rule-hair) solid var(--border-soft); }
+.viz-index__i:last-child { border-block-end: 0; }
+.viz-index__go { font-size: var(--fs-base); }
+.viz-index__say { display: block; }
+
+.viz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  color: var(--text-body);
+}
+
+.viz-h {
+  margin: var(--space-md) 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+
+/* A figure that could not be checked against the dataset. It is loud on
+   purpose: an unsourced number that only a developer can find is not an
+   auditable number (FEATURE_SPEC §2). */
+.viz-defect { color: var(--danger); font-weight: var(--w-semibold); }
+.viz-fig--bad {
+  display: block;
+  font-size: var(--fs-caption);
+  color: var(--danger);
+  border-inline-start: var(--rule-heavy) solid var(--danger);
+  padding-inline-start: var(--space-sm);
+}
+
+/* ========================================================================== */
+/* THE FIGURE — one fact, one id, cross-lit wherever it is printed            */
+/* ========================================================================== */
+
+.viz-fig {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 .35em;
+  max-inline-size: 100%;
+  margin: 0 var(--space-sm) 1px 0;
+  padding: 0 2px;
+  border-radius: var(--radius-none);
+  border-bottom: var(--rule-fine) dotted var(--border-firm);
+  cursor: default;
+  background: transparent;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.viz-fig__v {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums slashed-zero;
+  color: var(--text-heading);
+  white-space: nowrap;
+}
+.viz-fig__u {
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+}
+/* THE CROSS-LIGHT. Emphasis only: nothing appears here that was not already
+   on screen, so a reader who cannot hover loses nothing. */
+.viz-fig[data-lit="yes"] {
+  background: var(--accent-soft);
+  border-bottom-color: var(--accent-ink);
+}
+.viz-fig[data-lit="yes"] .viz-fig__v { color: var(--accent-hover); }
+.viz-fig[data-lit="yes"] .viz-fig__u { color: var(--accent-ink); }
+
+/* The dataset's own sentence, with the figure's words marked in it. */
+.viz-warrant {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.viz-mark {
+  background: var(--accent-soft);
+  color: var(--text-heading);
+  padding: 0 2px;
+}
+.viz-src__for { color: var(--text-min); }
+
+/* ========================================================================== */
+/* THE TENSION PLATE                                                          */
+/* ========================================================================== */
+
+.viz-plate__ask {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+  text-wrap: pretty;
+}
+
+/* FOUR CLAIMS, PERMANENTLY, IN ONE FIELD. Not tabs. Not an accordion. Not a
+   carousel. The 2x2 is the argument: they are on screen together because they
+   are true together. */
+.viz-plate { min-block-size: 100%; }
+.viz-plate__field {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xs);
+  align-items: stretch;
+  min-width: 0;
+}
+
+.viz-claim {
+  --cx-pad: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+  overflow: hidden;
+  transition: opacity var(--dur-normal) var(--ease-out);
+}
+.viz-claim__t {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-heading);
+  text-wrap: balance;
+}
+.viz-claim__figs { margin: 2px 0 0; line-height: 1.35; }
+.viz-claim__b {
+  margin: 2px 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+.viz-claim .viz-warrant { display: none; }        /* the warrant belongs to the promoted claim */
+.viz-claim .cx-src { display: none; }
+
+.viz-claim__pick {
+  appearance: none;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 2px var(--space-sm);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-ui);
+  color: var(--accent-ink);
+  background: transparent;
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+}
+.viz-claim__pick:hover { background: var(--surface-well); border-color: var(--accent-ink); }
+
+/* --- collapsed: one claim promoted, three in the strip ------------------- */
+.viz-plate[data-mode="collapsed"] .viz-plate__field {
+  grid-template-columns: 1fr;
+  flex: 0 0 auto;
+}
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="discarded"] { display: none; }
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="chosen"] {
+  border-inline-start: var(--rule-heavy) solid var(--accent-ink);
+}
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="chosen"] .viz-claim__t { font-size: var(--fs-h4); }
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="chosen"] .viz-claim__b { font-size: var(--fs-small); }
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="chosen"] .viz-warrant { display: block; }
+.viz-plate[data-mode="collapsed"] .viz-claim[data-state="chosen"] .cx-src { display: block; }
+.viz-plate[data-mode="collapsed"] .viz-claim__pick { display: none; }
+
+.viz-strip {
+  border-top: var(--rule-heavy) solid var(--border-firm);
+  padding-top: var(--space-sm);
+}
+.viz-strip__h {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--danger);
+}
+.viz-strip__l { list-style: none; margin: 0 0 var(--space-sm); padding: 0; display: grid; gap: var(--space-sm); }
+.viz-strip__i { display: grid; gap: 2px; }
+.viz-strip__s {
+  font-family: var(--font-serif);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-min);
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--danger);
+}
+.viz-strip__w { display: block; }
+
+/* ========================================================================== */
+/* THE RATIO LINE                                                             */
+/* ========================================================================== */
+
+.viz-ratio__anchor {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-ratio__anchor strong { font-weight: var(--w-semibold); color: var(--text-heading); }
+.viz-ratio__ask { margin-block: var(--space-sm); }
+.viz-ratio__scale strong { color: var(--text-body); font-weight: var(--w-semibold); }
+
+.viz-axis {
+  position: relative;
+  block-size: 7.5rem;
+  margin-block-start: var(--space-md);
+  touch-action: none;
+  cursor: ew-resize;
+}
+.viz-ratio[data-state="revealed"] .viz-axis { cursor: default; }
+
+.viz-axis__track {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 2.9rem;
+  block-size: 3px;
+  background: var(--border-firm);
+}
+.viz-axis__mark {
+  position: absolute;
+  inline-size: 2px;
+  margin-inline-start: -1px;
+  background: var(--text-min);
+  inset-block-start: 2.35rem;
+  block-size: 1.1rem;
+}
+.viz-axis__mark--anchor { background: var(--accent-2-ink); }
+.viz-axis__mark--target { background: var(--accent-ink); inline-size: 3px; block-size: 1.6rem; inset-block-start: 2.35rem; }
+.viz-axis__mark--guess { background: var(--text-body); block-size: 1.6rem; inset-block-start: 2.35rem; opacity: .5; }
+
+/* Labels sit clear of the track: the anchor above it, the answer below it.
+   They also re-align at the ends of the axis rather than hanging off the
+   panel — a label the rail clips is a figure the student cannot read. */
+.viz-axis__lab {
+  position: absolute;
+  max-inline-size: 9.5rem;
+  font-size: var(--fs-micro);
+  line-height: 1.2;
+  color: var(--text-secondary);
+}
+.viz-axis__lab .num { display: block; font-size: var(--fs-caption); color: var(--text-heading); white-space: nowrap; }
+.viz-axis__lab[data-align="mid"] { transform: translateX(-50%); text-align: center; }
+.viz-axis__lab[data-align="start"] { transform: none; text-align: start; }
+.viz-axis__lab[data-align="end"] { transform: translateX(-100%); text-align: end; }
+
+.viz-axis__lab--anchor { inset-block-start: 0; color: var(--accent-2-ink); }
+.viz-axis__lab--anchor .num { color: var(--accent-2-ink); }
+.viz-axis__lab--target { inset-block-start: 4.1rem; max-inline-size: 8rem; }
+.viz-axis__lab--target .num { color: var(--accent-hover); font-weight: var(--w-semibold); }
+.viz-axis__u { color: inherit; }
+
+.viz-axis__handle {
+  appearance: none;
+  position: absolute;
+  inset-block-start: 2.25rem;
+  inline-size: 1.05rem;
+  block-size: 1.35rem;
+  margin-inline-start: -0.525rem;
+  padding: 0;
+  cursor: grab;
+  background: var(--surface-panel);
+  border: var(--rule-mid) solid var(--accent-ink);
+  border-radius: var(--radius-sm);
+}
+.viz-axis__handle::after {
+  content: '';
+  position: absolute;
+  inset-block: 2px;
+  inset-inline-start: calc(50% - 0.5px);
+  inline-size: 1px;
+  background: var(--accent-ink);
+}
+.viz-axis__handle:disabled { border-color: var(--border-firm); cursor: default; opacity: .7; }
+
+.viz-axis__ends {
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: calc(-1 * var(--space-xs));
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+.viz-ratio__readout {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-ratio__yousay, .viz-ratio__u { color: var(--text-secondary); }
+.viz-ratio__guess { color: var(--text-heading); font-weight: 500; }
+.viz-ratio__truth { color: var(--text-heading); }
+
+.viz-ratio__commit {
+  appearance: none;
+  align-self: flex-start;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-ui);
+  color: var(--accent-ink);
+  background: transparent;
+  border: var(--rule-mid) solid var(--accent-ink);
+  border-radius: var(--radius-sm);
+}
+.viz-ratio__commit:hover { background: var(--accent-soft); }
+
+.viz-also__h {
+  margin: var(--space-md) 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.viz-also__r { display: flex; align-items: baseline; gap: var(--space-sm); margin: 0 0 var(--space-2xs); }
+.viz-also__bar { display: block; block-size: 3px; background: var(--accent-2); opacity: .5; min-inline-size: 2px; }
+.viz-ratio__after { margin: var(--space-sm) 0 0; font-size: var(--fs-caption); line-height: var(--lh-ui); color: var(--text-secondary); }
+.viz-ratio__more { display: flex; flex-direction: column; gap: var(--space-2xs); align-items: flex-start; margin: var(--space-md) 0 0; }
+
+/* ========================================================================== */
+/* EXTENT OVER TIME                                                           */
+/* ========================================================================== */
+
+.viz-predict { margin-block: 0 var(--space-sm); }
+.viz-choice {
+  appearance: none;
+  cursor: pointer;
+  padding: var(--space-2xs) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  color: var(--text-body);
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+}
+.viz-choice:hover:not(:disabled) { background: var(--surface-well); border-color: var(--accent-ink); }
+.viz-choice[data-picked="yes"] { border-color: var(--accent-ink); background: var(--accent-soft); color: var(--accent-hover); font-weight: var(--w-semibold); }
+.viz-choice:disabled { cursor: default; }
+/* The second committed answer inside the flow. Same control as the extent
+   chart's prediction, three extra states: what you picked, and what was true. */
+.viz-choices { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-block: var(--space-xs) 0; }
+.viz-choice[data-state="right"] { border-color: var(--ok); background: var(--surface-well); font-weight: var(--w-semibold); }
+.viz-choice[data-state="wrong"] { border-color: var(--danger); color: var(--danger); text-decoration: line-through; }
+.viz-choice[data-state="answer"] { border-color: var(--accent-ink); background: var(--accent-soft); color: var(--accent-hover); font-weight: var(--w-semibold); }
+.viz-flow__verdict {
+  margin: var(--space-sm) 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-predict__v { margin: var(--space-sm) 0 0; font-family: var(--font-serif); font-size: var(--fs-caption); line-height: var(--lh-ui); color: var(--text-body); }
+
+.viz-chart__plot { position: relative; }
+.viz-chart__y {
+  position: absolute;
+  inset-inline-start: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  background: var(--surface-well);
+  padding-inline: 2px;
+}
+.viz-chart__y--top { inset-block-start: 2px; }
+.viz-chart__y--bot { inset-block-end: 2px; }
+.viz-chart__svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 11rem;
+  background: var(--surface-well);
+  border-block: var(--rule-fine) solid var(--border-soft);
+}
+.viz-chart__band { fill: var(--accent-veil); stroke: none; }
+.viz-chart__line { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.viz-chart__line--extent { stroke: var(--accent-ink); }
+.viz-chart__line--ruled { stroke: var(--accent-2-ink); stroke-dasharray: 4 3; stroke-width: 1.5; }
+.viz-chart__line--terr { stroke: var(--text-min); stroke-width: 1.5; }
+.viz-chart__rule { stroke: var(--border-firm); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 2 3; }
+.viz-chart__rule--peak { stroke: var(--accent-ink); stroke-dasharray: none; }
+.viz-chart__now { stroke: var(--text-body); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: .6; }
+
+.viz-chart__marks { position: relative; block-size: 4.6rem; }
+.viz-mk { position: absolute; inset-block-start: 0; transform: translateX(-50%); text-align: center; inline-size: 5.5rem; }
+.viz-mk[data-row="1"] { inset-block-start: 2.3rem; }
+.viz-mk[data-row="1"]::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -2.1rem;
+  inset-inline-start: calc(50% - 0.5px);
+  block-size: 2rem;
+  inline-size: 1px;
+  background: var(--border-firm);
+}
+.viz-mk__y { display: block; font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-heading); }
+.viz-mk__l { display: block; font-size: var(--fs-micro); line-height: 1.15; color: var(--text-min); }
+
+.viz-chart__readout { margin: 0; font-size: var(--fs-caption); line-height: var(--lh-ui); color: var(--text-body); }
+.viz-ro__y { font-size: var(--fs-base); color: var(--text-heading); }
+.viz-ro__sep, .viz-ro__l { color: var(--text-secondary); }
+.viz-ro__band { display: block; color: var(--text-min); }
+
+.viz-chart__key { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: var(--fs-micro); color: var(--text-secondary); }
+.viz-chart__key li { display: flex; align-items: center; gap: var(--space-sm); }
+.viz-swatch { inline-size: 1.25rem; block-size: 0; border-block-start: 2px solid var(--accent-ink); flex: 0 0 auto; }
+.viz-swatch--ruled { border-block-start-style: dashed; border-block-start-color: var(--accent-2-ink); }
+.viz-swatch--band { block-size: .6rem; border: 0; background: var(--accent-veil); }
+
+.viz-terr__svg {
+  display: block; inline-size: 100%; block-size: 4rem;
+  background: var(--surface-well);
+  border-block: var(--rule-fine) solid var(--border-soft);
+}
+.viz-terr__foot { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); }
+
+.viz-pop__say { margin: 0; font-size: var(--fs-caption); line-height: var(--lh-ui); color: var(--text-body); }
+.viz-pop__plot {
+  position: relative;
+  block-size: 7.5rem;
+  margin-block-start: var(--space-sm);
+  background: var(--surface-well);
+  border-block: var(--rule-fine) solid var(--border-soft);
+}
+.viz-pop__dot {
+  position: absolute;
+  inline-size: 5px; block-size: 5px;
+  margin-inline-start: -2.5px; margin-block-end: -2.5px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-2-ink);
+  opacity: .55;
+}
+.viz-pop__dot--nested { background: none; border: 1px solid var(--accent-2-ink); opacity: .45; }
+.viz-pop__scale { margin: var(--space-2xs) 0 0; }
+.viz-pop__big { margin: var(--space-sm) 0 0; font-size: var(--fs-caption); line-height: var(--lh-ui); }
+.viz-pop__big .num { font-size: var(--fs-base); color: var(--text-heading); }
+.viz-pop__note { color: var(--text-secondary); }
+
+.viz-method { margin: var(--space-md) 0 0; padding-block-start: var(--space-sm); border-block-start: var(--rule-hair) solid var(--border-soft); }
+
+/* ========================================================================== */
+/* SHORT WINDOWS. A 1024x640 netbook gives the rail 336x540, and four claims in
+   a 2x2 there are 148px wide and about 250px tall. FEATURE_SPEC P08 test 2 says
+   all four are on screen with no scrollbar at 62rem and up, so the type comes
+   down a step rather than the field losing a cell. Nothing here goes below
+   --fs-micro, which DESIGN.md §3.1 sets as the floor.                        */
+/* ========================================================================== */
+
+.viz-claim__b--short, .viz-plate__ask--short { display: none; }
+
+@media (max-height: 700px) and (min-width: 62rem) {
+  .viz-plate__ask { font-size: var(--fs-small); }
+  .viz-plate__ask:not(.viz-plate__ask--short) { display: none; }
+  .viz-plate__ask--short { display: block; }
+  .viz-claim { --cx-pad: var(--space-xs); gap: 1px; }
+  .viz-claim__t { font-size: var(--fs-base); }
+  .viz-claim__figs { line-height: 1.1; }
+  .viz-claim__b { font-size: var(--fs-caption); }
+  .viz-claim__b:not(.viz-claim__b--short) { display: none; }
+  .viz-claim__b--short { display: block; }
+  .viz-fig__v { font-size: var(--fs-caption); }
+  .viz-fig { margin-block-end: 0; }
+  /* The choice loses its box, not its words: a bordered control is 23px, the
+     same words as a link are 16, and four of them are the difference between
+     a field and a scrollbar. */
+  .viz-claim__pick { border: 0; padding: 0; text-align: start; }
+  .viz-claim__pick::after { content: '\00a0\2192'; }
+  .viz-claim__pick:hover { background: none; text-decoration: underline; text-underline-offset: .18em; }
+  .viz-plate__field { gap: var(--space-2xs); flex: 0 0 auto; }
+  .viz-plate { min-block-size: 0; }
+  .viz { gap: var(--space-xs); }
+  .viz-claim__t { line-height: 1.18; }
+}
+
+/* ========================================================================== */
+/* NARROW: the field stacks in DOM order. It never becomes tabs.              */
+/* ========================================================================== */
+
+@media (max-width: 62rem) {
+  .viz-plate__field { grid-template-columns: 1fr; }
+  .viz-axis { block-size: 5rem; }
+  .viz-axis__handle { inline-size: 1.4rem; margin-inline-start: -0.7rem; }
+}
+
+/* Very narrow rails (a 21rem sheet on a small laptop) also stack, for the same
+   reason: two columns of eighteen characters is not a column. */
+@container (max-width: 22rem) {
+  .viz-plate__field { grid-template-columns: 1fr; }
+}
+
+
+/* ========================================================================== */
+/* ON THE PATH — the two counted things, mounted inside a beat's own panel     */
+/* ========================================================================== */
+/* This is the only place in this file that renders while data-stage="working".
+   It costs the plate nothing: it lives inside the rail sheet the tours module
+   has already opened, below that beat's prose, and it is removed the moment
+   the beat changes. LAYOUT_BUDGET level: 2 (working) — inside an existing
+   surface, adding no control to the masthead, the lede or the stage. */
+
+.viz-onpath {
+  display: block;
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-heavy) solid var(--accent-2-ink);
+}
+.viz-onpath__eyebrow {
+  margin: 0 0 var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--accent-2-ink);
+}
+.viz-onpath__h {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-tight);
+  color: var(--text-heading);
+}
+
+/* ========================================================================== */
+/* THE HUNDRED — one bar that is a hundred people, used before the flow draws  */
+/* ========================================================================== */
+
+.viz-hundred__bar {
+  position: relative;
+  block-size: 1.6rem;
+  margin-block-start: var(--space-sm);
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-firm);
+  touch-action: none;
+  cursor: ew-resize;
+}
+.viz-flow[data-state="revealed"] .viz-hundred__bar { cursor: default; }
+.viz-hundred__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  /* --accent-2 rather than --accent-2-soft: a data mark has to hold its own
+     against the well in BOTH themes, and the soft tints are within a shade of
+     their grounds at either end. */
+  background: var(--accent-2);
+  border-inline-end: var(--rule-mid) solid var(--accent-2-ink);
+}
+.viz-hundred__truth {
+  position: absolute;
+  inset-block: -3px;
+  background: var(--accent-veil);
+  border-inline: var(--rule-mid) solid var(--accent-ink);
+}
+.viz-hundred__handle {
+  appearance: none;
+  position: absolute;
+  inset-block-start: -0.25rem;
+  inline-size: 1.05rem;
+  block-size: 2.1rem;
+  margin-inline-start: -0.525rem;
+  padding: 0;
+  cursor: grab;
+  background: var(--surface-panel);
+  border: var(--rule-mid) solid var(--accent-ink);
+  border-radius: var(--radius-sm);
+}
+.viz-hundred__handle::after {
+  content: '';
+  position: absolute;
+  inset-block: 3px;
+  inset-inline-start: calc(50% - 0.5px);
+  inline-size: 1px;
+  background: var(--accent-ink);
+}
+.viz-hundred__handle:disabled { border-color: var(--border-firm); cursor: default; opacity: .7; }
+.viz-hundred__ends {
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: var(--space-3xs);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+
+/* ========================================================================== */
+/* THE FLOW — embarked, landed, and the gap between them drawn as a gap        */
+/* ========================================================================== */
+
+.viz-flow__anchor,
+.viz-dots__anchor {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-flow__readout { margin: var(--space-sm) 0 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-snug); color: var(--text-body); }
+
+.viz-cross { display: grid; gap: var(--space-xs); margin-block-start: var(--space-2xs); }
+.viz-cross__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-xs);
+  row-gap: 2px;
+}
+.viz-cross__lab { font-size: var(--fs-caption); color: var(--text-secondary); line-height: var(--lh-tight); }
+.viz-cross__track {
+  position: relative;
+  grid-column: 1 / -1;
+  block-size: 1.3rem;
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-soft);
+}
+.viz-cross__bar { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--accent-2); border-inline-end: var(--rule-hair) solid var(--accent-2-ink); }
+.viz-cross__bar[data-key="died"] { background: var(--accent); border-inline-end-color: var(--accent-ink); }
+/* The disagreement, drawn as the disagreement: a soft tint under a hatch, so
+   the width of the uncertainty is as legible as the value itself. */
+.viz-cross__range { position: absolute; inset-block: 0; background-color: var(--accent-2-soft); background-image: var(--tex-hatch-45); border-inline-end: var(--rule-mid) solid var(--accent-2-ink); }
+.viz-cross__row[data-key="died"] .viz-cross__range { background-color: var(--accent-soft); border-inline-end-color: var(--accent-ink); }
+
+/* THE GAP. The one thing in this component that is drawn by absence: it starts
+   where the largest landed figure stops and runs to the end of the embarked
+   bar. Hatched, outlined, empty. */
+.viz-cross__gap {
+  position: absolute;
+  inset-block: -2px;
+  background-image: var(--tex-hatch-135-dense);
+  border: var(--rule-mid) solid var(--danger);
+  border-inline-start-width: var(--rule-heavy);
+}
+.viz-cross__v { font-size: var(--fs-micro); color: var(--text-heading); white-space: nowrap; text-align: end; }
+
+.viz-flow__sum { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); color: var(--text-min); }
+.viz-flow__sumline { font-family: var(--font-figures, var(--font-mono)); font-variant-numeric: tabular-nums; }
+.viz-flow__landnote { margin-block-start: var(--space-2xs); }
+.viz-flow__gapsays { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); line-height: var(--lh-snug); color: var(--text-secondary); }
+.viz-flow__gapkey {
+  display: inline-block;
+  inline-size: 1.4rem;
+  block-size: .7rem;
+  vertical-align: -1px;
+  background-image: var(--tex-hatch-135-dense);
+  border: var(--rule-mid) solid var(--danger);
+}
+.viz-flow__afterp { margin: 0 0 var(--space-xs); font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-snug); color: var(--text-body); }
+
+.viz-flow__rows { display: grid; gap: 2px; }
+
+.viz-place {
+  appearance: none;
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xs);
+  inline-size: 100%;
+  padding: var(--space-3xs) var(--space-2xs);
+  text-align: start;
+  cursor: pointer;
+  background: transparent;
+  border: var(--rule-hair) solid transparent;
+  border-radius: var(--radius-none);
+  color: inherit;
+  font: inherit;
+}
+.viz-place:hover, .viz-place:focus-visible { background: var(--paper-veil); border-color: var(--border-soft); }
+.viz-place__lab { font-size: var(--fs-caption); color: var(--text-body); line-height: var(--lh-tight); }
+.viz-place__track { position: relative; block-size: .85rem; background: var(--surface-well); border: var(--rule-hair) solid var(--border-soft); }
+.viz-place__bar { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--accent-2); }
+.viz-place__bar[data-side="to"] { background: var(--accent); }
+.viz-place__range { position: absolute; inset-block: 0; background-color: var(--accent-2-soft); background-image: var(--tex-hatch-45); }
+.viz-place[data-side="to"] .viz-place__range { background-color: var(--accent-soft); }
+.viz-place__v { font-size: var(--fs-micro); color: var(--text-heading); white-space: nowrap; }
+.viz-place__say { grid-column: 1 / -1; font-size: var(--fs-micro); color: var(--text-min); line-height: var(--lh-tight); }
+
+/* ========================================================================== */
+/* THE HUNDRED DOTS — a guess placed on a field that then refuses to resolve   */
+/* ========================================================================== */
+
+.viz-dots__wrap { position: relative; margin-block-start: var(--space-sm); padding-block-end: var(--space-md); }
+.viz-dots__field {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(6px, 15px));
+  justify-content: space-between;
+  gap: 4px;
+  padding: var(--space-2xs);
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-firm);
+  touch-action: none;
+  cursor: pointer;
+}
+.viz-dots[data-state="revealed"] .viz-dots__field { cursor: default; }
+.viz-dot {
+  display: block;
+  aspect-ratio: 1;
+  min-block-size: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--border-soft);
+  border: var(--rule-hair) solid var(--border-firm);
+}
+.viz-dot[data-state="guess"] { background: var(--accent-2-ink); border-color: var(--accent-2-ink); }
+.viz-dot[data-state="indian"] { background: var(--accent-ink); border-color: var(--accent-ink); }
+/* Not counted, and drawn as not counted: hollow, hatched, no fill to read. */
+.viz-dot[data-state="open"] { background: transparent; background-image: var(--tex-hatch-135); border-color: var(--danger); }
+/* The student's own answer, kept on the field as a ring over the record's. */
+.viz-dot[data-guess="yes"] { box-shadow: 0 0 0 2px var(--accent-2-ink); }
+
+.viz-dots__cap {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 0;
+  border-block-start: var(--rule-heavy) solid var(--danger);
+  pointer-events: none;
+}
+.viz-dots__capnote {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+  border-inline-start: var(--rule-heavy) solid var(--danger);
+  padding-inline-start: var(--space-xs);
+}
+.viz-dots__readout { margin: var(--space-sm) 0 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-snug); color: var(--text-body); }
+
+.viz-dots__key { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); margin: var(--space-xs) 0 0; padding: 0; }
+.viz-dots__ki { display: flex; align-items: center; gap: var(--space-2xs); font-size: var(--fs-micro); color: var(--text-secondary); }
+.viz-dots__sw { inline-size: .7rem; block-size: .7rem; border-radius: var(--radius-pill); border: var(--rule-hair) solid var(--border-firm); background: var(--border-soft); flex: none; }
+.viz-dots__ki[data-swatch="indian"] .viz-dots__sw { background: var(--accent-ink); border-color: var(--accent-ink); }
+.viz-dots__ki[data-swatch="open"] .viz-dots__sw { background: transparent; background-image: var(--tex-hatch-135); border-color: var(--danger); }
+.viz-dots__ki[data-swatch="guess"] .viz-dots__sw { background: transparent; border: var(--rule-mid) solid var(--accent-2-ink); }
+
+.viz-dots__lead { margin: var(--space-md) 0 var(--space-2xs); font-family: var(--font-serif); font-size: var(--fs-prose); font-weight: var(--w-semibold); line-height: var(--lh-snug); color: var(--text-heading); }
+.viz-dots__body, .viz-dots__after, .viz-dots__cmpline {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+
+/* Narrow: the labels go above their bars rather than shrinking the type. */
+@media (max-width: 30rem) {
+  .viz-place { grid-template-columns: minmax(0, 1fr) auto; }
+  .viz-place__lab { grid-column: 1 / -1; }
+  .viz-dots__field { gap: 3px; }
+}
+
+/* ========================================================================== */
+/* THE 1947 TWIN — two marks on one hundred-field, and the gap between them   */
+/* ========================================================================== */
+
+.viz-twin__ask { margin-block: var(--space-sm) var(--space-2xs); }
+.viz-twin__field { display: grid; gap: var(--space-lg); margin-block-start: var(--space-md); }
+
+.viz-twin__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-sm);
+  row-gap: 0;
+}
+.viz-twin__lab {
+  font-size: var(--fs-caption);
+  line-height: var(--lh-tight);
+  color: var(--text-secondary);
+}
+.viz-twin__read {
+  font-size: var(--fs-caption);
+  color: var(--text-heading);
+  white-space: nowrap;
+  text-align: end;
+}
+.viz-twin__was { color: var(--text-min); }
+.viz-twin__is { color: var(--accent-hover); font-weight: var(--w-semibold); }
+.viz-twin__row .viz-hundred__bar,
+.viz-twin__row .viz-hundred__ends { grid-column: 1 / -1; }
+.viz-twin[data-state="revealed"] .viz-hundred__bar { cursor: default; }
+
+/* The reader's own mark, kept on the field after the reveal. A reveal that
+   erases the guess erases the lesson. */
+.viz-twin__yours {
+  position: absolute;
+  inset-block: -4px;
+  inline-size: 0;
+  border-inline-start: var(--rule-mid) dashed var(--text-body);
+  opacity: .75;
+}
+.viz-twin__yours::after {
+  content: 'you';
+  position: absolute;
+  inset-block-start: -0.95rem;
+  inset-inline-start: 2px;
+  font-size: var(--fs-micro);
+  color: var(--text-secondary);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+}
+.viz-twin__yours[data-side="left"]::after { inset-inline-start: auto; inset-inline-end: 2px; }
+.viz-twin__spread {
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-twin__gap { color: var(--accent-hover); font-weight: var(--w-semibold); }
+
+.viz-twin__figs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: var(--space-sm) var(--space-md);
+  margin-block: var(--space-2xs) var(--space-md);
+}
+.viz-twin__say {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.viz-twin .viz-warrant { margin-block: 0 var(--space-sm); }
+
+/* ========================================================================== */
+/* THE OPEN RANGE BAR — a band that stops where the evidence stops            */
+/* ========================================================================== */
+
+.viz-range { margin-block: var(--space-md) var(--space-sm); }
+.viz-range--bad { color: var(--danger); font-size: var(--fs-caption); }
+.viz-range__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-3xs);
+}
+.viz-range__lab { font-size: var(--fs-caption); color: var(--text-secondary); }
+.viz-range__v { font-size: var(--fs-caption); color: var(--text-heading); white-space: nowrap; }
+.viz-range__track {
+  position: relative;
+  block-size: 1.1rem;
+  background: var(--surface-well);
+  border: var(--rule-hair) solid var(--border-soft);
+}
+/* What the record holds: a bounded band, with both ends drawn. */
+.viz-range__band {
+  position: absolute;
+  inset-block: 0;
+  background-color: var(--accent-soft);
+  background-image: var(--tex-hatch-45);
+  border-inline: var(--rule-mid) solid var(--accent-ink);
+}
+/* What it does not hold: a wash with no end cap. It must never look like a
+   bar, because it is not a measurement. */
+.viz-range__open {
+  position: absolute;
+  inset-block: 0;
+  background: linear-gradient(to right, var(--accent-soft) 0%, var(--accent-veil) 55%, transparent 100%);
+}
+/* The highest estimate anyone in the record puts their name to. */
+.viz-range__tick {
+  position: absolute;
+  inset-block: -3px;
+  inline-size: 0;
+  border-inline-start: var(--rule-mid) dotted var(--accent-2-ink);
+}
+.viz-range__ticklab {
+  position: absolute;
+  inset-block-start: calc(100% + 2px);
+  transform: translateX(-50%);
+  font-size: var(--fs-micro);
+  color: var(--accent-2-ink);
+  white-space: nowrap;
+}
+.viz-range__ends {
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: 1.05rem;
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+}
+.viz-range__say { margin: var(--space-3xs) 0 0; }
+.viz-range__open-say {
+  margin: var(--space-3xs) 0 0;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-snug);
+  color: var(--text-secondary);
+}
+.viz-range__nocount {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--danger);
+}
+
+/* ========================================================================== */
+/* MOTION — paper does not bounce, and under reduced motion it does not move.  */
+/* ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .viz-fig,
+  :root:not([data-motion="full"]) .viz-claim { transition: none !important; }
+}
+:root[data-motion="reduced"] .viz-fig,
+:root[data-motion="reduced"] .viz-claim { transition: none !important; }
+
+/* ---------------------------------------------------------------- print -- */
+@media print {
+  /* Charge 3's standing concession, honoured: on paper all four claims come
+     back to one page, whatever the reader chose on screen. */
+  .viz-plate[data-mode="collapsed"] .viz-claim[data-state="discarded"] { display: flex; }
+  .viz-plate__field { grid-template-columns: 1fr 1fr; }
+  .viz-claim__pick, .viz-strip__back, .viz-ratio__commit { display: none; }
+  .viz-claim .viz-warrant, .viz-claim .cx-src { display: block; }
+  /* The handle is a control and prints as noise; the dots ARE the chart. */
+  .viz-hundred__handle { display: none; }
+  .viz-twin__field { gap: var(--space-md); }
+  .viz-onpath { break-inside: avoid; }
+}

@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Specimen Sheet — British Empire Atlas design system</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<style>
+  /* Layout for this specimen sheet only. Nothing here is a shared token. */
+  .sheet { max-width: 74rem; margin-inline: auto; padding: var(--space-2xl) var(--space-xl) var(--space-5xl); }
+
+  .masthead { padding-block: var(--space-2xl) var(--space-xl); }
+  .masthead h1 {
+    font-size: var(--fs-plate); letter-spacing: var(--tr-plate);
+    font-weight: var(--w-bold); line-height: 1.02; margin-top: var(--space-sm);
+  }
+  .masthead { display: grid; grid-template-columns: minmax(0,3fr) minmax(0,2fr); gap: var(--space-3xl); align-items: end; }
+  .masthead > div:first-child { grid-column: 1; }
+  .masthead .lede { max-width: none; }
+  .masthead__meta {
+    grid-column: 1 / -1;
+    display: flex; flex-wrap: wrap; gap: var(--space-lg) var(--space-2xl);
+    margin-top: var(--space-lg); padding-top: var(--space-md);
+    border-top: var(--rule-hair) solid var(--border-default);
+    font-size: var(--fs-micro); color: var(--text-secondary);
+  }
+
+  section { margin-top: var(--space-3xl); }
+  /* A printed title block: the heading sits left, its standfirst right, both
+     hanging off one rule — so the sheet uses its whole width the way a plate
+     in a folio atlas does. */
+  .title-block {
+    display: grid; grid-template-columns: minmax(16rem, 27fr) minmax(20rem, 33fr);
+    gap: var(--space-xl) var(--space-3xl); align-items: end;
+    padding-bottom: var(--space-md);
+    border-bottom: var(--rule-mid) solid var(--ink);
+  }
+  .title-block h2 { display: flex; align-items: baseline; gap: var(--space-md); margin: 0; }
+  .title-block h2 .n {
+    font-family: var(--font-mono); font-size: var(--fs-caption);
+    font-weight: 500; color: var(--accent-ink); letter-spacing: 0;
+  }
+  .title-block .lede { max-width: none; font-size: var(--fs-base); line-height: 1.52; margin: 0; }
+  @media (max-width: 60rem) { .title-block { grid-template-columns: 1fr; align-items: start; } }
+  .sub { margin-top: var(--space-2xl); }
+  .sub > h3 { font-size: var(--fs-h4); }
+  .sub__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-md); }
+  .sub__head .caption { max-width: 52ch; margin: 0; }
+
+  .grid { display: grid; gap: var(--space-lg); align-items: start; }
+  .grid--2 { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+  .grid--3 { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .grid--4 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+
+  /* --- type specimens --- */
+  .spec { padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--border-soft); }
+  .spec__tag {
+    display: flex; gap: var(--space-md); align-items: baseline;
+    font-family: var(--font-mono); font-size: var(--fs-micro);
+    color: var(--text-secondary); letter-spacing: 0; margin-bottom: var(--space-2xs);
+  }
+  .spec__tag b { color: var(--accent-ink); font-weight: 500; }
+  .spec__line { color: var(--text-heading); }
+
+  /* --- swatch cards --- */
+  .swatch-card {
+    background: var(--surface-panel);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-raised);
+    overflow: hidden;
+  }
+  .swatch-card__chip { height: 4.5rem; position: relative; border-bottom: var(--rule-hair) solid var(--edge-firm); }
+  .swatch-card__chip .states { position: absolute; inset: auto 0 0 0; display: flex; height: 1.35rem; }
+  .swatch-card__chip .states span { flex: 1; }
+  .swatch-card__chip .states span {
+    display: grid; place-items: center;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.72;
+  }
+  .swatch-card__body { padding: var(--space-md); }
+  .swatch-card__name { font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  .swatch-card__hex {
+    font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0;
+    color: var(--text-secondary); margin-top: 1px;
+  }
+  .swatch-card__note { font-size: var(--fs-micro); color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4; }
+  .swatch-card dl { display: grid; grid-template-columns: auto 1fr; gap: 1px var(--space-sm); margin-top: var(--space-sm);
+                    font-size: var(--fs-micro); }
+  .swatch-card dt { color: var(--text-secondary); }
+  .swatch-card dd { margin: 0; font-family: var(--font-mono); letter-spacing: 0; }
+
+  /* --- the plate --- */
+  .plate-frame {
+    padding: var(--space-md);
+    background: var(--surface-margin);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-panel);
+  }
+  .plate { position: relative; }
+  .plate svg { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); }
+  .plate__glass {
+    position: absolute; inset: 0; pointer-events: none; border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-plate);
+  }
+  .plate-caption {
+    display: flex; justify-content: space-between; gap: var(--space-lg);
+    margin-top: var(--space-sm); font-size: var(--fs-micro); color: var(--text-secondary);
+  }
+
+  /* --- ramps --- */
+  .ramp { display: flex; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-hairline); }
+  .ramp > div { flex: 1; height: 3.25rem; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
+  .ramp > div span { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0; }
+  .ramp-labels { display: flex; margin-top: var(--space-2xs); font-size: var(--fs-micro); color: var(--text-secondary); }
+  .ramp-labels > div { flex: 1; text-align: center; }
+
+  /* --- controls bar --- */
+  .controls {
+    position: sticky; top: 0; z-index: var(--z-sticky);
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    margin-inline: calc(var(--space-xl) * -1);
+    background: var(--paper-veil);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--rule-hair) solid var(--border-default);
+  }
+  .controls__label {
+    font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: var(--tr-caps-wide);
+    color: var(--text-secondary); font-weight: var(--w-semibold); margin-right: var(--space-2xs);
+  }
+  .controls__sep { width: 1px; align-self: stretch; background: var(--border-default); margin-inline: var(--space-sm); }
+
+  .cvd-on .cvd-target { filter: url(#cvd); }
+
+  /* --- misc demo --- */
+  .demo-panel { padding: var(--space-lg); }
+  .token-row {
+    display: grid; grid-template-columns: 8.5rem 4.5rem 1fr; gap: var(--space-md);
+    align-items: center; padding: var(--space-xs) 0;
+    border-bottom: var(--rule-hair) solid var(--border-soft);
+    font-size: var(--fs-caption);
+  }
+  .token-row code { font-size: var(--fs-micro); color: var(--accent-ink); }
+  .token-row .val { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-secondary); letter-spacing: 0; }
+  .shadow-demo { height: 5rem; background: var(--surface-panel); border-radius: var(--radius-md);
+                 display: grid; place-items: center; font-size: var(--fs-micro); color: var(--text-secondary); }
+  .space-bar { background: var(--accent-veil); border-left: 2px solid var(--accent); height: 1.15rem; }
+  .fx { display: grid; place-items: center; height: 3.2rem; border-radius: var(--radius-sm);
+        background: var(--surface-well); font-size: var(--fs-micro); color: var(--text-secondary); }
+  .dossier-grid { grid-template-columns: minmax(14rem, 1fr) minmax(0, 2.6fr); }
+  @media (max-width: 60rem) { .dossier-grid { grid-template-columns: 1fr; } }
+  .legend { list-style: none; padding: 0; margin: var(--space-sm) 0 0; }
+  .legend li {
+    display: flex; align-items: center; gap: var(--space-sm);
+    padding: var(--space-2xs) 0; font-size: var(--fs-caption);
+    border-bottom: var(--rule-hair) solid var(--border-soft);
+  }
+  .legend li:last-child { border-bottom: 0; }
+  .legend .key { width: 1.1rem; height: 0.85rem; flex: none; border: var(--rule-hair) solid var(--edge-firm); border-radius: 1px; }
+  .legend .n { margin-left: auto; font-family: var(--font-mono); font-size: var(--fs-micro);
+               color: var(--text-secondary); letter-spacing: 0; }
+  .dossier__head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap; }
+  .facts { display: flex; flex-wrap: wrap; gap: var(--space-md) var(--space-2xl); margin-top: var(--space-md); }
+  .facts > div { display: flex; flex-direction: column; gap: 1px; }
+  .facts dt { font-size: var(--fs-micro); text-transform: uppercase; letter-spacing: var(--tr-caps);
+              color: var(--text-secondary); font-weight: var(--w-semibold); }
+  .facts dd { margin: 0; font-size: var(--fs-h4); font-weight: 500; color: var(--text-heading); }
+  @media (max-width: 60rem) {
+    .sheet { padding-inline: var(--space-lg); }
+    .controls { margin-inline: calc(var(--space-lg) * -1); padding-inline: var(--space-lg); }
+    .masthead { grid-template-columns: 1fr; gap: var(--space-lg); align-items: start; }
+    .masthead .lede { max-width: var(--measure-narrow); }
+    .plate-caption { flex-direction: column; gap: var(--space-2xs); }
+    .facts { gap: var(--space-md) var(--space-lg); }
+  }
+  footer.colophon {
+    margin-top: var(--space-5xl); padding-top: var(--space-lg);
+    border-top: var(--rule-heavy) solid var(--ink);
+    font-size: var(--fs-caption); color: var(--text-secondary);
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the specimen</a>
+
+<!-- Colour-vision simulation filters, applied live to the palette below.
+     Viénot, Brettel & Mollon (1999) LMS projection, expressed in linear RGB. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="cvd" color-interpolation-filters="linearRGB">
+    <feColorMatrix id="cvd-matrix" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+  </filter>
+</svg>
+
+<div class="sheet">
+
+  <div class="controls no-print" role="toolbar" aria-label="Specimen controls">
+    <span class="controls__label">Theme</span>
+    <button class="btn btn--small is-active" data-theme-btn="paper" aria-pressed="true">Paper</button>
+    <button class="btn btn--small" data-theme-btn="lamplit" aria-pressed="false">Lamplit</button>
+    <span class="controls__sep" aria-hidden="true"></span>
+    <span class="controls__label">Vision</span>
+    <button class="btn btn--small is-active" data-cvd="normal" aria-pressed="true">Normal</button>
+    <button class="btn btn--small" data-cvd="protan" aria-pressed="false">Protanopia</button>
+    <button class="btn btn--small" data-cvd="deutan" aria-pressed="false">Deuteranopia</button>
+    <button class="btn btn--small" data-cvd="tritan" aria-pressed="false">Tritanopia</button>
+  </div>
+
+  <header class="masthead">
+    <div>
+    <span class="eyebrow eyebrow--accent">The British Empire Atlas · design system</span>
+    <h1>Specimen&nbsp;Sheet</h1>
+    </div>
+    <p class="lede">Every colour, weight and measure the atlas is built from, on one page.
+      A printed historical atlas that came alive under glass — warm, exact, and never
+      louder than the history it is carrying.</p>
+    <div class="masthead__meta">
+      <span><b class="sc">Serif</b> Source Serif 4</span>
+      <span><b class="sc">Sans</b> Source Sans 3</span>
+      <span><b class="sc">Figures</b> IBM Plex Mono</span>
+      <span><b class="sc">Palette proof</b> <code>node tools/design/cvd-check.js --both</code></span>
+    </div>
+  </header>
+
+  <main id="main">
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">01</span> The map palette</h2>
+      <p class="lede">Ten statuses, held to a floor of 6&nbsp;&Delta;E00 under normal, protanopic,
+      deuteranopic and tritanopic vision — and every pair under 12 also carries its own engraved
+      texture. Switch the vision buttons above and watch nothing collapse.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3>The plate</h3>
+      <p class="caption">A schematic proof sheet, not geography: the ten fills laid next to one
+        another over the sea, each with its coastline hairline and its plate texture, so they can
+        be judged together rather than in isolation.</p></div>
+      <div class="plate-frame cvd-target" style="margin-top:var(--space-md)">
+        <div class="plate">
+          <svg viewBox="0 0 1200 340" role="img" aria-label="Proof plate showing the ten status fills over the sea">
+            <defs id="plate-defs"></defs>
+            <rect width="1200" height="340" fill="var(--map-sea)"/>
+            <g id="graticule"></g>
+            <g id="plate-shapes"></g>
+            <rect x="3" y="3" width="1194" height="334" fill="none"
+                  stroke="var(--map-plate-edge)" stroke-width="1.5"/>
+            <rect x="7.5" y="7.5" width="1185" height="325" fill="none"
+                  stroke="var(--map-plate-edge)" stroke-width="0.5"/>
+          </svg>
+          <div class="plate__glass"></div>
+        </div>
+      </div>
+      <div class="plate-caption">
+        <span id="plate-caption-left"></span>
+        <span id="plate-caption-right"></span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>The ten statuses</h3>
+      <div class="grid grid--3 cvd-target" id="status-grid" style="margin-top:var(--space-md)"></div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3>How long it was held</h3>
+      <p class="caption">One hue, seven steps, monotone in L* under every vision model (steps of
+        8&ndash;12&nbsp;L*), so a duration can never be mistaken for a status.</p></div>
+      <div class="ramp cvd-target" id="tenure-ramp" style="margin-top:var(--space-md)"></div>
+      <div class="ramp-labels">
+        <div>&lt;10 yr</div><div>10–24</div><div>25–49</div><div>50–74</div><div>75–99</div><div>100–149</div><div>150 yr +</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">02</span> Type</h2>
+      <p class="lede">A transitional serif for everything that teaches, a humanist sans for the
+      machinery, and a tabular mono for every number a student might be asked to remember.</p>
+    </div>
+
+    <div class="sub">
+      <h3>The scale</h3>
+      <div id="type-scale" style="margin-top:var(--space-md)"></div>
+    </div>
+
+    <div class="sub">
+      <h3>Weights &amp; italics</h3>
+      <div class="grid grid--2" style="margin-top:var(--space-md)">
+        <div class="paper demo-panel">
+          <span class="eyebrow">Source Serif 4 — variable 200–900</span>
+          <div style="font-family:var(--font-serif);font-size:var(--fs-h4);margin-top:var(--space-sm)">
+            <div style="font-weight:300">300 &nbsp;Cape&nbsp;Colony annexed</div>
+            <div style="font-weight:380">380 &nbsp;Cape&nbsp;Colony annexed</div>
+            <div style="font-weight:520">520 &nbsp;Cape&nbsp;Colony annexed</div>
+            <div style="font-weight:680">680 &nbsp;Cape&nbsp;Colony annexed</div>
+            <div style="font-weight:380;font-style:italic">380 italic &nbsp;<em>Ex Africa semper aliquid novi</em></div>
+          </div>
+        </div>
+        <div class="paper demo-panel">
+          <span class="eyebrow">Figures — IBM Plex Mono, tabular, slashed zero</span>
+          <table class="data" style="margin-top:var(--space-sm)">
+            <thead><tr><th>Territory</th><th class="num">From</th><th class="num">To</th><th class="num">Years</th></tr></thead>
+            <tbody>
+              <tr><td>Barbados</td><td class="num">1627</td><td class="num">1966</td><td class="num">339</td></tr>
+              <tr><td>New South Wales</td><td class="num">1788</td><td class="num">1901</td><td class="num">113</td></tr>
+              <tr><td>Hong Kong (lease)</td><td class="num">1898</td><td class="num">1997</td><td class="num">99</td></tr>
+              <tr><td>Tanganyika (mandate)</td><td class="num">1920</td><td class="num">1961</td><td class="num">41</td></tr>
+              <tr><td>Weihaiwei (lease)</td><td class="num num--circa">1898</td><td class="num">1930</td><td class="num">32</td></tr>
+            </tbody>
+          </table>
+          <p class="caption" style="margin-top:var(--space-sm)">Every column lines up because the digits
+            are the same width. <span class="num num--contested">1788</span> — a dotted rule marks a date
+            historians argue about.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Prose at the measure</h3>
+      <div class="paper demo-panel" style="margin-top:var(--space-md)">
+        <span class="eyebrow">Dossier body · 17px / 1.62 / 66ch</span>
+        <div class="prose" style="margin-top:var(--space-sm)">
+          <p>On 22&nbsp;June <span class="num">1948</span> the <em>Empire Windrush</em> docked at
+            Tilbury with <span class="num">1,027</span> passengers, <span class="num">802</span> of
+            them from the Caribbean. They were British subjects. The <span class="sc">British
+            Nationality Act</span> passed a month later said so in law.</p>
+          <p>Fourteen years afterwards Parliament took the right away again. The Commonwealth
+            Immigrants Act of <span class="num">1962</span> introduced employment vouchers, and
+            the number of people who could come fell by more than half within a year.</p>
+          <blockquote class="pull">We are here because you were there.
+            <cite>Ambalavaner Sivanandan, Institute of Race Relations</cite></blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">03</span> Ink, paper, accent</h2>
+      <p class="lede">Never pure black on pure white. Warm near-black ink at L*&nbsp;12 on rag
+      off-white at L*&nbsp;97 — every surface listed with the ratio it actually achieves.</p>
+    </div>
+    <div class="grid grid--4 cvd-target" id="ink-grid" style="margin-top:var(--space-lg)"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">04</span> Controls, surfaces, states</h2>
+      <p class="lede">The smallest set the whole atlas can be built from. Every control is
+      keyboard-operable, and the focus ring survives sitting on a saturated map fill.</p>
+    </div>
+    <div class="grid grid--2" style="margin-top:var(--space-lg)">
+      <div class="paper demo-panel">
+        <span class="eyebrow">Buttons</span>
+        <div class="cluster" style="margin-top:var(--space-md)">
+          <button class="btn btn--primary">Play 1750 → 1997</button>
+          <button class="btn">Reset view</button>
+          <button class="btn is-active" aria-pressed="true">Tenure</button>
+          <button class="btn btn--quiet">Sources</button>
+          <button class="btn btn--small">Small</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+        <hr class="rule" style="margin-top:var(--space-lg)">
+        <span class="eyebrow" style="margin-top:var(--space-lg)">Chips &amp; legend keys</span>
+        <div class="cluster" id="chip-row" style="margin-top:var(--space-md)"></div>
+        <div class="cluster" style="margin-top:var(--space-sm)">
+          <span class="chip chip--warn">Date contested</span>
+          <span class="chip chip--info">Boundary approximate</span>
+        </div>
+        <p class="caption" style="margin-top:var(--space-md)">Tab through this panel: the focus ring is
+          a madder line with a paper halo, so it stays visible on top of a saturated map fill.</p>
+      </div>
+
+      <div class="stack">
+        <div class="paper demo-panel">
+          <span class="eyebrow">Surfaces &amp; shadows</span>
+          <div class="grid grid--3" style="margin-top:var(--space-md)">
+            <div class="shadow-demo" style="box-shadow:var(--shadow-raised)">raised</div>
+            <div class="shadow-demo" style="box-shadow:var(--shadow-panel)">panel</div>
+            <div class="shadow-demo" style="box-shadow:var(--shadow-lifted)">lifted</div>
+          </div>
+          <div class="surface--well" style="margin-top:var(--space-md);padding:var(--space-md);font-size:var(--fs-caption);color:var(--text-secondary)">
+            <code>.surface--well</code> — the sunk field a search box or an inactive tab sits in.
+          </div>
+        </div>
+        <div class="paper demo-panel">
+          <span class="eyebrow">Rules</span>
+          <div class="stack" style="--stack-gap:var(--space-md);margin-top:var(--space-md)">
+            <div><hr class="rule rule--hair"><span class="caption">hair · 0.5px · graticule, table rows</span></div>
+            <div><hr class="rule"><span class="caption">fine · 1px · panel edges, coastline</span></div>
+            <div><hr class="rule rule--firm"><span class="caption">firm · 1px · section divisions</span></div>
+            <div><hr class="rule rule--heavy"><span class="caption">heavy · 3px · chapter openers</span></div>
+            <div><hr class="rule--double"><span class="caption">double · a title-page rule</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">05</span> Space, motion, layers</h2>
+      <p class="lede">Eleven spacing steps, six easings, ten named z-layers. Nobody on this
+      project should ever need to write <code>z-index: 9999</code>.</p>
+    </div>
+    <div class="grid grid--2" style="margin-top:var(--space-lg)">
+      <div class="paper demo-panel">
+        <span class="eyebrow">Spacing scale</span>
+        <div id="space-scale" style="margin-top:var(--space-md)"></div>
+      </div>
+      <div class="stack">
+        <div class="paper demo-panel">
+          <span class="eyebrow">Easing &amp; duration</span>
+          <p class="caption" style="margin-top:var(--space-2xs)">Paper does not bounce. Things settle.
+            Hover a tile to run it.</p>
+          <div class="grid grid--3" id="motion-grid" style="margin-top:var(--space-md)"></div>
+        </div>
+        <div class="paper demo-panel">
+          <span class="eyebrow">Z layers</span>
+          <div id="z-scale" style="margin-top:var(--space-sm)"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+  <section>
+    <div class="title-block">
+      <h2><span class="n">06</span> One dossier</h2>
+      <p class="lede">The system composed the way a student will actually meet it: a legend, a
+        territory panel, a contested date, a source. Sample content — the history agents own the words.</p>
+    </div>
+
+    <div class="grid dossier-grid" style="margin-top:var(--space-lg)">
+      <aside class="paper demo-panel" aria-label="Legend">
+        <span class="eyebrow">Legend · 1750–1997</span>
+        <ul class="legend" id="legend-list"></ul>
+        <hr class="rule rule--hair" style="margin-top:var(--space-md)">
+        <span class="eyebrow" style="display:block;margin-top:var(--space-md)">Held for</span>
+        <div class="ramp" id="tenure-ramp-2" style="margin-top:var(--space-sm);--h:1.5rem"></div>
+        <div class="ramp-labels"><div>&lt;10</div><div>25</div><div>50</div><div>75</div><div>100</div><div>150</div><div>yr+</div></div>
+      </aside>
+
+      <article class="paper demo-panel dossier">
+        <div class="dossier__head">
+          <div>
+            <span class="eyebrow eyebrow--accent">Caribbean · Windward Islands</span>
+            <h3 style="margin-top:var(--space-2xs)">Barbados</h3>
+          </div>
+          <span class="chip"><i class="chip__key" style="background:var(--map-settlement)"></i>Settlement colony</span>
+        </div>
+        <hr class="rule--double" style="margin-top:var(--space-md)">
+        <dl class="facts">
+          <div><dt>English settlement</dt><dd class="num">1627</dd></div>
+          <div><dt>Slave code enacted</dt><dd class="num">1661</dd></div>
+          <div><dt>Slavery abolished</dt><dd class="num">1834</dd></div>
+          <div><dt>Independence</dt><dd class="num">1966</dd></div>
+          <div><dt>Held</dt><dd class="num">339 yr</dd></div>
+        </dl>
+        <div class="prose prose--wide" style="margin-top:var(--space-lg)">
+          <p>English ships landed on an uninhabited Barbados in <span class="num">1627</span>.
+            Within forty years sugar had remade it: by <span class="num">1680</span> the island
+            held more enslaved Africans than English settlers, and its planters were the richest
+            men in English America.</p>
+          <p>The <span class="sc">Barbados Slave Code</span> of <span class="num">1661</span> gave
+            that arrangement its law. It called enslaved people property, set no penalty worth the
+            name for killing one, and was copied into Jamaica, South Carolina and Antigua.
+            Emancipation came in <span class="num">1834</span> — followed by four years of
+            unpaid <q>apprenticeship</q>, and £20 million in compensation paid to owners, not to
+            the people they had owned.</p>
+        </div>
+        <p class="caption" style="margin-top:var(--space-lg);display:flex;gap:var(--space-md);flex-wrap:wrap">
+          <span><b class="sc">Source</b> Hilary McD. Beckles, <cite>A History of Barbados</cite> (2006)</span>
+          <span class="chip chip--warn">1627 landfall date contested</span>
+        </p>
+      </article>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="colophon">
+    <p><b>Design system</b> — <code>app/css/tokens.css</code>, <code>app/css/base.css</code>,
+      <code>docs/DESIGN.md</code>. Palette generated by <code>tools/design/build-palette.js</code>,
+      proved by <code>tools/design/cvd-check.js</code> and <code>tools/design/textures.js</code>.
+      Fonts vendored under <code>app/assets/fonts/</code>: Source Serif 4, Source Sans 3 and
+      IBM Plex Mono, all SIL Open Font License.</p>
+  </footer>
+</div>
+
+<script>
+/* Theme must be settled before the specimen reads any computed value. */
+if (location.hash.includes('theme=lamplit')) document.documentElement.setAttribute('data-theme', 'lamplit');
+else if (location.hash.includes('theme=paper')) document.documentElement.setAttribute('data-theme', 'paper');
+</script>
+<script type="module">
+const STATUS = [
+  ['never-british',   'Never British',        'plain',            'The ground everything else is printed on.'],
+  ['lost-former',     'Formerly British',     'hatch-45',         'Held once, not at the year shown.'],
+  ['dominion',        'Dominion',             'rule-h',           'Self-governing; the palest of the madder family.'],
+  ['settlement',      'Settlement colony',    'stipple',          'Settled by British migrants, on other people’s land.'],
+  ['crown-conquered', 'Crown / conquered',    'plain',            'Ruled directly from London. The heritage madder.'],
+  ['company-rule',    'Company rule',         'cross',            'A chartered company governing, e.g. the EIC to 1858.'],
+  ['lease',           'Lease',                'rule-v',           'Held for a fixed term — Hong Kong’s New Territories, 99 years.'],
+  ['protectorate',    'Protectorate',         'hatch-135',        'Local rulers kept, foreign policy taken.'],
+  ['mandate',         'Mandate / trust',      'stipple-coarse',   'League of Nations, then UN trusteeship.'],
+  ['occupied',        'Occupied',             'hatch-135-dense',  'Military occupation without a claim of sovereignty.'],
+];
+const TEX_CSS = {
+  'plain':            null,
+  'rule-h':           ['var(--tex-rule-h)', 'auto'],
+  'rule-v':           ['var(--tex-rule-v)', 'auto'],
+  'hatch-45':         ['var(--tex-hatch-45)', 'auto'],
+  'hatch-135':        ['var(--tex-hatch-135)', 'auto'],
+  'hatch-135-dense':  ['var(--tex-hatch-135-dense)', 'auto'],
+  'cross':            ['var(--tex-cross)', 'auto'],
+  'stipple':          ['var(--tex-stipple)', 'var(--tex-stipple-size)'],
+  'stipple-coarse':   ['var(--tex-stipple-coarse)', 'var(--tex-stipple-coarse-size)'],
+};
+const cs = getComputedStyle(document.documentElement);
+const tok = n => cs.getPropertyValue(n).trim();
+
+/* ---------- colour maths, enough to print real numbers on the page ---------- */
+const lin = h => { h = h.replace('#',''); if (h.length===3) h=[...h].map(c=>c+c).join('');
+  return [0,2,4].map(i=>parseInt(h.substr(i,2),16)/255).map(c=>c<=0.04045?c/12.92:((c+0.055)/1.055)**2.4); };
+const lum = h => { const [r,g,b]=lin(h); return 0.2126*r+0.7152*g+0.0722*b; };
+const ratio = (a,b) => { const x=lum(a), y=lum(b); return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05); };
+const Lstar = h => { const [r,g,b]=lin(h); const Y=0.2126*r+0.7152*g+0.0722*b;
+  return Y>216/24389 ? 116*Math.cbrt(Y)-16 : Y*24389/27; };
+const mul = (m,v) => m.map(r => r[0]*v[0]+r[1]*v[1]+r[2]*v[2]);
+const unlin = c => c.map(v => { v = v<=0.0031308 ? v*12.92 : 1.055*Math.pow(Math.max(v,0),1/2.4)-0.055;
+  return Math.round(Math.min(1,Math.max(0,v))*255); });
+const toHex = c => '#' + c.map(v => v.toString(16).padStart(2,'0')).join('');
+const R2L = [[17.8824,43.5161,4.11935],[3.45565,27.1554,3.86714],[0.0299566,0.184309,1.46709]];
+const L2R = [[0.080944,-0.130504,0.116721],[-0.0102485,0.0540194,-0.113615],[-0.000365294,-0.00412163,0.693513]];
+const DICH = { protan:[[0,2.02344,-2.52581],[0,1,0],[0,0,1]],
+               deutan:[[1,0,0],[0.494207,0,1.24827],[0,0,1]],
+               tritan:[[1,0,0],[0,1,0],[-0.395913,0.801109,0]] };
+const sim = (h,k) => k==='normal' ? h : toHex(unlin(mul(L2R, mul(DICH[k], mul(R2L, lin(h))))));
+function labOf(h){ const [r,g,b]=lin(h);
+  const X=0.4124564*r+0.3575761*g+0.1804375*b, Y=0.2126729*r+0.7151522*g+0.0721750*b, Z=0.0193339*r+0.1191920*g+0.9503041*b;
+  const f=t=>t>216/24389?Math.cbrt(t):(841/108)*t+4/29;
+  const fx=f(X/0.95047), fy=f(Y), fz=f(Z/1.08883);
+  return [116*fy-16, 500*(fx-fy), 200*(fy-fz)]; }
+function dE00(A,B){ const [L1,a1,b1]=labOf(A), [L2,a2,b2]=labOf(B), rad=Math.PI/180, deg=180/Math.PI;
+  const C1=Math.hypot(a1,b1), C2=Math.hypot(a2,b2), Cb=(C1+C2)/2;
+  const G=0.5*(1-Math.sqrt(Cb**7/(Cb**7+25**7))), ap1=(1+G)*a1, ap2=(1+G)*a2;
+  const Cp1=Math.hypot(ap1,b1), Cp2=Math.hypot(ap2,b2);
+  const hp=(b,a)=>{ if(b===0&&a===0) return 0; const h=Math.atan2(b,a)*deg; return h<0?h+360:h; };
+  const hp1=hp(b1,ap1), hp2=hp(b2,ap2), dLp=L2-L1, dCp=Cp2-Cp1;
+  let dhp=0; if(Cp1*Cp2!==0){ dhp=hp2-hp1; if(dhp>180)dhp-=360; else if(dhp<-180)dhp+=360; }
+  const dHp=2*Math.sqrt(Cp1*Cp2)*Math.sin(dhp*rad/2), Lbp=(L1+L2)/2, Cbp=(Cp1+Cp2)/2;
+  let hbp; if(Cp1*Cp2===0) hbp=hp1+hp2; else { const d=Math.abs(hp1-hp2);
+    hbp = d>180 ? (hp1+hp2+(hp1+hp2<360?360:-360))/2 : (hp1+hp2)/2; }
+  const T=1-0.17*Math.cos((hbp-30)*rad)+0.24*Math.cos(2*hbp*rad)+0.32*Math.cos((3*hbp+6)*rad)-0.20*Math.cos((4*hbp-63)*rad);
+  const dTh=30*Math.exp(-(((hbp-275)/25)**2)), Rc=2*Math.sqrt(Cbp**7/(Cbp**7+25**7));
+  const Sl=1+(0.015*(Lbp-50)**2)/Math.sqrt(20+(Lbp-50)**2), Sc=1+0.045*Cbp, Sh=1+0.015*Cbp*T;
+  const Rt=-Math.sin(2*dTh*rad)*Rc;
+  return Math.sqrt((dLp/Sl)**2+(dCp/Sc)**2+(dHp/Sh)**2+Rt*(dCp/Sc)*(dHp/Sh)); }
+const VIEWS = ['normal','protan','deutan','tritan'];
+const worstDE = (a,b) => Math.min(...VIEWS.map(v => dE00(sim(a,v), sim(b,v))));
+
+function applyTex(el, name) {
+  const t = TEX_CSS[name];
+  if (!t) return;
+  el.style.backgroundImage = t[0];
+  if (t[1] !== 'auto') el.style.backgroundSize = t[1];
+}
+
+/* ---------- 1. the proof plate ---------- */
+(function plate() {
+  const shapes = document.getElementById('plate-shapes');
+  const grat = document.getElementById('graticule');
+  const defs = document.getElementById('plate-defs');
+  const NS = 'http://www.w3.org/2000/svg';
+  for (let x = 60; x < 1200; x += 60) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', x); l.setAttribute('y1', 0); l.setAttribute('x2', x); l.setAttribute('y2', 340);
+    l.setAttribute('stroke', 'var(--map-graticule)'); l.setAttribute('stroke-width', '0.5'); grat.appendChild(l);
+  }
+  for (let y = 40; y < 340; y += 40) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', 0); l.setAttribute('y1', y); l.setAttribute('x2', 1200); l.setAttribute('y2', y);
+    l.setAttribute('stroke', 'var(--map-graticule)'); l.setAttribute('stroke-width', '0.5'); grat.appendChild(l);
+  }
+  // SVG pattern equivalents of the CSS textures, drawn in --tex-ink.
+  const PAT = {
+    'rule-h':          'M0 0 H8',
+    'rule-v':          'M0 0 V8',
+    'hatch-45':        'M-2 6 L6 -2 M0 10 L10 0',
+    'hatch-135':       'M-2 2 L2 -2 M-2 10 L10 -2 M6 10 L10 6',
+    'hatch-135-dense': 'M-1 1 L1 -1 M-1 5 L5 -1 M3 5 L5 3',
+    'cross':           'M0 0 H8 M0 0 V8',
+  };
+  Object.entries(PAT).forEach(([k, d]) => {
+    const p = document.createElementNS(NS, 'pattern');
+    p.setAttribute('id', 'p-' + k); p.setAttribute('width', k.endsWith('dense') ? 4 : 8);
+    p.setAttribute('height', k.endsWith('dense') ? 4 : 8); p.setAttribute('patternUnits', 'userSpaceOnUse');
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', d); path.setAttribute('stroke', 'var(--tex-ink)'); path.setAttribute('stroke-width', '0.7');
+    path.setAttribute('fill', 'none'); p.appendChild(path); defs.appendChild(p);
+  });
+  ['stipple', 'stipple-coarse'].forEach(k => {
+    const step = k === 'stipple' ? 5 : 9;
+    const p = document.createElementNS(NS, 'pattern');
+    p.setAttribute('id', 'p-' + k); p.setAttribute('width', step); p.setAttribute('height', step);
+    p.setAttribute('patternUnits', 'userSpaceOnUse');
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', step / 2); c.setAttribute('cy', step / 2); c.setAttribute('r', k === 'stipple' ? 0.65 : 0.95);
+    c.setAttribute('fill', 'var(--tex-ink)'); p.appendChild(c); defs.appendChild(p);
+  });
+
+  // An abstract archipelago: irregular quadrilaterals, one per status, tiled.
+  const W = 1200, H = 340, cols = 5, rows = 2;
+  const cw = W / cols, ch = H / rows;
+  const jitter = (seed) => { let s = seed; return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; }; };
+  STATUS.forEach(([key, label, tex], i) => {
+    const cx = (i % cols) * cw, cy = Math.floor(i / cols) * ch;
+    const r = jitter(i * 977 + 13);
+    /* 22 vertices with per-vertex jitter reads as a coastline; 9 reads as a
+       polygon. The radii are capped so nothing ever meets the plate frame. */
+    const pts = [];
+    const n = 22, rx = cw * 0.40, ry = ch * 0.36;
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2;
+      const wobble = 0.86 + r() * 0.22;
+      pts.push([cx + cw / 2 + Math.cos(a) * rx * wobble,
+                cy + ch / 2 + Math.sin(a) * ry * wobble]);
+    }
+    /* Smooth the ring through quadratic midpoints: a coastline, not a cog. */
+    const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    let d = 'M' + mid(pts[n - 1], pts[0]).map(v => v.toFixed(1)).join(' ');
+    for (let k = 0; k < n; k++) {
+      const c = pts[k], m = mid(c, pts[(k + 1) % n]);
+      d += ' Q' + c[0].toFixed(1) + ' ' + c[1].toFixed(1) + ' ' + m[0].toFixed(1) + ' ' + m[1].toFixed(1);
+    }
+    d += ' Z';
+    const g = document.createElementNS(NS, 'g');
+    const base = document.createElementNS(NS, 'path');
+    base.setAttribute('d', d);
+    base.setAttribute('fill', 'var(--map-' + key + ')');
+    base.setAttribute('stroke', 'var(--map-coast)');
+    base.setAttribute('stroke-width', '1');
+    g.appendChild(base);
+    if (tex !== 'plain') {
+      const t = document.createElementNS(NS, 'path');
+      t.setAttribute('d', d); t.setAttribute('fill', 'url(#p-' + tex + ')'); g.appendChild(t);
+    }
+    const txt = document.createElementNS(NS, 'text');
+    txt.setAttribute('x', cx + cw / 2); txt.setAttribute('y', cy + ch / 2 + 4);
+    txt.setAttribute('text-anchor', 'middle');
+    txt.setAttribute('fill', 'var(--map-' + key + '-on)');
+    txt.setAttribute('style', 'font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase');
+    txt.textContent = label;
+    g.appendChild(txt);
+    shapes.appendChild(g);
+  });
+})();
+
+/* ---------- 2. status swatch cards ---------- */
+(function statusCards() {
+  const host = document.getElementById('status-grid');
+  const sea = tok('--map-sea'), paper = tok('--paper'), ink = tok('--ink');
+  STATUS.forEach(([key, label, tex, note]) => {
+    const fill = tok('--map-' + key);
+    let near = { name: '—', d: Infinity };
+    STATUS.forEach(([k2, l2]) => { if (k2 === key) return;
+      const d = worstDE(fill, tok('--map-' + k2)); if (d < near.d) near = { name: l2.split(' ')[0].replace('/','').trim(), d }; });
+    const card = document.createElement('div');
+    card.className = 'swatch-card';
+    card.innerHTML = `
+      <div class="swatch-card__chip" style="background:${fill}">
+        <div class="states">
+          <span style="background:var(--map-${key});color:var(--map-${key}-on)">base</span>
+          <span style="background:var(--map-${key}-hover);color:var(--map-${key}-on)">hov</span>
+          <span style="background:var(--map-${key}-selected);color:var(--map-${key}-on)">sel</span>
+          <span style="background:var(--map-${key}-stroke)"></span>
+        </div>
+      </div>
+      <div class="swatch-card__body">
+        <div class="swatch-card__name">${label}</div>
+        <div class="swatch-card__hex">${fill.toUpperCase()} · L* ${Lstar(fill).toFixed(0)} · ${tex}</div>
+        <div class="swatch-card__note">${note}</div>
+        <dl>
+          <dt title="worst-case CIEDE2000 across normal, protan, deutan and tritan vision">off the sea</dt>
+            <dd>&Delta;E ${worstDE(fill, sea).toFixed(1)}</dd>
+          <dt title="the status this one comes closest to, worst case">nearest</dt>
+            <dd>&Delta;E ${near.d.toFixed(1)} <span style="color:var(--text-secondary)">${near.name}</span></dd>
+          <dt>label on fill</dt><dd>${ratio(fill, tok('--map-' + key + '-on')).toFixed(2)}:1</dd>
+        </dl>
+      </div>`;
+    const chip = card.querySelector('.swatch-card__chip');
+    applyTex(chip, tex);
+    host.appendChild(card);
+  });
+})();
+
+/* ---------- 2b. plate caption, from live tokens ---------- */
+(function plateCaption() {
+  const sea = tok('--map-sea');
+  let worst = { d: Infinity, a: '', b: '', v: '' };
+  STATUS.forEach(([ka, la], i) => STATUS.forEach(([kb, lb], j) => {
+    if (j <= i) return;
+    const A = tok('--map-' + ka), B = tok('--map-' + kb);
+    VIEWS.forEach(v => { const d = dE00(sim(A, v), sim(B, v));
+      if (d < worst.d) worst = { d, a: la, b: lb, v }; });
+  }));
+  const NAMES = { protan: 'protanopia', deutan: 'deuteranopia', tritan: 'tritanopia', normal: 'normal vision' };
+  document.getElementById('plate-caption-left').innerHTML =
+    `Sea <span class="num">${sea.toUpperCase()}</span> · coastline <span class="num">${tok('--map-coast').toUpperCase()}</span> · plate frame <span class="num">${tok('--map-plate-edge').toUpperCase()}</span>`;
+  document.getElementById('plate-caption-right').innerHTML =
+    `Closest pair: ${worst.a.toLowerCase()} / ${worst.b.toLowerCase()}, <span class="num">${worst.d.toFixed(2)}</span> &Delta;E00 under ${NAMES[worst.v]}`;
+})();
+
+/* ---------- 3. tenure ramp ---------- */
+(function tenure() {
+  const host = document.getElementById('tenure-ramp');
+  for (let i = 1; i <= 7; i++) {
+    const c = tok('--tenure-' + i);
+    const d = document.createElement('div');
+    d.style.background = c;
+    d.innerHTML = `<span style="color:${Lstar(c) > 55 ? tok('--ink') : tok('--ink-invert')}">${c.toUpperCase()}</span>`;
+    host.appendChild(d);
+  }
+})();
+
+/* ---------- 4. type scale ---------- */
+(function typeScale() {
+  const rows = [
+    ['--fs-plate', 'plate', 'serif', 'The British Empire', '--w-bold', '--tr-plate'],
+    ['--fs-display', 'display', 'serif', 'A quarter of the land', '--w-semibold', '--tr-display'],
+    ['--fs-h1', 'h1', 'serif', 'Every place, every year', '--w-bold', '--tr-display'],
+    ['--fs-h2', 'h2', 'serif', 'How it was taken', '--w-semibold', '--tr-heading'],
+    ['--fs-h3', 'h3', 'serif', 'And how it came apart', '--w-semibold', '--tr-heading'],
+    ['--fs-h4', 'h4', 'serif', 'Partition, 1947', '--w-semibold', '--tr-heading'],
+    ['--fs-lede', 'lede', 'serif', 'Two hundred years in ninety seconds.', '--w-light', '--tr-normal'],
+    ['--fs-prose', 'prose', 'serif', 'The reading size. Seventeen pixels, leading of 1.62, measure of 66 characters.', '--w-book', '--tr-normal'],
+    ['--fs-base', 'base', 'sans', 'Interface body. Buttons, panel text, form labels.', '--w-regular', '--tr-ui'],
+    ['--fs-small', 'small', 'sans', 'Dense tables and control labels.', '--w-regular', '--tr-ui'],
+    ['--fs-caption', 'caption', 'sans', 'Captions and table notes. Thirteen pixels.', '--w-regular', '--tr-ui'],
+    ['--fs-micro', 'micro', 'sans', 'LEGEND KEYS AND SOURCE SIGLA — THE 12px FLOOR', '--w-semibold', '--tr-caps'],
+  ];
+  const host = document.getElementById('type-scale');
+  rows.forEach(([v, name, fam, text, w, tr]) => {
+    const px = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v)) * 16;
+    const el = document.createElement('div');
+    el.className = 'spec';
+    el.innerHTML = `<div class="spec__tag"><b>${name}</b><span>${v}</span><span>${px.toFixed(0)}px</span>
+        <span>${fam}</span><span>${tok(w)}</span></div>
+      <div class="spec__line" style="font-family:var(--font-${fam});font-size:var(${v});
+        font-weight:var(${w});letter-spacing:var(${tr});line-height:1.16;
+        ${name === 'micro' ? 'text-transform:uppercase;' : ''}">${text}</div>`;
+    host.appendChild(el);
+  });
+})();
+
+/* ---------- 5. ink swatches ---------- */
+(function inkGrid() {
+  const paper = tok('--paper');
+  const rows = [
+    ['--paper', 'Paper', 'the page'],
+    ['--paper-raised', 'Paper raised', 'panels, dossier'],
+    ['--paper-sunk', 'Paper sunk', 'wells, stripes'],
+    ['--paper-edge', 'Paper edge', 'the map margin'],
+    ['--ink-strong', 'Ink strong', 'headings only'],
+    ['--ink', 'Ink', 'body text'],
+    ['--ink-muted', 'Ink muted', 'captions'],
+    ['--ink-faint', 'Ink faint', 'the text floor'],
+    ['--ink-ghost', 'Ink ghost', 'decorative only'],
+    ['--accent', 'Accent madder', 'marks, rules'],
+    ['--accent-ink', 'Accent ink', 'links, buttons'],
+    ['--accent-2-ink', 'Admiralty blue', 'timeline, "you are here"'],
+    ['--ok', 'Independence', 'with a word, never alone'],
+    ['--warn', 'Contested', 'a date historians dispute'],
+    ['--danger', 'Rupture', 'war, partition, famine'],
+    ['--info', 'Note', 'editorial aside'],
+  ];
+  const host = document.getElementById('ink-grid');
+  rows.forEach(([v, name, note]) => {
+    const c = tok(v);
+    const r = ratio(c, paper);
+    const isText = v.startsWith('--ink') || v.startsWith('--accent') || ['--ok','--warn','--danger','--info'].includes(v);
+    const card = document.createElement('div');
+    card.className = 'swatch-card';
+    card.innerHTML = `
+      <div class="swatch-card__chip" style="background:${c};height:3.25rem"></div>
+      <div class="swatch-card__body">
+        <div class="swatch-card__name">${name}</div>
+        <div class="swatch-card__hex">${c.toUpperCase()} · L* ${Lstar(c).toFixed(0)}</div>
+        <div class="swatch-card__note">${note}<br>
+          <b style="color:${r >= 4.5 ? 'var(--ok)' : r >= 3 ? 'var(--warn)' : 'var(--text-secondary)'}">${r.toFixed(2)}:1</b>
+          on paper ${isText ? (r >= 4.5 ? '· AA text' : r >= 3 ? '· large text only' : '· not for type') : ''}</div>
+      </div>`;
+    host.appendChild(card);
+  });
+})();
+
+/* ---------- 6. legend chips ---------- */
+(function chips() {
+  const host = document.getElementById('chip-row');
+  STATUS.slice(2, 8).forEach(([key, label, tex]) => {
+    const s = document.createElement('span');
+    s.className = 'chip';
+    const k = document.createElement('i');
+    k.className = 'chip__key';
+    k.style.background = 'var(--map-' + key + ')';
+    applyTex(k, tex);
+    s.append(k, document.createTextNode(label));
+    host.appendChild(s);
+  });
+})();
+
+/* ---------- 7. space + z + motion ---------- */
+(function scales() {
+  const sp = ['3xs','2xs','xs','sm','md','lg','xl','2xl','3xl','4xl','5xl'];
+  const host = document.getElementById('space-scale');
+  sp.forEach(n => {
+    const v = tok('--space-' + n);
+    const row = document.createElement('div');
+    row.className = 'token-row';
+    row.innerHTML = `<code>--space-${n}</code><span class="val">${v}</span><div class="space-bar" style="width:${v}"></div>`;
+    host.appendChild(row);
+  });
+  const zs = ['base','map-overlay','panel','sticky','header','popover','tooltip','modal','toast','max'];
+  const zh = document.getElementById('z-scale');
+  zs.forEach(n => {
+    const row = document.createElement('div');
+    row.className = 'token-row';
+    row.style.gridTemplateColumns = '8.5rem 4.5rem 1fr';
+    row.innerHTML = `<code>--z-${n}</code><span class="val">${tok('--z-' + n)}</span>
+      <span class="z-bar" style="display:block;height:0.4rem;border-radius:1px;background:var(--accent-veil);
+        border-left:2px solid var(--accent-2);width:${10 + (+tok('--z-' + n)) * 0.9}%"></span>`;
+    zh.appendChild(row);
+  });
+  const eases = [['--ease-standard','--dur-fast'],['--ease-out','--dur-normal'],['--ease-settle','--dur-slow'],
+                 ['--ease-in-out','--dur-normal'],['--ease-in','--dur-fast'],['--ease-standard','--dur-deliberate']];
+  const mh = document.getElementById('motion-grid');
+  eases.forEach(([e, d]) => {
+    const box = document.createElement('div');
+    box.className = 'fx';
+    box.innerHTML = `<span>${e.replace('--ease-','')} · ${tok(d)}</span>`;
+    box.style.transition = `transform ${tok(d)} var(${e}), background-color ${tok(d)} var(${e})`;
+    box.addEventListener('mouseenter', () => { box.style.transform = 'translateX(14px)'; box.style.backgroundColor = 'var(--accent-soft)'; });
+    box.addEventListener('mouseleave', () => { box.style.transform = ''; box.style.backgroundColor = ''; });
+    mh.appendChild(box);
+  });
+})();
+
+/* ---------- 7b. the dossier legend ---------- */
+(function legend() {
+  const host = document.getElementById('legend-list');
+  const COUNT = { 'dominion': 5, 'settlement': 28, 'crown-conquered': 41, 'company-rule': 4,
+                  'lease': 3, 'protectorate': 34, 'mandate': 9, 'occupied': 6, 'lost-former': 12 };
+  STATUS.filter(([k]) => k !== 'never-british').forEach(([key, label, tex]) => {
+    const li = document.createElement('li');
+    const k = document.createElement('i');
+    k.className = 'key'; k.style.background = 'var(--map-' + key + ')';
+    applyTex(k, tex);
+    const n = document.createElement('span');
+    n.className = 'n'; n.textContent = COUNT[key] ?? '';
+    li.append(k, document.createTextNode(label), n);
+    host.appendChild(li);
+  });
+  const r2 = document.getElementById('tenure-ramp-2');
+  for (let i = 1; i <= 7; i++) {
+    const d = document.createElement('div');
+    d.style.background = tok('--tenure-' + i); d.style.height = '1.5rem';
+    r2.appendChild(d);
+  }
+})();
+
+/* ---------- 8. theme + colour-vision controls ---------- */
+const MATRIX = {
+  normal: '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0',
+  /* Viénot/Brettel/Mollon 1999, RGB->LMS->projection->RGB, folded to one matrix. */
+  protan: '0.1121 0.8853 -0.0005 0 0  0.1127 0.8897 -0.0001 0 0  0.0045 0.0000 1.0019 0 0  0 0 0 1 0',
+  deutan: '0.2920 0.7054 -0.0003 0 0  0.2934 0.7089 0.0000 0 0  -0.0209 0.0270 0.9942 0 0  0 0 0 1 0',
+  tritan: '1.0170 0.1096 -0.1264 0 0  -0.0106 0.9733 0.0373 0 0  0.0498 0.9822 -0.0320 0 0  0 0 0 1 0',
+};
+document.querySelectorAll('[data-cvd]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-cvd]').forEach(o => { o.classList.remove('is-active'); o.setAttribute('aria-pressed', 'false'); });
+  b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true');
+  const kind = b.dataset.cvd;
+  document.getElementById('cvd-matrix').setAttribute('values', MATRIX[kind]);
+  document.body.classList.toggle('cvd-on', kind !== 'normal');
+}));
+document.querySelectorAll('[data-theme-btn]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-theme-btn]').forEach(o => { o.classList.remove('is-active'); o.setAttribute('aria-pressed', 'false'); });
+  b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true');
+  document.documentElement.setAttribute('data-theme', b.dataset.themeBtn);
+  location.hash = '#theme=' + b.dataset.themeBtn;
+  setTimeout(() => location.reload(), 10);
+}));
+(function syncThemeButtons() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'paper';
+  document.querySelectorAll('[data-theme-btn]').forEach(b => {
+    const on = b.dataset.themeBtn === cur;
+    b.classList.toggle('is-active', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+})();
+</script>
+</body>
+</html>

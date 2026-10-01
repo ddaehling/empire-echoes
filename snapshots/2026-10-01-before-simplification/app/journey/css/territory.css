@@ -1,0 +1,806 @@
+.territory-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 34px 0 80px;
+  color: var(--ink);
+}
+.tp-breadcrumb {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: baseline;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.tp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tp-back:hover {
+  color: var(--accent);
+}
+.tp-breadcrumb > span {
+  text-align: right;
+}
+.tp-heading {
+  padding: 38px 0 32px;
+  max-width: 870px;
+}
+.tp-heading h1 {
+  font: 500 clamp(2.4rem, 5.8vw, 4.8rem) / 1.06 var(--serif);
+  letter-spacing: -0.035em;
+  overflow-wrap: break-word;
+  margin: 0 0 22px;
+}
+.tp-heading > p {
+  font-size: 1.19rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 68ch;
+}
+.tp-facts {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 36px;
+  padding: 27px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tp-facts span {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.tp-facts strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  text-wrap: pretty;
+}
+.tp-jump-nav {
+  display: flex;
+  gap: 30px;
+  padding: 18px 0;
+  flex-wrap: wrap;
+  font-size: 0.92rem;
+  border-bottom: 1px solid var(--line);
+}
+.tp-jump-nav a {
+  padding: 3px 0;
+}
+.tp-jump-nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  color: var(--accent);
+}
+.tp-reading-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: clamp(36px, 6vw, 90px);
+  padding-top: 50px;
+}
+.tp-main-reading {
+  min-width: 0;
+}
+.tp-section {
+  padding: 0 0 54px;
+  scroll-margin-top: 28px;
+}
+.tp-section + .tp-section {
+  padding-top: 38px;
+  border-top: 1px solid var(--line);
+}
+.tp-section h2 {
+  font: 500 2rem/1.2 var(--serif);
+  letter-spacing: -0.02em;
+  margin-bottom: 25px;
+}
+.tp-section h3 {
+  font-size: 1.15rem;
+  margin: 0 0 9px;
+  font-weight: 600;
+}
+.tp-section p {
+  font-size: 1.04rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+.tp-section-intro {
+  margin-bottom: 27px;
+}
+.tp-prose-section + .tp-prose-section {
+  margin-top: 28px;
+}
+.tp-section p + p {
+  margin-top: 13px;
+}
+.tp-section .tp-small,
+.tp-small {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.tp-photographs {
+  display: grid;
+  gap: 26px;
+  margin: 32px 0 0;
+}
+.tp-photographs figure {
+  margin: 0;
+}
+.tp-photographs img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  background: color-mix(in srgb, var(--ink) 5%, var(--bg));
+}
+.tp-photographs figcaption {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+.tp-image-credit {
+  margin-top: 8px;
+}
+.tp-image-credit summary {
+  cursor: pointer;
+  width: fit-content;
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+.tp-image-credit p,
+.tp-image-credit a {
+  font-size: 0.8rem;
+}
+.tp-image-credit a,
+.tp-sources a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.tp-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tp-timeline-item {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 23px;
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+}
+.tp-timeline-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.tp-timeline-date {
+  font-size: 0.94rem;
+  color: var(--accent);
+  font-weight: 600;
+  line-height: 1.5;
+  padding-top: 1px;
+}
+.tp-timeline-item .tp-timeline-context {
+  font-size: 0.91rem;
+}
+.tp-inline-button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 0 2px;
+}
+.tp-inline-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.tp-more {
+  margin-top: 24px;
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.tp-more + .tp-more {
+  border-top: 0;
+  margin-top: 0;
+}
+.tp-more > summary {
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 0;
+}
+.tp-more[open] > summary {
+  margin-bottom: 27px;
+}
+.tp-authority-list {
+  display: grid;
+  gap: 26px;
+}
+.tp-authority-list section {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.tp-authority-list section:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.tp-authority-list .tp-small {
+  margin-bottom: 8px;
+}
+.tp-names {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 20px;
+}
+.tp-names li > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.tp-names p {
+  margin-top: 5px;
+  font-size: 0.92rem;
+}
+.tp-sources ol {
+  padding: 0 0 0 21px;
+  margin: 0;
+}
+.tp-sources li {
+  padding: 0 0 24px 7px;
+  font-size: 0.96rem;
+}
+.tp-sources li p {
+  font-size: 0.91rem;
+  margin-top: 6px;
+}
+.tp-sources li .tp-source-meta {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.tp-sources .tp-dataset-link {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.88rem;
+}
+.tp-aside {
+  min-width: 0;
+}
+.tp-identity {
+  background: var(--accent-soft);
+  padding: 28px;
+  border-radius: 6px;
+}
+.tp-identity h2 {
+  font: 500 1.55rem/1.18 var(--serif);
+  margin: 0 0 18px;
+}
+.tp-identity p {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.tp-identity .tp-identity-prompt {
+  padding-top: 22px;
+  margin-top: 22px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 17%, transparent);
+  font-weight: 600;
+  color: var(--ink);
+}
+.tp-related {
+  padding-top: 33px;
+}
+.tp-related h2 {
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+}
+.tp-related ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tp-related li {
+  border-bottom: 1px solid var(--line);
+}
+.tp-related a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 15px;
+  font-size: 0.95rem;
+  padding: 14px 0;
+}
+.tp-related a:hover {
+  color: var(--accent);
+}
+.tp-map-action {
+  width: 100%;
+  margin-top: 28px;
+  white-space: normal;
+  text-align: left;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.tp-missing {
+  min-height: 50vh;
+}
+.tp-missing p {
+  margin: 24px 0;
+}
+@media (max-width: 900px) {
+  .tp-reading-layout {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 35px;
+  }
+  .tp-identity {
+    padding: 22px;
+  }
+  .tp-timeline-item {
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+@media (max-width: 700px) {
+  .territory-page {
+    padding-top: 15px;
+  }
+  .tp-breadcrumb {
+    align-items: flex-start;
+    gap: 15px;
+    font-size: 0.82rem;
+  }
+  .tp-breadcrumb > span {
+    max-width: 49%;
+    padding-top: 9px;
+  }
+  .tp-heading {
+    padding-top: 27px;
+  }
+  .tp-heading > p {
+    font-size: 1.06rem;
+    line-height: 1.65;
+  }
+  .tp-facts {
+    grid-template-columns: 1fr 1fr;
+    gap: 23px;
+    padding: 24px 0;
+  }
+  .tp-facts > div:last-child {
+    grid-column: 1 / -1;
+  }
+  .tp-facts strong {
+    font-size: 0.94rem;
+  }
+  .tp-jump-nav {
+    gap: 10px 22px;
+    font-size: 0.88rem;
+  }
+  .tp-reading-layout {
+    display: flex;
+    flex-direction: column;
+    padding-top: 32px;
+    gap: 0;
+  }
+  .tp-aside {
+    order: -1;
+    margin-bottom: 36px;
+  }
+  .tp-identity {
+    padding: 23px;
+  }
+  .tp-identity h2 {
+    margin-bottom: 13px;
+  }
+  .tp-identity p {
+    font-size: 0.96rem;
+  }
+  .tp-identity .tp-identity-prompt {
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+  .tp-related {
+    display: none;
+  }
+  .tp-map-action {
+    margin-top: 17px;
+  }
+  .tp-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 22px;
+  }
+  .tp-section p {
+    font-size: 1rem;
+  }
+  .tp-timeline-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 24px 0;
+  }
+  .tp-timeline-date {
+    font-size: 0.88rem;
+  }
+  .tp-timeline-item h3 {
+    font-size: 1.1rem;
+  }
+  .tp-section {
+    padding-bottom: 35px;
+  }
+  .tp-section + .tp-section {
+    padding-top: 31px;
+  }
+}
+@media print {
+  .territory-page {
+    padding: 0;
+    max-width: none;
+  }
+  .tp-breadcrumb,
+  .tp-jump-nav,
+  .tp-map-action,
+  .tp-inline-button {
+    display: none;
+  }
+  .tp-heading {
+    padding-top: 0;
+  }
+  .tp-reading-layout {
+    display: block;
+  }
+  .tp-aside {
+    margin: 25px 0;
+  }
+  .tp-section,
+  .tp-photographs figure {
+    break-inside: avoid;
+  }
+  .tp-facts {
+    gap: 20px;
+  }
+}
+
+/* The territory story shares the atlas itself: map on the left, reading on the right. */
+:root {
+  --layer-territory-focus: 80;
+}
+body.territory-focus-open {
+  overflow: hidden;
+}
+.territory-view[role="dialog"] {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-territory-focus);
+  padding: 24px;
+}
+.tf-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(18 29 46 / 0.77);
+}
+.tf-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 1680px;
+  margin: auto;
+  background: var(--surface);
+  overflow: hidden;
+  border-radius: 8px;
+  animation: territory-focus-enter 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tf-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  min-height: 66px;
+  padding: 8px 16px 8px 24px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+.tf-toolbar button,
+.tf-toolbar a {
+  min-height: 44px;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+.tf-toolbar [data-focus-context] {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.tf-close {
+  font-size: 1.8rem !important;
+  width: 44px;
+  flex: 0 0 44px;
+  border-radius: 4px;
+  background: var(--bg);
+}
+.tf-toolbar a:hover,
+.tf-atlas:hover {
+  color: var(--accent);
+}
+.tf-close:hover {
+  background: var(--accent-soft);
+}
+.tf-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  flex: 1;
+  min-height: 0;
+}
+.tf-geography {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  background: var(--map-stage);
+  border-right: 1px solid var(--line);
+}
+[data-focus-map] {
+  min-height: 0;
+  flex: 1;
+}
+[data-focus-map] .scene-stage {
+  height: 100%;
+  min-height: 240px;
+}
+[data-focus-map] .year-annotation {
+  top: 22px;
+  left: 22px;
+}
+[data-focus-map] .year-annotation strong {
+  font-size: 2.25rem;
+}
+[data-focus-map] .projection-note {
+  display: none;
+}
+[data-focus-map] .interaction-hint {
+  font-size: 0.8rem;
+}
+.tf-map-caption {
+  padding: 18px 24px 22px;
+  background: var(--surface);
+}
+.tf-map-caption > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+.tf-map-caption strong {
+  font-size: 1.12rem;
+}
+.tf-map-caption button {
+  min-height: 44px;
+  font-size: 0.86rem;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.tf-map-caption p {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 65ch;
+}
+.tf-reading {
+  overflow-y: auto;
+  min-width: 0;
+  min-height: 0;
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+  background: var(--surface);
+}
+.tf-reading .territory-page {
+  padding: 30px clamp(24px, 3.2vw, 54px) 60px;
+  max-width: 850px;
+}
+.tf-reading .tp-breadcrumb {
+  justify-content: flex-start;
+  font-size: 0.85rem;
+}
+.tf-reading .tp-breadcrumb > span {
+  text-align: left;
+}
+.tf-reading .tp-heading {
+  padding: 22px 0 24px;
+}
+.tf-reading .tp-heading h1 {
+  font-size: clamp(2.5rem, 4vw, 4.3rem);
+}
+.tf-reading .tp-heading > p {
+  font-size: 1.08rem;
+}
+.tf-reading .tp-facts {
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  padding: 22px 0;
+}
+.tf-reading .tp-facts > :last-child {
+  display: none;
+}
+.tf-reading .tp-jump-nav {
+  gap: 12px 24px;
+}
+.tf-reading .tp-reading-layout {
+  display: block;
+  padding-top: 34px;
+}
+.tf-reading .tp-section {
+  padding-bottom: 32px;
+}
+.tf-reading .tp-section h2 {
+  font-size: 1.8rem;
+}
+.tf-reading .tp-section p {
+  font-size: 1rem;
+}
+.tf-reading .tp-timeline-item {
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 18px;
+}
+.tf-reading .tp-aside {
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+.tf-reading .tp-identity {
+  background: transparent;
+  padding: 0;
+}
+.tf-reading [data-tp-heading]:focus {
+  outline: none;
+}
+@keyframes territory-focus-enter {
+  from {
+    opacity: 0.7;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 900px) {
+  .territory-view[role="dialog"] {
+    padding: 12px;
+  }
+  .tf-toolbar {
+    padding-left: 16px;
+    gap: 14px;
+  }
+  .tf-toolbar [data-focus-context] {
+    display: none;
+  }
+  .tf-toolbar [data-focus-rallye] {
+    margin-left: auto;
+  }
+  .tf-close {
+    margin-left: auto;
+  }
+  .tf-layout {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .tf-geography {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  [data-focus-map] {
+    flex: none;
+    height: min(42dvh, 390px);
+    min-height: 245px;
+  }
+  .tf-map-caption {
+    padding: 10px 22px 16px;
+  }
+  .tf-reading {
+    overflow: visible;
+  }
+  .tf-reading .territory-page {
+    padding: 28px 28px 48px;
+  }
+  .tf-reading .tp-heading h1 {
+    font-size: clamp(2.6rem, 7vw, 4rem);
+  }
+}
+@media (max-width: 540px) {
+  .territory-view[role="dialog"] {
+    padding: 0;
+  }
+  .tf-shell {
+    border-radius: 0;
+  }
+  .tf-toolbar {
+    min-height: 60px;
+    gap: 10px;
+    padding: 6px 10px 6px 16px;
+    flex-wrap: wrap;
+  }
+  .tf-toolbar button,
+  .tf-toolbar a {
+    font-size: 0.84rem;
+  }
+  .tf-toolbar [data-focus-rallye] {
+    font-size: 0.79rem;
+  }
+  .tf-reading .territory-page {
+    padding: 25px 22px 48px;
+  }
+  .tf-reading .tp-facts {
+    gap: 18px;
+  }
+  .tf-reading .tp-timeline-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  [data-focus-map] .year-annotation {
+    top: 15px;
+    left: 18px;
+  }
+  [data-focus-map] .interaction-hint {
+    left: 18px;
+    bottom: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tf-shell {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .tf-shell {
+    border: 1px solid CanvasText;
+  }
+  .tf-backdrop {
+    background: Canvas;
+    opacity: 0.85;
+  }
+}
+@media print {
+  body.territory-focus-open {
+    overflow: visible;
+  }
+  .territory-view[role="dialog"] {
+    position: static;
+    padding: 0;
+  }
+  .tf-backdrop,
+  .tf-toolbar,
+  .tf-geography {
+    display: none;
+  }
+  .tf-shell,
+  .tf-layout,
+  .tf-reading {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+  .tf-reading .territory-page {
+    padding: 0;
+    max-width: none;
+  }
+}

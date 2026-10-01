@@ -1,0 +1,8596 @@
+[
+ {
+  "id": "afghanistan",
+  "name": "Afghanistan",
+  "aliases": [
+   "Kabul",
+   "Kandahar",
+   "Durand Line",
+   "Emirate of Afghanistan"
+  ],
+  "kind": "country",
+  "sovereign_today": "Afghanistan",
+  "iso_a2": "AF",
+  "region": "South Asia",
+  "centroid": [
+   65.9295,
+   33.8197
+  ],
+  "point": [
+   66.6569,
+   34.334
+  ],
+  "area_km2": 642393,
+  "bbox": [
+   60.4868,
+   29.3866,
+   74.8923,
+   38.4737
+  ],
+  "tiny": false
+ },
+ {
+  "id": "american-samoa",
+  "name": "American Samoa",
+  "aliases": [
+   "Pago Pago",
+   "Tutuila"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United States",
+  "iso_a2": "AS",
+  "region": "The Pacific",
+  "centroid": [
+   -170.399,
+   -14.2552
+  ],
+  "point": [
+   -170.7484,
+   -14.3282
+  ],
+  "area_km2": 181,
+  "bbox": [
+   -171.0865,
+   -14.5329,
+   -168.1605,
+   -11.0514
+  ],
+  "tiny": true
+ },
+ {
+  "id": "angola",
+  "name": "Angola",
+  "aliases": [
+   "Portuguese West Africa",
+   "Luanda"
+  ],
+  "kind": "country",
+  "sovereign_today": "Angola",
+  "iso_a2": "AO",
+  "region": "Southern Africa",
+  "centroid": [
+   17.5315,
+   -12.2696
+  ],
+  "point": [
+   17.9074,
+   -12.2518
+  ],
+  "area_km2": 1249442,
+  "bbox": [
+   11.6694,
+   -18.0314,
+   24.0617,
+   -4.3912
+  ],
+  "tiny": false
+ },
+ {
+  "id": "anguilla",
+  "name": "Anguilla",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "AI",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -63.0592,
+   18.2301
+  ],
+  "point": [
+   -63.0272,
+   18.2431
+  ],
+  "area_km2": 87.7,
+  "bbox": [
+   -63.4288,
+   18.1691,
+   -62.9257,
+   18.6013
+  ],
+  "tiny": true
+ },
+ {
+  "id": "antigua",
+  "name": "Antigua",
+  "aliases": [
+   "English Harbour"
+  ],
+  "kind": "country",
+  "sovereign_today": "Antigua and Barbuda",
+  "iso_a2": "AG",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.7903,
+   17.0746
+  ],
+  "point": [
+   -61.8059,
+   17.0743
+  ],
+  "area_km2": 283,
+  "bbox": [
+   -62.3483,
+   16.932,
+   -61.6676,
+   17.1688
+  ],
+  "tiny": true
+ },
+ {
+  "id": "aq-australian-antarctic",
+  "name": "Australian Antarctic Territory",
+  "aliases": [
+   "Mawson",
+   "Wilkes Land",
+   "Enderby Land"
+  ],
+  "kind": "antarctic",
+  "sovereign_today": "Australia (claim, Antarctic Treaty)",
+  "iso_a2": "AQ",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   100.3314,
+   -77.0473
+  ],
+  "point": [
+   103.5918,
+   -78.005
+  ],
+  "area_km2": 5939612,
+  "bbox": [
+   45,
+   -89.9,
+   160,
+   -65.1277
+  ],
+  "tiny": false,
+  "note": "The sectors 45°E–136°E and 142°E–160°E south of 60°S, carved from the Natural Earth Antarctica map unit."
+ },
+ {
+  "id": "aq-ross-dependency",
+  "name": "Ross Dependency",
+  "aliases": [
+   "Ross Sea",
+   "Scott Base",
+   "McMurdo"
+  ],
+  "kind": "antarctic",
+  "sovereign_today": "New Zealand (claim, Antarctic Treaty)",
+  "iso_a2": "AQ",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   173.9359,
+   -80.7423
+  ],
+  "point": [
+   -153,
+   -86.7786
+  ],
+  "area_km2": 451520,
+  "bbox": [
+   160,
+   -89.9,
+   -150,
+   -66.2514
+  ],
+  "tiny": false,
+  "note": "The sector 160°E–150°W south of 60°S, carved from the Natural Earth Antarctica map unit."
+ },
+ {
+  "id": "ar-buenos-aires",
+  "name": "Buenos Aires province",
+  "aliases": [
+   "Río de la Plata",
+   "Buenos Ayres"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Argentina",
+  "iso_a2": "AR",
+  "region": "Central & South America",
+  "centroid": [
+   -60.5431,
+   -36.6603
+  ],
+  "point": [
+   -60.1773,
+   -36.3473
+  ],
+  "area_km2": 306379,
+  "bbox": [
+   -63.3888,
+   -41.045,
+   -56.6649,
+   -33.2566
+  ],
+  "tiny": false
+ },
+ {
+  "id": "aruba",
+  "name": "Aruba",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Netherlands",
+  "iso_a2": "AW",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -69.9742,
+   12.5169
+  ],
+  "point": [
+   -69.9586,
+   12.507
+  ],
+  "area_km2": 170,
+  "bbox": [
+   -70.0624,
+   12.4177,
+   -69.8768,
+   12.6321
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ascension",
+  "name": "Ascension Island",
+  "aliases": [
+   "Georgetown",
+   "Wideawake"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "SH",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   -14.3639,
+   -7.9355
+  ],
+  "point": [
+   -14.3674,
+   -7.9352
+  ],
+  "area_km2": 89.29,
+  "bbox": [
+   -14.4177,
+   -7.9797,
+   -14.2948,
+   -7.8779
+  ],
+  "tiny": true
+ },
+ {
+  "id": "au-ashmore-cartier",
+  "name": "Ashmore and Cartier Islands",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   123.5864,
+   -12.4326
+  ],
+  "point": [
+   123.5904,
+   -12.4329
+  ],
+  "area_km2": 2.71,
+  "bbox": [
+   123.575,
+   -12.4386,
+   123.5977,
+   -12.4266
+  ],
+  "tiny": true
+ },
+ {
+  "id": "au-coral-sea-islands",
+  "name": "Coral Sea Islands",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   154.3904,
+   -21.0293
+  ],
+  "point": [
+   154.3908,
+   -21.0293
+  ],
+  "area_km2": 0.02,
+  "bbox": [
+   154.3885,
+   -21.03,
+   154.3913,
+   -21.0287
+  ],
+  "tiny": true
+ },
+ {
+  "id": "au-new-south-wales",
+  "name": "New South Wales",
+  "aliases": [
+   "Botany Bay",
+   "Sydney",
+   "Port Jackson",
+   "Canberra"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   147.0264,
+   -32.1727
+  ],
+  "point": [
+   146.735,
+   -32.4908
+  ],
+  "area_km2": 804912,
+  "bbox": [
+   141.0001,
+   -37.5103,
+   159.1065,
+   -28.1493
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-northern-territory",
+  "name": "Northern Territory",
+  "aliases": [
+   "Darwin",
+   "Port Essington",
+   "Palmerston"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   133.3585,
+   -19.3396
+  ],
+  "point": [
+   133.5002,
+   -21.1646
+  ],
+  "area_km2": 1352476,
+  "bbox": [
+   129.0001,
+   -26,
+   138.0002,
+   -10.9684
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-queensland",
+  "name": "Queensland",
+  "aliases": [
+   "Moreton Bay",
+   "Brisbane",
+   "Torres Strait Islands"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   144.4637,
+   -22.5006
+  ],
+  "point": [
+   145.1476,
+   -23.8037
+  ],
+  "area_km2": 1734440,
+  "bbox": [
+   138.0002,
+   -29.1706,
+   153.5488,
+   -9.2402
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-south-australia",
+  "name": "South Australia",
+  "aliases": [
+   "Adelaide",
+   "Wakefield settlement"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   135.7583,
+   -30.0774
+  ],
+  "point": [
+   136.0112,
+   -29.4972
+  ],
+  "area_km2": 984962,
+  "bbox": [
+   129.0001,
+   -38.0706,
+   141.0001,
+   -25.9999
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-tasmania",
+  "name": "Tasmania",
+  "aliases": [
+   "Van Diemen’s Land",
+   "Hobart",
+   "Port Arthur",
+   "lutruwita"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   146.6122,
+   -41.9524
+  ],
+  "point": [
+   146.5174,
+   -42.155
+  ],
+  "area_km2": 68131,
+  "bbox": [
+   143.8372,
+   -54.7504,
+   158.9632,
+   -39.5715
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-victoria",
+  "name": "Victoria",
+  "aliases": [
+   "Port Phillip District",
+   "Melbourne",
+   "Ballarat",
+   "Eureka"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   144.2856,
+   -36.8637
+  ],
+  "point": [
+   143.136,
+   -36.9046
+  ],
+  "area_km2": 227867,
+  "bbox": [
+   140.9671,
+   -39.145,
+   149.9721,
+   -33.9865
+  ],
+  "tiny": false
+ },
+ {
+  "id": "au-western-australia",
+  "name": "Western Australia",
+  "aliases": [
+   "Swan River Colony",
+   "Perth",
+   "Fremantle"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Australia",
+  "iso_a2": "AU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   122.2796,
+   -25.3301
+  ],
+  "point": [
+   121.4624,
+   -26.6936
+  ],
+  "area_km2": 2533141,
+  "bbox": [
+   112.9194,
+   -35.1379,
+   129.0001,
+   -13.7236
+  ],
+  "tiny": false
+ },
+ {
+  "id": "bahamas",
+  "name": "The Bahamas",
+  "aliases": [
+   "Bahama Islands",
+   "New Providence",
+   "Nassau"
+  ],
+  "kind": "country",
+  "sovereign_today": "Bahamas",
+  "iso_a2": "BS",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -76.512,
+   24.2143
+  ],
+  "point": [
+   -77.9858,
+   24.6443
+  ],
+  "area_km2": 12632,
+  "bbox": [
+   -79.5943,
+   20.9124,
+   -72.7462,
+   26.9284
+  ],
+  "tiny": false
+ },
+ {
+  "id": "bahrain",
+  "name": "Bahrain",
+  "aliases": [
+   "Manama"
+  ],
+  "kind": "country",
+  "sovereign_today": "Bahrain",
+  "iso_a2": "BH",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   50.5636,
+   26.0353
+  ],
+  "point": [
+   50.5451,
+   25.9841
+  ],
+  "area_km2": 689,
+  "bbox": [
+   50.3805,
+   25.5799,
+   50.8199,
+   26.2874
+  ],
+  "tiny": true
+ },
+ {
+  "id": "barbados",
+  "name": "Barbados",
+  "aliases": [
+   "Bridgetown",
+   "Little England"
+  ],
+  "kind": "country",
+  "sovereign_today": "Barbados",
+  "iso_a2": "BB",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -59.5612,
+   13.181
+  ],
+  "point": [
+   -59.5644,
+   13.1566
+  ],
+  "area_km2": 446,
+  "bbox": [
+   -59.6542,
+   13.0512,
+   -59.4269,
+   13.3446
+  ],
+  "tiny": true
+ },
+ {
+  "id": "barbuda",
+  "name": "Barbuda",
+  "aliases": [],
+  "kind": "country",
+  "sovereign_today": "Antigua and Barbuda",
+  "iso_a2": "AG",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.7953,
+   17.6319
+  ],
+  "point": [
+   -61.781,
+   17.6211
+  ],
+  "area_km2": 170,
+  "bbox": [
+   -61.8738,
+   17.5456,
+   -61.7278,
+   17.7277
+  ],
+  "tiny": true
+ },
+ {
+  "id": "bd-east-bengal",
+  "name": "East Bengal",
+  "aliases": [
+   "East Pakistan",
+   "Bangladesh",
+   "Dacca",
+   "Dhaka",
+   "Chittagong",
+   "Bengal (east)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Bangladesh",
+  "iso_a2": "BD",
+  "region": "South Asia",
+  "centroid": [
+   90.1183,
+   23.7538
+  ],
+  "point": [
+   89.7311,
+   24.3033
+  ],
+  "area_km2": 125223,
+  "bbox": [
+   88.0218,
+   20.7387,
+   92.6429,
+   26.6235
+  ],
+  "tiny": false
+ },
+ {
+  "id": "bd-sylhet",
+  "name": "Sylhet",
+  "aliases": [
+   "Sylhet district (Assam)",
+   "Surma Valley"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Bangladesh",
+  "iso_a2": "BD",
+  "region": "South Asia",
+  "centroid": [
+   91.6456,
+   24.7206
+  ],
+  "point": [
+   91.656,
+   24.6934
+  ],
+  "area_km2": 11994,
+  "bbox": [
+   90.9124,
+   23.9879,
+   92.4945,
+   25.2019
+  ],
+  "tiny": false
+ },
+ {
+  "id": "belize",
+  "name": "Belize",
+  "aliases": [
+   "British Honduras",
+   "Bay of Honduras",
+   "the Baymen"
+  ],
+  "kind": "country",
+  "sovereign_today": "Belize",
+  "iso_a2": "BZ",
+  "region": "Central & South America",
+  "centroid": [
+   -88.6948,
+   17.2063
+  ],
+  "point": [
+   -88.7105,
+   16.9975
+  ],
+  "area_km2": 22373,
+  "bbox": [
+   -89.2365,
+   15.8797,
+   -87.7831,
+   18.4908
+  ],
+  "tiny": false
+ },
+ {
+  "id": "bermuda",
+  "name": "Bermuda",
+  "aliases": [
+   "Somers Isles"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "BM",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -64.7635,
+   32.3101
+  ],
+  "point": [
+   -64.6761,
+   32.3734
+  ],
+  "area_km2": 62.34,
+  "bbox": [
+   -64.886,
+   32.2481,
+   -64.6476,
+   32.3887
+  ],
+  "tiny": true
+ },
+ {
+  "id": "bhutan",
+  "name": "Bhutan",
+  "aliases": [
+   "Druk Yul",
+   "Duars"
+  ],
+  "kind": "country",
+  "sovereign_today": "Bhutan",
+  "iso_a2": "BT",
+  "region": "South Asia",
+  "centroid": [
+   90.407,
+   27.4225
+  ],
+  "point": [
+   90.0035,
+   27.5247
+  ],
+  "area_km2": 40488,
+  "bbox": [
+   88.7301,
+   26.6961,
+   92.0888,
+   28.3584
+  ],
+  "tiny": false
+ },
+ {
+  "id": "botswana",
+  "name": "Botswana",
+  "aliases": [
+   "Bechuanaland Protectorate",
+   "Bechuanaland",
+   "Gaborone"
+  ],
+  "kind": "country",
+  "sovereign_today": "Botswana",
+  "iso_a2": "BW",
+  "region": "Southern Africa",
+  "centroid": [
+   23.8091,
+   -22.1669
+  ],
+  "point": [
+   24.1757,
+   -22.0409
+  ],
+  "area_km2": 580515,
+  "bbox": [
+   19.9783,
+   -26.8918,
+   29.3501,
+   -17.7818
+  ],
+  "tiny": false
+ },
+ {
+  "id": "british-antarctic-territory",
+  "name": "British Antarctic Territory",
+  "aliases": [
+   "Graham Land",
+   "Antarctic Peninsula",
+   "Falkland Islands Dependencies"
+  ],
+  "kind": "antarctic",
+  "sovereign_today": "United Kingdom (claim, Antarctic Treaty)",
+  "iso_a2": "AQ",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   -57.6989,
+   -78.9524
+  ],
+  "point": [
+   -24.9167,
+   -84.9908
+  ],
+  "area_km2": 1127315,
+  "bbox": [
+   -80,
+   -89.9,
+   -20,
+   -60.5162
+  ],
+  "tiny": false,
+  "note": "The sector 20°W–80°W south of 60°S, carved from the Natural Earth Antarctica map unit by bounding box."
+ },
+ {
+  "id": "british-virgin-islands",
+  "name": "British Virgin Islands",
+  "aliases": [
+   "Tortola",
+   "Virgin Gorda"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "VG",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -64.503,
+   18.5098
+  ],
+  "point": [
+   -64.6391,
+   18.4274
+  ],
+  "area_km2": 145,
+  "bbox": [
+   -64.774,
+   18.3347,
+   -64.2707,
+   18.7462
+  ],
+  "tiny": true
+ },
+ {
+  "id": "brunei",
+  "name": "Brunei",
+  "aliases": [
+   "Sultanate of Brunei",
+   "Bandar Seri Begawan"
+  ],
+  "kind": "country",
+  "sovereign_today": "Brunei",
+  "iso_a2": "BN",
+  "region": "South-East Asia",
+  "centroid": [
+   114.7272,
+   4.5165
+  ],
+  "point": [
+   114.5523,
+   4.4532
+  ],
+  "area_km2": 5742,
+  "bbox": [
+   113.9988,
+   4.0167,
+   115.3607,
+   5.0572
+  ],
+  "tiny": true
+ },
+ {
+  "id": "burundi",
+  "name": "Burundi",
+  "aliases": [
+   "Ruanda-Urundi",
+   "German East Africa (part)"
+  ],
+  "kind": "country",
+  "sovereign_today": "Burundi",
+  "iso_a2": "BI",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   29.8752,
+   -3.3572
+  ],
+  "point": [
+   29.8361,
+   -3.4057
+  ],
+  "area_km2": 27161,
+  "bbox": [
+   28.9869,
+   -4.4633,
+   30.834,
+   -2.3031
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-alberta",
+  "name": "Alberta",
+  "aliases": [
+   "North-West Territories (part)",
+   "Rupert’s Land (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -114.4039,
+   54.9831
+  ],
+  "point": [
+   -114.4094,
+   55.5907
+  ],
+  "area_km2": 660772,
+  "bbox": [
+   -120.001,
+   48.9925,
+   -109.9993,
+   60.0004
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-british-columbia",
+  "name": "British Columbia (mainland)",
+  "aliases": [
+   "Colony of British Columbia",
+   "New Caledonia (fur district)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -124.2887,
+   54.7617
+  ],
+  "point": [
+   -124.1508,
+   55.8493
+  ],
+  "area_km2": 904720,
+  "bbox": [
+   -139.0602,
+   48.7619,
+   -114.0375,
+   60.0003
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-manitoba",
+  "name": "Manitoba",
+  "aliases": [
+   "Red River Colony",
+   "Assiniboia",
+   "Rupert’s Land (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -97.4955,
+   54.7332
+  ],
+  "point": [
+   -97.8822,
+   55.8923
+  ],
+  "area_km2": 649710,
+  "bbox": [
+   -102.0016,
+   48.9927,
+   -88.947,
+   60.0003
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-new-brunswick",
+  "name": "New Brunswick",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -66.3729,
+   46.6188
+  ],
+  "point": [
+   -66.5355,
+   46.6114
+  ],
+  "area_km2": 72594,
+  "bbox": [
+   -69.0636,
+   44.6028,
+   -63.7711,
+   48.0751
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-newfoundland-labrador",
+  "name": "Newfoundland and Labrador",
+  "aliases": [
+   "Colony of Newfoundland",
+   "Dominion of Newfoundland",
+   "Labrador"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -60.1783,
+   52.7369
+  ],
+  "point": [
+   -62.4338,
+   53.8562
+  ],
+  "area_km2": 401713,
+  "bbox": [
+   -67.8081,
+   46.6184,
+   -52.6166,
+   60.3727
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-northwest-territories",
+  "name": "Northwest Territories",
+  "aliases": [
+   "North-Western Territory",
+   "Rupert’s Land (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -118.4547,
+   65.7392
+  ],
+  "point": [
+   -123.7799,
+   65.112
+  ],
+  "area_km2": 1339508,
+  "bbox": [
+   -136.4454,
+   60.0001,
+   -101.9866,
+   78.7663
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-nova-scotia",
+  "name": "Nova Scotia",
+  "aliases": [
+   "Acadia (part)",
+   "Cape Breton Island"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -63.348,
+   45.1573
+  ],
+  "point": [
+   -65.1332,
+   44.359
+  ],
+  "area_km2": 54984,
+  "bbox": [
+   -66.3277,
+   43.4221,
+   -59.6886,
+   47.0348
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-nunavut",
+  "name": "Nunavut",
+  "aliases": [
+   "Arctic Archipelago",
+   "Rupert’s Land (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -90.4252,
+   69.6526
+  ],
+  "point": [
+   -98.2502,
+   63.7537
+  ],
+  "area_km2": 2065081,
+  "bbox": [
+   -120.6808,
+   51.9186,
+   -61.0855,
+   83.1165
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-ontario",
+  "name": "Ontario",
+  "aliases": [
+   "Upper Canada",
+   "Canada West",
+   "Haut-Canada"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -85.4458,
+   49.9328
+  ],
+  "point": [
+   -88.8484,
+   52.2391
+  ],
+  "area_km2": 1073995,
+  "bbox": [
+   -95.1612,
+   41.6691,
+   -74.3462,
+   56.8613
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-prince-edward-island",
+  "name": "Prince Edward Island",
+  "aliases": [
+   "Île Saint-Jean",
+   "St John’s Island"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -63.2462,
+   46.4014
+  ],
+  "point": [
+   -62.754,
+   46.2663
+  ],
+  "area_km2": 5718,
+  "bbox": [
+   -64.4168,
+   45.9508,
+   -61.977,
+   47.0673
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ca-quebec",
+  "name": "Quebec",
+  "aliases": [
+   "Lower Canada",
+   "Canada East",
+   "Province of Quebec",
+   "Bas-Canada"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -71.7955,
+   53.0307
+  ],
+  "point": [
+   -72.6827,
+   53.1109
+  ],
+  "area_km2": 1499433,
+  "bbox": [
+   -79.7656,
+   44.998,
+   -57.1003,
+   62.5938
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-saskatchewan",
+  "name": "Saskatchewan",
+  "aliases": [
+   "North-West Territories (part)",
+   "Rupert’s Land (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -105.8834,
+   54.1937
+  ],
+  "point": [
+   -105.898,
+   53.1204
+  ],
+  "area_km2": 648066,
+  "bbox": [
+   -110,
+   48.9926,
+   -101.3643,
+   60.0003
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ca-vancouver-island",
+  "name": "Vancouver Island",
+  "aliases": [
+   "Colony of Vancouver Island",
+   "Victoria"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -125.7465,
+   49.7305
+  ],
+  "point": [
+   -125.6707,
+   49.8117
+  ],
+  "area_km2": 36744,
+  "bbox": [
+   -128.7158,
+   48.3061,
+   -123.172,
+   51.1501
+  ],
+  "tiny": false,
+  "note": "Carved from British Columbia by an approximate polygon; the Gulf and Discovery Islands are apportioned roughly."
+ },
+ {
+  "id": "ca-yukon",
+  "name": "Yukon",
+  "aliases": [
+   "Yukon Territory",
+   "Klondike"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Canada",
+  "iso_a2": "CA",
+  "region": "British North America (Canada)",
+  "centroid": [
+   -135.1821,
+   63.4622
+  ],
+  "point": [
+   -137.3929,
+   63.61
+  ],
+  "area_km2": 481462,
+  "bbox": [
+   -141.0056,
+   60.0001,
+   -123.8191,
+   69.6542
+  ],
+  "tiny": false
+ },
+ {
+  "id": "caribbean-netherlands",
+  "name": "Bonaire, Sint Eustatius and Saba",
+  "aliases": [
+   "Statia",
+   "Dutch Leeward Islands"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "Netherlands",
+  "iso_a2": "BQ",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -67.8353,
+   12.6619
+  ],
+  "point": [
+   -68.2503,
+   12.1951
+  ],
+  "area_km2": 296,
+  "bbox": [
+   -68.4174,
+   12.022,
+   -62.9451,
+   17.6469
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cayman-islands",
+  "name": "Cayman Islands",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "KY",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -80.8783,
+   19.4272
+  ],
+  "point": [
+   -81.2416,
+   19.3207
+  ],
+  "area_km2": 310,
+  "bbox": [
+   -81.4165,
+   19.2639,
+   -79.7266,
+   19.7576
+  ],
+  "tiny": true
+ },
+ {
+  "id": "christmas-island",
+  "name": "Christmas Island",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "CX",
+  "region": "Indian Ocean",
+  "centroid": [
+   105.6625,
+   -10.4925
+  ],
+  "point": [
+   105.6763,
+   -10.4909
+  ],
+  "area_km2": 99.12,
+  "bbox": [
+   105.5818,
+   -10.566,
+   105.7147,
+   -10.4308
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cm-british-southern-cameroons",
+  "name": "British Southern Cameroons",
+  "aliases": [
+   "Southern Cameroons",
+   "Ambazonia",
+   "Buea",
+   "Bamenda"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Cameroon",
+  "iso_a2": "CM",
+  "region": "West Africa",
+  "centroid": [
+   9.7324,
+   5.6833
+  ],
+  "point": [
+   10.1948,
+   6.3286
+  ],
+  "area_km2": 41969,
+  "bbox": [
+   8.5051,
+   3.9219,
+   11.2086,
+   7.1308
+  ],
+  "tiny": false
+ },
+ {
+  "id": "cm-french-cameroun",
+  "name": "French Cameroun",
+  "aliases": [
+   "Kamerun",
+   "Cameroun",
+   "Yaoundé"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Cameroon",
+  "iso_a2": "CM",
+  "region": "West Africa",
+  "centroid": [
+   13.0281,
+   5.6823
+  ],
+  "point": [
+   12.4852,
+   4.5112
+  ],
+  "area_km2": 424363,
+  "bbox": [
+   9.3316,
+   1.6546,
+   16.2077,
+   13.0811
+  ],
+  "tiny": false
+ },
+ {
+  "id": "cn-weihaiwei",
+  "name": "Weihaiwei",
+  "aliases": [
+   "Weihai",
+   "Port Edward"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "China",
+  "iso_a2": "CN",
+  "region": "East Asia",
+  "centroid": [
+   122.2413,
+   37.3751
+  ],
+  "point": [
+   122.0793,
+   37.379
+  ],
+  "area_km2": 1096,
+  "bbox": [
+   121.95,
+   37.28,
+   122.6887,
+   37.5627
+  ],
+  "tiny": true,
+  "note": "Carved from Shandong by bounding box; the leased territory boundary is approximated."
+ },
+ {
+  "id": "cocos-keeling-islands",
+  "name": "Cocos (Keeling) Islands",
+  "aliases": [
+   "Clunies-Ross"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "CC",
+  "region": "Indian Ocean",
+  "centroid": [
+   96.8673,
+   -12.1759
+  ],
+  "point": [
+   96.8467,
+   -12.1919
+  ],
+  "area_km2": 13.26,
+  "bbox": [
+   96.8215,
+   -12.2,
+   96.9211,
+   -12.1266
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cook-islands",
+  "name": "Cook Islands",
+  "aliases": [
+   "Rarotonga",
+   "Aitutaki"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "New Zealand",
+  "iso_a2": "CK",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   -158.795,
+   -19.7703
+  ],
+  "point": [
+   -159.7702,
+   -21.2197
+  ],
+  "area_km2": 192,
+  "bbox": [
+   -165.8245,
+   -21.9389,
+   -157.3128,
+   -8.9467
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cuba",
+  "name": "Cuba",
+  "aliases": [
+   "Havana"
+  ],
+  "kind": "country",
+  "sovereign_today": "Cuba",
+  "iso_a2": "CU",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -79.0039,
+   21.6393
+  ],
+  "point": [
+   -76.4515,
+   20.5778
+  ],
+  "area_km2": 110287,
+  "bbox": [
+   -84.9496,
+   19.8278,
+   -74.1329,
+   23.2656
+  ],
+  "tiny": false
+ },
+ {
+  "id": "curacao",
+  "name": "Curaçao",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Netherlands",
+  "iso_a2": "CW",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -68.9712,
+   12.1938
+  ],
+  "point": [
+   -68.8607,
+   12.1271
+  ],
+  "area_km2": 465,
+  "bbox": [
+   -69.1717,
+   12.0413,
+   -68.7397,
+   12.3915
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cy-akrotiri-dhekelia",
+  "name": "Akrotiri and Dhekelia",
+  "aliases": [
+   "Sovereign Base Areas",
+   "SBA"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GB",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   33.4171,
+   34.8501
+  ],
+  "point": [
+   33.8019,
+   35.008
+  ],
+  "area_km2": 226,
+  "bbox": [
+   32.7601,
+   34.5685,
+   33.9215,
+   35.119
+  ],
+  "tiny": true
+ },
+ {
+  "id": "cyprus",
+  "name": "Cyprus",
+  "aliases": [],
+  "kind": "country",
+  "sovereign_today": "Cyprus",
+  "iso_a2": "CY",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   33.2219,
+   35.0554
+  ],
+  "point": [
+   33.1913,
+   35.0298
+  ],
+  "area_km2": 9056,
+  "bbox": [
+   32.2717,
+   34.625,
+   34.5925,
+   35.692
+  ],
+  "tiny": false
+ },
+ {
+  "id": "de-british-zone",
+  "name": "British Zone of Occupation (Germany)",
+  "aliases": [
+   "British Zone",
+   "Hamburg",
+   "Ruhr",
+   "Bizone"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Germany",
+  "iso_a2": "DE",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   8.687,
+   52.5433
+  ],
+  "point": [
+   8.1426,
+   52.3153
+  ],
+  "area_km2": 98336,
+  "bbox": [
+   5.8525,
+   50.3231,
+   11.5813,
+   55.0653
+  ],
+  "tiny": false
+ },
+ {
+  "id": "de-heligoland",
+  "name": "Heligoland",
+  "aliases": [
+   "Helgoland"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Germany",
+  "iso_a2": "DE",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   7.9056,
+   54.1893
+  ],
+  "point": [
+   7.8964,
+   54.1876
+  ],
+  "area_km2": 1.94,
+  "bbox": [
+   7.8799,
+   54.1782,
+   7.9334,
+   54.1953
+  ],
+  "tiny": true,
+  "note": "Carved from Schleswig-Holstein by bounding box."
+ },
+ {
+  "id": "djibouti",
+  "name": "Djibouti",
+  "aliases": [
+   "French Somaliland",
+   "Obock"
+  ],
+  "kind": "country",
+  "sovereign_today": "Djibouti",
+  "iso_a2": "DJ",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   42.5658,
+   11.7497
+  ],
+  "point": [
+   42.1664,
+   11.3863
+  ],
+  "area_km2": 21934,
+  "bbox": [
+   41.7491,
+   10.9298,
+   43.4187,
+   12.7079
+  ],
+  "tiny": false
+ },
+ {
+  "id": "dominica",
+  "name": "Dominica",
+  "aliases": [],
+  "kind": "country",
+  "sovereign_today": "Dominica",
+  "iso_a2": "DM",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.3569,
+   15.4364
+  ],
+  "point": [
+   -61.364,
+   15.4868
+  ],
+  "area_km2": 733,
+  "bbox": [
+   -61.4889,
+   15.2018,
+   -61.2493,
+   15.6339
+  ],
+  "tiny": true
+ },
+ {
+  "id": "dominican-republic",
+  "name": "Dominican Republic",
+  "aliases": [
+   "Santo Domingo"
+  ],
+  "kind": "country",
+  "sovereign_today": "Dominican Republic",
+  "iso_a2": "DO",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -70.4961,
+   18.8972
+  ],
+  "point": [
+   -70.9269,
+   19.1123
+  ],
+  "area_km2": 48589,
+  "bbox": [
+   -72.0098,
+   17.5456,
+   -68.3286,
+   19.9377
+  ],
+  "tiny": false
+ },
+ {
+  "id": "eg-suez-canal-zone",
+  "name": "Suez Canal Zone",
+  "aliases": [
+   "Suez Canal",
+   "Ismailia",
+   "Port Said",
+   "Suez Base"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Egypt",
+  "iso_a2": "EG",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   32.2884,
+   30.0452
+  ],
+  "point": [
+   32.2984,
+   30.3035
+  ],
+  "area_km2": 15154,
+  "bbox": [
+   31.7635,
+   28.9513,
+   32.8548,
+   31.2888
+  ],
+  "tiny": false
+ },
+ {
+  "id": "egypt",
+  "name": "Egypt (outside the Canal Zone)",
+  "aliases": [
+   "Khedivate of Egypt",
+   "Sultanate of Egypt",
+   "Cairo",
+   "Alexandria"
+  ],
+  "kind": "country",
+  "sovereign_today": "Egypt",
+  "iso_a2": "EG",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   29.85,
+   26.3922
+  ],
+  "point": [
+   29.0413,
+   26.0548
+  ],
+  "area_km2": 989761,
+  "bbox": [
+   24.6883,
+   21.711,
+   36.8992,
+   31.6565
+  ],
+  "tiny": false
+ },
+ {
+  "id": "equatorial-guinea",
+  "name": "Equatorial Guinea",
+  "aliases": [
+   "Fernando Pó",
+   "Bioko",
+   "Clarence",
+   "Port Clarence"
+  ],
+  "kind": "country",
+  "sovereign_today": "Equatorial Guinea",
+  "iso_a2": "GQ",
+  "region": "West Africa",
+  "centroid": [
+   10.3332,
+   1.7068
+  ],
+  "point": [
+   10.7506,
+   1.5834
+  ],
+  "area_km2": 26791,
+  "bbox": [
+   5.612,
+   -1.4757,
+   11.3363,
+   3.7724
+  ],
+  "tiny": false
+ },
+ {
+  "id": "eritrea",
+  "name": "Eritrea",
+  "aliases": [
+   "Italian Eritrea",
+   "Asmara"
+  ],
+  "kind": "country",
+  "sovereign_today": "Eritrea",
+  "iso_a2": "ER",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   38.864,
+   15.3568
+  ],
+  "point": [
+   38.0783,
+   16.018
+  ],
+  "area_km2": 122972,
+  "bbox": [
+   36.4236,
+   12.36,
+   43.1239,
+   18.0048
+  ],
+  "tiny": false
+ },
+ {
+  "id": "es-minorca",
+  "name": "Minorca",
+  "aliases": [
+   "Menorca",
+   "Port Mahon"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Spain",
+  "iso_a2": "ES",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   4.0831,
+   39.9608
+  ],
+  "point": [
+   4.1677,
+   39.9434
+  ],
+  "area_km2": 691,
+  "bbox": [
+   3.8032,
+   39.8165,
+   4.3371,
+   40.0794
+  ],
+  "tiny": true,
+  "note": "Carved from the Spanish Balearic Islands by bounding box."
+ },
+ {
+  "id": "eswatini",
+  "name": "Eswatini",
+  "aliases": [
+   "Swaziland",
+   "Mbabane"
+  ],
+  "kind": "country",
+  "sovereign_today": "Eswatini",
+  "iso_a2": "SZ",
+  "region": "Southern Africa",
+  "centroid": [
+   31.48,
+   -26.561
+  ],
+  "point": [
+   31.4505,
+   -26.5589
+  ],
+  "area_km2": 17143,
+  "bbox": [
+   30.7829,
+   -27.3163,
+   32.1174,
+   -25.736
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ethiopia",
+  "name": "Ethiopia",
+  "aliases": [
+   "Abyssinia",
+   "Italian East Africa (part)"
+  ],
+  "kind": "country",
+  "sovereign_today": "Ethiopia",
+  "iso_a2": "ET",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   39.6096,
+   8.6145
+  ],
+  "point": [
+   38.7831,
+   8.1552
+  ],
+  "area_km2": 1132068,
+  "bbox": [
+   32.9898,
+   3.4033,
+   47.9792,
+   14.8795
+  ],
+  "tiny": false
+ },
+ {
+  "id": "falkland-islands",
+  "name": "Falkland Islands",
+  "aliases": [
+   "Islas Malvinas",
+   "Port Stanley"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "FK",
+  "region": "Central & South America",
+  "centroid": [
+   -59.3736,
+   -51.7349
+  ],
+  "point": [
+   -58.7368,
+   -51.625
+  ],
+  "area_km2": 11553,
+  "bbox": [
+   -61.3182,
+   -52.4065,
+   -57.7343,
+   -51.0278
+  ],
+  "tiny": false
+ },
+ {
+  "id": "faroe-islands",
+  "name": "Faroe Islands",
+  "aliases": [
+   "Føroyar"
+  ],
+  "kind": "country",
+  "sovereign_today": "Denmark",
+  "iso_a2": "FO",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   -6.8704,
+   62.0723
+  ],
+  "point": [
+   -7.1198,
+   62.2313
+  ],
+  "area_km2": 1321,
+  "bbox": [
+   -7.6442,
+   61.3941,
+   -6.2758,
+   62.3989
+  ],
+  "tiny": true
+ },
+ {
+  "id": "fiji",
+  "name": "Fiji",
+  "aliases": [
+   "Suva",
+   "Levuka",
+   "Rotuma",
+   "Cakobau"
+  ],
+  "kind": "country",
+  "sovereign_today": "Fiji",
+  "iso_a2": "FJ",
+  "region": "The Pacific",
+  "centroid": [
+   178.5261,
+   -17.4465
+  ],
+  "point": [
+   177.9944,
+   -17.827
+  ],
+  "area_km2": 18992,
+  "bbox": [
+   174.5889,
+   -21.7111,
+   -178.2161,
+   -12.4753
+  ],
+  "tiny": false
+ },
+ {
+  "id": "fr-corsica",
+  "name": "Corsica",
+  "aliases": [
+   "Anglo-Corsican Kingdom",
+   "Corse"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "France",
+  "iso_a2": "FR",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   9.1035,
+   42.1542
+  ],
+  "point": [
+   9.1107,
+   42.2479
+  ],
+  "area_km2": 8653,
+  "bbox": [
+   8.5453,
+   41.3659,
+   9.5596,
+   43.0174
+  ],
+  "tiny": false
+ },
+ {
+  "id": "french-guiana",
+  "name": "French Guiana",
+  "aliases": [
+   "Guyane"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "GF",
+  "region": "Central & South America",
+  "centroid": [
+   -53.2445,
+   3.9218
+  ],
+  "point": [
+   -53.0213,
+   3.9556
+  ],
+  "area_km2": 83552,
+  "bbox": [
+   -54.6153,
+   2.1107,
+   -51.649,
+   5.7448
+  ],
+  "tiny": false
+ },
+ {
+  "id": "french-polynesia",
+  "name": "French Polynesia",
+  "aliases": [
+   "Tahiti",
+   "Society Islands",
+   "Marquesas"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "PF",
+  "region": "The Pacific",
+  "centroid": [
+   -144.9441,
+   -15.1579
+  ],
+  "point": [
+   -149.4651,
+   -17.6276
+  ],
+  "area_km2": 3348,
+  "bbox": [
+   -154.537,
+   -27.6412,
+   -134.943,
+   -7.9501
+  ],
+  "tiny": true
+ },
+ {
+  "id": "gambia",
+  "name": "The Gambia",
+  "aliases": [
+   "Bathurst",
+   "Banjul",
+   "James Island"
+  ],
+  "kind": "country",
+  "sovereign_today": "Gambia",
+  "iso_a2": "GM",
+  "region": "West Africa",
+  "centroid": [
+   -15.3979,
+   13.451
+  ],
+  "point": [
+   -14.9586,
+   13.6421
+  ],
+  "area_km2": 10540,
+  "bbox": [
+   -16.8297,
+   13.065,
+   -13.8187,
+   13.82
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gaza-strip",
+  "name": "Gaza Strip",
+  "aliases": [
+   "Gaza"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Palestine",
+  "iso_a2": "PS",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   34.355,
+   31.393
+  ],
+  "point": [
+   34.2804,
+   31.303
+  ],
+  "area_km2": 340,
+  "bbox": [
+   34.2003,
+   31.2114,
+   34.556,
+   31.5831
+  ],
+  "tiny": true
+ },
+ {
+  "id": "gb-england",
+  "name": "England",
+  "aliases": [
+   "Kingdom of England"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GB",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -1.4597,
+   52.563
+  ],
+  "point": [
+   -1.2566,
+   52.4805
+  ],
+  "area_km2": 129917,
+  "bbox": [
+   -6.3489,
+   49.9096,
+   1.7712,
+   55.8055
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gb-northern-ireland",
+  "name": "Northern Ireland",
+  "aliases": [
+   "the Six Counties",
+   "Ulster (six counties)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GB",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -6.6942,
+   54.6083
+  ],
+  "point": [
+   -6.4626,
+   54.6845
+  ],
+  "area_km2": 14188,
+  "bbox": [
+   -8.1738,
+   54.0346,
+   -5.4308,
+   55.3113
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gb-scotland",
+  "name": "Scotland",
+  "aliases": [
+   "Kingdom of Scotland"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GB",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -4.1723,
+   56.801
+  ],
+  "point": [
+   -4.2366,
+   56.745
+  ],
+  "area_km2": 77919,
+  "bbox": [
+   -13.6913,
+   54.633,
+   -0.7548,
+   60.8479
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gb-wales",
+  "name": "Wales",
+  "aliases": [
+   "Cymru"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GB",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -3.7577,
+   52.3336
+  ],
+  "point": [
+   -3.6498,
+   52.1107
+  ],
+  "area_km2": 20714,
+  "bbox": [
+   -5.3109,
+   51.3842,
+   -2.647,
+   53.4269
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gh-ashanti",
+  "name": "Ashanti",
+  "aliases": [
+   "Asante",
+   "Kumasi",
+   "Asanteman"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ghana",
+  "iso_a2": "GH",
+  "region": "West Africa",
+  "centroid": [
+   -1.578,
+   7.363
+  ],
+  "point": [
+   -1.7131,
+   7.2706
+  ],
+  "area_km2": 64978,
+  "bbox": [
+   -3.0973,
+   5.8537,
+   0.2413,
+   8.7883
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gh-british-togoland",
+  "name": "British Togoland",
+  "aliases": [
+   "Trans-Volta Togoland",
+   "Volta Region"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ghana",
+  "iso_a2": "GH",
+  "region": "West Africa",
+  "centroid": [
+   0.1088,
+   8.5254
+  ],
+  "point": [
+   -0.0997,
+   8.5649
+  ],
+  "area_km2": 46883,
+  "bbox": [
+   -0.6,
+   5.7554,
+   1.188,
+   11.1629
+  ],
+  "tiny": false,
+  "note": "Volta Region plus a carved strip of the Northern Territories; the 1956 plebiscite boundary is approximated."
+ },
+ {
+  "id": "gh-gold-coast-colony",
+  "name": "Gold Coast Colony",
+  "aliases": [
+   "Cape Coast",
+   "Accra",
+   "Elmina"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ghana",
+  "iso_a2": "GH",
+  "region": "West Africa",
+  "centroid": [
+   -1.4048,
+   5.9382
+  ],
+  "point": [
+   -0.5244,
+   6.0953
+  ],
+  "area_km2": 57677,
+  "bbox": [
+   -3.2625,
+   4.7371,
+   0.7207,
+   7.1928
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gh-northern-territories",
+  "name": "Northern Territories of the Gold Coast",
+  "aliases": [
+   "Tamale"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ghana",
+  "iso_a2": "GH",
+  "region": "West Africa",
+  "centroid": [
+   -1.6128,
+   9.7555
+  ],
+  "point": [
+   -1.6171,
+   9.8787
+  ],
+  "area_km2": 70139,
+  "bbox": [
+   -2.9325,
+   7.9645,
+   -0.3711,
+   11.1015
+  ],
+  "tiny": false
+ },
+ {
+  "id": "gibraltar",
+  "name": "Gibraltar",
+  "aliases": [
+   "the Rock"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GI",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   -5.3467,
+   36.1295
+  ],
+  "point": [
+   -5.3473,
+   36.1334
+  ],
+  "area_km2": 3.69,
+  "bbox": [
+   -5.3584,
+   36.1105,
+   -5.3388,
+   36.1411
+  ],
+  "tiny": true
+ },
+ {
+  "id": "gr-ionian-islands",
+  "name": "Ionian Islands",
+  "aliases": [
+   "United States of the Ionian Islands",
+   "Corfu",
+   "Kerkyra",
+   "Zante",
+   "Cephalonia"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Greece",
+  "iso_a2": "GR",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   20.4368,
+   38.6133
+  ],
+  "point": [
+   20.586,
+   38.1944
+  ],
+  "area_km2": 2237,
+  "bbox": [
+   19.6265,
+   37.6515,
+   20.9963,
+   39.8245
+  ],
+  "tiny": true
+ },
+ {
+  "id": "grenada",
+  "name": "Grenada",
+  "aliases": [
+   "Carriacou"
+  ],
+  "kind": "country",
+  "sovereign_today": "Grenada",
+  "iso_a2": "GD",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.6567,
+   12.1533
+  ],
+  "point": [
+   -61.6851,
+   12.0943
+  ],
+  "area_km2": 349,
+  "bbox": [
+   -61.7905,
+   12.0028,
+   -61.4216,
+   12.5297
+  ],
+  "tiny": true
+ },
+ {
+  "id": "guadeloupe",
+  "name": "Guadeloupe",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "GP",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.5296,
+   16.2083
+  ],
+  "point": [
+   -61.6654,
+   16.1136
+  ],
+  "area_km2": 1663,
+  "bbox": [
+   -61.7978,
+   15.847,
+   -60.9892,
+   16.5131
+  ],
+  "tiny": true
+ },
+ {
+  "id": "guam",
+  "name": "Guam",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United States",
+  "iso_a2": "GU",
+  "region": "The Pacific",
+  "centroid": [
+   144.7719,
+   13.4438
+  ],
+  "point": [
+   144.7045,
+   13.3549
+  ],
+  "area_km2": 566,
+  "bbox": [
+   144.6242,
+   13.241,
+   144.9522,
+   13.6541
+  ],
+  "tiny": true
+ },
+ {
+  "id": "guernsey",
+  "name": "Guernsey",
+  "aliases": [
+   "Bailiwick of Guernsey",
+   "Alderney",
+   "Sark",
+   "Channel Islands"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GG",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -2.5308,
+   49.4843
+  ],
+  "point": [
+   -2.5614,
+   49.4635
+  ],
+  "area_km2": 73.74,
+  "bbox": [
+   -2.6735,
+   49.4116,
+   -2.1703,
+   49.7314
+  ],
+  "tiny": true
+ },
+ {
+  "id": "guyana",
+  "name": "Guyana",
+  "aliases": [
+   "British Guiana",
+   "Demerara",
+   "Essequibo",
+   "Berbice"
+  ],
+  "kind": "country",
+  "sovereign_today": "Guyana",
+  "iso_a2": "GY",
+  "region": "Central & South America",
+  "centroid": [
+   -58.978,
+   4.7893
+  ],
+  "point": [
+   -58.6554,
+   2.7474
+  ],
+  "area_km2": 212139,
+  "bbox": [
+   -61.3967,
+   1.1858,
+   -56.4818,
+   8.558
+  ],
+  "tiny": false
+ },
+ {
+  "id": "haiti",
+  "name": "Haiti",
+  "aliases": [
+   "Saint-Domingue"
+  ],
+  "kind": "country",
+  "sovereign_today": "Haiti",
+  "iso_a2": "HT",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -72.6923,
+   18.9379
+  ],
+  "point": [
+   -72.2391,
+   19.2483
+  ],
+  "area_km2": 26974,
+  "bbox": [
+   -74.4892,
+   18.0259,
+   -71.6391,
+   20.0898
+  ],
+  "tiny": false
+ },
+ {
+  "id": "hawaii",
+  "name": "Hawaii",
+  "aliases": [
+   "Sandwich Islands",
+   "Kingdom of Hawai‘i",
+   "Honolulu"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "The Pacific",
+  "centroid": [
+   -156.3372,
+   20.2525
+  ],
+  "point": [
+   -155.5217,
+   19.6413
+  ],
+  "area_km2": 16897,
+  "bbox": [
+   -178.3044,
+   18.9061,
+   -154.8141,
+   28.4017
+  ],
+  "tiny": false
+ },
+ {
+  "id": "heard-mcdonald-islands",
+  "name": "Heard Island and McDonald Islands",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "HM",
+  "region": "Indian Ocean",
+  "centroid": [
+   73.5051,
+   -53.0888
+  ],
+  "point": [
+   73.5087,
+   -53.1038
+  ],
+  "area_km2": 393,
+  "bbox": [
+   73.236,
+   -53.1926,
+   73.8122,
+   -52.9616
+  ],
+  "tiny": true
+ },
+ {
+  "id": "hk-hong-kong-island",
+  "name": "Hong Kong Island",
+  "aliases": [
+   "Victoria",
+   "Hong Kong"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "China",
+  "iso_a2": "CN",
+  "region": "East Asia",
+  "centroid": [
+   114.1929,
+   22.2522
+  ],
+  "point": [
+   114.1761,
+   22.2607
+  ],
+  "area_km2": 81.74,
+  "bbox": [
+   114.1126,
+   22.1896,
+   114.2561,
+   22.2919
+  ],
+  "tiny": true
+ },
+ {
+  "id": "hk-kowloon",
+  "name": "Kowloon",
+  "aliases": [
+   "Kowloon Peninsula",
+   "Stonecutters Island"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "China",
+  "iso_a2": "CN",
+  "region": "East Asia",
+  "centroid": [
+   114.1991,
+   22.3238
+  ],
+  "point": [
+   114.2114,
+   22.3319
+  ],
+  "area_km2": 43.87,
+  "bbox": [
+   114.1457,
+   22.2817,
+   114.2434,
+   22.3557
+  ],
+  "tiny": true
+ },
+ {
+  "id": "hk-new-territories",
+  "name": "New Territories",
+  "aliases": [
+   "Lantau",
+   "Sha Tin",
+   "99-year lease"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "China",
+  "iso_a2": "CN",
+  "region": "East Asia",
+  "centroid": [
+   114.1226,
+   22.3994
+  ],
+  "point": [
+   114.0949,
+   22.442
+  ],
+  "area_km2": 913,
+  "bbox": [
+   113.8373,
+   22.1771,
+   114.4013,
+   22.5639
+  ],
+  "tiny": true
+ },
+ {
+  "id": "hn-bay-islands",
+  "name": "Bay Islands",
+  "aliases": [
+   "Islas de la Bahía",
+   "Roatán",
+   "Colony of the Bay Islands"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Honduras",
+  "iso_a2": "HN",
+  "region": "Central & South America",
+  "centroid": [
+   -86.3767,
+   16.3527
+  ],
+  "point": [
+   -86.4986,
+   16.3463
+  ],
+  "area_km2": 258,
+  "bbox": [
+   -86.9974,
+   16.0664,
+   -83.9123,
+   17.4186
+  ],
+  "tiny": true
+ },
+ {
+  "id": "iceland",
+  "name": "Iceland",
+  "aliases": [],
+  "kind": "country",
+  "sovereign_today": "Iceland",
+  "iso_a2": "IS",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   -18.6017,
+   65.0005
+  ],
+  "point": [
+   -18.8255,
+   64.6635
+  ],
+  "area_km2": 101722,
+  "bbox": [
+   -24.5399,
+   63.3967,
+   -13.5029,
+   66.5642
+  ],
+  "tiny": false
+ },
+ {
+  "id": "id-bencoolen",
+  "name": "Bencoolen",
+  "aliases": [
+   "Bengkulu",
+   "Fort Marlborough",
+   "British Sumatra"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Indonesia",
+  "iso_a2": "ID",
+  "region": "South-East Asia",
+  "centroid": [
+   102.3747,
+   -3.5746
+  ],
+  "point": [
+   101.8882,
+   -3.0517
+  ],
+  "area_km2": 21093,
+  "bbox": [
+   101.0266,
+   -5.4993,
+   103.7653,
+   -2.2362
+  ],
+  "tiny": false
+ },
+ {
+  "id": "id-java",
+  "name": "Java",
+  "aliases": [
+   "Batavia",
+   "Jakarta",
+   "Dutch East Indies",
+   "Raffles"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Indonesia",
+  "iso_a2": "ID",
+  "region": "South-East Asia",
+  "centroid": [
+   110.0715,
+   -7.2927
+  ],
+  "point": [
+   111.4159,
+   -7.4857
+  ],
+  "area_km2": 132339,
+  "bbox": [
+   105.1177,
+   -8.7779,
+   115.896,
+   -5.726
+  ],
+  "tiny": false
+ },
+ {
+  "id": "id-moluccas",
+  "name": "Maluku",
+  "aliases": [
+   "Moluccas",
+   "Spice Islands",
+   "Ambon",
+   "Banda",
+   "Ternate",
+   "Run"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Indonesia",
+  "iso_a2": "ID",
+  "region": "South-East Asia",
+  "centroid": [
+   128.8396,
+   -2.673
+  ],
+  "point": [
+   127.7793,
+   1.5093
+  ],
+  "area_km2": 76650,
+  "bbox": [
+   124.3006,
+   -8.3513,
+   134.8882,
+   2.6336
+  ],
+  "tiny": false
+ },
+ {
+  "id": "id-sumatra",
+  "name": "Sumatra (rest)",
+  "aliases": [
+   "Aceh",
+   "Palembang",
+   "Padang"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Indonesia",
+  "iso_a2": "ID",
+  "region": "South-East Asia",
+  "centroid": [
+   101.641,
+   -0.3152
+  ],
+  "point": [
+   102.0721,
+   -1.0711
+  ],
+  "area_km2": 452880,
+  "bbox": [
+   95.0127,
+   -5.9304,
+   109.1139,
+   5.9101
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ie-connacht",
+  "name": "Connacht",
+  "aliases": [
+   "Connaught",
+   "Cromwellian transplantation"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ireland",
+  "iso_a2": "IE",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -8.8584,
+   53.745
+  ],
+  "point": [
+   -8.5717,
+   53.6603
+  ],
+  "area_km2": 17517,
+  "bbox": [
+   -10.2659,
+   52.9683,
+   -7.5753,
+   54.478
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ie-leinster",
+  "name": "Leinster",
+  "aliases": [
+   "Laighin",
+   "Dublin",
+   "the Pale"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ireland",
+  "iso_a2": "IE",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -6.9677,
+   53.1331
+  ],
+  "point": [
+   -6.8853,
+   53.0503
+  ],
+  "area_km2": 19668,
+  "bbox": [
+   -8.0765,
+   52.1247,
+   -5.9935,
+   54.1107
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ie-munster",
+  "name": "Munster",
+  "aliases": [
+   "An Mhumhain",
+   "Cork",
+   "Munster Plantation"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ireland",
+  "iso_a2": "IE",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -8.7754,
+   52.2956
+  ],
+  "point": [
+   -9.0441,
+   52.0882
+  ],
+  "area_km2": 24053,
+  "bbox": [
+   -10.4782,
+   51.4457,
+   -6.9551,
+   53.1704
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ie-ulster-counties",
+  "name": "Ulster (Cavan, Donegal, Monaghan)",
+  "aliases": [
+   "Ulster (three counties)",
+   "Plantation of Ulster (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Ireland",
+  "iso_a2": "IE",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -7.6109,
+   54.578
+  ],
+  "point": [
+   -8.0115,
+   54.9262
+  ],
+  "area_km2": 7922,
+  "bbox": [
+   -8.7978,
+   53.7734,
+   -6.5505,
+   55.3864
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-andaman-nicobar",
+  "name": "Andaman and Nicobar Islands",
+  "aliases": [
+   "Port Blair",
+   "Cellular Jail",
+   "Kala Pani"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   92.9794,
+   11.1197
+  ],
+  "point": [
+   92.867,
+   12.5713
+  ],
+  "area_km2": 7135,
+  "bbox": [
+   92.2173,
+   6.7456,
+   94.2908,
+   13.6802
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-andhra-pradesh",
+  "name": "Andhra Pradesh",
+  "aliases": [
+   "Northern Circars",
+   "Madras Presidency (north)",
+   "Masulipatnam",
+   "Vizagapatam"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   79.9006,
+   15.7184
+  ],
+  "point": [
+   78.8497,
+   14.8076
+  ],
+  "area_km2": 161143,
+  "bbox": [
+   76.7195,
+   12.6319,
+   84.78,
+   19.1617
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-arunachal-pradesh",
+  "name": "Arunachal Pradesh",
+  "aliases": [
+   "North-East Frontier Agency",
+   "NEFA",
+   "McMahon Line"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   94.6554,
+   28.04
+  ],
+  "point": [
+   94.776,
+   28.4583
+  ],
+  "area_km2": 80714,
+  "bbox": [
+   91.5644,
+   26.6476,
+   97.3623,
+   29.3693
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-assam",
+  "name": "Assam",
+  "aliases": [
+   "Ahom Kingdom",
+   "Guwahati",
+   "Assam tea districts"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   92.8227,
+   26.3596
+  ],
+  "point": [
+   93.0324,
+   26.235
+  ],
+  "area_km2": 79677,
+  "bbox": [
+   89.6558,
+   24.1278,
+   96.0118,
+   27.9933
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-bihar",
+  "name": "Bihar",
+  "aliases": [
+   "Bengal Presidency (part)",
+   "Patna",
+   "Buxar",
+   "Champaran"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   85.6038,
+   25.6627
+  ],
+  "point": [
+   86.0654,
+   25.6708
+  ],
+  "area_km2": 94876,
+  "bbox": [
+   83.323,
+   24.3017,
+   88.3039,
+   27.5169
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-chhattisgarh",
+  "name": "Chhattisgarh",
+  "aliases": [
+   "Central Provinces (east)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   82.0199,
+   21.2414
+  ],
+  "point": [
+   82.5627,
+   22.1249
+  ],
+  "area_km2": 134876,
+  "bbox": [
+   80.2606,
+   17.7761,
+   84.3533,
+   24.1402
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-daman-diu-dadra",
+  "name": "Daman, Diu, Dadra and Nagar Haveli",
+  "aliases": [
+   "Portuguese India"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   72.9928,
+   20.1995
+  ],
+  "point": [
+   72.9824,
+   20.2174
+  ],
+  "area_km2": 576,
+  "bbox": [
+   70.9716,
+   20.0266,
+   73.17,
+   20.7396
+  ],
+  "tiny": true
+ },
+ {
+  "id": "in-delhi",
+  "name": "Delhi",
+  "aliases": [
+   "Shahjahanabad",
+   "New Delhi",
+   "Mughal capital"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   77.108,
+   28.6608
+  ],
+  "point": [
+   77.1041,
+   28.6859
+  ],
+  "area_km2": 1484,
+  "bbox": [
+   76.8337,
+   28.4326,
+   77.3375,
+   28.8821
+  ],
+  "tiny": true
+ },
+ {
+  "id": "in-goa",
+  "name": "Goa",
+  "aliases": [
+   "Portuguese India",
+   "Estado da Índia",
+   "Panjim"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   74.046,
+   15.352
+  ],
+  "point": [
+   74.0824,
+   15.2632
+  ],
+  "area_km2": 3433,
+  "bbox": [
+   73.6859,
+   14.8876,
+   74.3042,
+   15.783
+  ],
+  "tiny": true
+ },
+ {
+  "id": "in-gujarat",
+  "name": "Gujarat",
+  "aliases": [
+   "Surat",
+   "Kathiawar",
+   "Ahmedabad",
+   "Dandi",
+   "Baroda"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   71.5632,
+   22.7115
+  ],
+  "point": [
+   71.7793,
+   23.4258
+  ],
+  "area_km2": 184886,
+  "bbox": [
+   68.1434,
+   20.0726,
+   74.4591,
+   24.7084
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-haryana",
+  "name": "Haryana",
+  "aliases": [
+   "Punjab (east)",
+   "Panipat"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   76.3385,
+   29.2097
+  ],
+  "point": [
+   76.2476,
+   29.0569
+  ],
+  "area_km2": 44121,
+  "bbox": [
+   74.4594,
+   27.6704,
+   77.588,
+   30.9343
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-himachal-pradesh",
+  "name": "Himachal Pradesh",
+  "aliases": [
+   "Simla",
+   "Shimla",
+   "Punjab Hill States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   77.2235,
+   31.9343
+  ],
+  "point": [
+   77.3095,
+   31.904
+  ],
+  "area_km2": 55438,
+  "bbox": [
+   75.5778,
+   30.3822,
+   78.9971,
+   33.2329
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-jammu-kashmir",
+  "name": "Jammu and Kashmir (Indian-administered)",
+  "aliases": [
+   "Princely State of Jammu and Kashmir",
+   "Srinagar",
+   "Vale of Kashmir"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   75.0826,
+   33.5553
+  ],
+  "point": [
+   75.0209,
+   33.5879
+  ],
+  "area_km2": 42570,
+  "bbox": [
+   73.7749,
+   32.3006,
+   76.7398,
+   34.7734
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-jharkhand",
+  "name": "Jharkhand",
+  "aliases": [
+   "Chota Nagpur",
+   "Santal Parganas"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   85.5296,
+   23.6414
+  ],
+  "point": [
+   84.9815,
+   23.507
+  ],
+  "area_km2": 78129,
+  "bbox": [
+   83.3371,
+   21.9861,
+   87.9,
+   25.3238
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-karnataka",
+  "name": "Karnataka",
+  "aliases": [
+   "Mysore",
+   "Kingdom of Mysore",
+   "Seringapatam",
+   "Srirangapatna",
+   "Bangalore",
+   "Bengaluru"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   76.1564,
+   14.7091
+  ],
+  "point": [
+   75.6624,
+   15.7062
+  ],
+  "area_km2": 192535,
+  "bbox": [
+   74.0912,
+   11.6256,
+   78.569,
+   18.4608
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-kerala",
+  "name": "Kerala",
+  "aliases": [
+   "Travancore",
+   "Cochin",
+   "Malabar",
+   "Calicut",
+   "Kozhikode"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   76.4282,
+   10.4205
+  ],
+  "point": [
+   76.8124,
+   9.8134
+  ],
+  "area_km2": 37877,
+  "bbox": [
+   74.8543,
+   8.2852,
+   77.4045,
+   12.7799
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-ladakh",
+  "name": "Ladakh",
+  "aliases": [
+   "Leh",
+   "Baltistan (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   77.6414,
+   33.8835
+  ],
+  "point": [
+   77.4469,
+   34.0222
+  ],
+  "area_km2": 64276,
+  "bbox": [
+   75.3441,
+   32.3464,
+   79.6207,
+   35.4954
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-lakshadweep",
+  "name": "Lakshadweep",
+  "aliases": [
+   "Laccadive Islands",
+   "Minicoy"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   72.829,
+   10.1166
+  ],
+  "point": [
+   73.0422,
+   8.2583
+  ],
+  "area_km2": 34.26,
+  "bbox": [
+   72.1726,
+   8.2495,
+   73.6844,
+   11.6942
+  ],
+  "tiny": true
+ },
+ {
+  "id": "in-madhya-pradesh",
+  "name": "Madhya Pradesh",
+  "aliases": [
+   "Central Provinces",
+   "Central India Agency",
+   "Gwalior",
+   "Indore",
+   "Jhansi"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   78.2859,
+   23.5405
+  ],
+  "point": [
+   79.8176,
+   23.1214
+  ],
+  "area_km2": 310244,
+  "bbox": [
+   74.0249,
+   21.0748,
+   82.818,
+   26.8598
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-maharashtra",
+  "name": "Maharashtra",
+  "aliases": [
+   "Bombay Presidency",
+   "Bombay",
+   "Mumbai",
+   "Maratha Confederacy",
+   "Poona",
+   "Pune",
+   "Nagpur"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   76.095,
+   19.461
+  ],
+  "point": [
+   75.2826,
+   19.3775
+  ],
+  "area_km2": 307481,
+  "bbox": [
+   72.6492,
+   15.6135,
+   80.897,
+   22.023
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-manipur",
+  "name": "Manipur",
+  "aliases": [
+   "Imphal",
+   "Kangleipak"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   93.8605,
+   24.7295
+  ],
+  "point": [
+   93.7808,
+   24.6352
+  ],
+  "area_km2": 21715,
+  "bbox": [
+   92.9779,
+   23.8416,
+   94.7138,
+   25.6876
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-meghalaya",
+  "name": "Meghalaya",
+  "aliases": [
+   "Khasi Hills",
+   "Shillong"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   91.2874,
+   25.5377
+  ],
+  "point": [
+   90.3879,
+   25.5531
+  ],
+  "area_km2": 23167,
+  "bbox": [
+   89.795,
+   25.0048,
+   92.8116,
+   26.0893
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-mizoram",
+  "name": "Mizoram",
+  "aliases": [
+   "Lushai Hills"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   92.8192,
+   23.2896
+  ],
+  "point": [
+   92.8583,
+   23.5557
+  ],
+  "area_km2": 21293,
+  "bbox": [
+   92.25,
+   21.957,
+   93.4324,
+   24.483
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-nagaland",
+  "name": "Nagaland",
+  "aliases": [
+   "Naga Hills"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   94.4464,
+   26.0591
+  ],
+  "point": [
+   94.608,
+   26.1306
+  ],
+  "area_km2": 16302,
+  "bbox": [
+   93.3359,
+   25.2058,
+   95.2469,
+   27.0332
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-odisha",
+  "name": "Odisha",
+  "aliases": [
+   "Orissa",
+   "Cuttack",
+   "Puri"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   84.4038,
+   20.5153
+  ],
+  "point": [
+   84.5882,
+   20.8775
+  ],
+  "area_km2": 155628,
+  "bbox": [
+   81.3907,
+   17.7872,
+   87.4774,
+   22.5567
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-puducherry",
+  "name": "Puducherry",
+  "aliases": [
+   "French India",
+   "Pondicherry",
+   "Karaikal",
+   "Yanam",
+   "Mahé"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   78.8791,
+   11.9591
+  ],
+  "point": [
+   79.7509,
+   11.8814
+  ],
+  "area_km2": 528,
+  "bbox": [
+   75.2218,
+   10.8091,
+   82.3014,
+   16.7503
+  ],
+  "tiny": true
+ },
+ {
+  "id": "in-punjab-india",
+  "name": "Punjab (India)",
+  "aliases": [
+   "Sikh Empire",
+   "Amritsar",
+   "Jallianwala Bagh",
+   "East Punjab"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   75.404,
+   30.8459
+  ],
+  "point": [
+   75.4892,
+   30.7369
+  ],
+  "area_km2": 50426,
+  "bbox": [
+   73.8423,
+   29.5598,
+   76.9104,
+   32.5167
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-rajasthan",
+  "name": "Rajasthan",
+  "aliases": [
+   "Rajputana",
+   "Jaipur",
+   "Udaipur",
+   "Jodhpur"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   73.8353,
+   26.5868
+  ],
+  "point": [
+   73.9063,
+   26.9698
+  ],
+  "area_km2": 343699,
+  "bbox": [
+   69.4651,
+   23.0361,
+   78.2465,
+   30.2041
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-sikkim",
+  "name": "Sikkim",
+  "aliases": [
+   "Kingdom of Sikkim",
+   "Gangtok",
+   "Chogyal"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   88.448,
+   27.5716
+  ],
+  "point": [
+   88.4103,
+   27.4921
+  ],
+  "area_km2": 6954,
+  "bbox": [
+   88.0047,
+   27.0846,
+   88.8923,
+   28.1066
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-tamil-nadu",
+  "name": "Tamil Nadu",
+  "aliases": [
+   "Madras Presidency",
+   "Madras",
+   "Chennai",
+   "Fort St George",
+   "Carnatic",
+   "Tanjore"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   78.399,
+   11.0108
+  ],
+  "point": [
+   78.2731,
+   10.9188
+  ],
+  "area_km2": 131206,
+  "bbox": [
+   76.2305,
+   8.076,
+   80.3478,
+   13.5359
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-telangana",
+  "name": "Telangana (Hyderabad State core)",
+  "aliases": [
+   "Hyderabad State",
+   "Nizam’s Dominions",
+   "Hyderabad",
+   "Deccan"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   79.0495,
+   17.7943
+  ],
+  "point": [
+   78.9834,
+   17.8744
+  ],
+  "area_km2": 115188,
+  "bbox": [
+   77.2574,
+   15.8297,
+   81.7866,
+   19.8913
+  ],
+  "tiny": false,
+  "note": "Hyderabad State also covered Marathwada and Kalyana-Karnataka, which Natural Earth admin-1 cannot separate from Maharashtra and Karnataka. This unit is the Telangana core only."
+ },
+ {
+  "id": "in-tripura",
+  "name": "Tripura",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   91.7277,
+   23.7542
+  ],
+  "point": [
+   91.5501,
+   23.65
+  ],
+  "area_km2": 10770,
+  "bbox": [
+   91.1323,
+   22.9445,
+   92.332,
+   24.5422
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-uttar-pradesh",
+  "name": "Uttar Pradesh",
+  "aliases": [
+   "United Provinces",
+   "Awadh",
+   "Oudh",
+   "Lucknow",
+   "Kanpur",
+   "Cawnpore",
+   "Meerut",
+   "Ceded and Conquered Provinces"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   80.5668,
+   26.9318
+  ],
+  "point": [
+   80.4674,
+   26.8923
+  ],
+  "area_km2": 240678,
+  "bbox": [
+   77.0582,
+   23.911,
+   84.6124,
+   30.402
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-uttarakhand",
+  "name": "Uttarakhand",
+  "aliases": [
+   "Kumaon",
+   "Garhwal",
+   "Simla hills (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   79.1991,
+   30.1624
+  ],
+  "point": [
+   79.4758,
+   30.0729
+  ],
+  "area_km2": 52697,
+  "bbox": [
+   77.5653,
+   28.7329,
+   81.0033,
+   31.4617
+  ],
+  "tiny": false
+ },
+ {
+  "id": "in-west-bengal",
+  "name": "West Bengal",
+  "aliases": [
+   "Bengal",
+   "Calcutta",
+   "Kolkata",
+   "Fort William",
+   "Plassey"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "India",
+  "iso_a2": "IN",
+  "region": "South Asia",
+  "centroid": [
+   87.9638,
+   23.7882
+  ],
+  "point": [
+   87.8103,
+   23.2481
+  ],
+  "area_km2": 86562,
+  "bbox": [
+   85.8224,
+   21.5236,
+   89.8885,
+   27.2492
+  ],
+  "tiny": false
+ },
+ {
+  "id": "io-chagos-archipelago",
+  "name": "Chagos Archipelago (except Diego Garcia)",
+  "aliases": [
+   "British Indian Ocean Territory",
+   "BIOT",
+   "Peros Banhos",
+   "Salomon"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "IO",
+  "region": "Indian Ocean",
+  "centroid": [
+   71.4639,
+   -6.0202
+  ],
+  "point": [
+   71.3463,
+   -6.195
+  ],
+  "area_km2": 7.05,
+  "bbox": [
+   71.261,
+   -6.6563,
+   72.231,
+   -5.227
+  ],
+  "tiny": true
+ },
+ {
+  "id": "io-diego-garcia",
+  "name": "Diego Garcia",
+  "aliases": [
+   "BIOT",
+   "Camp Justice"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "IO",
+  "region": "Indian Ocean",
+  "centroid": [
+   72.438,
+   -7.3316
+  ],
+  "point": [
+   72.3862,
+   -7.291
+  ],
+  "area_km2": 42.22,
+  "bbox": [
+   72.3577,
+   -7.4322,
+   72.4946,
+   -7.2267
+  ],
+  "tiny": true,
+  "note": "Carved from the British Indian Ocean Territory map unit by bounding box."
+ },
+ {
+  "id": "iran",
+  "name": "Iran",
+  "aliases": [
+   "Persia",
+   "Anglo-Persian Oil",
+   "Abadan"
+  ],
+  "kind": "country",
+  "sovereign_today": "Iran",
+  "iso_a2": "IR",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   54.4438,
+   32.5227
+  ],
+  "point": [
+   55.6774,
+   32.1322
+  ],
+  "area_km2": 1623489,
+  "bbox": [
+   44.0149,
+   25.0594,
+   63.3196,
+   39.7715
+  ],
+  "tiny": false
+ },
+ {
+  "id": "iraq",
+  "name": "Iraq",
+  "aliases": [
+   "Mesopotamia",
+   "Baghdad",
+   "Basra",
+   "Mosul",
+   "Kingdom of Iraq"
+  ],
+  "kind": "country",
+  "sovereign_today": "Iraq",
+  "iso_a2": "IQ",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   43.7751,
+   33.0097
+  ],
+  "point": [
+   43.0869,
+   33.2602
+  ],
+  "area_km2": 437586,
+  "bbox": [
+   38.7745,
+   29.0631,
+   48.5593,
+   37.3755
+  ],
+  "tiny": false
+ },
+ {
+  "id": "isle-of-man",
+  "name": "Isle of Man",
+  "aliases": [
+   "Mann",
+   "Ellan Vannin"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "IM",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -4.534,
+   54.229
+  ],
+  "point": [
+   -4.4913,
+   54.2576
+  ],
+  "area_km2": 572,
+  "bbox": [
+   -4.7902,
+   54.057,
+   -4.3119,
+   54.419
+  ],
+  "tiny": true
+ },
+ {
+  "id": "israel",
+  "name": "Israel",
+  "aliases": [
+   "Mandatory Palestine (west)",
+   "Palestine",
+   "Jerusalem",
+   "Haifa"
+  ],
+  "kind": "country",
+  "sovereign_today": "Israel",
+  "iso_a2": "IL",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   34.9929,
+   31.438
+  ],
+  "point": [
+   34.8535,
+   30.9065
+  ],
+  "area_km2": 22120,
+  "bbox": [
+   34.2484,
+   29.4897,
+   35.8881,
+   33.4067
+  ],
+  "tiny": false
+ },
+ {
+  "id": "jamaica",
+  "name": "Jamaica",
+  "aliases": [
+   "Port Royal",
+   "Kingston"
+  ],
+  "kind": "country",
+  "sovereign_today": "Jamaica",
+  "iso_a2": "JM",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -77.3184,
+   18.1557
+  ],
+  "point": [
+   -77.5753,
+   18.1726
+  ],
+  "area_km2": 11068,
+  "bbox": [
+   -78.3747,
+   17.7032,
+   -76.188,
+   18.5251
+  ],
+  "tiny": false
+ },
+ {
+  "id": "japan",
+  "name": "Japan",
+  "aliases": [
+   "British Commonwealth Occupation Force",
+   "Hiroshima prefecture",
+   "Kure"
+  ],
+  "kind": "country",
+  "sovereign_today": "Japan",
+  "iso_a2": "JP",
+  "region": "East Asia",
+  "centroid": [
+   137.605,
+   37.4199
+  ],
+  "point": [
+   139.514,
+   36.7521
+  ],
+  "area_km2": 373333,
+  "bbox": [
+   122.9382,
+   24.2121,
+   153.9856,
+   45.5204
+  ],
+  "tiny": false
+ },
+ {
+  "id": "jersey",
+  "name": "Jersey",
+  "aliases": [
+   "Bailiwick of Jersey",
+   "Channel Islands"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "JE",
+  "region": "British Isles & Ireland",
+  "centroid": [
+   -2.1274,
+   49.2211
+  ],
+  "point": [
+   -2.0792,
+   49.2162
+  ],
+  "area_km2": 119,
+  "bbox": [
+   -2.242,
+   49.1713,
+   -2.0083,
+   49.267
+  ],
+  "tiny": true
+ },
+ {
+  "id": "jordan",
+  "name": "Jordan",
+  "aliases": [
+   "Transjordan",
+   "Emirate of Transjordan",
+   "Amman"
+  ],
+  "kind": "country",
+  "sovereign_today": "Jordan",
+  "iso_a2": "JO",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   36.7572,
+   31.2384
+  ],
+  "point": [
+   36.3393,
+   30.7425
+  ],
+  "area_km2": 88941,
+  "bbox": [
+   34.9494,
+   29.19,
+   39.292,
+   33.3717
+  ],
+  "tiny": false
+ },
+ {
+  "id": "kenya",
+  "name": "Kenya",
+  "aliases": [
+   "British East Africa",
+   "East Africa Protectorate",
+   "Mombasa",
+   "Nairobi"
+  ],
+  "kind": "country",
+  "sovereign_today": "Kenya",
+  "iso_a2": "KE",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   37.8226,
+   0.5505
+  ],
+  "point": [
+   37.8438,
+   0.4214
+  ],
+  "area_km2": 588320,
+  "bbox": [
+   33.8905,
+   -4.6775,
+   41.885,
+   5.0304
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ki-gilbert-islands",
+  "name": "Gilbert Islands",
+  "aliases": [
+   "Gilbert and Ellice Islands Colony",
+   "Tarawa",
+   "Ocean Island",
+   "Banaba",
+   "Betio"
+  ],
+  "kind": "island-group",
+  "sovereign_today": "Kiribati",
+  "iso_a2": "KI",
+  "region": "The Pacific",
+  "centroid": [
+   174.191,
+   0.0306
+  ],
+  "point": [
+   173.064,
+   0.9289
+  ],
+  "area_km2": 307,
+  "bbox": [
+   169.5221,
+   -2.6628,
+   176.8509,
+   3.1418
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ki-line-phoenix-islands",
+  "name": "Line and Phoenix Islands",
+  "aliases": [
+   "Christmas Island",
+   "Kiritimati",
+   "Fanning",
+   "Washington",
+   "Canton",
+   "Enderbury"
+  ],
+  "kind": "island-group",
+  "sovereign_today": "Kiribati",
+  "iso_a2": "KI",
+  "region": "The Pacific",
+  "centroid": [
+   -158.2617,
+   0.9063
+  ],
+  "point": [
+   -157.3789,
+   1.8231
+  ],
+  "area_km2": 647,
+  "bbox": [
+   -174.5434,
+   -11.4611,
+   -151.781,
+   4.7231
+  ],
+  "tiny": true,
+  "note": "Carved from the Kiribati map unit by longitude: everything east of the antimeridian."
+ },
+ {
+  "id": "kuwait",
+  "name": "Kuwait",
+  "aliases": [
+   "Sheikhdom of Kuwait"
+  ],
+  "kind": "country",
+  "sovereign_today": "Kuwait",
+  "iso_a2": "KW",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   47.5954,
+   29.339
+  ],
+  "point": [
+   47.4338,
+   29.6861
+  ],
+  "area_km2": 17496,
+  "bbox": [
+   46.5324,
+   28.5335,
+   48.4328,
+   30.0983
+  ],
+  "tiny": false
+ },
+ {
+  "id": "lebanon",
+  "name": "Lebanon",
+  "aliases": [
+   "Greater Lebanon",
+   "Beirut"
+  ],
+  "kind": "country",
+  "sovereign_today": "Lebanon",
+  "iso_a2": "LB",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   35.8774,
+   33.9186
+  ],
+  "point": [
+   36.0377,
+   34.1706
+  ],
+  "area_km2": 10007,
+  "bbox": [
+   35.0996,
+   33.0556,
+   36.6041,
+   34.6875
+  ],
+  "tiny": false
+ },
+ {
+  "id": "lesotho",
+  "name": "Lesotho",
+  "aliases": [
+   "Basutoland",
+   "Maseru",
+   "Moshoeshoe"
+  ],
+  "kind": "country",
+  "sovereign_today": "Lesotho",
+  "iso_a2": "LS",
+  "region": "Southern Africa",
+  "centroid": [
+   28.2304,
+   -29.5788
+  ],
+  "point": [
+   28.4802,
+   -29.4092
+  ],
+  "area_km2": 30143,
+  "bbox": [
+   27.0022,
+   -30.6588,
+   29.4359,
+   -28.5708
+  ],
+  "tiny": false
+ },
+ {
+  "id": "libya",
+  "name": "Libya",
+  "aliases": [
+   "Cyrenaica",
+   "Tripolitania",
+   "Italian Libya"
+  ],
+  "kind": "country",
+  "sovereign_today": "Libya",
+  "iso_a2": "LY",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   18.0677,
+   27.016
+  ],
+  "point": [
+   20.5827,
+   26.08
+  ],
+  "area_km2": 1626533,
+  "bbox": [
+   9.2865,
+   19.4961,
+   25.1563,
+   33.1812
+  ],
+  "tiny": false
+ },
+ {
+  "id": "lk-kandy",
+  "name": "Kandyan provinces",
+  "aliases": [
+   "Kingdom of Kandy",
+   "Kandy",
+   "Uva",
+   "Sabaragamuwa"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Sri Lanka",
+  "iso_a2": "LK",
+  "region": "South Asia",
+  "centroid": [
+   80.8101,
+   7.4386
+  ],
+  "point": [
+   80.8223,
+   6.928
+  ],
+  "area_km2": 30132,
+  "bbox": [
+   79.955,
+   6.2323,
+   81.6341,
+   8.9165
+  ],
+  "tiny": false
+ },
+ {
+  "id": "lk-maritime-provinces",
+  "name": "Ceylon maritime provinces",
+  "aliases": [
+   "Dutch Ceylon",
+   "Colombo",
+   "Jaffna",
+   "Galle",
+   "Trincomalee"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Sri Lanka",
+  "iso_a2": "LK",
+  "region": "South Asia",
+  "centroid": [
+   80.6156,
+   7.7595
+  ],
+  "point": [
+   80.156,
+   7.6814
+  ],
+  "area_km2": 36441,
+  "bbox": [
+   79.6558,
+   5.9237,
+   81.8903,
+   9.8296
+  ],
+  "tiny": false
+ },
+ {
+  "id": "macau",
+  "name": "Macau",
+  "aliases": [
+   "Macao",
+   "Portuguese Macau"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "China",
+  "iso_a2": "MO",
+  "region": "East Asia",
+  "centroid": [
+   113.5502,
+   22.1578
+  ],
+  "point": [
+   113.5498,
+   22.1518
+  ],
+  "area_km2": 30.15,
+  "bbox": [
+   113.5199,
+   22.1054,
+   113.5875,
+   22.2208
+  ],
+  "tiny": true
+ },
+ {
+  "id": "madagascar",
+  "name": "Madagascar",
+  "aliases": [
+   "Merina Kingdom",
+   "Antananarivo",
+   "Diego Suarez"
+  ],
+  "kind": "country",
+  "sovereign_today": "Madagascar",
+  "iso_a2": "MG",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   46.7442,
+   -19.3177
+  ],
+  "point": [
+   46.7047,
+   -18.4097
+  ],
+  "area_km2": 594755,
+  "bbox": [
+   43.2229,
+   -25.5986,
+   50.5039,
+   -11.9436
+  ],
+  "tiny": false
+ },
+ {
+  "id": "maldives",
+  "name": "Maldives",
+  "aliases": [
+   "Malé",
+   "Addu",
+   "Gan"
+  ],
+  "kind": "country",
+  "sovereign_today": "Maldives",
+  "iso_a2": "MV",
+  "region": "South Asia",
+  "centroid": [
+   73.3025,
+   3.8233
+  ],
+  "point": [
+   73.5301,
+   4.1954
+  ],
+  "area_km2": 109,
+  "bbox": [
+   72.6848,
+   -0.6886,
+   73.7532,
+   7.1072
+  ],
+  "tiny": true
+ },
+ {
+  "id": "malta",
+  "name": "Malta",
+  "aliases": [
+   "Malta and Gozo"
+  ],
+  "kind": "country",
+  "sovereign_today": "Malta",
+  "iso_a2": "MT",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   14.4039,
+   35.921
+  ],
+  "point": [
+   14.4231,
+   35.896
+  ],
+  "area_km2": 326,
+  "bbox": [
+   14.1836,
+   35.8012,
+   14.5671,
+   36.0756
+  ],
+  "tiny": true
+ },
+ {
+  "id": "martinique",
+  "name": "Martinique",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "MQ",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.0175,
+   14.6564
+  ],
+  "point": [
+   -61.0724,
+   14.7268
+  ],
+  "area_km2": 1101,
+  "bbox": [
+   -61.2288,
+   14.4081,
+   -60.8104,
+   14.8769
+  ],
+  "tiny": true
+ },
+ {
+  "id": "mauritius",
+  "name": "Mauritius",
+  "aliases": [
+   "Isle de France",
+   "Port Louis",
+   "Agalega"
+  ],
+  "kind": "country",
+  "sovereign_today": "Mauritius",
+  "iso_a2": "MU",
+  "region": "Indian Ocean",
+  "centroid": [
+   57.5618,
+   -20.2069
+  ],
+  "point": [
+   57.545,
+   -20.3224
+  ],
+  "area_km2": 1921,
+  "bbox": [
+   56.5242,
+   -20.5173,
+   57.7957,
+   -10.3239
+  ],
+  "tiny": true
+ },
+ {
+  "id": "mm-arakan",
+  "name": "Arakan",
+  "aliases": [
+   "Rakhine",
+   "Akyab",
+   "Sittwe"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Myanmar",
+  "iso_a2": "MM",
+  "region": "South Asia",
+  "centroid": [
+   93.7487,
+   19.7205
+  ],
+  "point": [
+   93.6645,
+   20.3197
+  ],
+  "area_km2": 34706,
+  "bbox": [
+   92.175,
+   17.3667,
+   94.903,
+   21.4619
+  ],
+  "tiny": false
+ },
+ {
+  "id": "mm-frontier-areas",
+  "name": "Burma frontier areas",
+  "aliases": [
+   "Shan States",
+   "Kachin Hills",
+   "Chin Hills",
+   "Karenni"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Myanmar",
+  "iso_a2": "MM",
+  "region": "South Asia",
+  "centroid": [
+   97.2626,
+   22.9948
+  ],
+  "point": [
+   98.1562,
+   21.1824
+  ],
+  "area_km2": 291954,
+  "bbox": [
+   92.5756,
+   18.4881,
+   101.1739,
+   28.5385
+  ],
+  "tiny": false
+ },
+ {
+  "id": "mm-lower-burma",
+  "name": "Lower Burma",
+  "aliases": [
+   "Pegu",
+   "Rangoon",
+   "Yangon",
+   "Irrawaddy delta"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Myanmar",
+  "iso_a2": "MM",
+  "region": "South Asia",
+  "centroid": [
+   96.4164,
+   17.3366
+  ],
+  "point": [
+   96.1466,
+   18.1833
+  ],
+  "area_km2": 119822,
+  "bbox": [
+   93.3748,
+   14.0647,
+   98.9033,
+   19.4958
+  ],
+  "tiny": false
+ },
+ {
+  "id": "mm-tenasserim",
+  "name": "Tenasserim",
+  "aliases": [
+   "Tanintharyi",
+   "Mergui",
+   "Moulmein (region)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Myanmar",
+  "iso_a2": "MM",
+  "region": "South Asia",
+  "centroid": [
+   98.7555,
+   12.6742
+  ],
+  "point": [
+   99.0772,
+   12.1373
+  ],
+  "area_km2": 38607,
+  "bbox": [
+   97.4443,
+   9.7907,
+   99.63,
+   15.0991
+  ],
+  "tiny": false
+ },
+ {
+  "id": "mm-upper-burma",
+  "name": "Upper Burma",
+  "aliases": [
+   "Ava",
+   "Mandalay",
+   "Konbaung kingdom"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Myanmar",
+  "iso_a2": "MM",
+  "region": "South Asia",
+  "centroid": [
+   95.3376,
+   22.5669
+  ],
+  "point": [
+   95.2235,
+   21.9825
+  ],
+  "area_km2": 179869,
+  "bbox": [
+   93.904,
+   18.3576,
+   97.0588,
+   27.3617
+  ],
+  "tiny": false
+ },
+ {
+  "id": "montserrat",
+  "name": "Montserrat",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "MS",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -62.1874,
+   16.7375
+  ],
+  "point": [
+   -62.1919,
+   16.762
+  ],
+  "area_km2": 99.93,
+  "bbox": [
+   -62.2301,
+   16.6754,
+   -62.1405,
+   16.8193
+  ],
+  "tiny": true
+ },
+ {
+  "id": "mozambique",
+  "name": "Mozambique",
+  "aliases": [
+   "Portuguese East Africa",
+   "Lourenço Marques"
+  ],
+  "kind": "country",
+  "sovereign_today": "Mozambique",
+  "iso_a2": "MZ",
+  "region": "Southern Africa",
+  "centroid": [
+   35.6071,
+   -17.1921
+  ],
+  "point": [
+   38.1523,
+   -14.01
+  ],
+  "area_km2": 791023,
+  "bbox": [
+   30.2138,
+   -26.8603,
+   40.848,
+   -10.469
+  ],
+  "tiny": false
+ },
+ {
+  "id": "mu-rodrigues",
+  "name": "Rodrigues",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "Mauritius",
+  "iso_a2": "MU",
+  "region": "Indian Ocean",
+  "centroid": [
+   63.4105,
+   -19.7125
+  ],
+  "point": [
+   63.4282,
+   -19.704
+  ],
+  "area_km2": 99.55,
+  "bbox": [
+   63.3323,
+   -19.7672,
+   63.4939,
+   -19.6699
+  ],
+  "tiny": true
+ },
+ {
+  "id": "mw-nyasaland",
+  "name": "Malawi",
+  "aliases": [
+   "Nyasaland",
+   "British Central Africa",
+   "Blantyre",
+   "Lake Nyasa"
+  ],
+  "kind": "country",
+  "sovereign_today": "Malawi",
+  "iso_a2": "MW",
+  "region": "Southern Africa",
+  "centroid": [
+   34.2834,
+   -13.2035
+  ],
+  "point": [
+   33.759,
+   -13.4242
+  ],
+  "area_km2": 119849,
+  "bbox": [
+   32.6633,
+   -17.1353,
+   35.9043,
+   -9.3812
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-johor",
+  "name": "Johor",
+  "aliases": [
+   "Johore",
+   "Unfederated Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   103.39,
+   2.054
+  ],
+  "point": [
+   103.5555,
+   1.9777
+  ],
+  "area_km2": 19279,
+  "bbox": [
+   102.4806,
+   1.2705,
+   104.2947,
+   2.8911
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-kedah",
+  "name": "Kedah",
+  "aliases": [
+   "Unfederated Malay States",
+   "Siamese Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   100.6165,
+   5.9363
+  ],
+  "point": [
+   100.6819,
+   5.9524
+  ],
+  "area_km2": 9170,
+  "bbox": [
+   99.6452,
+   5.0809,
+   101.0943,
+   6.5268
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-kelantan",
+  "name": "Kelantan",
+  "aliases": [
+   "Unfederated Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   102.0332,
+   5.2856
+  ],
+  "point": [
+   102.0425,
+   5.1341
+  ],
+  "area_km2": 15150,
+  "bbox": [
+   101.3434,
+   4.5556,
+   102.6663,
+   6.2575
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-labuan",
+  "name": "Labuan",
+  "aliases": [
+   "Straits Settlements (1907–1912)",
+   "Victoria"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   115.2164,
+   5.318
+  ],
+  "point": [
+   115.2203,
+   5.3214
+  ],
+  "area_km2": 90.76,
+  "bbox": [
+   115.1592,
+   5.2522,
+   115.2598,
+   5.3874
+  ],
+  "tiny": true
+ },
+ {
+  "id": "my-melaka",
+  "name": "Malacca",
+  "aliases": [
+   "Melaka",
+   "Straits Settlements"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   102.3109,
+   2.3239
+  ],
+  "point": [
+   102.3511,
+   2.3214
+  ],
+  "area_km2": 1693,
+  "bbox": [
+   101.9871,
+   2.093,
+   102.5994,
+   2.4923
+  ],
+  "tiny": true
+ },
+ {
+  "id": "my-negeri-sembilan",
+  "name": "Negeri Sembilan",
+  "aliases": [
+   "Federated Malay States",
+   "Sungai Ujong"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   102.2095,
+   2.7754
+  ],
+  "point": [
+   102.2204,
+   2.8156
+  ],
+  "area_km2": 6723,
+  "bbox": [
+   101.7212,
+   2.3913,
+   102.7046,
+   3.2834
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-pahang",
+  "name": "Pahang",
+  "aliases": [
+   "Federated Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   102.5474,
+   3.7347
+  ],
+  "point": [
+   102.2908,
+   4.0158
+  ],
+  "area_km2": 36048,
+  "bbox": [
+   101.342,
+   2.4459,
+   103.6403,
+   4.7815
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-penang",
+  "name": "Penang",
+  "aliases": [
+   "Prince of Wales Island",
+   "George Town",
+   "Province Wellesley",
+   "Straits Settlements"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   100.4051,
+   5.3603
+  ],
+  "point": [
+   100.4543,
+   5.4108
+  ],
+  "area_km2": 1023,
+  "bbox": [
+   100.179,
+   5.1201,
+   100.5591,
+   5.569
+  ],
+  "tiny": true
+ },
+ {
+  "id": "my-perak",
+  "name": "Perak",
+  "aliases": [
+   "Federated Malay States",
+   "Pangkor",
+   "Larut",
+   "the Dindings"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   101.113,
+   4.7684
+  ],
+  "point": [
+   101.0094,
+   4.9439
+  ],
+  "area_km2": 20877,
+  "bbox": [
+   100.3645,
+   3.6683,
+   101.7533,
+   5.9113
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-perlis",
+  "name": "Perlis",
+  "aliases": [
+   "Unfederated Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   100.2355,
+   6.4996
+  ],
+  "point": [
+   100.25,
+   6.4932
+  ],
+  "area_km2": 802,
+  "bbox": [
+   100.1273,
+   6.2605,
+   100.3777,
+   6.708
+  ],
+  "tiny": true
+ },
+ {
+  "id": "my-sabah",
+  "name": "Sabah",
+  "aliases": [
+   "British North Borneo",
+   "North Borneo",
+   "Jesselton",
+   "Kota Kinabalu"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   117.1317,
+   5.3459
+  ],
+  "point": [
+   116.7705,
+   5.2789
+  ],
+  "area_km2": 74165,
+  "bbox": [
+   115.3596,
+   4.146,
+   119.2781,
+   7.3558
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-sarawak",
+  "name": "Sarawak",
+  "aliases": [
+   "Raj of Sarawak",
+   "White Rajahs",
+   "Brooke",
+   "Kuching"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   113.2783,
+   2.588
+  ],
+  "point": [
+   113.7736,
+   2.4782
+  ],
+  "area_km2": 123104,
+  "bbox": [
+   109.5284,
+   0.8514,
+   115.6754,
+   4.9623
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-selangor",
+  "name": "Selangor",
+  "aliases": [
+   "Federated Malay States",
+   "Kuala Lumpur"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   101.5113,
+   3.2688
+  ],
+  "point": [
+   101.6346,
+   3.1026
+  ],
+  "area_km2": 8057,
+  "bbox": [
+   100.8123,
+   2.5959,
+   101.9645,
+   3.8617
+  ],
+  "tiny": false
+ },
+ {
+  "id": "my-terengganu",
+  "name": "Terengganu",
+  "aliases": [
+   "Trengganu",
+   "Unfederated Malay States"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Malaysia",
+  "iso_a2": "MY",
+  "region": "South-East Asia",
+  "centroid": [
+   102.9575,
+   4.9282
+  ],
+  "point": [
+   102.885,
+   5.1023
+  ],
+  "area_km2": 13154,
+  "bbox": [
+   102.3863,
+   3.8753,
+   103.4964,
+   5.8548
+  ],
+  "tiny": false
+ },
+ {
+  "id": "namibia",
+  "name": "Namibia",
+  "aliases": [
+   "South West Africa",
+   "German South West Africa",
+   "Walvis Bay",
+   "Windhoek"
+  ],
+  "kind": "country",
+  "sovereign_today": "Namibia",
+  "iso_a2": "NA",
+  "region": "Southern Africa",
+  "centroid": [
+   17.1966,
+   -22.0686
+  ],
+  "point": [
+   17.106,
+   -20.5892
+  ],
+  "area_km2": 824824,
+  "bbox": [
+   11.7176,
+   -28.9594,
+   25.2598,
+   -16.9511
+  ],
+  "tiny": false
+ },
+ {
+  "id": "nauru",
+  "name": "Nauru",
+  "aliases": [
+   "Pleasant Island",
+   "phosphate"
+  ],
+  "kind": "country",
+  "sovereign_today": "Nauru",
+  "iso_a2": "NR",
+  "region": "The Pacific",
+  "centroid": [
+   166.9331,
+   -0.5208
+  ],
+  "point": [
+   166.9333,
+   -0.5179
+  ],
+  "area_km2": 28.9,
+  "bbox": [
+   166.907,
+   -0.5519,
+   166.9583,
+   -0.4904
+  ],
+  "tiny": true
+ },
+ {
+  "id": "nepal",
+  "name": "Nepal",
+  "aliases": [
+   "Gorkha",
+   "Kathmandu",
+   "Gurkhas"
+  ],
+  "kind": "country",
+  "sovereign_today": "Nepal",
+  "iso_a2": "NP",
+  "region": "South Asia",
+  "centroid": [
+   83.9473,
+   28.257
+  ],
+  "point": [
+   81.9692,
+   29.028
+  ],
+  "area_km2": 147323,
+  "bbox": [
+   80.0303,
+   26.3438,
+   88.1691,
+   30.4169
+  ],
+  "tiny": false
+ },
+ {
+  "id": "nevis",
+  "name": "Nevis",
+  "aliases": [
+   "Charlestown"
+  ],
+  "kind": "country",
+  "sovereign_today": "Saint Kitts and Nevis",
+  "iso_a2": "KN",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -62.5807,
+   17.1496
+  ],
+  "point": [
+   -62.5809,
+   17.1457
+  ],
+  "area_km2": 88.89,
+  "bbox": [
+   -62.6264,
+   17.1005,
+   -62.5368,
+   17.2029
+  ],
+  "tiny": true
+ },
+ {
+  "id": "new-caledonia",
+  "name": "New Caledonia",
+  "aliases": [
+   "Nouvelle-Calédonie",
+   "Nouméa"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "NC",
+  "region": "The Pacific",
+  "centroid": [
+   165.6976,
+   -21.305
+  ],
+  "point": [
+   165.0838,
+   -21.0582
+  ],
+  "area_km2": 18892,
+  "bbox": [
+   163.6157,
+   -22.6707,
+   171.3438,
+   -19.6237
+  ],
+  "tiny": false
+ },
+ {
+  "id": "new-zealand",
+  "name": "New Zealand",
+  "aliases": [
+   "Aotearoa",
+   "Waitangi",
+   "Wellington",
+   "Auckland",
+   "Chatham Islands",
+   "Kermadecs"
+  ],
+  "kind": "country",
+  "sovereign_today": "New Zealand",
+  "iso_a2": "NZ",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   172.9064,
+   -41.7193
+  ],
+  "point": [
+   169.1316,
+   -45.2737
+  ],
+  "area_km2": 268107,
+  "bbox": [
+   165.8865,
+   -52.6003,
+   -176.1139,
+   -29.2219
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ng-british-northern-cameroons",
+  "name": "British Northern Cameroons",
+  "aliases": [
+   "Northern Cameroons",
+   "Dikwa",
+   "Sardauna"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Nigeria",
+  "iso_a2": "NG",
+  "region": "West Africa",
+  "centroid": [
+   12.5736,
+   10.1201
+  ],
+  "point": [
+   13.5024,
+   11.9335
+  ],
+  "area_km2": 118614,
+  "bbox": [
+   10.1967,
+   6.43,
+   14.6699,
+   13.6001
+  ],
+  "tiny": false,
+  "note": "Approximate: the strip of Borno, Adamawa and Taraba that voted to join Nigeria in 1961, carved from Northern Nigeria by polygon."
+ },
+ {
+  "id": "ng-lagos",
+  "name": "Lagos",
+  "aliases": [
+   "Colony of Lagos",
+   "Eko"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Nigeria",
+  "iso_a2": "NG",
+  "region": "West Africa",
+  "centroid": [
+   3.5524,
+   6.5227
+  ],
+  "point": [
+   3.2846,
+   6.5118
+  ],
+  "area_km2": 3561,
+  "bbox": [
+   2.7038,
+   6.3684,
+   4.3463,
+   6.7047
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ng-northern-nigeria",
+  "name": "Northern Nigeria",
+  "aliases": [
+   "Sokoto Caliphate",
+   "Kano",
+   "Northern Nigeria Protectorate"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Nigeria",
+  "iso_a2": "NG",
+  "region": "West Africa",
+  "centroid": [
+   7.9049,
+   10.4429
+  ],
+  "point": [
+   8.4776,
+   9.9048
+  ],
+  "area_km2": 604944,
+  "bbox": [
+   2.7229,
+   6.4182,
+   13.6834,
+   13.8803
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ng-southern-nigeria",
+  "name": "Southern Nigeria",
+  "aliases": [
+   "Niger Coast Protectorate",
+   "Oil Rivers Protectorate",
+   "Biafra",
+   "Benin",
+   "Yorubaland"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Nigeria",
+  "iso_a2": "NG",
+  "region": "West Africa",
+  "centroid": [
+   5.8775,
+   6.4901
+  ],
+  "point": [
+   5.3185,
+   6.9128
+  ],
+  "area_km2": 184101,
+  "bbox": [
+   2.6711,
+   4.2722,
+   9.4886,
+   9.1775
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ni-mosquito-coast",
+  "name": "Mosquito Coast",
+  "aliases": [
+   "Mosquitia",
+   "Miskito Coast",
+   "Bluefields"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Nicaragua",
+  "iso_a2": "NI",
+  "region": "Central & South America",
+  "centroid": [
+   -84.2172,
+   13.258
+  ],
+  "point": [
+   -84.228,
+   13.7115
+  ],
+  "area_km2": 58320,
+  "bbox": [
+   -85.5064,
+   10.944,
+   -82.7257,
+   15.031
+  ],
+  "tiny": false
+ },
+ {
+  "id": "niue",
+  "name": "Niue",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "New Zealand",
+  "iso_a2": "NU",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   -169.8693,
+   -19.0489
+  ],
+  "point": [
+   -169.8625,
+   -19.0489
+  ],
+  "area_km2": 221,
+  "bbox": [
+   -169.9504,
+   -19.1428,
+   -169.7829,
+   -18.964
+  ],
+  "tiny": true
+ },
+ {
+  "id": "norfolk-island",
+  "name": "Norfolk Island",
+  "aliases": [
+   "Kingston",
+   "penal settlement"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "Australia",
+  "iso_a2": "NF",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   167.9552,
+   -29.035
+  ],
+  "point": [
+   167.968,
+   -29.0388
+  ],
+  "area_km2": 41.2,
+  "bbox": [
+   167.9121,
+   -29.08,
+   167.9963,
+   -28.9975
+  ],
+  "tiny": true
+ },
+ {
+  "id": "om-kuria-muria",
+  "name": "Kuria Muria Islands",
+  "aliases": [
+   "Khuriya Muriya",
+   "Hallaniyah"
+  ],
+  "kind": "island-group",
+  "sovereign_today": "Oman",
+  "iso_a2": "OM",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   56.0008,
+   17.5167
+  ],
+  "point": [
+   56.0397,
+   17.5212
+  ],
+  "area_km2": 71.91,
+  "bbox": [
+   55.8317,
+   17.4909,
+   56.0956,
+   17.5598
+  ],
+  "tiny": true,
+  "note": "Carved from Oman by bounding box."
+ },
+ {
+  "id": "oman",
+  "name": "Oman",
+  "aliases": [
+   "Muscat and Oman",
+   "Sultanate of Muscat",
+   "Musandam"
+  ],
+  "kind": "country",
+  "sovereign_today": "Oman",
+  "iso_a2": "OM",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   56.0632,
+   20.5831
+  ],
+  "point": [
+   57.3415,
+   22.1031
+  ],
+  "area_km2": 312018,
+  "bbox": [
+   51.9786,
+   16.6424,
+   59.8446,
+   26.386
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pg-bougainville",
+  "name": "Bougainville",
+  "aliases": [
+   "North Solomons",
+   "Buka",
+   "Panguna"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Papua New Guinea",
+  "iso_a2": "PG",
+  "region": "The Pacific",
+  "centroid": [
+   155.2618,
+   -6.1409
+  ],
+  "point": [
+   155.5252,
+   -6.5062
+  ],
+  "area_km2": 9445,
+  "bbox": [
+   154.1345,
+   -6.8766,
+   155.9675,
+   -3.2063
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pg-new-guinea",
+  "name": "New Guinea (Mandated Territory)",
+  "aliases": [
+   "German New Guinea",
+   "Kaiser-Wilhelmsland",
+   "Rabaul",
+   "Lae"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Papua New Guinea",
+  "iso_a2": "PG",
+  "region": "The Pacific",
+  "centroid": [
+   145.5441,
+   -5.1463
+  ],
+  "point": [
+   143.8319,
+   -4.861
+  ],
+  "area_km2": 230769,
+  "bbox": [
+   140.9724,
+   -8.009,
+   153.7471,
+   -1.3464
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pg-papua",
+  "name": "Papua",
+  "aliases": [
+   "British New Guinea",
+   "Territory of Papua",
+   "Port Moresby"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Papua New Guinea",
+  "iso_a2": "PG",
+  "region": "The Pacific",
+  "centroid": [
+   144.48,
+   -7.8341
+  ],
+  "point": [
+   142.304,
+   -6.8307
+  ],
+  "area_km2": 226937,
+  "bbox": [
+   140.8492,
+   -11.6363,
+   154.3023,
+   -4.9678
+  ],
+  "tiny": false
+ },
+ {
+  "id": "philippines",
+  "name": "Philippines",
+  "aliases": [
+   "Manila",
+   "Spanish Philippines"
+  ],
+  "kind": "country",
+  "sovereign_today": "Philippines",
+  "iso_a2": "PH",
+  "region": "South-East Asia",
+  "centroid": [
+   122.9095,
+   11.7166
+  ],
+  "point": [
+   121.3877,
+   16.9572
+  ],
+  "area_km2": 294430,
+  "bbox": [
+   116.9549,
+   4.6557,
+   126.6177,
+   21.1224
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pitcairn-islands",
+  "name": "Pitcairn Islands",
+  "aliases": [
+   "Adamstown",
+   "Bounty mutineers",
+   "Henderson Island"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "PN",
+  "region": "The Pacific",
+  "centroid": [
+   -128.4782,
+   -24.4136
+  ],
+  "point": [
+   -128.3196,
+   -24.3608
+  ],
+  "area_km2": 42.66,
+  "bbox": [
+   -130.7531,
+   -25.0771,
+   -124.7781,
+   -23.9244
+  ],
+  "tiny": true
+ },
+ {
+  "id": "pk-azad-kashmir",
+  "name": "Azad Kashmir",
+  "aliases": [
+   "Pakistan-administered Kashmir",
+   "Muzaffarabad"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   74.0215,
+   34.1177
+  ],
+  "point": [
+   73.8581,
+   33.4501
+  ],
+  "area_km2": 11966,
+  "bbox": [
+   73.4002,
+   32.8231,
+   75.2553,
+   35.1237
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pk-balochistan",
+  "name": "Balochistan",
+  "aliases": [
+   "Kalat",
+   "Quetta",
+   "British Baluchistan"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   65.8279,
+   28.3067
+  ],
+  "point": [
+   65.2101,
+   27.5975
+  ],
+  "area_km2": 348506,
+  "bbox": [
+   60.8444,
+   24.892,
+   70.2582,
+   32.0611
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pk-gilgit-baltistan",
+  "name": "Gilgit-Baltistan",
+  "aliases": [
+   "Gilgit Agency",
+   "Northern Areas",
+   "Baltistan",
+   "Hunza"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   74.8963,
+   35.8102
+  ],
+  "point": [
+   74.8746,
+   35.972
+  ],
+  "area_km2": 65237,
+  "bbox": [
+   72.5156,
+   34.497,
+   77.049,
+   37.0545
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pk-khyber-pakhtunkhwa",
+  "name": "Khyber Pakhtunkhwa",
+  "aliases": [
+   "North-West Frontier Province",
+   "NWFP",
+   "Peshawar",
+   "Khyber Pass",
+   "Tribal Areas",
+   "Waziristan"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   71.6044,
+   34.1131
+  ],
+  "point": [
+   72.5995,
+   34.9368
+  ],
+  "area_km2": 102405,
+  "bbox": [
+   69.228,
+   31.0658,
+   74.1247,
+   36.8966
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pk-punjab",
+  "name": "Punjab (Pakistan)",
+  "aliases": [
+   "West Punjab",
+   "Lahore",
+   "Islamabad",
+   "Sikh Empire (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   72.1166,
+   30.8159
+  ],
+  "point": [
+   72.7971,
+   31.6523
+  ],
+  "area_km2": 204907,
+  "bbox": [
+   69.331,
+   27.7015,
+   75.359,
+   34.0228
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pk-sindh",
+  "name": "Sindh",
+  "aliases": [
+   "Scinde",
+   "Karachi",
+   "Hyderabad (Sindh)",
+   "Talpur Amirs"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Pakistan",
+  "iso_a2": "PK",
+  "region": "South Asia",
+  "centroid": [
+   68.7696,
+   26.0174
+  ],
+  "point": [
+   68.7452,
+   25.653
+  ],
+  "area_km2": 140917,
+  "bbox": [
+   66.6541,
+   23.6945,
+   71.0828,
+   28.5284
+  ],
+  "tiny": false
+ },
+ {
+  "id": "pt-azores",
+  "name": "Azores",
+  "aliases": [
+   "Açores"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Portugal",
+  "iso_a2": "PT",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   -27.3102,
+   38.374
+  ],
+  "point": [
+   -25.3307,
+   37.7946
+  ],
+  "area_km2": 2606,
+  "bbox": [
+   -31.2849,
+   36.9343,
+   -25.0122,
+   39.7283
+  ],
+  "tiny": true
+ },
+ {
+  "id": "pt-madeira",
+  "name": "Madeira",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "Portugal",
+  "iso_a2": "PT",
+  "region": "Europe & the Mediterranean",
+  "centroid": [
+   -16.9439,
+   32.756
+  ],
+  "point": [
+   -16.9359,
+   32.742
+  ],
+  "area_km2": 812,
+  "bbox": [
+   -17.2521,
+   30.0292,
+   -15.855,
+   33.1108
+  ],
+  "tiny": true
+ },
+ {
+  "id": "puerto-rico",
+  "name": "Puerto Rico",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United States",
+  "iso_a2": "PR",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -66.4676,
+   18.2242
+  ],
+  "point": [
+   -66.6591,
+   18.2351
+  ],
+  "area_km2": 9035,
+  "bbox": [
+   -67.9378,
+   17.9229,
+   -65.2446,
+   18.5228
+  ],
+  "tiny": false
+ },
+ {
+  "id": "qatar",
+  "name": "Qatar",
+  "aliases": [
+   "Doha"
+  ],
+  "kind": "country",
+  "sovereign_today": "Qatar",
+  "iso_a2": "QA",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   51.1867,
+   25.3119
+  ],
+  "point": [
+   51.1934,
+   25.0906
+  ],
+  "area_km2": 11173,
+  "bbox": [
+   50.751,
+   24.5599,
+   51.6165,
+   26.1601
+  ],
+  "tiny": false
+ },
+ {
+  "id": "reunion",
+  "name": "Réunion",
+  "aliases": [
+   "Bourbon",
+   "Île Bonaparte"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "RE",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   55.5416,
+   -21.1194
+  ],
+  "point": [
+   55.5175,
+   -21.0942
+  ],
+  "area_km2": 2590,
+  "bbox": [
+   55.2254,
+   -21.3708,
+   55.8545,
+   -20.8614
+  ],
+  "tiny": true
+ },
+ {
+  "id": "rwanda",
+  "name": "Rwanda",
+  "aliases": [
+   "Ruanda-Urundi",
+   "German East Africa (part)"
+  ],
+  "kind": "country",
+  "sovereign_today": "Rwanda",
+  "iso_a2": "RW",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   29.9192,
+   -1.9927
+  ],
+  "point": [
+   30.323,
+   -1.8197
+  ],
+  "area_km2": 25418,
+  "bbox": [
+   28.8572,
+   -2.8269,
+   30.8878,
+   -1.0587
+  ],
+  "tiny": false
+ },
+ {
+  "id": "saint-barthelemy",
+  "name": "Saint-Barthélemy",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "BL",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -62.8326,
+   17.9056
+  ],
+  "point": [
+   -62.8335,
+   17.9019
+  ],
+  "area_km2": 24.5,
+  "bbox": [
+   -62.8673,
+   17.882,
+   -62.7917,
+   17.9291
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saint-helena",
+  "name": "Saint Helena",
+  "aliases": [
+   "Jamestown",
+   "Napoleon’s exile",
+   "St Helena"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "SH",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   -5.7174,
+   -15.9591
+  ],
+  "point": [
+   -5.6975,
+   -15.951
+  ],
+  "area_km2": 125,
+  "bbox": [
+   -5.7895,
+   -16.0157,
+   -5.6504,
+   -15.9021
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saint-kitts",
+  "name": "Saint Kitts",
+  "aliases": [
+   "St Christopher",
+   "Basseterre"
+  ],
+  "kind": "country",
+  "sovereign_today": "Saint Kitts and Nevis",
+  "iso_a2": "KN",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -62.758,
+   17.3323
+  ],
+  "point": [
+   -62.7903,
+   17.3525
+  ],
+  "area_km2": 176,
+  "bbox": [
+   -62.8611,
+   17.2172,
+   -62.6247,
+   17.4158
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saint-lucia",
+  "name": "Saint Lucia",
+  "aliases": [],
+  "kind": "country",
+  "sovereign_today": "Saint Lucia",
+  "iso_a2": "LC",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -60.9703,
+   13.9026
+  ],
+  "point": [
+   -60.9842,
+   13.8719
+  ],
+  "area_km2": 607,
+  "bbox": [
+   -61.0785,
+   13.7147,
+   -60.883,
+   14.1119
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saint-martin",
+  "name": "Saint-Martin",
+  "aliases": [
+   "Sint Maarten"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "France / Netherlands",
+  "iso_a2": "MF",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -63.0589,
+   18.0682
+  ],
+  "point": [
+   -63.0509,
+   18.0654
+  ],
+  "area_km2": 91.93,
+  "bbox": [
+   -63.1468,
+   18.0191,
+   -63.0107,
+   18.1221
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saint-vincent",
+  "name": "Saint Vincent and the Grenadines",
+  "aliases": [
+   "Kingstown",
+   "the Grenadines"
+  ],
+  "kind": "country",
+  "sovereign_today": "Saint Vincent and the Grenadines",
+  "iso_a2": "VC",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.2034,
+   13.2161
+  ],
+  "point": [
+   -61.204,
+   13.2297
+  ],
+  "area_km2": 369,
+  "bbox": [
+   -61.4598,
+   12.5852,
+   -61.1239,
+   13.3808
+  ],
+  "tiny": true
+ },
+ {
+  "id": "samoa",
+  "name": "Samoa",
+  "aliases": [
+   "Western Samoa",
+   "German Samoa",
+   "Apia",
+   "Upolu",
+   "Savai’i"
+  ],
+  "kind": "country",
+  "sovereign_today": "Samoa",
+  "iso_a2": "WS",
+  "region": "The Pacific",
+  "centroid": [
+   -172.1617,
+   -13.7547
+  ],
+  "point": [
+   -172.4035,
+   -13.6351
+  ],
+  "area_km2": 2791,
+  "bbox": [
+   -172.7826,
+   -14.0528,
+   -171.4377,
+   -13.4628
+  ],
+  "tiny": true
+ },
+ {
+  "id": "saudi-arabia",
+  "name": "Saudi Arabia",
+  "aliases": [
+   "Hejaz",
+   "Nejd",
+   "Kingdom of the Hejaz",
+   "Mecca",
+   "Riyadh"
+  ],
+  "kind": "country",
+  "sovereign_today": "Saudi Arabia",
+  "iso_a2": "SA",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   44.6632,
+   24.0864
+  ],
+  "point": [
+   44.9451,
+   23.5224
+  ],
+  "area_km2": 1926007,
+  "bbox": [
+   34.5728,
+   16.371,
+   55.6376,
+   32.1213
+  ],
+  "tiny": false
+ },
+ {
+  "id": "sc-outer-islands",
+  "name": "Seychelles Outer Islands",
+  "aliases": [
+   "Aldabra",
+   "Farquhar",
+   "Desroches",
+   "BIOT (1965–1976)"
+  ],
+  "kind": "island-group",
+  "sovereign_today": "Seychelles",
+  "iso_a2": "SC",
+  "region": "Indian Ocean",
+  "centroid": [
+   47.1372,
+   -9.2376
+  ],
+  "point": [
+   46.4519,
+   -9.4036
+  ],
+  "area_km2": 179,
+  "bbox": [
+   46.2074,
+   -9.7555,
+   56.2874,
+   -5.4202
+  ],
+  "tiny": true
+ },
+ {
+  "id": "senegal",
+  "name": "Senegal",
+  "aliases": [
+   "Senegambia",
+   "Gorée",
+   "Saint-Louis",
+   "French West Africa"
+  ],
+  "kind": "country",
+  "sovereign_today": "Senegal",
+  "iso_a2": "SN",
+  "region": "West Africa",
+  "centroid": [
+   -14.4672,
+   14.3663
+  ],
+  "point": [
+   -14.9096,
+   15.2042
+  ],
+  "area_km2": 196942,
+  "bbox": [
+   -17.536,
+   12.3056,
+   -11.3778,
+   16.6914
+  ],
+  "tiny": false
+ },
+ {
+  "id": "seychelles",
+  "name": "Seychelles (inner islands)",
+  "aliases": [
+   "Mahé",
+   "Victoria",
+   "Praslin",
+   "La Digue"
+  ],
+  "kind": "country",
+  "sovereign_today": "Seychelles",
+  "iso_a2": "SC",
+  "region": "Indian Ocean",
+  "centroid": [
+   55.5223,
+   -4.5676
+  ],
+  "point": [
+   55.4298,
+   -4.6385
+  ],
+  "area_km2": 258,
+  "bbox": [
+   55.2214,
+   -4.8038,
+   55.9501,
+   -3.7911
+  ],
+  "tiny": true
+ },
+ {
+  "id": "singapore",
+  "name": "Singapore",
+  "aliases": [
+   "Straits Settlements",
+   "Temasek",
+   "Raffles"
+  ],
+  "kind": "country",
+  "sovereign_today": "Singapore",
+  "iso_a2": "SG",
+  "region": "South-East Asia",
+  "centroid": [
+   103.8135,
+   1.3589
+  ],
+  "point": [
+   103.8218,
+   1.3601
+  ],
+  "area_km2": 513,
+  "bbox": [
+   103.6404,
+   1.2643,
+   104.0034,
+   1.4486
+  ],
+  "tiny": true
+ },
+ {
+  "id": "sl-freetown-colony",
+  "name": "Sierra Leone Colony (Freetown)",
+  "aliases": [
+   "Freetown",
+   "Province of Freedom",
+   "Western Area"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Sierra Leone",
+  "iso_a2": "SL",
+  "region": "West Africa",
+  "centroid": [
+   -13.108,
+   8.338
+  ],
+  "point": [
+   -13.0942,
+   8.3046
+  ],
+  "area_km2": 653,
+  "bbox": [
+   -13.2868,
+   8.1713,
+   -12.9005,
+   8.5002
+  ],
+  "tiny": true
+ },
+ {
+  "id": "sl-protectorate",
+  "name": "Sierra Leone Protectorate",
+  "aliases": [
+   "Sierra Leone hinterland"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Sierra Leone",
+  "iso_a2": "SL",
+  "region": "West Africa",
+  "centroid": [
+   -11.7829,
+   8.5643
+  ],
+  "point": [
+   -11.7764,
+   8.6988
+  ],
+  "area_km2": 71259,
+  "bbox": [
+   -13.3011,
+   6.9194,
+   -10.2822,
+   9.996
+  ],
+  "tiny": false
+ },
+ {
+  "id": "so-british-somaliland",
+  "name": "British Somaliland",
+  "aliases": [
+   "Somaliland",
+   "Berbera",
+   "Hargeisa"
+  ],
+  "kind": "country",
+  "sovereign_today": "Somaliland (unrecognised) / Somalia",
+  "iso_a2": "SO",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   46.2559,
+   9.7332
+  ],
+  "point": [
+   47.215,
+   9.4354
+  ],
+  "area_km2": 168094,
+  "bbox": [
+   42.6472,
+   7.9965,
+   48.9391,
+   11.4989
+  ],
+  "tiny": false
+ },
+ {
+  "id": "so-italian-somaliland",
+  "name": "Italian Somaliland",
+  "aliases": [
+   "Somalia",
+   "Mogadishu",
+   "Puntland"
+  ],
+  "kind": "country",
+  "sovereign_today": "Somalia",
+  "iso_a2": "SO",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   45.6783,
+   4.7376
+  ],
+  "point": [
+   43.018,
+   2.5577
+  ],
+  "area_km2": 473871,
+  "bbox": [
+   40.9654,
+   -1.6963,
+   51.417,
+   11.9891
+  ],
+  "tiny": false
+ },
+ {
+  "id": "solomon-islands",
+  "name": "Solomon Islands",
+  "aliases": [
+   "British Solomon Islands Protectorate",
+   "Guadalcanal",
+   "Honiara",
+   "Tulagi"
+  ],
+  "kind": "country",
+  "sovereign_today": "Solomon Islands",
+  "iso_a2": "SB",
+  "region": "The Pacific",
+  "centroid": [
+   159.6265,
+   -8.9114
+  ],
+  "point": [
+   160.0545,
+   -9.6236
+  ],
+  "area_km2": 27312,
+  "bbox": [
+   155.508,
+   -12.2906,
+   168.8259,
+   -6.5999
+  ],
+  "tiny": false
+ },
+ {
+  "id": "south-georgia",
+  "name": "South Georgia",
+  "aliases": [
+   "Grytviken",
+   "Falkland Islands Dependencies"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GS",
+  "region": "Central & South America",
+  "centroid": [
+   -36.6922,
+   -54.3678
+  ],
+  "point": [
+   -36.3009,
+   -54.5068
+  ],
+  "area_km2": 3617,
+  "bbox": [
+   -38.087,
+   -54.8875,
+   -35.7843,
+   -53.9724
+  ],
+  "tiny": true
+ },
+ {
+  "id": "south-sandwich-islands",
+  "name": "South Sandwich Islands",
+  "aliases": [
+   "Southern Thule"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "GS",
+  "region": "Central & South America",
+  "centroid": [
+   -26.7089,
+   -58.2063
+  ],
+  "point": [
+   -26.3066,
+   -58.4293
+  ],
+  "area_km2": 287,
+  "bbox": [
+   -28.2133,
+   -59.4728,
+   -26.2393,
+   -56.2726
+  ],
+  "tiny": true,
+  "note": "Carved from the South Georgia and the Islands map unit by bounding box."
+ },
+ {
+  "id": "south-sudan",
+  "name": "South Sudan",
+  "aliases": [
+   "Anglo-Egyptian Sudan (south)",
+   "Equatoria",
+   "Juba"
+  ],
+  "kind": "country",
+  "sovereign_today": "South Sudan",
+  "iso_a2": "SS",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   30.305,
+   7.2836
+  ],
+  "point": [
+   30.4921,
+   7.1137
+  ],
+  "area_km2": 629533,
+  "bbox": [
+   24.1216,
+   3.4902,
+   35.9208,
+   12.2162
+  ],
+  "tiny": false
+ },
+ {
+  "id": "sudan",
+  "name": "Sudan",
+  "aliases": [
+   "Anglo-Egyptian Sudan (north)",
+   "Khartoum",
+   "Omdurman",
+   "Mahdist State"
+  ],
+  "kind": "country",
+  "sovereign_today": "Sudan",
+  "iso_a2": "SD",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   29.9026,
+   15.9579
+  ],
+  "point": [
+   29.3536,
+   16.6249
+  ],
+  "area_km2": 1861994,
+  "bbox": [
+   21.8094,
+   8.6816,
+   38.6039,
+   22.227
+  ],
+  "tiny": false
+ },
+ {
+  "id": "suriname",
+  "name": "Suriname",
+  "aliases": [
+   "Dutch Guiana",
+   "Surinam"
+  ],
+  "kind": "country",
+  "sovereign_today": "Suriname",
+  "iso_a2": "SR",
+  "region": "Central & South America",
+  "centroid": [
+   -55.9112,
+   4.1305
+  ],
+  "point": [
+   -55.9563,
+   4.1358
+  ],
+  "area_km2": 145764,
+  "bbox": [
+   -58.0677,
+   1.8335,
+   -53.9864,
+   6.0116
+  ],
+  "tiny": false
+ },
+ {
+  "id": "syria",
+  "name": "Syria",
+  "aliases": [
+   "French Mandate for Syria",
+   "Damascus"
+  ],
+  "kind": "country",
+  "sovereign_today": "Syria",
+  "iso_a2": "SY",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   38.4844,
+   35.0166
+  ],
+  "point": [
+   38.1743,
+   35.0307
+  ],
+  "area_km2": 185951,
+  "bbox": [
+   35.7234,
+   32.313,
+   42.3772,
+   37.3249
+  ],
+  "tiny": false
+ },
+ {
+  "id": "tg-french-togoland",
+  "name": "French Togoland",
+  "aliases": [
+   "Togo",
+   "Togoland (French mandate)"
+  ],
+  "kind": "country",
+  "sovereign_today": "Togo",
+  "iso_a2": "TG",
+  "region": "West Africa",
+  "centroid": [
+   0.9638,
+   8.5222
+  ],
+  "point": [
+   1.054,
+   8.8221
+  ],
+  "area_km2": 57102,
+  "bbox": [
+   -0.1661,
+   6.1005,
+   1.7824,
+   11.135
+  ],
+  "tiny": false
+ },
+ {
+  "id": "thailand",
+  "name": "Thailand",
+  "aliases": [
+   "Siam",
+   "Bangkok"
+  ],
+  "kind": "country",
+  "sovereign_today": "Thailand",
+  "iso_a2": "TH",
+  "region": "South-East Asia",
+  "centroid": [
+   101.001,
+   15.0788
+  ],
+  "point": [
+   100.7109,
+   15.5478
+  ],
+  "area_km2": 516276,
+  "bbox": [
+   97.3514,
+   5.6299,
+   105.651,
+   20.445
+  ],
+  "tiny": false
+ },
+ {
+  "id": "tobago",
+  "name": "Tobago",
+  "aliases": [
+   "Scarborough"
+  ],
+  "kind": "country",
+  "sovereign_today": "Trinidad and Tobago",
+  "iso_a2": "TT",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -60.6704,
+   11.2472
+  ],
+  "point": [
+   -60.6594,
+   11.2532
+  ],
+  "area_km2": 292,
+  "bbox": [
+   -60.8475,
+   11.1433,
+   -60.5221,
+   11.3511
+  ],
+  "tiny": true
+ },
+ {
+  "id": "tokelau",
+  "name": "Tokelau",
+  "aliases": [
+   "Union Islands"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "New Zealand",
+  "iso_a2": "TK",
+  "region": "Australia & New Zealand",
+  "centroid": [
+   -171.8176,
+   -8.9701
+  ],
+  "point": [
+   -172.4907,
+   -8.5558
+  ],
+  "area_km2": 4.25,
+  "bbox": [
+   -172.5026,
+   -9.3617,
+   -171.1857,
+   -8.5432
+  ],
+  "tiny": true
+ },
+ {
+  "id": "tonga",
+  "name": "Tonga",
+  "aliases": [
+   "Friendly Islands",
+   "Nuku’alofa"
+  ],
+  "kind": "country",
+  "sovereign_today": "Tonga",
+  "iso_a2": "TO",
+  "region": "The Pacific",
+  "centroid": [
+   -174.8655,
+   -20.0522
+  ],
+  "point": [
+   -175.1602,
+   -21.2107
+  ],
+  "area_km2": 605,
+  "bbox": [
+   -176.2193,
+   -22.3388,
+   -173.9143,
+   -15.5595
+  ],
+  "tiny": true
+ },
+ {
+  "id": "trinidad",
+  "name": "Trinidad",
+  "aliases": [
+   "Port of Spain"
+  ],
+  "kind": "country",
+  "sovereign_today": "Trinidad and Tobago",
+  "iso_a2": "TT",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -61.294,
+   10.4218
+  ],
+  "point": [
+   -61.2349,
+   10.321
+  ],
+  "area_km2": 4852,
+  "bbox": [
+   -61.9287,
+   10.0421,
+   -60.9073,
+   10.8453
+  ],
+  "tiny": true
+ },
+ {
+  "id": "tristan-da-cunha",
+  "name": "Tristan da Cunha",
+  "aliases": [
+   "Edinburgh of the Seven Seas",
+   "Gough Island"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "SH",
+  "region": "South Atlantic & Antarctic",
+  "centroid": [
+   -11.1894,
+   -38.6621
+  ],
+  "point": [
+   -9.9719,
+   -40.3397
+  ],
+  "area_km2": 153,
+  "bbox": [
+   -12.3353,
+   -40.3979,
+   -9.8954,
+   -37.0558
+  ],
+  "tiny": true
+ },
+ {
+  "id": "turkey",
+  "name": "Turkey",
+  "aliases": [
+   "Ottoman Empire (Anatolia)",
+   "Constantinople",
+   "Istanbul",
+   "Gallipoli"
+  ],
+  "kind": "country",
+  "sovereign_today": "Turkey",
+  "iso_a2": "TR",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   35.1713,
+   39.1365
+  ],
+  "point": [
+   33.2193,
+   39.1209
+  ],
+  "area_km2": 779426,
+  "bbox": [
+   25.6633,
+   35.8198,
+   44.807,
+   42.0988
+  ],
+  "tiny": false
+ },
+ {
+  "id": "turks-caicos-islands",
+  "name": "Turks and Caicos Islands",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "United Kingdom",
+  "iso_a2": "TC",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -71.873,
+   21.7802
+  ],
+  "point": [
+   -71.6928,
+   21.8144
+  ],
+  "area_km2": 446,
+  "bbox": [
+   -72.4813,
+   21.2901,
+   -71.1289,
+   21.9592
+  ],
+  "tiny": true
+ },
+ {
+  "id": "tuvalu",
+  "name": "Tuvalu",
+  "aliases": [
+   "Ellice Islands",
+   "Funafuti"
+  ],
+  "kind": "country",
+  "sovereign_today": "Tuvalu",
+  "iso_a2": "TV",
+  "region": "The Pacific",
+  "centroid": [
+   178.516,
+   -7.758
+  ],
+  "point": [
+   179.2067,
+   -8.524
+  ],
+  "area_km2": 23.12,
+  "bbox": [
+   176.1253,
+   -9.4207,
+   179.9067,
+   -5.6775
+  ],
+  "tiny": true
+ },
+ {
+  "id": "tz-tanganyika",
+  "name": "Tanganyika",
+  "aliases": [
+   "German East Africa",
+   "Deutsch-Ostafrika",
+   "Dar es Salaam"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Tanzania",
+  "iso_a2": "TZ",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   34.7898,
+   -6.2689
+  ],
+  "point": [
+   34.0506,
+   -5.5526
+  ],
+  "area_km2": 943047,
+  "bbox": [
+   29.321,
+   -11.7313,
+   40.4494,
+   -0.9858
+  ],
+  "tiny": false
+ },
+ {
+  "id": "tz-zanzibar",
+  "name": "Zanzibar",
+  "aliases": [
+   "Unguja",
+   "Pemba",
+   "Sultanate of Zanzibar",
+   "Stone Town"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Tanzania",
+  "iso_a2": "TZ",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   39.503,
+   -5.7824
+  ],
+  "point": [
+   39.3176,
+   -6.1341
+  ],
+  "area_km2": 2510,
+  "bbox": [
+   39.177,
+   -6.4628,
+   39.8782,
+   -4.8903
+  ],
+  "tiny": true
+ },
+ {
+  "id": "uganda",
+  "name": "Uganda",
+  "aliases": [
+   "Uganda Protectorate",
+   "Buganda",
+   "Kampala"
+  ],
+  "kind": "country",
+  "sovereign_today": "Uganda",
+  "iso_a2": "UG",
+  "region": "East Africa & the Nile",
+  "centroid": [
+   32.3666,
+   1.2752
+  ],
+  "point": [
+   33.009,
+   1.9931
+  ],
+  "area_km2": 242936,
+  "bbox": [
+   29.5485,
+   -1.4752,
+   35.0065,
+   4.2197
+  ],
+  "tiny": false
+ },
+ {
+  "id": "united-arab-emirates",
+  "name": "United Arab Emirates",
+  "aliases": [
+   "Trucial States",
+   "Trucial Oman",
+   "Pirate Coast",
+   "Abu Dhabi",
+   "Dubai",
+   "Sharjah"
+  ],
+  "kind": "country",
+  "sovereign_today": "United Arab Emirates",
+  "iso_a2": "AE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   54.2933,
+   23.9058
+  ],
+  "point": [
+   54.5313,
+   23.4786
+  ],
+  "area_km2": 71247,
+  "bbox": [
+   51.5693,
+   22.6209,
+   56.3836,
+   26.0748
+  ],
+  "tiny": false
+ },
+ {
+  "id": "uruguay",
+  "name": "Uruguay",
+  "aliases": [
+   "Banda Oriental",
+   "Montevideo"
+  ],
+  "kind": "country",
+  "sovereign_today": "Uruguay",
+  "iso_a2": "UY",
+  "region": "Central & South America",
+  "centroid": [
+   -56.0243,
+   -32.79
+  ],
+  "point": [
+   -56.0622,
+   -32.9377
+  ],
+  "area_km2": 177440,
+  "bbox": [
+   -58.4394,
+   -34.9734,
+   -53.1108,
+   -30.0969
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-alaska",
+  "name": "Alaska",
+  "aliases": [
+   "Russian America"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -152.4603,
+   63.9852
+  ],
+  "point": [
+   -154.8886,
+   65.4161
+  ],
+  "area_km2": 1495910,
+  "bbox": [
+   172.4761,
+   51.2154,
+   -129.9892,
+   71.4125
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-connecticut",
+  "name": "Connecticut",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -72.7292,
+   41.6244
+  ],
+  "point": [
+   -73.1156,
+   41.6459
+  ],
+  "area_km2": 12686,
+  "bbox": [
+   -73.723,
+   41.0011,
+   -71.7957,
+   42.0545
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-delaware",
+  "name": "Delaware",
+  "aliases": [
+   "the Lower Counties"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -75.5052,
+   38.9951
+  ],
+  "point": [
+   -75.4541,
+   38.709
+  ],
+  "area_km2": 5167,
+  "bbox": [
+   -75.7886,
+   38.4533,
+   -75.044,
+   39.8386
+  ],
+  "tiny": true
+ },
+ {
+  "id": "us-florida",
+  "name": "Florida",
+  "aliases": [
+   "East Florida",
+   "Spanish Florida"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -82.4408,
+   28.634
+  ],
+  "point": [
+   -81.7315,
+   28.5173
+  ],
+  "area_km2": 146925,
+  "bbox": [
+   -87.6269,
+   24.5425,
+   -80.0324,
+   31.0001
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-georgia",
+  "name": "Georgia",
+  "aliases": [
+   "Province of Georgia"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -83.4426,
+   32.6428
+  ],
+  "point": [
+   -83.2246,
+   32.2995
+  ],
+  "area_km2": 152252,
+  "bbox": [
+   -85.6057,
+   30.3627,
+   -80.8357,
+   35.0004
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-gulf-interior",
+  "name": "Alabama, Mississippi and Louisiana (interior)",
+  "aliases": [
+   "Mississippi Territory",
+   "Louisiana (part)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -89.7516,
+   32.9385
+  ],
+  "point": [
+   -88.121,
+   33.7346
+  ],
+  "area_km2": 221187,
+  "bbox": [
+   -94.0432,
+   29.4838,
+   -84.8979,
+   35.0097
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-kentucky-tennessee",
+  "name": "Kentucky and Tennessee",
+  "aliases": [
+   "trans-Appalachian West"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -85.8426,
+   36.6824
+  ],
+  "point": [
+   -85.2598,
+   36.5776
+  ],
+  "area_km2": 213811,
+  "bbox": [
+   -90.3127,
+   34.9836,
+   -81.6589,
+   39.1462
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-maine",
+  "name": "Maine",
+  "aliases": [
+   "District of Maine"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -69.2451,
+   45.376
+  ],
+  "point": [
+   -69.0376,
+   45.7644
+  ],
+  "area_km2": 84063,
+  "bbox": [
+   -71.085,
+   43.0838,
+   -66.9773,
+   47.4597
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-maryland",
+  "name": "Maryland",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -76.7876,
+   39.0524
+  ],
+  "point": [
+   -77.0056,
+   39.3322
+  ],
+  "area_km2": 25603,
+  "bbox": [
+   -79.4879,
+   37.9311,
+   -75.044,
+   39.7218
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-massachusetts",
+  "name": "Massachusetts",
+  "aliases": [
+   "Massachusetts Bay",
+   "Plymouth Colony"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -71.8014,
+   42.2593
+  ],
+  "point": [
+   -71.9368,
+   42.3694
+  ],
+  "area_km2": 21128,
+  "bbox": [
+   -73.5072,
+   41.2393,
+   -69.9247,
+   42.8868
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-new-hampshire",
+  "name": "New Hampshire",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -71.5811,
+   43.6833
+  ],
+  "point": [
+   -71.6544,
+   43.4038
+  ],
+  "area_km2": 24220,
+  "bbox": [
+   -72.5562,
+   42.7009,
+   -70.7042,
+   45.3043
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-new-jersey",
+  "name": "New Jersey",
+  "aliases": [
+   "East Jersey",
+   "West Jersey"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -74.6692,
+   40.1882
+  ],
+  "point": [
+   -74.6136,
+   40.8229
+  ],
+  "area_km2": 19646,
+  "bbox": [
+   -75.5582,
+   38.9244,
+   -73.9071,
+   41.3563
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-new-york",
+  "name": "New York",
+  "aliases": [
+   "New Netherland",
+   "Province of New York"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -75.6931,
+   42.9892
+  ],
+  "point": [
+   -74.8577,
+   43.3674
+  ],
+  "area_km2": 136694,
+  "bbox": [
+   -79.763,
+   40.4994,
+   -71.8574,
+   45.0101
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-north-carolina",
+  "name": "North Carolina",
+  "aliases": [
+   "Carolina (north)",
+   "Roanoke"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -79.3892,
+   35.5596
+  ],
+  "point": [
+   -78.4658,
+   35.3513
+  ],
+  "area_km2": 127655,
+  "bbox": [
+   -84.3246,
+   33.848,
+   -75.4518,
+   36.6096
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-northwest-territory",
+  "name": "Old Northwest",
+  "aliases": [
+   "Northwest Territory",
+   "Ohio Country",
+   "the western posts"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -86.8419,
+   42.6495
+  ],
+  "point": [
+   -86.6704,
+   43.3879
+  ],
+  "area_km2": 778669,
+  "bbox": [
+   -92.9017,
+   36.9783,
+   -80.5202,
+   48.3051
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-oregon-country",
+  "name": "Oregon Country",
+  "aliases": [
+   "Columbia District",
+   "Oregon Territory"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -118.4996,
+   45.0461
+  ],
+  "point": [
+   -119.2609,
+   45.496
+  ],
+  "area_km2": 640824,
+  "bbox": [
+   -124.7346,
+   41.9995,
+   -111.0502,
+   48.9926
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-pennsylvania",
+  "name": "Pennsylvania",
+  "aliases": [],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -77.8394,
+   40.9027
+  ],
+  "point": [
+   -76.348,
+   40.8594
+  ],
+  "area_km2": 119206,
+  "bbox": [
+   -80.5202,
+   39.721,
+   -74.6986,
+   42.5377
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-rhode-island",
+  "name": "Rhode Island",
+  "aliases": [
+   "Rhode Island and Providence Plantations"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -71.5594,
+   41.6763
+  ],
+  "point": [
+   -71.5971,
+   41.8124
+  ],
+  "area_km2": 2828,
+  "bbox": [
+   -71.8779,
+   41.1458,
+   -71.1219,
+   42.0164
+  ],
+  "tiny": true
+ },
+ {
+  "id": "us-south-carolina",
+  "name": "South Carolina",
+  "aliases": [
+   "Carolina (south)"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -80.894,
+   33.9163
+  ],
+  "point": [
+   -80.6388,
+   33.7147
+  ],
+  "area_km2": 80188,
+  "bbox": [
+   -83.3555,
+   32.0325,
+   -78.5732,
+   35.2183
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-vermont",
+  "name": "Vermont",
+  "aliases": [
+   "New Hampshire Grants"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -72.6688,
+   44.0697
+  ],
+  "point": [
+   -72.6753,
+   44.3171
+  ],
+  "area_km2": 24587,
+  "bbox": [
+   -73.4385,
+   42.7293,
+   -71.5057,
+   45.0137
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-virgin-islands",
+  "name": "US Virgin Islands",
+  "aliases": [
+   "Danish West Indies",
+   "St Croix",
+   "St Thomas"
+  ],
+  "kind": "dependency",
+  "sovereign_today": "United States",
+  "iso_a2": "VI",
+  "region": "Caribbean & western Atlantic",
+  "centroid": [
+   -64.7975,
+   17.9801
+  ],
+  "point": [
+   -64.7806,
+   17.7459
+  ],
+  "area_km2": 356,
+  "bbox": [
+   -65.0415,
+   17.6828,
+   -64.5594,
+   18.3866
+  ],
+  "tiny": true
+ },
+ {
+  "id": "us-virginia",
+  "name": "Virginia",
+  "aliases": [
+   "Jamestown",
+   "Colony of Virginia"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -79.5117,
+   37.9496
+  ],
+  "point": [
+   -80.4912,
+   38.0722
+  ],
+  "area_km2": 166362,
+  "bbox": [
+   -83.6675,
+   36.5398,
+   -75.2433,
+   40.6468
+  ],
+  "tiny": false
+ },
+ {
+  "id": "us-west-florida",
+  "name": "West Florida (Gulf coast)",
+  "aliases": [
+   "British West Florida",
+   "Mobile",
+   "Natchez"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "United States",
+  "iso_a2": "US",
+  "region": "Thirteen Colonies & North American mainland",
+  "centroid": [
+   -88.9597,
+   31.2598
+  ],
+  "point": [
+   -90.6622,
+   31.3824
+  ],
+  "area_km2": 156255,
+  "bbox": [
+   -91.75,
+   28.9284,
+   -84.9,
+   32.4816
+  ],
+  "tiny": false,
+  "note": "Approximate: the Gulf strip of Alabama, Mississippi and Louisiana south of 32°28′N, carved by bounding box. The Florida panhandle part of British West Florida sits inside us-florida."
+ },
+ {
+  "id": "vanuatu",
+  "name": "Vanuatu",
+  "aliases": [
+   "New Hebrides",
+   "Anglo-French Condominium",
+   "Port Vila",
+   "Espiritu Santo"
+  ],
+  "kind": "country",
+  "sovereign_today": "Vanuatu",
+  "iso_a2": "VU",
+  "region": "The Pacific",
+  "centroid": [
+   167.6897,
+   -16.1913
+  ],
+  "point": [
+   166.8683,
+   -15.3743
+  ],
+  "area_km2": 12339,
+  "bbox": [
+   166.5205,
+   -20.2531,
+   169.8989,
+   -13.0649
+  ],
+  "tiny": false
+ },
+ {
+  "id": "vietnam",
+  "name": "Vietnam",
+  "aliases": [
+   "Cochinchina",
+   "French Indochina",
+   "Saigon"
+  ],
+  "kind": "country",
+  "sovereign_today": "Vietnam",
+  "iso_a2": "VN",
+  "region": "South-East Asia",
+  "centroid": [
+   106.3481,
+   16.5403
+  ],
+  "point": [
+   105.3793,
+   21.7006
+  ],
+  "area_km2": 329987,
+  "bbox": [
+   102.1187,
+   8.5656,
+   109.4724,
+   23.3663
+  ],
+  "tiny": false
+ },
+ {
+  "id": "wallis-futuna",
+  "name": "Wallis and Futuna",
+  "aliases": [],
+  "kind": "dependency",
+  "sovereign_today": "France",
+  "iso_a2": "WF",
+  "region": "The Pacific",
+  "centroid": [
+   -177.0548,
+   -13.739
+  ],
+  "point": [
+   -178.1218,
+   -14.289
+  ],
+  "area_km2": 140,
+  "bbox": [
+   -178.1857,
+   -14.3194,
+   -176.1256,
+   -13.2089
+  ],
+  "tiny": true
+ },
+ {
+  "id": "west-bank",
+  "name": "West Bank",
+  "aliases": [
+   "Judea and Samaria",
+   "Mandatory Palestine (east of the Green Line)",
+   "Jericho"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Palestine",
+  "iso_a2": "PS",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   35.2502,
+   31.9474
+  ],
+  "point": [
+   35.265,
+   32.1524
+  ],
+  "area_km2": 5739,
+  "bbox": [
+   34.8672,
+   31.3449,
+   35.5725,
+   32.5426
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ye-aden-colony",
+  "name": "Aden Colony",
+  "aliases": [
+   "Aden",
+   "Aden Settlement",
+   "Crater"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   44.8574,
+   12.8261
+  ],
+  "point": [
+   44.8228,
+   12.8188
+  ],
+  "area_km2": 550,
+  "bbox": [
+   44.4147,
+   12.6702,
+   45.0932,
+   12.9247
+  ],
+  "tiny": true
+ },
+ {
+  "id": "ye-aden-protectorate",
+  "name": "Aden Protectorate",
+  "aliases": [
+   "South Arabia",
+   "Federation of South Arabia",
+   "Hadhramaut",
+   "Mukalla",
+   "Western and Eastern Protectorates"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   48.9892,
+   16.1055
+  ],
+  "point": [
+   49.6051,
+   16.7254
+  ],
+  "area_km2": 300511,
+  "bbox": [
+   43.5307,
+   12.1462,
+   53.0903,
+   18.9956
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ye-kamaran",
+  "name": "Kamaran",
+  "aliases": [
+   "Kamaran Island"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   42.5968,
+   15.3401
+  ],
+  "point": [
+   42.5877,
+   15.3593
+  ],
+  "area_km2": 108,
+  "bbox": [
+   42.55,
+   15.27,
+   42.7,
+   15.42
+  ],
+  "tiny": true,
+  "note": "Carved from North Yemen (Al Hudaydah) by bounding box."
+ },
+ {
+  "id": "ye-north-yemen",
+  "name": "North Yemen",
+  "aliases": [
+   "Yemen Arab Republic",
+   "Mutawakkilite Kingdom",
+   "Sanaa",
+   "Ta`izz"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   44.5933,
+   15.5922
+  ],
+  "point": [
+   44.2925,
+   15.7037
+  ],
+  "area_km2": 149778,
+  "bbox": [
+   42.5457,
+   12.6806,
+   47.0387,
+   17.5229
+  ],
+  "tiny": false
+ },
+ {
+  "id": "ye-perim",
+  "name": "Perim",
+  "aliases": [
+   "Mayyun",
+   "Bab-el-Mandeb"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   43.4229,
+   12.6563
+  ],
+  "point": [
+   43.417,
+   12.6596
+  ],
+  "area_km2": 18.72,
+  "bbox": [
+   43.3901,
+   12.6321,
+   43.449,
+   12.6738
+  ],
+  "tiny": true,
+  "note": "Carved from Aden Colony by bounding box."
+ },
+ {
+  "id": "ye-socotra",
+  "name": "Socotra",
+  "aliases": [
+   "Suqutra",
+   "Soqotra"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "Yemen",
+  "iso_a2": "YE",
+  "region": "Middle East & the Gulf",
+  "centroid": [
+   53.8613,
+   12.5052
+  ],
+  "point": [
+   53.6622,
+   12.485
+  ],
+  "area_km2": 3684,
+  "bbox": [
+   52.9853,
+   12.1114,
+   54.5403,
+   12.7144
+  ],
+  "tiny": true,
+  "note": "Carved from the Hadramawt governorate by bounding box."
+ },
+ {
+  "id": "za-cape-colony",
+  "name": "Cape Colony",
+  "aliases": [
+   "Cape of Good Hope",
+   "Kaapkolonie",
+   "British Kaffraria",
+   "Griqualand West",
+   "Cape Town"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "South Africa",
+  "iso_a2": "ZA",
+  "region": "Southern Africa",
+  "centroid": [
+   22.5172,
+   -30.8393
+  ],
+  "point": [
+   21.5616,
+   -31.0628
+  ],
+  "area_km2": 672245,
+  "bbox": [
+   16.47,
+   -46.9658,
+   37.9778,
+   -24.7525
+  ],
+  "tiny": false
+ },
+ {
+  "id": "za-natal",
+  "name": "Natal",
+  "aliases": [
+   "Zululand",
+   "Durban",
+   "Port Natal",
+   "KwaZulu"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "South Africa",
+  "iso_a2": "ZA",
+  "region": "Southern Africa",
+  "centroid": [
+   30.7325,
+   -28.716
+  ],
+  "point": [
+   30.7297,
+   -28.4226
+  ],
+  "area_km2": 94138,
+  "bbox": [
+   28.859,
+   -31.0779,
+   32.8931,
+   -26.8083
+  ],
+  "tiny": false
+ },
+ {
+  "id": "za-orange-free-state",
+  "name": "Orange Free State",
+  "aliases": [
+   "Oranje-Vrystaat",
+   "Orange River Colony",
+   "Bloemfontein"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "South Africa",
+  "iso_a2": "ZA",
+  "region": "Southern Africa",
+  "centroid": [
+   26.8794,
+   -28.6024
+  ],
+  "point": [
+   26.0279,
+   -28.9551
+  ],
+  "area_km2": 129897,
+  "bbox": [
+   24.3408,
+   -30.6806,
+   29.775,
+   -26.6665
+  ],
+  "tiny": false
+ },
+ {
+  "id": "za-transvaal",
+  "name": "Transvaal",
+  "aliases": [
+   "South African Republic",
+   "Zuid-Afrikaansche Republiek",
+   "ZAR",
+   "Witwatersrand",
+   "Pretoria",
+   "Johannesburg"
+  ],
+  "kind": "subnational",
+  "sovereign_today": "South Africa",
+  "iso_a2": "ZA",
+  "region": "Southern Africa",
+  "centroid": [
+   28.2439,
+   -25.2171
+  ],
+  "point": [
+   29.2336,
+   -24.8192
+  ],
+  "area_km2": 325167,
+  "bbox": [
+   22.6209,
+   -28.0996,
+   31.9958,
+   -22.1265
+  ],
+  "tiny": false
+ },
+ {
+  "id": "zm-northern-rhodesia",
+  "name": "Zambia",
+  "aliases": [
+   "Northern Rhodesia",
+   "Barotseland",
+   "Lusaka",
+   "Copperbelt"
+  ],
+  "kind": "country",
+  "sovereign_today": "Zambia",
+  "iso_a2": "ZM",
+  "region": "Southern Africa",
+  "centroid": [
+   27.8081,
+   -13.4574
+  ],
+  "point": [
+   26.1615,
+   -14.7368
+  ],
+  "area_km2": 754731,
+  "bbox": [
+   21.9799,
+   -18.0692,
+   33.6742,
+   -8.1941
+  ],
+  "tiny": false
+ },
+ {
+  "id": "zw-southern-rhodesia",
+  "name": "Zimbabwe",
+  "aliases": [
+   "Southern Rhodesia",
+   "Rhodesia",
+   "Mashonaland",
+   "Matabeleland",
+   "Salisbury",
+   "Harare"
+  ],
+  "kind": "country",
+  "sovereign_today": "Zimbabwe",
+  "iso_a2": "ZW",
+  "region": "Southern Africa",
+  "centroid": [
+   29.8514,
+   -18.9953
+  ],
+  "point": [
+   29.9582,
+   -18.9904
+  ],
+  "area_km2": 390528,
+  "bbox": [
+   25.2194,
+   -22.3973,
+   33.0428,
+   -15.6148
+  ],
+  "tiny": false
+ }
+]

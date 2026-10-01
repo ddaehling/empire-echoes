@@ -1,0 +1,1550 @@
+{
+  "$note": "P05 — the authored spine. DIDACTIC_SPEC §8 is normative for the order, the times and the payloads; FEATURE_SPEC §2 P05 is normative for the gates and the variants. One T-number per beat. No beat without a named non-British actor. Every figure printed here is either quoted from a shard in app/data/territories/ (field named in `from`) or computed at runtime from data.* (named in `answerFrom`). Nothing is hard-coded that the dataset could have said. COST MODEL, and it is computed rather than asserted: every beat’s `cost_s` is `round(words / 180 * 60) + do_s(kind)`, where `words` is the beat’s own rendered prose (also written into the record, as `words`) and `do_s` is what the beat asks the student to do: present 25s, sweep 30s, predict 45s, retrieve 60s, sort 60s, definition 40s, loop 90s, tension 90s, offmap 60s. A Complication Gate is 90s and an argument between historians is 150s, in tours/index.js `_budgetMinutes`, which is the only place a route’s length is computed. COST MODEL, and it is computed rather than asserted: every beat’s `cost_s` is `round(words / 180 * 60) + do_s(kind)`, where `words` is the beat’s own rendered prose (also written into the record, as `words`) and `do_s` is what the beat asks the student to do: present 25s, sweep 30s, predict 45s, retrieve 60s, sort 60s, definition 40s, loop 90s, tension 90s, offmap 60s. A Complication Gate is 90s and an argument between historians is 150s, in tours/index.js `_budgetMinutes`, which is the only place a route’s length is computed. COST MODEL, and it is computed rather than asserted: every beat’s `cost_s` is `round(words / 180 * 60) + do_s(kind)`, where `words` is the beat’s own rendered prose (also written into the record, as `words`) and `do_s` is what the beat asks the student to do: present 25s, sweep 30s, predict 45s, retrieve 60s, sort 60s, definition 40s, loop 90s, tension 90s, offmap 60s. A Complication Gate is 90s and an argument between historians is 150s, in tours/index.js `_budgetMinutes`, which is the only place a route’s length is computed. The routes are named by their own arithmetic (`variantMeta`): `core` is the lesson DIDACTIC_SPEC §8 asks for AND IT IS THE DEFAULT — round 6 took the word “thirty-minute” out of its label, because after two beats were added for coverage its own model says 35–45 and a name that asserts a duration its own arithmetic contradicts is the defect this build spends its length teaching students to spot; `thirty` is the full path and keeps its key because a teacher’s #tour=thirty&step=N is a page number. ROUND 5 CORRECTS TWO SENTENCES THAT USED TO STAND HERE. The first said the full path was the default; it has not been since round 3, which found the door offering forty-five minutes of lesson against a spec whose default is thirty. The second said the full path had to be the default “because close.json requires all fifteen beats before it will print its thirteen lines in full” — an argument about the Close that nobody checked against the Close: close.json line 11 required a beat id, `amritsar`, that has never existed in this file (the Amritsar beat is `two-in-tension`), so no route printed all thirteen lines, including the one whose strap said it was the only one that did. It is fixed and `thirty` now measures 13 of 13. What a shorter route leaves grey is no longer asserted anywhere: `_greyLines()` counts it from close.json’s own `requires` against the route’s own beat list and prices it from each missing beat’s own `cost_s`. And a route no longer breaks the ENDING when it drops a beat: DIDACTIC §2.3’s through-line keys each of its six blanks to an ordered list of beats that can earn it, close/index.js resolves the first one on the route being run, and its `_audit()` console.errors at mount if any route can never fill a blank it has not declared it will not fill.",
+  "version": "p05.1",
+  "variants": {
+    "lesson-one": [
+      "poster",
+      "spine",
+      "barbados",
+      "resistance",
+      "compensation",
+      "who-took-bengal",
+      "revenue-loop"
+    ],
+    "lesson-two": [
+      "spine",
+      "nationalisation",
+      "princely",
+      "scramble",
+      "two-track",
+      "singapore",
+      "exits",
+      "fourteen"
+    ],
+    "period": [
+      "poster",
+      "spine",
+      "resistance",
+      "compensation",
+      "revenue-loop",
+      "egypt",
+      "singapore",
+      "fourteen"
+    ],
+    "thirty": [
+      "poster",
+      "spine",
+      "barbados",
+      "resistance",
+      "compensation",
+      "who-took-bengal",
+      "revenue-loop",
+      "nationalisation",
+      "princely",
+      "egypt",
+      "scramble",
+      "two-track",
+      "two-in-tension",
+      "singapore",
+      "exits",
+      "fourteen",
+      "congo"
+    ],
+    "eight": [
+      "poster",
+      "spine",
+      "revenue-loop",
+      "exits",
+      "fourteen"
+    ],
+    "sixty": [
+      "poster",
+      "spine",
+      "barbados",
+      "resistance",
+      "compensation",
+      "who-took-bengal",
+      "revenue-loop",
+      "nationalisation",
+      "princely",
+      "egypt",
+      "scramble",
+      "two-track",
+      "two-in-tension",
+      "singapore",
+      "exits",
+      "fourteen",
+      "congo"
+    ],
+    "core": [
+      "poster",
+      "spine",
+      "barbados",
+      "resistance",
+      "compensation",
+      "revenue-loop",
+      "princely",
+      "egypt",
+      "scramble",
+      "two-track",
+      "two-in-tension",
+      "exits",
+      "fourteen",
+      "congo"
+    ]
+  },
+  "variantMeta": {
+    "lesson-one": {
+      "label": "Lesson One: how it was taken",
+      "for": "one lesson",
+      "isDefault": true,
+      "pairs": "lesson-two",
+      "floor": 7,
+      "gates": [
+        "g1"
+      ],
+      "recalls": [
+        "t3-middle-passage"
+      ],
+      "essays": false,
+      "disputes": false,
+      "strap": "Phases I and II, and a whole lesson rather than half of one: the poster that lies, the four engines, three islands and the crossing, the people who never stopped resisting and the complication that damages the easy version of that, the compensation ledger, and the shareholder company that found taxing Bengal beat trading with it. Two of the map’s three misleads are answered here — the single colour and the projection. LESSON TWO covers how Britain ruled what it had taken and how it lost it: 1857 and the Crown, the 565 princely states, the Scramble and Berlin 1884–85, who was given self-rule and who was refused, February 1942, how the exits actually happened, and what is still British.",
+      "leavesLead": "It ends where its argument ends — with a company governing twenty to thirty million people — and it does not go past 1765. Bengal 1770 is named inside the loop beat as the loop’s first product and the African supply side inside the gate, and both are one press away rather than on this lesson’s clock.",
+      "$why": "DIDACTIC_SPEC §8, LESSON ONE, cut against `budget.js::budgetMinutes(steps, SLOW_WPM) <= 30` and nothing else. Seven beats, one Complication Gate and one spaced recall. THE ARITHMETIC, so nobody has to trust a rounding: 1,805 seconds at 110 words a minute — thirty minutes and five seconds — and 1,293 at 180. §8 costed this list at 1,877 and asked for a 140-word trim of `resistance`; the recall it does not count adds 45, so the trim had to be bigger, and it was taken from `resistance` (470 words to 348: the apparatus round the two documents, never the evidence), from `revenue-loop`’s famine tail (437 to 381: the second famine paragraph tightened, every figure and every citation kept), and in ones and twos from `poster`, `spine`, `compensation` and `who-took-bengal`. Each trim moved `cost_s` as well as `words`, because `cost_s` is the reading at 180 PLUS the doing, and taking words out of a beat without taking them out of its authored cost tells the model the beat got slower to operate. T6 therefore did NOT demote, which §8 permits only if the trim fails; it did not fail, and the [PREDICT] that activates M2 stays. THE RECALL IS THE ONLY ONE THIS ROUTE OFFERS AND IT IS LEGITIMATE: `barbados` teaches T3 in the crossing chart at step 3, the recall stands at step 7, and `budget.js::flatten` measures 424 seconds between them at the planning rate against §3.2's 360 — see DIDACTIC_SPEC §3.2. WAVE 10 CORRECTED THAT NUMBER AND THE SENTENCE THE CARD PRINTED WITH IT. `leavesSay` was calling `recallAudit(..., null)` — the third argument is the gates doc — so the audit re-flattened this route WITHOUT its Complication Gate, the 90 seconds `g1` costs came out of the gap, 424 became 334, and the card told a student “it had room for one spaced recall and legitimate ground for none, so it runs with none” while step 7 ran it. The gates doc is threaded through `mustStick` and `leavesSay` now, and the same fix stopped the full route saying “ground for two” over a payload of three. WAVE 10 ALSO TIGHTENED THE RUN TEST BEHIND THIS RECALL. T3 is taught by the FIGURE inside `barbados`, not by its prose, and a reader may press Next straight past the chart; `tours/index.js::_recallWarrant` now asks the record for the committed guess itself and refuses the step when there is none, because attendance at a beat is not a first encounter with a number the beat never made you look at. The `t16-bengal-1943` recall this route used to carry is gone from the file entirely: no beat anywhere teaches T16."
+    },
+    "lesson-two": {
+      "label": "Lesson Two: how it was ruled, and how it ended",
+      "for": "one lesson",
+      "pairs": "lesson-one",
+      "floor": 8,
+      "gates": [
+        "g3"
+      ],
+      "recalls": true,
+      "essays": false,
+      "disputes": false,
+      "strap": "Phases III and IV, and a whole lesson with its own beginning: the spine restated, 1857 and the Crown takeover, the 565 princely states under one colour, the Scramble and the Berlin Conference of 1884–85, self-rule given above the line and refused below it, February 1942, how the exits actually happened and when the empire was largest, and the fourteen territories still British. It answers the third of the map’s misleads — what year exactly — and the spine it opens on redraws the projection once more; what the single pink hides is Lesson One’s. LESSON ONE covers how it was taken: the sugar islands and the crossing, continuous rebellion, the compensation ledger and the Company’s revenue loop. You can start it from the first beat here, in one press.",
+      "leavesLead": "Egypt’s four legal labels, Amritsar 1919, famine as policy and the thousand ICS officers over three hundred million are named in this lesson and taught one press away, not on its own clock.",
+      "$why": "DIDACTIC_SPEC §8, LESSON TWO, cut against the same test. Eight beats and one Complication Gate: 1,814 seconds at 110 words a minute and 1,352 at 180. THE DEMOTION, AND WHY IT WAS TAKEN IN THIS ORDER. §8 prices this list with T12 at 2,054 seconds and publishes a four-step order: trim `scramble` and `nationalisation` by 230 words, trim the counted figure inside `exits` by 130, demote T12, then T15. Costed here: steps (i) and (ii) together are 197 seconds and land at 1,857 — still over, so the 360 words of trimming they ask for would have bought nothing and T12 would have gone anyway. So T12 went first and the trim was cut to what closing the budget actually needs: 35 words out of `scramble`'s Berlin paragraph and 6 out of `nationalisation`, keeping Isandlwana, the four Asante wars and Adwa word for word. §8's own figure for this list without T12 — 1,839 seconds, needing a 72-word trim — is the one that was met. T13 is required and undemotable and is on this route as a beat the student walks, which is the point §3.1 makes about it. T15 never came up. WHAT T12 COSTS AND WHERE IT WENT: 170 seconds. LO2 is still served here by T11's paramountcy, by the status recolour that shatters the single pink, and by the dossier's legal-status field on every territory opened; Egypt is named in this lesson's Close and is one press away, and it is taught as a beat on the full route. THE RECALLS: none. `two-track` carries a `t8-army` recall, and T8 is taught in Lesson One's loop beat, not here — so `budget.js::flatten` refuses it on the route test, and this lesson runs with fewer recalls and says so rather than asking for something it never taught."
+    },
+    "period": {
+      "label": "the one-period lesson",
+      "for": "superseded — Lesson One replaces it",
+      "gates": [
+        "g1"
+      ],
+      "recalls": false,
+      "$recalls": "WAVE 10. This route named `t16-bengal-1943`, and no beat in this file carries T16 as its payload \u2014 DIDACTIC_SPEC \u00a73.1 says so by name. `flatten` has refused it since wave 9, so it was already unreachable; it is off the route now so that the file stops offering what the model refuses, and so that lesson-one\u2019s $why (\u201cgone from the file entirely\u201d) is true of the file.",
+      "essays": false,
+      "disputes": false,
+      "strap": "Eight beats, one Complication Gate and one spaced recall, and it ends inside one period at a class’s reading speed rather than a skimmer’s. The poster that lies, the four engines, the people who never stopped resisting and the complication that damages the easy version of that, the compensation ledger, the revenue loop, Egypt’s four labels, the war that broke the bank, and what is still British.",
+      "leavesLead": "It runs 1765 to 1882 to 1942 in three stops, so the hole has a shape as well as a list: no Africa beyond Egypt, no Partition, no Amritsar, no two-track franchise. What it leaves out so that it can end: four of the five Complication Gates, the argument between historians, and the beats carrying the rest of the twenty — named below with what each costs. Its one recall asks for a number no beat here teaches, so §3’s second, retrieval encounter falls to the two in-beat moments instead.",
+      "$why": "ROUND 8, L1, AND THE ONLY THING THIS ROUTE EXISTS FOR. The historian: “there is no longer any route that delivers a 30-minute lesson.” That was true and it was this file’s fault, not the model’s. Round 7 taught the cost model to see the counted figures and the in-beat retrievals it had been pricing at zero, and every route’s honest length went up: `core`, the default, went from an advertised 35–45 to 50–65. DIDACTIC_SPEC §8 specifies a thirty-minute lesson and the whole classroom case rests on it — a teacher has fifty minutes including settling, register and packing away — so a 55-minute default is not a lesson, it is a unit. THE CONSTRAINT THIS LIST WAS CUT AGAINST, and it is the slow end, not the fast one: `tours/budget.js::budgetMinutes(steps, SLOW_WPM)` ≤ 30. A route that fits a period only if the class reads at 180 words a minute does not fit a period. ROUND 9 SPENT THE LAST OF IT, AND HERE IS THE LEDGER. Round 8 shipped this route at 1,763 seconds with two spaced recalls and no Complication Gate, and all four critics returned the same two charges: no gate, and a coverage headline inflated by counting a recall as coverage. Both are answered here, and the answer is a swap rather than an addition, because there is nothing left to add. `g1` — the African supply side, the complication that damages the sympathetic oversimplification the Atlantic beat invites — is 90 seconds; the `t3-middle-passage` recall it replaces was 45. Net +45: 1,808 seconds, 30 minutes at 110 words a minute and 22 at 180. EVERY ALTERNATIVE WAS COSTED WITH `tools/check-timing.js` AND THE MODEL ITSELF, and the search over every subset of the sixteen beats that still earns all six through-line blanks says the ceiling on beat-taught coverage inside 1,800 seconds is NINE of the twenty, and only with no gate and no recall at all. §3’s floor is fourteen. It is arithmetically unreachable in one period with these beats, and the honest answer is to say which ones are missing rather than to shave the model until the number is flattering — which is the exact defect round 7 caught and round 8 fixed. `leavesLead` therefore names the shortfall, the card prints the missing items by name, and the Close prints every unreached line greyed with its own price. WHY THESE BEATS AND NOT OTHERS. `barbados` is 458 seconds at the slow rate because the crossing chart lives inside it, so T2 and T3 together cost more than the whole Atlantic chapter can carry here. `exits` is 521 for the same reason, and `singapore` earns the same closing clause of the through-line for 101 — see close/thesis.json slot 6, which names both. THE SCRAMBLE SWAP, ASKED FOR BY ROUND 9’S HISTORIAN AND REFUSED BY THE ARITHMETIC: `scramble` against `egypt` is +44 seconds of beat, and it also moves `quiz/checkpoint.js::plan()` from two resolved moments to three (+45), because `singapore` clears MIN_BEAT_GAP once a ninth beat sits in front of it. +89 on top of the gate is 1,897 — 31 minutes, and no longer a period. So the historian’s own stated fallback is taken instead: the strap names the shape of the hole (“no Africa beyond Egypt, no Partition, no Amritsar, no two-track franchise”), and close.json now carries a fourteenth line on Berlin 1884–85 which this route prints greyed, by name, with its price. IT IS THE DEFAULT, stated once as `isDefault` here and read by `tours/budget.js::defaultRoute()`. ROUND 9 ALSO PUT THE THIRD MISLEAD ON THE PATH. The phone critic: the door promises “three things about this map mislead” and the guided path demonstrated the colour and the year and only NAMED the projection. `spine` now redraws in equal-area with one sentence saying so, and mercator is restored on the next beat of every route — see `spine.map.$proj`. It costs this route 8 seconds. THE FINAL LEDGER FOR THIS ROUTE, so that nobody has to trust a rounding: 1,819 seconds at 110 words a minute — 30 minutes and 19 seconds — and 1,320 at 180. Ten steps: eight beats, one Complication Gate and one spaced recall, plus the two in-beat retrieval moments `quiz/checkpoint.js::plan()` resolves on this beat list, which are priced here even though they are not steps. All six blanks of DIDACTIC §2.3’s through-line are earned by beats ON this route, so the Close signs and prints in full rather than printing a sentence with a hole in it.",
+      "retired": true,
+      "$retired": "SUPERSEDED BY THE TWO-LESSON UNIT (DIDACTIC_SPEC §8, amended wave 9). `period` was the one-period lesson and `core` the longer one; both are kept as KEYS because a teacher's #tour=<id>&step=N is a page number and a printed pack may already carry one, and both keep their step index. Neither is offered any more: `budget.js::routeIds()` drops a retired route from the line-up, so the door shows Lesson One, Lesson Two, the short run and the full route, and `tours/index.js::_offerRoutes` still names a retired route correctly for anyone who arrives on one."
+    },
+    "$note": "What each route is, and what it carries. `core` is the lesson DIDACTIC_SPEC §8 asks for, built from its own arithmetic rather than from its name — thirteen required beats, three Complication Gates and one historiographical dispute — and IT IS THE DEFAULT, because the spec’s default is one lesson period and round 3 found the door advertising forty-five minutes against it. Its own card prints its length from `_budgetMinutes`, which is why round 6 could add two beats to it without any sentence anywhere having to be edited to keep up. `thirty` keeps its key because a teacher’s #tour=thirty&step=N is a page number; it is the full path, it is the only route that fills every line of the Close, and it is offered on the first beat of either run at its own honest forty-five minutes. Round 2 made `thirty` the default for that Close argument and round 3 reversed it for the door: a student who is given forty-five minutes of lesson when they have a thirty-minute period finishes none of it, and `core` says in its own card exactly which four Close lines it will leave grey. `gates` and `recalls` accept true (all), false (none), or a list of ids to keep. ROUND 5. Two of the numbers in this note were wrong and one of them was load-bearing. `core`’s own card said “four of the Close’s thirteen lines are then greyed”; walking the route to the end and reading the rendered Close counted eight. That number is no longer written here — `_greyLines()` counts it from close.json’s own `requires` against this route’s own beat list and prices it from each missing beat’s own `cost_s`, so it cannot go stale again. And `thirty`’s claim to be the only route that fills every line of the Close was false for a different reason: close.json line 11 required a beat called `amritsar`, which has never existed here — the Amritsar beat is `two-in-tension` — so line 11 was grey on all four routes. Fixed in close.json; `close/index.js` `_audit()` now checks every `requires` id against the beats that exist, at mount. ROUND 6, W1 — THE DEFAULT ROUTE'S COVERAGE, AND WHERE THE ROOM FOR THE SPACED RETRIEVAL IS. `core` carried ten of DIDACTIC_SPEC §3's twenty against §3's own floor of fourteen; it now carries fifteen, because `barbados` and `princely` were added to it and nothing else changed. Neither is a new beat: both were already written, both already carry a `core` flag set true in their own record, and both were simply missing from this list. `barbados` is worth two items rather than one — it carries T2 in its own prose AND it is the beat viz/index.js `ON_PATH` mounts the embarked-versus-landed flow inside, which is T3's hook as §3 specifies it, so a route without `barbados` is a route where T3 is unreachable however many times a recall asks for it. `princely` carries T11 and states T10 in the same paragraph. The fifteen met on this route are T1, T2, T3, T4, T5, T7, T8, T11, T12, T13, T14, T15, T17, T18 and T20; the five it does not reach are T6, T9, T10, T16 and T19, and the beats that carry the first three of those (`who-took-bengal`, `nationalisation`) are named in `leavesLead` with their price. THE COST, AND THE SPACE. The two beats cost 175 seconds together, which is why `minutesSay` moved from 30-40 to 35-45 — computed, not asserted, by `_budgetMinutes` over these ids. `recalls` is left `false` here for the retrieval owner to set; the arithmetic they need is this. A recall is 45 seconds in `_budgetMinutes`, and on this route five beats now carry a `recallAfter` — `compensation` (t3-middle-passage), `revenue-loop` (t16-bengal-1943), `princely` (t7-loop), `two-track` (t8-army) and `exits` (t14-peak). All five is +225s and puts the route at 38-50, which reads 40-50 on the card and is no longer a lesson you can run in a period. Three of them — t3-middle-passage, t16-bengal-1943 and t14-peak, the three that add T16 to the coverage above and re-ask the two biggest numbers on the route — is +135s and holds at 35-45, which is the same card the route prints now. ROUND 7 CORRECTED THE LAST SENTENCE OF THIS PARAGRAPH AND EVERY NUMBER ABOVE IT. It used to read “a retrieval that lives INSIDE a beat rather than as a step of its own (quiz/checkpoint.js's moments) costs this model nothing at all, and that is the cheapest room there is”. It cost this model nothing because this model could not see it, which is not the same as being free — the historian's round-7 finding was that W4 added four retrievals to the default route without the advertised number moving by a second. `_budgetMinutes` now asks `quiz/checkpoint.js::plan()` how many moments THIS route hosts and charges each of them the same forty-five seconds a path recall costs, because they are the same task. It also charges the three counted figures `viz/index.js` mounts inside beats — the crossing on `barbados`, the army dots on `revenue-loop`, the 1947 twin charts on `exits` — which the rubric critic measured as the other surface the model could not see. Their words are authored on the beats that host them as `onPath.words`, measured on the running app by tools/scenarios/w7-figs.js and re-measurable by it, and tools/scenarios/p05-accept.js asserts that the beats declaring one are exactly the beats that mount one. SO THE FIGURES IN THIS NOTE AND IN `core.$label` BELOW ARE SUPERSEDED: 30-40, 32-42, 35-45, 35-46, 38-50 and 40-50 were all computed without those two surfaces. `core` now costs 48 minutes at 180 words a minute and 65 at 110 and prints 55; `thirty` prints 70; and the door prints the same figure the card does, which it did not before. None of that is asserted anywhere — change a beat, a figure or a moment and every one of those numbers moves by itself, which is why they are not written down here either. ROUND 8 — THE DEFAULT MOVED, AND THE SENTENCE ABOVE THAT SAYS `core` IS THE DEFAULT IS NOW HISTORY. Round 7's honest re-pricing left no route that fits a school period: the shortest real lesson on this file was `core` at 50–65 minutes, and DIDACTIC_SPEC §8's whole classroom case is a thirty-minute lesson inside a fifty-minute period. `period` was cut against that constraint at the SLOW reading rate and is the default; `core`, `thirty`, `sixty` and `eight` keep their keys, because a teacher's #tour=<id>&step=N is a page number. Which route is the default is now stated once, as `isDefault` on the route itself, and read by `tours/budget.js::defaultRoute()` — no second file names the key. AND THE ARITHMETIC LEFT THIS MODULE. `_budgetMinutes` was a private method on a mounted object, so nothing outside the page could ask it anything and the printed teacher pack retyped its numbers. The model is now `app/js/tours/budget.js`: pure, no DOM, no bus, imported by `tours/index.js` to paint the card and by `tools/check-timing.js` to fail the build wherever a student- or teacher-facing string prints a minute figure this file does not compute.",
+    "eight": {
+      "label": "the short run",
+      "for": "a quick look",
+      "gates": false,
+      "recalls": false,
+      "essays": false,
+      "disputes": false,
+      "strap": "Five beats: the poster, the spine, the loop, the exits, and what is left. A taste, not a lesson — it is for an assembly, a cover lesson or a first look, and it teaches six of the twenty. Lesson One and Lesson Two are the lessons."
+    },
+    "thirty": {
+      "label": "the full route",
+      "for": "the whole unit in one sitting",
+      "gates": true,
+      "recalls": [
+        "t3-middle-passage",
+        "t7-loop",
+        "t8-army",
+        "t14-peak"
+      ],
+      "essays": false,
+      "strap": "Both lessons end to end, plus every Complication Gate, the argument between historians and the spaced recalls each one has earned. It is not a lesson and it does not claim a period: it is the only route that reaches every line of the Close, and the card below says which of the twenty it still misses, by name.",
+      "disputes": true
+    },
+    "sixty": {
+      "label": "the full route, with the chapter arguments",
+      "for": "the whole unit, in depth",
+      "gates": true,
+      "recalls": true,
+      "essays": true,
+      "disputes": true,
+      "strap": "Everything on the full route, plus each chapter’s argument in full, in the panel rather than one press away. Two periods, not one."
+    },
+    "core": {
+      "label": "the core lesson",
+      "for": "superseded — the full route replaces it",
+      "strap": "The spine, the sugar island and the crossing, the two documents that disagree, the princely third of India, three Complication Gates and the argument between historians — in two thirds of the stops.",
+      "$label": "ROUND 6 TOOK “THIRTY-MINUTE” OUT OF THE NAME, BECAUSE THE ROUTE’S OWN ARITHMETIC HAD ALREADY TAKEN IT OUT OF THE NUMBER. The rubric critic’s last finding was that this route — the default — carried ten of DIDACTIC_SPEC §3’s twenty must-stick items against that section’s own floor of fourteen, and that two of the missing ten were T3, the scale of the British slave trade, and T11, the 565 princely states, of which §3 says a student who never sees them cannot understand Partition. Both were one beat away: `barbados` carries T2 and is where viz/index.js mounts the embarked-versus-landed flow that IS T3’s hook, and `princely` carries T11 and T10 in its own prose. Adding them takes this route to fifteen of the twenty and costs 175 seconds of scripted time. (ROUND 7: that sentence's arithmetic was right and its inputs were short by two whole surfaces — see the round-7 paragraph in the note above. The route's real cost is 48 minutes at 180 words a minute and 65 at 110; it prints 55, and it prints it in the same place the door does.) The number on the card is computed, so it moved by itself; the NAME was the only thing left asserting thirty, and a route labelled thirty minutes beside its own honest computed range is the same class of self-contradiction this wave was sent to kill. DIDACTIC_SPEC §8 is still the plan this route ships; thirty minutes is the plan’s name, not this build’s measurement, and `onboarding/index.js` has said so about its own sentence since round 3.",
+      "gates": [
+        "g1",
+        "g2",
+        "g4"
+      ],
+      "recalls": false,
+      "essays": false,
+      "disputes": true,
+      "leavesLead": "What it leaves out: the guess about who conquered Bengal, 1857 and the Crown takeover, the fall of Singapore, and two of the five Complication Gates — the settler two-track’s and the one about what is still British. The through-line still finishes, and five of its six blanks are now earned by their own first-choice beats; only blank 3 is earned by a stand-in, the revenue loop, because the Plassey guess is not on this route.",
+      "retired": true,
+      "$retired": "SUPERSEDED BY THE TWO-LESSON UNIT (DIDACTIC_SPEC §8, amended wave 9). `period` was the one-period lesson and `core` the longer one; both are kept as KEYS because a teacher's #tour=<id>&step=N is a page number and a printed pack may already carry one, and both keep their step index. Neither is offered any more: `budget.js::routeIds()` drops a retired route from the line-up, so the door shows Lesson One, Lesson Two, the short run and the full route, and `tours/index.js::_offerRoutes` still names a retired route correctly for anyone who arrives on one."
+    }
+  },
+  "mustStick": {
+    "$note": "DIDACTIC_SPEC §3's twenty, transcribed once so that a route can COUNT its own coverage instead of asserting it. `say` is the item in five or six words, for the sentence a short route prints about what it does not reach; the full statement and the hook stay in §3, which is normative, and nothing here restates a number. HOW COVERAGE IS RESOLVED (tours/budget.js::mustStick): a route reaches an item when a required beat carries it as its primary payload (`beat.t`), when the counted figure the viz module mounts inside that beat carries it (`beat.onPath.t` — `barbados` states T2 in prose and draws T3 in the crossing chart), or when a spaced recall the route actually inserts asks for it (`recallAfter.t`). Optional beats do not count. WHY THIS IS COUNTED AND NOT WRITTEN DOWN: round 6 wrote “fifteen of the twenty” into the note above by hand and round 7 found every number around it superseded. Add a beat to `variants` and this moves by itself. T10 is reachable on no route as a primary payload — `princely` states it in the same paragraph as T11 but carries T11 — so no route claims it, which is the honest reading of “one T-number per beat”. ROUND 9 CHANGED TWO THINGS HERE AND BOTH ARE RULES, NOT PREFERENCES. (1) `say` CARRIES NO MAGNITUDE. items[4] read “£20 million to owners, £0 to the enslaved” and items[9] “a thousand officers over three hundred million”, and `tools/check-path-numbers.js` failed the build on them: “2 bare quantities on the path, floor is 0.” These strings are printed to students on the route card and to teachers in the drops list, so they are on the path in the lesson’s own voice — and this file’s own header calls that floor a ratchet that may only ever come down. The card renders `say` as plain text and resolves no {{fig:}} token, so the answer is the one the other eighteen already use: NAME THE THING, NOT THE NUMBER. The numbers themselves are warranted where they are taught, in the compensation beat and in Close line 8. Any future `say` that needs a magnitude needs a renderer that can carry its warrant first. (2) A RECALL IS NOT COVERAGE. `budget.js::mustStick()` used to add an item to `covers` when a spaced recall on the route asked for it, even when no beat on that route taught it — which is how the one-period route’s headline read ten when eight of the twenty were being taught. It now returns `covers` (taught by a beat) and `recalled` (asked once, as a first encounter) separately, the card prints both with the difference between them stated, and §3’s floor of fourteen is measured against `covers` alone.",
+    "floor": 14,
+    "$floor": "§3's own rule for the default path: at least 14 of the 20 retrieved at least once. A route that carries fewer says so on its own card, by name, and offers the longer one in one press.",
+    "items": [
+      {
+        "t": "T1",
+        "say": "the four engines, not one"
+      },
+      {
+        "t": "T2",
+        "say": "Jamestown, Barbados, Jamaica"
+      },
+      {
+        "t": "T3",
+        "say": "the scale of the crossing"
+      },
+      {
+        "t": "T4",
+        "say": "enslaved people rebelled continuously"
+      },
+      {
+        "t": "T5",
+        "say": "the compensation went to the owners, not the enslaved"
+      },
+      {
+        "t": "T6",
+        "say": "a company chartered in 1600, with an army"
+      },
+      {
+        "t": "T7",
+        "say": "Plassey to the diwani, and the loop it paid for"
+      },
+      {
+        "t": "T8",
+        "say": "an army that was mostly Indian"
+      },
+      {
+        "t": "T9",
+        "say": "1857 and the Crown takeover"
+      },
+      {
+        "t": "T10",
+        "say": "how few officers ran British India, and over how many"
+      },
+      {
+        "t": "T11",
+        "say": "the 565 princely states"
+      },
+      {
+        "t": "T12",
+        "say": "Egypt: one place, four legal labels"
+      },
+      {
+        "t": "T13",
+        "say": "Berlin, 1884–85, with no African state present"
+      },
+      {
+        "t": "T14",
+        "say": "the peak came after the First World War"
+      },
+      {
+        "t": "T15",
+        "say": "self-rule given to settlers and refused to subjects"
+      },
+      {
+        "t": "T16",
+        "say": "famine as policy, not only weather"
+      },
+      {
+        "t": "T17",
+        "say": "Amritsar, 13 April 1919"
+      },
+      {
+        "t": "T18",
+        "say": "the named people who organised the end"
+      },
+      {
+        "t": "T19",
+        "say": "decolonisation was not a handover"
+      },
+      {
+        "t": "T20",
+        "say": "it is not finished"
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "id": "poster",
+      "numeral": "0",
+      "title": "The poster",
+      "essay": "Start with the object itself. The map that hung in British classrooms from the 1880s to the 1950s was printed in one colour, and that single colour is the first thing this atlas takes apart. It was not a description of the world. It was an argument about it, made in ink, and it was made at a moment when the argument was needed: the poster maps sold best in the decades when Britain was most anxious about Germany, about Russia, and about whether the empire could be held at all.\n\nThe colour hides three different things at once, and they are worth separating because students who cannot separate them write essays that cannot either. First, it hides projection. Mercator was drawn for sailors, and it keeps compass bearings true by stretching everything away from the equator; on it Canada is a continent and India is a smudge. Second, it hides law. One pink covers a crown colony run by a governor with an army, a protected state whose ruler kept his throne and lost his foreign policy, a lease that ran out, a mandate held on paper for the League of Nations, and a company with a charter. Those are not degrees of the same thing; they are different things. Third, it hides time. A poster is a single year pretending to be a permanent condition, and it prints as permanent a set of holdings that in some cases lasted eleven years.\n\nSo this atlas is built the other way round. The year is a control you can move. The word 'British' is a control you can move — press 1, 2, 3 or 4 and the same year gives you four different maps, because 'claimed', 'administered', 'controlled' and 'influenced' are four different claims about the world. The projection is a control you can move. Nothing about the pink map was accidental, and nothing about this one is either; the difference is that here you can take the argument apart while you are looking at it.\n\nThat is also why the spine under the map has four bands and not one line. Britain did not build one empire that grew and then shrank. It built four, overlapping, each with a different engine, and the engines are the thing worth remembering when the dates have gone.",
+      "sheetLine": "One pink on the classroom wall hid the projection, the law and the year. Ask all three of any imperial map."
+    },
+    {
+      "id": "atlantic",
+      "numeral": "I",
+      "title": "The Atlantic",
+      "essay": "The Atlantic empire ran on a crop and on the people forced to grow it. Barbados is the cleanest case in the whole story because nothing else happened there: the island never changed hands, was never invaded, and never had its extent altered in three hundred and thirty-nine years. What changed was who was on it, and why.\n\nAbout eighty English settlers landed in February 1627, and ten Africans seized from a captured ship landed with them. Within a generation the island had gone from tobacco to sugar, and sugar changed everything, because sugar is not a crop you grow, it is a factory you run. It needs land in blocks, capital for mills and boiling houses, and labour in gangs, at a pace that killed. So the planters bought people. Somewhere {{fig:barbados-landed}} African people were landed in Barbados, and the reason that range is so wide is itself part of the history: the island was also a re-export market that sold captives on, and the voyage records are incomplete.\n\nThe enslaved did not consent to this and never stopped saying so. Bussa's rebellion in April 1816 was crushed in four days; several hundred people were killed in the fighting, executed afterwards, or shipped off the island. Fifteen years later, in Jamaica, Sam Sharpe led {{fig:jamaica-1831}} people out of the fields. Abolition came after these, not before them, and the order matters more than the dates.\n\nThen the money. When slavery ended, the British Treasury paid compensation — {{fig:compensation-national}} nationally, about {{fig:compensation-barbados-money}} of it to Barbadian slave-owners for {{fig:compensation-barbados-people}} people. They received nothing, and were then required to work unpaid for four more years under a system called apprenticeship, which ran until 1838. The compensation was financed by a loan, and the loan was only fully repaid in 2015.\n\nBoth clauses stay in the sentence. Britain built the largest slave-trading operation of the eighteenth century, and Britain dismantled it, under pressure from the enslaved and from its own abolitionists. Abolition is a real achievement inside a system Britain made, and the accounting shows exactly whose achievement it was paid to.",
+      "sheetLine": "Sugar grown by enslaved people. They resisted throughout, and when it ended the {{fig:compensation-national}} went to the owners."
+    },
+    {
+      "id": "company",
+      "numeral": "II",
+      "title": "The Company",
+      "essay": "The second empire was not built by a government. It was built by a chartered monopoly with shareholders in London, and the mechanism it discovered is the single most useful thing in this atlas, because once you have it you can explain nearly everything that follows.\n\nThe East India Company was chartered on the last day of 1600 to trade. For a century and a half it did trade, from armed factories, on terms set by Mughal officials who could and did throw it out. What changed was not technology and it was not virtue. In 1757 at Plassey the Company beat the Nawab of Bengal, Siraj-ud-Daula, as much by buying his commanders as by shooting at them; Mir Jafar changed sides and became Nawab. In 1765 Robert Clive made the defeated Mughal emperor Shah Alam II grant the Company the diwani — the right to collect the land revenue of Bengal, Bihar and Orissa — while leaving the Nawab responsible for law, order and blame.\n\nNow follow the loop, because it is a loop and not a list. Revenue from Bengal pays for sepoys. Sepoys are used to take more territory. More territory yields more revenue, which pays for more sepoys. Each turn of it makes the next turn cheaper, and none of it requires a decision in London or a shilling of British tax. This is why the Company's army could reach roughly a quarter of a million men, and why that army was overwhelmingly Indian, commanded by a small British officer corps, and paid for by Indian land revenue. Conquest, in other words, was largely funded and largely carried out by the conquered.\n\nBreak any link and the machine stops. That is not a rhetorical flourish; it is what happened. In 1857 the sepoys of the Bengal Army mutinied at Meerut and marched on Delhi, where they proclaimed Bahadur Shah Zafar their sovereign, and rule wobbled within weeks across northern India. The British state put the rebellion down and then abolished the Company: the Government of India Act of 1858 moved its territory to the Crown. A rebellion produced a nationalisation. The mechanism a student should carry out of this chapter is not 'Britain conquered India'. It is: a company found that taxing a province paid better than trading with it, and spent the proceeds on soldiers who took the next one.",
+      "sheetLine": "A chartered company found that taxing Bengal paid better than trading with it: revenue → sepoys → conquest → revenue."
+    },
+    {
+      "id": "imperial",
+      "numeral": "III",
+      "title": "The imperial empire",
+      "essay": "The third empire is the one the poster was made for, and it is the one that most rewards asking what a colour actually means. Take Egypt. Britain invaded in 1882, defeated Ahmad Urabi's army, and occupied the country to protect the Suez Canal and the European bondholders who owned Egypt's debt. It then stayed for seventy-four years without ever annexing it. Between 1882 and 1956 Egypt was, in sequence, an occupied but nominally Ottoman province, a formal protectorate from 1914, a nominally independent kingdom from 1922 with British troops in it and four subjects reserved to Britain, and finally the country that took the canal back. One place, four labels, and on the poster it is one colour or none.\n\nThe second thing this empire did was to distribute self-government by race and then explain the distribution in other terms. The Durham Report of 1839 produced responsible government in Canada; Canada federated in 1867, Australia in 1901, New Zealand in 1907, South Africa in 1910, and the Balfour formula of 1926 and the Statute of Westminster of 1931 turned the settler colonies into dominions that Britain could not legislate for. Across exactly the same decades, Indian and African subjects who asked for the same thing were told they were not yet ready. This atlas records for every span who could actually vote, which is the field that makes the pattern impossible to miss: an elected assembly in one colony and a nominated council in another, in the same year, under the same Crown.\n\nAnd the third thing is what happened when people asked anyway. On 13 April 1919 at Jallianwala Bagh in Amritsar, troops under Brigadier-General Dyer fired for about ten minutes into a crowd penned in a walled garden with few exits. The official Hunter Commission counted 379 dead and about 1,200 wounded; Indian estimates were considerably higher, and the disagreement is about who was allowed to count. Dyer was relieved of command, and a public subscription in Britain raised a large sum in his honour. That last sentence is the one that changed Indian opinion, and it is the reason the 1920s belong to Congress and not to the Government of India Act.",
+      "sheetLine": "Industry, steam and fear for the routes to India. Self-government by race; Amritsar when subjects asked anyway."
+    },
+    {
+      "id": "dissolution",
+      "numeral": "IV",
+      "title": "Dissolution",
+      "essay": "Empires do not usually end because someone decides they should. This one ended because the people it ruled had organised for decades and because Britain ran out of money, and the two are connected: an empire that has to be held by force is an empire whose accounts have stopped working.\n\nThe date to start from is not 1947. It is 15 February 1942, when about {{fig:singapore-surrender}} troops surrendered Singapore to a smaller Japanese force. Asian rule had rested on a claim of invincibility that was now demonstrably false, in front of the people it was meant to impress. Within six months the Quit India movement had begun; within a year Subhas Chandra Bose was raising the Indian National Army from prisoners of that same surrender. Meanwhile {{fig:india-ww2-volunteers}} Indians volunteered for the British side — the largest volunteer army in history — and hundreds of thousands of African soldiers fought in Burma and East Africa. These were imperial world wars fought largely by colonial soldiers, and the bill for them is one reason the empire ended.\n\nWhat followed was not a handover. India and Pakistan became independent on 15 August 1947, after six decades of organised campaigning, mass civil disobedience from 1920, and mutinies in the Royal Indian Navy in 1946; Britain set the date and drew the border but did not choose whether to go. The border was drawn in about five weeks by Cyril Radcliffe, who had never been to India, and published two days after independence. Somewhere {{fig:partition-displaced}} people fled across it; estimates of the dead run {{fig:partition-dead}}, because no one counted.\n\nAnd where Britain thought it could win, it fought. Malaya from 1948, Kenya from 1952, Cyprus from 1955, Aden from 1963. In Kenya tens of thousands of Kikuyu people were detained, over a thousand were hanged, and much of the rural population was moved into guarded villages; in 2011 the Foreign Office admitted holding thousands of hidden colonial files at Hanslope Park, and in 2013 the British government paid {{fig:mau-mau-settlement}} to {{fig:mau-mau-claimants}} Kenyan claimants. 1947 removed most of the empire's people in a single day and almost none of its territories. The fighting was mostly still ahead.",
+      "sheetLine": "Singapore 1942 broke the prestige; organised anticolonial politics and bankruptcy did the rest; Britain fought where it thought it could win."
+    },
+    {
+      "id": "after",
+      "numeral": "V",
+      "title": "It is not finished",
+      "essay": "The story ends; the history does not. Hong Kong went back to China on 1 July 1997, and that is the last large populated territory to leave — but it left on a clock, not on a principle: the New Territories were leased for ninety-nine years in 1898 and the lease ran out. Nothing about the affordability argument that explains India, or the counter-insurgency argument that explains Kenya, explains Hong Kong. A model that explains everything is usually a model that has stopped being checked.\n\nWhat is still there is smaller and stranger. This atlas still draws places whose British status has no end date, and if you count them you get a bigger number than the fourteen British Overseas Territories you will read about, because the atlas also counts the United Kingdom itself, the Crown Dependencies, and Cyprus, where two Sovereign Base Areas remained British when the rest of the island did not. That discrepancy is not a bug to be tidied away. It is the answer to the question 'how many are left', which turns out to depend on what you are willing to count — which is the same question the definition switch has been asking since minute one.\n\nSome of it is contested now, in courts. The Chagos Archipelago was detached from Mauritius in 1965 and its people removed so that Diego Garcia could become an American base; the International Court of Justice gave an advisory opinion against Britain in 2019. Some of it is being settled: the Kenyan payment in 2013, the Windrush compensation scheme, the slow work of museums over objects taken by force. And some of it is simply arithmetic that nobody expected — the loan that financed the 1835 compensation to slave-owners was only fully repaid by British taxpayers in 2015, which means that people alive today were paying off the compensation paid to the owners rather than to the owned.\n\nSo the last thing to take away is not a verdict. It is a habit: ask what year exactly, ask what the colour means, ask who counted and who was allowed to. Those three questions work on any imperial map, including the ones that are not about Britain.",
+      "sheetLine": "Fourteen Overseas Territories, or more, depending on what you count. Chagos is still in court and the 1835 loan was repaid in 2015."
+    }
+  ],
+  "beats": [
+    {
+      "id": "poster",
+      "n": 1,
+      "chapter": "poster",
+      "mark": "00:00",
+      "t": "T1",
+      "mislead": "what the colour means",
+      "$mislead": "DIDACTIC_SPEC \u00a78, LESSON ONE beat 1: the door promises three things about the poster and must promise only what the route it opens delivers. The three are the `poster` beat\u2019s own closing question \u2014 \u201cwhat projection, what does the colour mean, what year exactly?\u201d \u2014 and each is ANSWERED by one beat, so `budget.js::misleads()` counts them off the route rather than trusting a sentence.",
+      "lo": "LO4",
+      "misconception": "M4",
+      "kind": "predict",
+      "cost_s": 93,
+      "core": true,
+      "ledeMark": "1921",
+      "say": "<strong>How many kinds of British rule</strong> are painted on this poster? Guess before you look.",
+      "actor": {
+        "name": "Saad Zaghlul",
+        "side": "local",
+        "role": "Egyptian nationalist leader whom Britain deported to Malta in 1919; while this map was being printed he was demanding to know which of its colours Egypt actually was."
+      },
+      "map": {
+        "year": 1921,
+        "def": "claimed",
+        "proj": "mercator",
+        "layer": "status"
+      },
+      "panel": {
+        "title": "One colour, or more?",
+        "question": "The poster used one pink for everything. This atlas paints the same year by legal status. (The ribbon at the foot groups statuses into families, so counting swatches gives too few.) How many distinct legal forms of British rule is it drawing at 1921?",
+        "input": {
+          "type": "number",
+          "min": 1,
+          "max": 20,
+          "placeholder": "1",
+          "unit": "kinds of rule",
+          "hint": "1 to 20. Nothing is scored: the point is a number of your own to be wrong against."
+        },
+        "answerFrom": "statusCount",
+        "reveal": "The pink map was a poster, not a description. A crown colony, a protectorate, a protected state, a lease, a mandate and a company charter are not shades of one thing: different courts, different taxes, different people allowed to vote. Ask three things of any imperial map — what projection, what does the colour mean, what year exactly?"
+      },
+      "words": 143,
+      "answer": {
+        "expected": "Far more than anyone guesses, and the number is computed, not asserted: the panel prints the distinct legal statuses this atlas actually draws at 1921 under “claimed”, and lists every one it counted. Sixteen on the current dataset. The teaching point is not the number — a crown colony, a protectorate, a protected state, a lease, a mandate and a company charter are different things, with different courts, different taxes and different people allowed to vote.",
+        "commonWrong": "One — the poster is one colour, so most classes say one, or two after a prompt. Nobody guesses double figures unaided. Watch also for a class that counts the swatches along the foot of the map: the ribbon groups statuses into colour families, so counting swatches gives a smaller number, and the panel says so under its own answer."
+      },
+      "fit": "map",
+      "fitAfter": "text",
+      "$fit": "The pink 1921 poster IS the question — \"how many kinds of rule are painted on this?\" — so the plate keeps the band until the guess is in. `fitAfter` then hands the band to the reveal, which is 1,096px of prose and a counted list of every status, and was being read through a 128px window: 8.6 screenfuls, the worst measured anywhere on the path at 390x844."
+    },
+    {
+      "id": "spine",
+      "n": 2,
+      "chapter": "poster",
+      "mark": "00:02",
+      "t": "T1",
+      "mislead": "what projection it is",
+      "$mislead": "DIDACTIC_SPEC \u00a78, LESSON ONE beat 1: the door promises three things about the poster and must promise only what the route it opens delivers. The three are the `poster` beat\u2019s own closing question \u2014 \u201cwhat projection, what does the colour mean, what year exactly?\u201d \u2014 and each is ANSWERED by one beat, so `budget.js::misleads()` counts them off the route rather than trusting a sentence.",
+      "lo": "LO1",
+      "kind": "sweep",
+      "cost_s": 83,
+      "core": true,
+      "ledeMark": "1600 – 1997",
+      "say": "Four empires, not one, each with its own engine. Watch them arrive and go.",
+      "actor": {
+        "name": "Kwame Nkrumah",
+        "side": "local",
+        "role": "co-organised the Fifth Pan-African Congress in Manchester in 1945, at the moment the fourth band on this bar was starting; led Ghana to independence in 1957."
+      },
+      "map": {
+        "year": 1600,
+        "def": "claimed",
+        "proj": "equal-earth",
+        "$proj": "ROUND 9, the phone critic, and it is DIDACTIC_SPEC §8’s third strand of M4/LO4: “the only projection instruction in tours.json is poster.map.proj = 'mercator', and no beat on any of the five routes ever redraws in equal-area. The door promises ‘Three things about this map mislead. You will find all three in about 25 minutes’; the guided path demonstrates the colour and the year and only NAMES the projection.” True. The poster beat tells the student to “ask three questions of any imperial map: what projection, what does the colour mean, and what year exactly?” and the path then answers two of them. This is the third, answered the way the other two are — on the plate, in front of them, at the one step where the plate is already the whole argument, and on EVERY route, because `spine` is on every route. `map/index.js` calls this projection 'equal-earth' and its own byline calls it 'equal-area'; the panel uses the byline’s word. Mercator is restored on the next beat of every route (`barbados` on core/thirty/sixty, `resistance` on period, `revenue-loop` on eight) because the rest of this atlas’s plate geometry — label collision, the fly-to zooms, the peek strip — is calibrated for mercator, and because the demonstration is the point rather than a change of house projection. The P key and “Other ways to draw this” keep it available for good afterwards."
+      },
+      "panel": {
+        "title": "Four engines, not one line",
+        "body": [
+          "One 1600→1997 line teaches an empire that got bigger and then smaller. It was not one thing. The bands below overlap on purpose: in 1820 three engines run at once.",
+          "<strong>I. The Atlantic</strong> — sugar, tobacco and cotton grown by enslaved Africans on land taken from Indigenous peoples.",
+          "<strong>II. The Company</strong> — a chartered monopoly that found land revenue was worth more than trade.",
+          "<strong>III. The imperial empire</strong> — industry needing markets, steam shrinking distance, fear for the routes to India.",
+          "<strong>IV. Dissolution</strong> — anticolonial parties older than the wars, a bankrupt Britain, and counter-insurgencies that lost anyway.",
+          "<strong>And the map just redrew.</strong> The poster was Mercator, which inflates everything far from the equator. This is equal-area: same claims, honest sizes."
+        ]
+      },
+      "words": 164,
+      "answer": {
+        "expected": "Four engines, not one line: an Atlantic empire on sugar and slavery, a company empire on Bengal’s land tax, an imperial empire on markets and the routes to India, and a dissolution.",
+        "commonWrong": "That it grew steadily and then shrank steadily. The peak is after 1918, which is the thing the sweep is for."
+      },
+      "fit": "map",
+      "fitAfter": "text",
+      "$fit": "A 1600→1997 sweep with four bands lighting under it. The plate is the argument for twenty-five seconds; when the sweep stops, the four engines are four paragraphs and `fitAfter` gives them the band."
+    },
+    {
+      "id": "barbados",
+      "n": 3,
+      "chapter": "atlantic",
+      "mark": "00:05",
+      "t": "T2",
+      "lo": "LO5",
+      "kind": "present",
+      "cost_s": 83,
+      "onPath": {
+        "id": "flow",
+        "t": "T3",
+        "$t": "which of DIDACTIC_SPEC §3's twenty this counted figure teaches, as against the one the beat's own prose carries. `barbados` states T2 in words and draws T3 — embarked against landed — in the chart the viz module mounts inside it, and §3 names that chart as T3's hook. tours/budget.js::mustStick() counts both, so a route that carries this beat reaches two items and a route that drops it loses two.",
+        "words": 537,
+        "guessWords": 130,
+        "$words": "the words this figure puts on screen across its question and its reveal, measured on the running app by tools/scenarios/w7-figs.js"
+      },
+      "core": true,
+      "ledeMark": "1655",
+      "say": "Barbados, 1627: eighty settlers on an island already emptied by slave raiders.",
+      "actor": {
+        "name": "the Kalinago of Ichirouganaim",
+        "side": "local",
+        "role": "the island's people, named here by the name they used for it. Slave raiding had killed or carried them off a century before the English arrived — which is why this beat can name a people and not a person."
+      },
+      "map": {
+        "year": 1655,
+        "sel": "barbados",
+        "flyTo": "barbados",
+        "zoom": 6,
+        "def": "claimed",
+        "proj": "mercator"
+      },
+      "panel": {
+        "title": "Three islands, three crops",
+        "from": "barbados",
+        "body": [
+          "Virginia took tobacco in 1607. Barbados took sugar after 1640. Jamaica was taken from Spain by an English fleet in 1655 — a conquest, not a settlement.",
+          "Sugar is not a crop you grow, it is a factory you run: land in blocks, capital for mills and boiling houses, and labour in gangs, at a pace that killed. So the planters bought people.",
+          "\"'Uninhabited in 1627' is true; 'never inhabited' is false, and the difference is the whole point.\" — this atlas's own note on the Barbados record."
+        ],
+        "quote": {
+          "field": "acquisitions[0].how",
+          "territoryId": "barbados"
+        },
+        "note": "Where we know an enslaved or colonised person's name, this atlas uses it. Where we do not, the anonymity is a consequence of the record-keeping being described, not of the person."
+      },
+      "words": 175,
+      "answer": {
+        "expected": "Sugar. Barbados was the model: a small island, one crop, and an enslaved majority by 1660.",
+        "commonWrong": "Tobacco or cotton. Both were grown; neither produced the plantation system the other islands copied."
+      },
+      "fit": "text",
+      "$fit": "Flies to one island. Three islands and three crops are a comparison made in the panel; the strip keeps Barbados visible while it is read."
+    },
+    {
+      "id": "resistance",
+      "n": 4,
+      "chapter": "atlantic",
+      "mark": "00:07",
+      "t": "T4",
+      "lo": "LO5",
+      "misconception": "M8",
+      "kind": "tension",
+      "cost_s": 104,
+      "core": true,
+      "gateAfter": "g1",
+      "ledeMark": "1831–32",
+      "say": "A woman in London, a man on a Jamaican gallows. Set them against each other.",
+      "actor": {
+        "name": "Mary Prince",
+        "side": "local",
+        "role": "born enslaved in Bermuda, sold through the Turks Islands salt ponds to Antigua, and in London by 1828 — the first Black woman to publish an account of her own life in Britain.",
+        "territoryId": "bermuda"
+      },
+      "map": {
+        "year": 1831,
+        "sel": "jamaica",
+        "flyTo": "jamaica",
+        "zoom": 6,
+        "proj": "mercator"
+      },
+      "panel": {
+        "title": "A woman’s book and a man’s gallows",
+        "from": "jamaica",
+        "body": [
+          "Tacky’s Revolt, Jamaica 1760. The Haitian Revolution from 1791, which defeated a British invasion. Barbados 1816, under Bussa. Demerara 1823. And in December 1831 the Baptist War in western Jamaica, led by the deacon Samuel Sharpe, with {{fig:jamaica-1831}} people out of the fields. Every one of these is <em>before</em> the 1833 Act."
+        ],
+        "tension": {
+          "event": "In the same eighteen months two people said in public what slavery was. Mary Prince dictated her life in London and the Anti-Slavery Society printed it; Samuel Sharpe led a rising, lost, and was hanged at Montego Bay on 23 May 1832. Neither reaches us in the speaker’s own hand.",
+          "ask": "Before you read either: what was each placed to know, and what were the words for? Two of the four have an answer the documents settle. Two do not.",
+          "a": {
+            "src": "mary-prince-1831",
+            "who": "Mary Prince",
+            "stands": "enslaved in three colonies, dictating in London while the bill was argued",
+            "knew": {
+              "ask": "What was Mary Prince placed to know?",
+              "options": [
+                {
+                  "id": "a-k1",
+                  "label": "What enslavement in Bermuda, the salt ponds and Antigua was — she lived all three."
+                },
+                {
+                  "id": "a-k2",
+                  "label": "How many people took part in the Jamaican rising of 1831."
+                },
+                {
+                  "id": "a-k3",
+                  "label": "What the planters were telling Parliament in their petitions."
+                }
+              ],
+              "settles": {
+                "option": "a-k1",
+                "because": "She was enslaved in Bermuda, hired out to the Turks Islands salt ponds and sold to Antigua: her own life, and the book is about it. She had never been to Jamaica."
+              }
+            },
+            "wanted": {
+              "ask": "What was her book for?",
+              "options": [
+                {
+                  "id": "a-w1",
+                  "label": "To be admired as writing."
+                },
+                {
+                  "id": "a-w2",
+                  "label": "To carry emancipation through Parliament — and to win her own freedom, which English law refused her."
+                },
+                {
+                  "id": "a-w3",
+                  "label": "To raise money and arms for a Caribbean rising."
+                }
+              ]
+            }
+          },
+          "b": {
+            "src": "sharpe-gallows-1832",
+            "who": "Samuel Sharpe",
+            "stands": "in Montego Bay gaol the week before his execution, quoted by a missionary twenty-one years later",
+            "knew": {
+              "ask": "What was Sharpe placed to know when he said it?",
+              "options": [
+                {
+                  "id": "b-k1",
+                  "label": "That the rising had failed and he would hang for it."
+                },
+                {
+                  "id": "b-k2",
+                  "label": "That Parliament would abolish slavery within eighteen months."
+                },
+                {
+                  "id": "b-k3",
+                  "label": "What the Anti-Slavery Society was publishing in London."
+                }
+              ]
+            },
+            "wanted": {
+              "ask": "What did Henry Bleby, the missionary who wrote it down, want from printing it in 1853?",
+              "options": [
+                {
+                  "id": "b-w1",
+                  "label": "To defend the missionaries, and to argue that enslaved people ended slavery themselves."
+                },
+                {
+                  "id": "b-w2",
+                  "label": "To give an exact transcript of what Sharpe said."
+                },
+                {
+                  "id": "b-w3",
+                  "label": "To argue that abolition had been a mistake."
+                }
+              ],
+              "settles": {
+                "option": "b-w1",
+                "because": "Bleby was a Wesleyan missionary whom planters had tarred for supposedly stirring up the rising. <em>Death Struggles of Slavery</em> (1853) has that charge to answer, and quotes the sentence to argue that enslaved people ended slavery themselves."
+              }
+            }
+          },
+          "explains": {
+            "ask": "Which explains more about why Parliament passed the Abolition Act in 1833?",
+            "options": [
+              {
+                "id": "x-a",
+                "label": "Prince’s. It made slavery unspeakable in Britain while the bill was argued."
+              },
+              {
+                "id": "x-b",
+                "label": "Sharpe’s. It made slavery expensive and dangerous to run, and Parliament knew it."
+              },
+              {
+                "id": "x-both",
+                "label": "Neither alone. Prince explains the politics in Britain; Sharpe the pressure from Jamaica."
+              }
+            ]
+          },
+          "judgement": "The other two are judgements, not facts. What a book was <em>for</em> is read off the whole document and the situation that made it, and one reading can beat another without either being right.",
+          "reveal": "That is what a historian does with two documents, and it is not “which is more reliable”. It is: what was each placed to know, what were the words for, which explains more. Below is this atlas’s record of both.",
+          "close": "Abolition was not granted to a quiet population. It was conceded to one that had made the system expensive and dangerous to run — and argued for in Britain by the largest mass petition campaign to that date, with Prince’s book in the middle of it. Both clauses stay in the sentence. What Parliament did with the money is next."
+        }
+      },
+      "words": 348,
+      "answer": {
+        "expected": "Prince knew what enslavement in Bermuda, the salt ponds and Antigua was, because she lived it. Bleby printed Sharpe’s words to defend the missionaries and to argue that enslaved people ended slavery themselves. Which explains more is arguable; the strongest answer takes both.",
+        "commonWrong": "That Sharpe’s words are a transcript. They reach us through one missionary’s memory across twenty-one years, and the chain is the point."
+      },
+      "fit": "text",
+      "$fit": "Two documents set against each other. The plate is Jamaica and does not change."
+    },
+    {
+      "id": "compensation",
+      "recallAfter": {
+        "id": "t3-middle-passage",
+        "t": "T3",
+        "year": 1780,
+        "sel": "barbados",
+        "mark": "the crossing, again",
+        "say": "The crossing again. You put a number on that chart earlier; give it back from memory before we leave the Atlantic."
+      },
+      "n": 5,
+      "chapter": "atlantic",
+      "mark": "00:09",
+      "t": "T5",
+      "lo": "LO5",
+      "misconception": "M8",
+      "kind": "retrieve",
+      "cost_s": 111,
+      "core": true,
+      "ledeMark": "1836",
+      "say": "<strong>{{fig:compensation-barbados-money}}</strong> paid to Barbadian slave-owners for {{fig:compensation-barbados-people}} people. They got nothing.",
+      "actor": {
+        "name": "Sam Sharpe",
+        "side": "local",
+        "role": "Baptist deacon who led the 1831–32 rising in Jamaica and was hanged for it in 1832 — fourteen months before the Abolition Act."
+      },
+      "map": {
+        "year": 1838,
+        "sel": "barbados"
+      },
+      "panel": {
+        "title": "Put these in order",
+        "from": "barbados",
+        "order": [
+          {
+            "id": "trade",
+            "year": 1807,
+            "label": "Parliament ends the British slave trade",
+            "driver": "It freed nobody already enslaved: trafficking stopped, slavery did not."
+          },
+          {
+            "id": "bussa",
+            "year": 1816,
+            "label": "Bussa's rebellion in Barbados",
+            "driver": "Resistance comes before abolition, not after. That is why they share an axis."
+          },
+          {
+            "id": "act",
+            "year": 1834,
+            "label": "The Abolition Act takes effect",
+            "driver": "1 August 1834 — and it imposed four more years of unpaid 'apprenticeship'."
+          },
+          {
+            "id": "money",
+            "year": 1836,
+            "label": "{{fig:compensation-barbados-money}} paid to Barbadian slave-owners",
+            "driver": "For {{fig:compensation-barbados-people}} people. The national bill was {{fig:compensation-national}} — about two fifths of Treasury spending that year."
+          },
+          {
+            "id": "free",
+            "year": 1838,
+            "label": "Apprenticeship ends; full freedom",
+            "driver": "1 August 1838. Four years of unpaid labour after the Act remembered as the end."
+          }
+        ],
+        "reveal": "Compensation to owners: {{fig:compensation-barbados-money}}. Compensation to the {{fig:compensation-barbados-people}} people freed: £0. The national bill was {{fig:compensation-national}}, financed by borrowing that was only finally redeemed in {{fig:compensation-loan-2015}}."
+      },
+      "words": 154,
+      "answer": {
+        "expected": "1807 trade, 1816 Bussa, 1834 Act, 1836 the money, 1838 full freedom. Resistance is before abolition, and the {{fig:compensation-national}} went to owners.",
+        "commonWrong": "Putting 1834 last, or assuming abolition freed people at once — apprenticeship ran four more years."
+      },
+      "fit": "text",
+      "$fit": "Five events to put in order. The work is entirely in the panel."
+    },
+    {
+      "id": "who-took-bengal",
+      "n": 6,
+      "chapter": "company",
+      "mark": "00:10",
+      "t": "T6",
+      "lo": "LO3",
+      "misconception": "M2",
+      "kind": "predict",
+      "cost_s": 78,
+      "core": true,
+      "ledeMark": "1757",
+      "say": "Who took Bengal? Commit to an answer before the record opens.",
+      "actor": {
+        "name": "Siraj-ud-Daula",
+        "side": "local",
+        "role": "Nawab of Bengal, who stormed Calcutta in 1756 and was betrayed and killed after Plassey in 1757."
+      },
+      "map": {
+        "year": 1757,
+        "sel": "bengal-presidency",
+        "flyTo": "bengal-presidency",
+        "zoom": 4,
+        "def": "claimed"
+      },
+      "panel": {
+        "title": "Who conquered Bengal?",
+        "question": "In 1757 an army beat the Nawab of Bengal at Plassey. Whose army was it?",
+        "input": {
+          "type": "choice",
+          "choices": [
+            {
+              "id": "navy",
+              "label": "The Royal Navy"
+            },
+            {
+              "id": "army",
+              "label": "The British Army"
+            },
+            {
+              "id": "company",
+              "label": "A London shareholder company",
+              "correct": true
+            },
+            {
+              "id": "parliament",
+              "label": "Parliament"
+            }
+          ]
+        },
+        "reveal": "The East India Company — chartered on 31 December 1600, a private firm with an army. It won at Plassey by buying the Nawab's commanders as much as by shooting: Mir Jafar changed sides and became Nawab. The British state did not take over for another hundred and one years, and only then because of a rebellion."
+      },
+      "words": 101,
+      "answer": {
+        "expected": "A London shareholder company. The East India Company won at Plassey in 1757; the Crown did not take over for another hundred and one years.",
+        "commonWrong": "The British Army or the Royal Navy. Most classes say one of the two, because “Britain took India” is how it is usually told."
+      },
+      "fit": "text",
+      "$fit": "A committed guess before the record opens. Bengal in a strip is still Bengal."
+    },
+    {
+      "id": "revenue-loop",
+      "n": 7,
+      "chapter": "company",
+      "mark": "00:12",
+      "t": "T7",
+      "lo": "LO3",
+      "misconception": "M2",
+      "kind": "loop",
+      "cost_s": 171,
+      "onPath": {
+        "id": "dots:army",
+        "t": "T8",
+        "words": 362,
+        "guessWords": 116,
+        "$words": "the words this figure puts on screen across its question and its reveal, measured on the running app by tools/scenarios/w7-figs.js"
+      },
+      "core": true,
+      "gateAfter": "g2",
+      "ledeMark": "12 August 1765",
+      "say": "The diwani: the right to tax Bengal. Step the loop it started, then cut it.",
+      "actor": {
+        "name": "Shah Alam II",
+        "side": "local",
+        "role": "the Mughal emperor Clive made grant the Company the diwani of Bengal, Bihar and Orissa — and who lost, in this atlas's words, 'the revenue of the richest province in Asia, and any means of raising an army with it'."
+      },
+      "map": {
+        "year": 1765,
+        "sel": "bengal-presidency",
+        "flyTo": "bengal-presidency",
+        "zoom": 4,
+        "proj": "mercator"
+      },
+      "panel": {
+        "title": "revenue → sepoys → conquest → revenue",
+        "from": "bengal-presidency",
+        "steps": [
+          {
+            "id": "diwani",
+            "label": "The diwani, 1765",
+            "text": "Clive makes the defeated emperor grant the Company the right to collect the land revenue of Bengal, Bihar and Orissa — while leaving the Nawab responsible for law, order and blame."
+          },
+          {
+            "id": "revenue",
+            "label": "Revenue",
+            "text": "Bengal's land tax now belongs to a company. It costs London nothing and Parliament votes on none of it."
+          },
+          {
+            "id": "sepoys",
+            "label": "Sepoys",
+            "text": "The revenue pays soldiers. By the 1850s the Company's army is roughly a quarter of a million men, overwhelmingly Indian, under a small British officer corps."
+          },
+          {
+            "id": "conquest",
+            "label": "Conquest",
+            "text": "Those soldiers take the next province. Conquest is largely funded and largely carried out by the conquered."
+          },
+          {
+            "id": "more",
+            "label": "More revenue",
+            "text": "The new province's land tax pays for more soldiers. Each turn makes the next turn cheaper. Nothing in the loop requires a decision in London."
+          }
+        ],
+        "cut": {
+          "label": "Cut Bengal's revenue",
+          "stallsAt": "sepoys",
+          "text": "With no Bengal revenue there is no standing Indian army to pay for, and no conquest to fund the next one. Not a thought experiment: in 1857 the sepoys of the Bengal Army mutinied at Meerut and marched on Delhi, and rule wobbled across northern India within weeks. Break the collaboration and the machine stops. The British state put it down and abolished the Company — the Government of India Act, 1858."
+        },
+        "body": [],
+        "famineCite": "hastings-revenue-1772",
+        "tail": [
+          "And here is what the loop does when the harvest fails. The Bengal famine of 1769–70 killed {{fig:bengal-1770-deaths}} — a range that wide because nobody counted, so every figure is an estimate made by somebody with a reason to make it. What is not in dispute is what the Company did while it happened. Its own Governor wrote to London two years later that the revenue had not fallen, and said why: it was “violently kept up to its former standard”. The tax was held through the famine.",
+          "That is the shape of every famine in this atlas. Ireland 1845–52: {{fig:ireland-famine}}, inside the United Kingdom, with food leaving the ports and the Treasury official in charge of relief calling the real problem “the moral evil of the selfish, perverse and turbulent character of the people”. India 1876–78 and 1896–1902: millions dead under Famine Codes. Bengal 1943: {{fig:bengal-1943-deaths}} dead on one of the world’s largest railway networks. Amartya Sen’s <em>Poverty and Famines</em> (1981) is the anchor: people starve when they can no longer afford food, not only when there is none."
+        ]
+      },
+      "words": 381,
+      "answer": {
+        "expected": "The loop breaks when the revenue base fails — which is why 1770 and 1857 both matter. Revenue pays sepoys, sepoys take the next province, the next province pays.",
+        "commonWrong": "That the army was British. Most of it was Indian and paid out of Indian land tax, which is the whole argument."
+      },
+      "fit": "text",
+      "$fit": "The loop figure has to be seen whole, and it is in the panel.",
+      "$recallAfter": "REMOVED, wave 9. DIDACTIC_SPEC §3.1: “The t16-bengal-1943 recall that currently fires on a route teaching no famine is exactly the defect §3.2 forbids and must be removed.” No beat in this file carries T16 as its payload, so every route that scheduled this recall was asking for a first encounter and calling it a second — while the step before it had just printed the Bengal 1943 figure in the loop's own tail, so the two surfaces contradicted each other one press apart."
+    },
+    {
+      "id": "nationalisation",
+      "n": 8,
+      "chapter": "company",
+      "mark": "00:15",
+      "t": "T9",
+      "lo": "LO3",
+      "kind": "present",
+      "cost_s": 185,
+      "core": true,
+      "ledeMark": "1 November 1858",
+      "say": "1857: the loop broke, and the state took over what the company had taken.",
+      "actor": {
+        "name": "Begum Hazrat Mahal",
+        "side": "local",
+        "role": "held Lucknow through the rebellion and led Awadh's resistance into 1859; she refused the amnesty Victoria's proclamation offered and died in exile in Nepal."
+      },
+      "map": {
+        "year": 1857,
+        "proj": "mercator",
+        "$proj": "MERCATOR IS RESTORED ON THE NEXT BEAT OF EVERY ROUTE, and on Lesson Two this is that beat. `spine` redraws the map in equal-area to deliver the projection mislead rather than name it; `barbados`, `resistance` and `revenue-loop` restore it on the routes where one of them follows the spine, and until wave 10 nothing did on `lesson-two`, where `nationalisation` is step 2 — so a whole lesson ran in a projection the rest of this atlas's plate geometry is not calibrated for (label collision, the fly-to zooms, the peek strip). `tools/scenarios/w9-proj.js` P4 says so on every route.",
+        "sel": "british-india",
+        "flyTo": "british-india",
+        "zoom": 3,
+        "layer": "status"
+      },
+      "panel": {
+        "title": "Press 1857, then 1859",
+        "from": "british-india",
+        "years": [
+          1764,
+          1800,
+          1857,
+          1859,
+          1900
+        ],
+        "body": [
+          "In May 1857 sepoys of the Bengal army mutinied at Meerut, marched on Delhi and proclaimed the last Mughal emperor, Bahadur Shah Zafar, their sovereign. Landholders, cultivators and rulers rose across the north, and Awadh fought on into 1859. It took Britain fourteen months, and Indian troops, to win.",
+          "So Parliament abolished the company. The Government of India Act of 2 August 1858 transferred the Company’s territories, its treasury and its army to the Crown, and Victoria’s proclamation was read at Allahabad on 1 November 1858. The army it handed over was about {{fig:company-army-1858}} men — down from a peak {{fig:bengal-army-peak-1857}} on the eve of 1857, because the mutinied Bengal regiments had been disbanded. Press the years above and the panel changes because the <em>dataset</em> changes: the same ground, a different legal person owning it.",
+          "Note what did not change. The revenue system stayed, the army stayed, the Indian officials stayed. The Company was not wound up until 1874, and its shareholders were paid off out of Indian revenue. The state did not conquer India in 1858; it took over from a company that had, and settled that company's bill with the money of the people it had conquered."
+        ],
+        "figures": [
+          {
+            "v": "258",
+            "l": "years of rule by a chartered company",
+            "note": "1600 charter to the 1858 Act"
+          },
+          {
+            "v": "800,000–10m",
+            "l": "estimates of the dead, 1857–59",
+            "note": "about 6,000 Europeans died; Indian deaths were never counted. The low figure covers fighting and reprisals, the high one the famine and epidemics that followed. This atlas calls it one of its most uncertain figures."
+          }
+        ],
+        "note": "Whether you call 1857 a mutiny, a rebellion or the first war of independence tells people where your textbook was printed. This atlas files it as a rebellion and says so."
+      },
+      "words": 314,
+      "answer": {
+        "expected": "The Act of 2 August 1858 moved the same ground from a company to the Crown. The revenue system, the army and the Indian officials stayed.",
+        "commonWrong": "That 1858 was the conquest of India. It was a change of owner after the conquest was done."
+      },
+      "fit": "text",
+      "$fit": "Press 1857, then 1859: the change is a status colour, which reads in a strip, and the argument is 320 words of panel."
+    },
+    {
+      "id": "princely",
+      "recallAfter": {
+        "id": "t7-loop",
+        "t": "T7",
+        "year": 1765,
+        "sel": "bengal-presidency",
+        "mark": "six minutes on",
+        "say": "The loop again, from memory. Put its four steps back in order."
+      },
+      "n": 9,
+      "chapter": "company",
+      "mark": "00:15",
+      "t": "T11",
+      "lo": "LO2",
+      "misconception": "M9",
+      "kind": "definition",
+      "cost_s": 92,
+      "core": true,
+      "ledeMark": "1909",
+      "say": "'British India' was never all of India. Change the word and the map loses land.",
+      "actor": {
+        "name": "Mir Osman Ali Khan",
+        "side": "local",
+        "role": "Nizam of Hyderabad, the largest princely state — a ruler under British paramountcy who kept his throne, his courts and his revenue, and lost his foreign policy."
+      },
+      "map": {
+        "year": 1909,
+        "sel": "british-india",
+        "flyTo": "british-india",
+        "zoom": 3,
+        "def": "claimed"
+      },
+      "panel": {
+        "title": "Press 2, then 1 again",
+        "definitionRun": [
+          {
+            "def": "claimed",
+            "gloss": "Everywhere Britain said was hers."
+          },
+          {
+            "def": "administered",
+            "gloss": "Only where British officials collected the revenue, ran the courts or named the government."
+          }
+        ],
+        "body": [
+          "{{fig:princely-states-count}} princely states covered {{fig:princely-share}} of the subcontinent's area at independence. Their rulers kept their thrones under British paramountcy; about a thousand covenanted officers of the Indian Civil Service administered the rest, over a population that passed {{fig:india-population}}.",
+          "Empire was mostly run by the colonised: Indian clerks, police, soldiers, revenue collectors and translators, and 565 rulers with treaties. Rule by a thousand Britons is not a demonstration of British capability. It is a demonstration of how much collaboration under duress the system required — and of how fast it wobbled when the collaboration broke.",
+          "A student who never sees the princely states cannot understand Partition."
+        ]
+      },
+      "words": 155,
+      "answer": {
+        "expected": "Two fifths of the subcontinent’s area was princely at independence — “British India” was never all of India. Press 2, then 1, and the map shrinks.",
+        "commonWrong": "That the pink covered everything. It is why Partition is unintelligible without the princely states."
+      },
+      "fit": "text",
+      "$fit": "The definition dial shrinks the drawn extent, and an extent shrinking reads in a strip at zoom 3. The dial, the reading and the number are all in the panel."
+    },
+    {
+      "id": "egypt",
+      "n": 10,
+      "chapter": "imperial",
+      "mark": "00:16",
+      "t": "T12",
+      "lo": "LO2",
+      "kind": "present",
+      "cost_s": 120,
+      "core": true,
+      "ledeMark": "1882",
+      "say": "Britain invaded Egypt for the canal and the bondholders — and stayed 74 years.",
+      "actor": {
+        "name": "Ahmad Urabi",
+        "side": "local",
+        "role": "Egyptian colonel whose nationalist movement against European control of Egypt's finances was the reason for the 1882 invasion; defeated at Tel el-Kebir and exiled to Ceylon."
+      },
+      "map": {
+        "year": 1882,
+        "sel": "egypt",
+        "flyTo": "egypt",
+        "zoom": 5
+      },
+      "panel": {
+        "title": "One place, four labels",
+        "from": "egypt",
+        "years": [
+          1882,
+          1914,
+          1922,
+          1936
+        ],
+        "body": [
+          "Watch the status line change while the borders do not. Egypt is the clearest proof in this atlas that a colour on a map is a legal claim, not a description of who obeyed whom.",
+          "The canal opened in 1869. Egypt borrowed to build it, could not service the debt, and by 1876 its finances were run by a European commission. Ahmad Urabi’s movement threatened that arrangement; Britain invaded in 1882 to protect it.",
+          "Four legal forms, one occupation. 1882: a veiled protectorate — no annexation, no treaty, an army. 1914: a formal protectorate, declared when Britain went to war with Egypt’s nominal sovereign, the Ottoman Sultan. 1922: independence, with four matters reserved to Britain. 1936: the Anglo-Egyptian Treaty, which pulled British forces out of Cairo and the Delta and concentrated them in the Canal Zone. The 1952 Free Officers’ coup changed who governed Egypt; it did not change Egypt’s legal relationship to Britain, which is why it is not one of the four.",
+          "The exit is later and it is two events, not one. Evacuation of the Canal Zone was agreed in October 1954 and completed on 13 June 1956. The Anglo-French invasion of October–November 1956 was a re-entry, and it failed. Britain never annexed Egypt, which is why it is easy to leave off a list of colonies, and why leaving it off would misdescribe seventy-four years."
+        ]
+      },
+      "words": 232,
+      "answer": {
+        "expected": "Four legal forms and one occupation: veiled protectorate 1882, protectorate 1914, independent-with-reservations 1922, and the 1936 treaty that moved the troops to the Canal Zone. Evacuation was completed on 13 June 1956; Suez in November was a re-entry.",
+        "commonWrong": "That 1952 changed Egypt’s relationship to Britain. It changed who governed Egypt."
+      },
+      "fit": "text",
+      "$fit": "Four legal labels over unchanged borders: what changes is the COLOUR, which is exactly what a 44px strip can still show, and the four labels are 232 words of panel. Measured: 579px of content in a 562px reading window — one screenful — against 4.5 screenfuls if the plate kept the band."
+    },
+    {
+      "id": "scramble",
+      "n": 11,
+      "chapter": "imperial",
+      "mark": "00:18",
+      "t": "T13",
+      "lo": "LO6",
+      "misconception": "M15",
+      "kind": "source",
+      "cost_s": 132,
+      "core": true,
+      "ledeMark": "1891",
+      "say": "Before this atlas tells you what a document is, write the four lines yourself.",
+      "actor": {
+        "name": "Lobengula Khumalo",
+        "side": "local",
+        "role": "king of the Ndebele, who put his mark to a mineral concession in October 1888 and wrote to Queen Victoria six months later to say he had been deceived about what was in it.",
+        "territoryId": "southern-rhodesia"
+      },
+      "map": {
+        "year": 1891,
+        "sel": "southern-rhodesia",
+        "flyTo": "southern-rhodesia",
+        "zoom": 4
+      },
+      "panel": {
+        "title": "Four lines you write first",
+        "from": "southern-rhodesia",
+        "body": [
+          "Between November 1884 and February 1885 fourteen powers met at Berlin and agreed the rules for claiming Africa. No African state was in the room. Article 35 required a claimant to establish authority in what it claimed — “effective occupation” — and that rule set the method: get a treaty or a concession from a ruler first, then send a column when the ruler objects.",
+          "It was neither quick nor unopposed. A British army was destroyed by the Zulu at Isandlwana in January 1879. The Asante fought Britain in four wars across seventy years. Ethiopia beat an Italian army at Adwa in 1896 and stayed independent. The borders on the 1914 map took twenty years of treaties and force to make true on the ground — which is why “the borders were drawn arbitrarily with a ruler” explains less than it sounds like. A line only matters where somebody could enforce it.",
+          "Here is one of those documents, seen from the far end of it."
+        ],
+        "source": {
+          "src": "lobengula-victoria-1889",
+          "lead": "Read it, then write the four lines this atlas writes about every document. Nothing is scored. When all four are written you get ours, beside yours.",
+          "fields": [
+            {
+              "id": "nature",
+              "label": "What kind of thing is it?",
+              "hint": "A speech, a law, a treaty, a private letter, a memoir written afterwards? Say what sort of document it is — not what it says."
+            },
+            {
+              "id": "origin",
+              "label": "Where did it come from?",
+              "hint": "Who made it, when, where — and through whose hands did it reach us?"
+            },
+            {
+              "id": "purpose",
+              "label": "What was it for?",
+              "hint": "What did the person making it want it to do, and to whom?"
+            },
+            {
+              "id": "cannot",
+              "label": "What can it NOT tell you?",
+              "hint": "Name one thing a historian could not learn from this text. “It is biased” is a shrug, not an answer."
+            }
+          ],
+          "reveal": "Now this atlas’s four lines, beside your own. Not a mark scheme: where you wrote something we did not, you found something; where we did, that is the question to ask of the next document you meet.",
+          "close": "Lobengula’s letter stopped nothing. The concession he repudiated was the legal basis of the British South Africa Company’s royal charter in 1889; the Company occupied Mashonaland in 1890 and defeated the Ndebele in 1893. What the letter is evidence of is not that the paperwork was honest. It is that the paperwork was contested, in writing, at the time, by the man whose mark was on it — which is the thing “they did not know any better” cannot survive.",
+          "second": {
+            "src": "salisbury-maps-1890",
+            "say": "One more, and it is the opposite kind of document. Lobengula wrote to protest; this man wrote — spoke, rather — to justify. The four questions are the same. Watch which of the four answers changes most.",
+            "offer": "Now one written to justify — the same four questions",
+            "lead": "Salisbury had just signed the Anglo-German Agreement of 1 July 1890, which traded Heligoland for British claims in East Africa and fixed borders across country no European had surveyed. This is him describing it, after dinner, to an audience at home. Write your four lines before you read ours.",
+            "close": "Purpose is the field that moves. Lobengula's letter was written to a monarch by a king who had been deceived, and it was meant to undo something; Salisbury's speech was made to his own public by the man who had just done it, and it was meant to make the doing sound charming. Both are honest about the facts and neither is disinterested — which is why “is it biased?” is the wrong question and “what was it for?” is the right one. Note also what the joke conceals: Salisbury names mountains, rivers and lakes, and never once names a person living between them."
+          }
+        }
+      },
+      "words": 311,
+      "hold": true,
+      "holdSay": "Write the four",
+      "holdHint": "Write the four lines about this document — or say you would rather read ours — before going on",
+      "answer": {
+        "expected": "A letter from one head of state to another, dictated in isiNdebele and written down by Europeans at Lobengula’s court in April 1889, in order to have the Rudd Concession set aside. It cannot tell you what was actually said at the signing.",
+        "commonWrong": "“It is biased.” That is a shrug. Push for what it cannot tell you that a historian would want: what happened in the room in 1888, and what the Shona polities thought."
+      },
+      "fit": "text",
+      "$fit": "The student writes four lines about Lobengula’s letter before the atlas shows its own. 2,297px of writing surface; the plate is a locator."
+    },
+    {
+      "id": "two-track",
+      "recallAfter": {
+        "id": "t8-army",
+        "t": "T8",
+        "year": 1857,
+        "sel": "bengal-presidency",
+        "mark": "from the loop, earlier",
+        "say": "The army the loop paid for. You put a number on the dot chart inside the loop; give its make-up back from memory."
+      },
+      "n": 11,
+      "chapter": "imperial",
+      "mark": "00:19",
+      "t": "T15",
+      "lo": "LO2",
+      "misconception": "M6",
+      "kind": "sort",
+      "cost_s": 107,
+      "core": true,
+      "gateAfter": "g3",
+      "ledeMark": "1913",
+      "say": "Same Crown, same year: some subjects got a parliament, others were told to wait.",
+      "actor": {
+        "name": "Dadabhai Naoroji",
+        "side": "local",
+        "role": "elected to the House of Commons in 1892 — the first Indian MP — and the author of the 'drain of wealth' argument he had been making since the 1860s."
+      },
+      "map": {
+        "year": 1913,
+        "def": "claimed",
+        "layer": "status"
+      },
+      "panel": {
+        "title": "Which of these had an elected legislature in 1913?",
+        "question": "Four places, one year, one Crown. Sort them. The answer is the <code>localLegislature</code> field this atlas records for every span, not our opinion.",
+        "sortFrom": "legislature1913",
+        "buckets": [
+          {
+            "id": "elected",
+            "label": "Its own elected legislature"
+          },
+          {
+            "id": "none",
+            "label": "No elected legislature"
+          }
+        ],
+        "reveal": "The Durham Report of 1839 produced responsible government in Canada; Canada federated in 1867, Australia in 1901, New Zealand in 1907, South Africa in 1910. Across the same decades, Indian and African subjects who asked for the same thing were told they were not yet ready. Race was the operative criterion, and this atlas records who could vote for every span so that the claim can be checked rather than believed."
+      },
+      "words": 140,
+      "answer": {
+        "expected": "Canada, Australia, New Zealand and the Cape got elected legislatures; India, Nigeria, Kenya and the Caribbean did not, at the same dates. Race is the operative criterion and the sources say so.",
+        "commonWrong": "That self-government came with time and development. The dates are simultaneous, which is what the sort shows."
+      },
+      "fit": "text",
+      "$fit": "Four places sorted into two buckets, in the panel."
+    },
+    {
+      "id": "two-in-tension",
+      "n": 13,
+      "chapter": "imperial",
+      "mark": "00:21",
+      "t": "T17",
+      "lo": "LO8",
+      "misconception": "M12",
+      "kind": "tension",
+      "cost_s": 273,
+      "core": true,
+      "ledeMark": "13 April 1919",
+      "say": "A walled garden with narrow exits. Two men wrote about it; set them against each other before you read either.",
+      "actor": {
+        "name": "Sir Chimanlal Setalvad",
+        "side": "local",
+        "role": "one of the three Indian members of the Hunter Committee, who signed a minority report dissenting from the majority — the disagreement about Amritsar started inside the inquiry itself.",
+        "territoryId": "punjab-province"
+      },
+      "map": {
+        "year": 1919,
+        "sel": "punjab-province",
+        "flyTo": "punjab-province",
+        "zoom": 7
+      },
+      "panel": {
+        "title": "Two men, one garden",
+        "from": "punjab-province",
+        "tension": {
+          "event": "On 13 April 1919, in a walled garden at Amritsar with a handful of narrow exits, troops under Brigadier-General Reginald Dyer fired for about ten minutes into a crowd that could not leave. The official inquiry counted {{fig:amritsar-official-dead}} dead; the Indian National Congress inquiry, counting from families rather than from official identification, counted about a thousand. Both men below wrote about it, and neither was writing to you.",
+          "ask": "Before you read a word either of them wrote: say what each was placed to know, and what each wanted from writing it down. Nothing is scored.",
+          "a": {
+            "src": "dyer-hunter-1920",
+            "who": "Dyer",
+            "stands": "the officer who gave the order, on oath, seven months later",
+            "knew": {
+              "ask": "What was Dyer in a position to know when he gave the order?",
+              "options": [
+                {
+                  "id": "a-k1",
+                  "label": "That the crowd was penned in and could not get out."
+                },
+                {
+                  "id": "a-k2",
+                  "label": "That the meeting was the beginning of an armed rising."
+                },
+                {
+                  "id": "a-k3",
+                  "label": "That his troops were outnumbered and in danger."
+                }
+              ],
+              "settles": {
+                "option": "a-k1",
+                "because": "The garden is walled, the exits are narrow, and Dyer told the Committee he would have used the armoured cars if they could have got through the entrance. He knew the crowd was penned: that is not a judgement about his character, it is in his own evidence."
+              }
+            },
+            "wanted": {
+              "ask": "What did Dyer want from his evidence to the committee?",
+              "options": [
+                {
+                  "id": "a-w1",
+                  "label": "To be believed that he had tried to avoid firing."
+                },
+                {
+                  "id": "a-w2",
+                  "label": "To defend the decision as deliberate deterrence."
+                },
+                {
+                  "id": "a-w3",
+                  "label": "To shift the responsibility on to his superiors."
+                }
+              ]
+            }
+          },
+          "b": {
+            "src": "tagore-knighthood-1919",
+            "who": "Tagore",
+            "stands": "a poet in Calcutta with a British knighthood, seven weeks later",
+            "knew": {
+              "ask": "What was Tagore in a position to know when he wrote?",
+              "options": [
+                {
+                  "id": "b-k1",
+                  "label": "What happened inside the garden — he had seen it."
+                },
+                {
+                  "id": "b-k2",
+                  "label": "That the Punjab was under martial law and he could not go there."
+                },
+                {
+                  "id": "b-k3",
+                  "label": "The official death toll, which had already been published."
+                }
+              ],
+              "settles": {
+                "option": "b-k2",
+                "because": "Martial law was proclaimed in the Punjab on 15 April and the province was sealed; Tagore, in Calcutta, could not go and see. He says so in the letter. The official toll was not published until the Hunter Committee reported the following year, so he did not have it either."
+              }
+            },
+            "wanted": {
+              "ask": "What did Tagore want from returning the knighthood?",
+              "options": [
+                {
+                  "id": "b-w1",
+                  "label": "To have Dyer prosecuted."
+                },
+                {
+                  "id": "b-w2",
+                  "label": "To make a refusal legible in Britain with the only instrument he held."
+                },
+                {
+                  "id": "b-w3",
+                  "label": "To take command of a political movement."
+                }
+              ]
+            }
+          },
+          "explains": {
+            "ask": "Which account explains more about why Indian opinion that had worked inside the empire stopped working inside it after 1919?",
+            "options": [
+              {
+                "id": "x-a",
+                "label": "Dyer’s. It shows the state saying out loud what the firing was for."
+              },
+              {
+                "id": "x-b",
+                "label": "Tagore’s. It shows what that purpose cost the state in consent."
+              },
+              {
+                "id": "x-both",
+                "label": "Neither on its own. Dyer explains the decision; Tagore explains the consequence."
+              }
+            ]
+          },
+          "third": {
+            "src": "gandhi-great-trial-1922",
+            "lead": "The argument did not stop with those two. Three years later a third man made it in a British court, in English, and asked to be convicted for it."
+          },
+          "reveal": "That is what a historian does with two documents, and it is not “which is reliable”. It is: what was each placed to know, what did each want the words to do, and which account carries more of the explanation. Below is this atlas’s record of both texts — answered about the documents, not about the men.",
+          "close": "The Hunter Committee reported in March 1920. Three of its eight members were Indian, and those three signed a minority report saying the majority had been too gentle; the Committee had no power to remove anyone. What removed Dyer was the Army Council, on the Commander-in-Chief’s recommendation: he was required to resign his command and was placed on half pay. A public subscription in Britain then raised a large sum in his honour. Tagore gave a British honour back seven weeks after the firing — he wrote to the Viceroy on 30 May 1919 — and said why, in English, in the press. Gandhi pleaded guilty to sedition in 1922 and asked for the heaviest sentence the law allowed. The arguments about empire we make now were being made at the time, in public, by the people it was done to and by some of the people doing it. “You cannot judge them by our standards” describes a silence that was not there.",
+          "judgement": "The other three are judgements, not facts, and historians who agree about every date still disagree about them. What a man wanted his words to do is read off the whole document and the situation he wrote it in, and a reading can be better or worse without being right or wrong.",
+          "after": {
+            "body": [
+              "The Bagh is a walled garden with a handful of narrow exits. Dyer positioned his troops in the entrance and fired until the ammunition was nearly gone. There was nowhere to go: that is a fact about the place, and it is why the place is the evidence."
+            ],
+            "figures": [
+              {
+                "v": "379",
+                "l": "dead, official count",
+                "note": "The Hunter Commission's figure. The commission had limited access and the crowd was never counted by anyone who was in it."
+              },
+              {
+                "v": "c.1,200",
+                "l": "wounded, official count"
+              },
+              {
+                "v": "higher",
+                "l": "Indian estimates",
+                "note": "The Indian National Congress inquiry put the dead far higher. The dispute is about who was allowed to count, which is why this atlas prints a range and not a number."
+              }
+            ]
+          }
+        }
+      },
+      "words": 549,
+      "hold": true,
+      "holdSay": "Say what each knew",
+      "holdHint": "Say what each knew, and what the words were for, before going on",
+      "answer": {
+        "expected": "Dyer knew the crowd was penned — the enclosure and his own evidence about the armoured cars settle it. Tagore knew the Punjab was sealed under martial law and could not go. Which explains more is arguable; the strongest answer takes both.",
+        "commonWrong": "That Dyer panicked. He told the Committee the firing was deliberate, to produce an effect on the whole Punjab."
+      },
+      "fit": "text",
+      "$fit": "Dyer and Tagore, five questions before either document opens. The longest beat in the application at 2,154px, and the plate is a Punjab polygon that does not move."
+    },
+    {
+      "id": "singapore",
+      "n": 13,
+      "chapter": "dissolution",
+      "mark": "00:22",
+      "t": "T19",
+      "lo": "LO7",
+      "misconception": "M16",
+      "kind": "present",
+      "cost_s": 72,
+      "core": true,
+      "ledeMark": "15 February 1942",
+      "say": "{{fig:singapore-surrender}} troops surrendered Singapore to a smaller force. The prestige went.",
+      "actor": {
+        "name": "Subhas Chandra Bose",
+        "side": "local",
+        "role": "raised the Indian National Army from prisoners taken at Singapore, and made the surrender into a recruiting argument against British rule in India."
+      },
+      "map": {
+        "year": 1942,
+        "sel": "singapore",
+        "flyTo": "singapore",
+        "zoom": 7
+      },
+      "panel": {
+        "title": "The war the empire fought",
+        "from": "singapore",
+        "body": [
+          "In the First World War {{fig:india-ww1-served}} Indians served, {{fig:india-ww1-dead}} of them dying. In the Second, {{fig:india-ww2-volunteers}} volunteered — the largest volunteer army in history. Hundreds of thousands of African soldiers fought in Burma and East Africa.",
+          "These were imperial world wars fought largely by colonial soldiers, and the bill for them is one reason the empire ended. Britain finished the war owing more than it could pay and holding an empire it could no longer garrison.",
+          "Quit India began in August 1942. The Royal Indian Navy mutinied in February 1946. The order of those dates is the mechanism."
+        ]
+      },
+      "words": 140,
+      "answer": {
+        "expected": "The wars were fought largely by colonial soldiers — {{fig:india-ww2-volunteers}} Indian volunteers in the second — and Britain ended the war unable to pay for or garrison the empire.",
+        "commonWrong": "That the empire ended because Britain granted freedom. Quit India is August 1942 and the Royal Indian Navy mutinied in February 1946."
+      },
+      "fit": "text",
+      "$fit": "Flies to Singapore; the argument is three paragraphs of troop numbers and dates."
+    },
+    {
+      "id": "exits",
+      "recallAfter": {
+        "id": "t14-peak",
+        "t": "T14",
+        "year": 1900,
+        "mark": "before the last map",
+        "say": "The year you think was largest. Move the year and find it."
+      },
+      "n": 14,
+      "chapter": "dissolution",
+      "mark": "00:25",
+      "mislead": "what year exactly",
+      "$mislead": "DIDACTIC_SPEC \u00a78, LESSON ONE beat 1: the door promises three things about the poster and must promise only what the route it opens delivers. The three are the `poster` beat\u2019s own closing question \u2014 \u201cwhat projection, what does the colour mean, what year exactly?\u201d \u2014 and each is ANSWERED by one beat, so `budget.js::misleads()` counts them off the route rather than trusting a sentence.",
+      "t": "T18",
+      "lo": "LO8",
+      "misconception": "M3",
+      "kind": "predict",
+      "cost_s": 106,
+      "onPath": {
+        "id": "twin",
+        "t": "T14",
+        "words": 606,
+        "guessWords": 165,
+        "$words": "the words this figure puts on screen across its question and its reveal, measured on the running app by tools/scenarios/w7-figs.js"
+      },
+      "core": true,
+      "gateAfter": "g4",
+      "ledeMark": "1947 – 1997",
+      "say": "Of everywhere Britain left, how much left only after a war? Guess first.",
+      "actor": {
+        "name": "Dedan Kimathi",
+        "side": "local",
+        "role": "led the Land and Freedom Army in Kenya from 1952; captured in 1956 and hanged in 1957. Britain detained tens of thousands and hanged over a thousand before leaving in 1963."
+      },
+      "map": {
+        "year": 1960,
+        "def": "claimed",
+        "layer": "status"
+      },
+      "panel": {
+        "title": "How did they leave?",
+        "question": "This atlas records a departure mechanism for every territory that stopped being British. Of all of them, what share left after armed conflict — a war of independence, or an insurgency that ended in talks?",
+        "input": {
+          "type": "number",
+          "min": 0,
+          "max": 100,
+          "unit": "%",
+          "placeholder": "50",
+          "hint": "A percentage. Nothing is scored."
+        },
+        "answerFrom": "armedExitShare",
+        "reveal": "Now read the tally against its own grain. It counts <em>territories</em>, and most territories were small: one line for Ascension and one for India. It also takes the dataset's word for 'negotiated', and a negotiation held after a decade of detention camps is still filed as a negotiation. What the tally does establish is that 'Britain decided to leave' and 'Britain was driven out everywhere' are both too simple. Britain left when it could no longer afford or win — and where it thought it could win, it fought: Malaya, Kenya, Cyprus, Aden, Palestine. Those are painted on the map now."
+      },
+      "disputeAfter": {
+        "id": "partition-authorship",
+        "t": "T19",
+        "misconception": "M15",
+        "mark": "August 1947",
+        "year": 1947,
+        "sel": "punjab-province",
+        "flyTo": "punjab-province",
+        "zoom": 4,
+        "say": "Take a side in this argument before it shows you where it stands.",
+        "title": "An argument, on the forward edge",
+        "cta": "Open the argument",
+        "absent": "The historiography panel is not on this page, so this atlas cannot open the argument it promised. It is skipped rather than faked. Press Next.",
+        "gate": "g6",
+        "lede": "Ayesha Jalal and Yasmin Khan, the evidence each reads, and the thing each has to explain away. The panel will not show you where the argument stands until you have taken a side and written a sentence saying why."
+      },
+      "words": 183,
+      "answer": {
+        "expected": "Most exits were negotiated, but a large minority were not; the choropleth is coloured by how, not when.",
+        "commonWrong": "That decolonisation was peaceful. Partition, Malaya, Kenya, Suez and Rhodesia are in the same twenty years."
+      },
+      "fit": "map",
+      "fitAfter": "text",
+      "$fit": "The exit choropleth is the whole world recoloured by HOW each place left, and the point is that it is not the colour the student guessed — so the plate keeps the band until the guess is in. `fitAfter` then gives the 533px reveal a window bigger than 129px."
+    },
+    {
+      "id": "fourteen",
+      "n": 15,
+      "chapter": "after",
+      "mark": "00:29",
+      "t": "T20",
+      "lo": "LO12",
+      "misconception": "M13",
+      "kind": "present",
+      "cost_s": 103,
+      "core": true,
+      "gateAfter": "g5",
+      "ledeMark": "1997 – today",
+      "say": "1997 fades and the map does not go blank. Count what is left.",
+      "actor": {
+        "name": "Olivier Bancoult",
+        "side": "local",
+        "role": "born on Peros Banhos in the Chagos Archipelago and removed as a child; has litigated against the British government since the 1990s over the right of return."
+      },
+      "map": {
+        "year": 2020,
+        "def": "claimed",
+        "paintStillBritish": true
+      },
+      "panel": {
+        "title": "What is still British",
+        "countFrom": "stillBritish",
+        "body": [
+          "You will read that there are fourteen British Overseas Territories. This atlas draws more than that, because it also counts the United Kingdom itself, the Crown Dependencies, and Cyprus — where two Sovereign Base Areas stayed British when the rest of the island did not.",
+          "That gap is not an error to be tidied away. 'How many are left' turns out to depend on what you are willing to count, which is the question the definition switch has been asking since minute one.",
+          "The Chagos Archipelago was detached from Mauritius in 1965 and its people removed so Diego Garcia could become an American base; the International Court of Justice gave an advisory opinion against Britain in 2019. The loan that financed the 1835 compensation to slave-owners was fully repaid only in 2015."
+        ]
+      },
+      "words": 174,
+      "answer": {
+        "expected": "Fourteen territories are still British by this atlas’s own count at the present day, and the count is computed from the dataset, not typed in.",
+        "commonWrong": "Zero. Most classes think the empire ended completely, which is why the Falklands and the Chagos Archipelago are still news."
+      },
+      "fit": "map",
+      "$fit": "1997 fades and the map does not go blank: the student counts what is left, on the plate, and a count of fourteen dots cannot be made in a 44px strip."
+    },
+    {
+      "id": "congo",
+      "n": 0,
+      "chapter": "after",
+      "mark": "past the end",
+      "t": "T1",
+      "lo": "LO11",
+      "misconception": "M7",
+      "kind": "offmap",
+      "cost_s": 146,
+      "core": false,
+      "optional": true,
+      "ledeMark": "Léopoldville, 30 June 1960",
+      "say": "One exit this atlas never draws, run against the strongest claim it makes.",
+      "actor": {
+        "name": "Patrice Lumumba",
+        "side": "local",
+        "role": "first prime minister of the independent Congo, who used the independence-day platform in front of the Belgian king to describe what the colony had been; deposed within three months and killed in January 1961."
+      },
+      "map": {
+        "year": 1960,
+        "def": "claimed"
+      },
+      "panel": {
+        "title": "One empire that is not this one",
+        "claim": "An empire ends when the metropole can no longer afford it.",
+        "intro": [
+          "That sentence is the strongest claim in this application, and you have just spent a lesson assembling it. A frame that only works on the case it was built from is not a frame; it is a summary. So here it is taken away from Britain.",
+          "Nothing on this step is in the dataset and nothing on it is a quantity. It is dates and books, and every book named is one you can find in a library. There are three cases behind this step and you get a different one each time you come back — because one case that fits is not a test, and one case that breaks is not a rule."
+        ],
+        "ask": "Before you read a word of the verdict: does this case <strong>fit</strong> the claim, <strong>strain</strong> it, or <strong>break</strong> it?",
+        "offer": {
+          "label": "One more, off this map",
+          "note": "It takes the claim you have just assembled away from Britain. It is not counted, nothing waits on it, and there is a different empire behind it each time you come back."
+        },
+        "eyebrow": "off this map · not counted",
+        "caseOrder": [
+          "congo",
+          "algeria",
+          "lusophone"
+        ],
+        "notes": {
+          "congo": "And the second thing this case does to you: it is the clearest test in the app of “the empire brought railways, law and schools, so it developed the colonies”. The Congo had all three. Ask what they carried, who owned them, and whether any of it held the colony for one extra week.",
+          "algeria": "And the second thing this case does to you: “they left when they could no longer afford it” has to name a currency. France in 1962 could afford the money. What it could not afford was conscripts, a mutinous officer corps and its own politics — so say which of those is running out before you use the word afford.",
+          "lusophone": "And the second thing this case does to you: this is the one that FITS, and a frame is only worth anything if you can say why it fits here and not in the Congo. Portugal was the poorest colonial power in Europe and it fought three wars at once until its own army overthrew the government that was ordering them."
+        }
+      },
+      "words": 259,
+      "hold": true,
+      "holdSay": "Say what it does",
+      "holdHint": "Say what it does to the claim — fits, strains or breaks — before going on",
+      "answer": {
+        "expected": "It breaks the claim. The Congo’s mines were profitable in 1960 and Belgium expected to keep them; what ran out was the assumption that there was time.",
+        "commonWrong": "That it fits — “Belgium could not afford it”. Union Minière kept operating straight through the secession of Katanga."
+      },
+      "fit": "text",
+      "$fit": "Nothing on this step is on the map, and the step says so in its own first line."
+    }
+  ],
+  "$fitNote": "THE READING CONTRACT, DECLARED PER BEAT. app/css/layout.css publishes it: a beat says which column it is in with `fit`, the shell resolves `<html data-tour-fit>` into `#app[data-read]`, and at 390x844 reading mode moves the panel from 280px (33.2 % of the screen, B8's floor handed over as if it were an allowance) to 600px (71.1 %), taking its pixels from the time bar, the colour ribbon and the plate — none from the beat's own prose. Until this round `fit` was inferred from the beat's KIND, which is a good heuristic and not a decision: every beat now states its own answer to one question — is the plate the evidence for THIS beat's work, or is the panel? — and says why, beside the beat it is about. `fitAfter` is the third case the two columns could not express: three beats whose PLATE is the question and whose PANEL is the answer. Measured at 390x844 through a 128px window: the poster's reveal 1,096px (8.6 screenfuls), the spine's four engines 735px (5.7), the exits reveal 533px (4.1). On those the plate keeps the band until the student has committed a guess — or until the sweep stops — and the band then goes to the reading, which is the moment the plate has finished its work. One press on `Map` moves between them at any time, on any beat, and outranks all of this for as long as the student stays on that step."
+}

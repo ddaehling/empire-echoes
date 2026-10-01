@@ -1,0 +1,38 @@
+/* ---- light (paper) ---- */
+  --map-sea: #BCD8EB;
+  --map-never-british: #EEE9DE;  --map-never-british-hover: #E2DBCA;  --map-never-british-selected: #D6CCB4;  --map-never-british-stroke: #88847B;  --map-never-british-on: #14110D;
+  --map-lost-former: #BBB6B1;  --map-lost-former-hover: #B2A99F;  --map-lost-former-selected: #A79A8B;  --map-lost-former-stroke: #5B5753;  --map-lost-former-on: #14110D;
+  --map-dominion: #FDC3B9;  --map-dominion-hover: #FAB0A4;  --map-dominion-selected: #F49C8E;  --map-dominion-stroke: #91635C;  --map-dominion-on: #14110D;
+  --map-settlement: #CF786F;  --map-settlement-hover: #EC7B71;  --map-settlement-selected: #FF857A;  --map-settlement-stroke: #641F1C;  --map-settlement-on: #14110D;
+  --map-crown-conquered: #AE3D35;  --map-crown-conquered-hover: #AF0D14;  --map-crown-conquered-selected: #9C0006;  --map-crown-conquered-stroke: #FFA99E;  --map-crown-conquered-on: #FBF8F3;
+  --map-company-rule: #DAAF64;  --map-company-rule-hover: #D59E33;  --map-company-rule-selected: #CA8F00;  --map-company-rule-stroke: #725000;  --map-company-rule-on: #14110D;
+  --map-lease: #61A093;  --map-lease-hover: #3D9786;  --map-lease-selected: #008C79;  --map-lease-stroke: #014238;  --map-lease-on: #14110D;
+  --map-protectorate: #5583B0;  --map-protectorate-hover: #3977B0;  --map-protectorate-selected: #0F69AE;  --map-protectorate-stroke: #B6DCFF;  --map-protectorate-on: #14110D;
+  --map-mandate: #694479;  --map-mandate-hover: #7B4990;  --map-mandate-selected: #8E50A7;  --map-mandate-stroke: #C39ED3;  --map-mandate-on: #FBF8F3;
+  --map-occupied: #493A2F;  --map-occupied-hover: #594432;  --map-occupied-selected: #6B4E37;  --map-occupied-stroke: #9F9084;  --map-occupied-on: #FBF8F3;
+  --tenure-1: #F5E6E2;
+  --tenure-2: #E6C4BC;
+  --tenure-3: #D6A299;
+  --tenure-4: #C58177;
+  --tenure-5: #B25F57;
+  --tenure-6: #9E3C3A;
+  --tenure-7: #890C1D;
+/* ---- night (lamplit) ---- */
+  --map-sea: #0B1B2A;
+  --map-never-british: #27231E;  --map-never-british-hover: #352F25;  --map-never-british-selected: #463D2E;  --map-never-british-stroke: #77746E;  --map-never-british-on: #F3ECDE;
+  --map-lost-former: #423F3B;  --map-lost-former-hover: #534B43;  --map-lost-former-selected: #655A4D;  --map-lost-former-stroke: #989490;  --map-lost-former-on: #F3ECDE;
+  --map-dominion: #FFC9BF;  --map-dominion-hover: #F9B3A7;  --map-dominion-selected: #F09D8F;  --map-dominion-stroke: #936860;  --map-dominion-on: #0F0C09;
+  --map-settlement: #C57670;  --map-settlement-hover: #E47D75;  --map-settlement-selected: #FF857D;  --map-settlement-stroke: #5C1E1C;  --map-settlement-on: #0F0C09;
+  --map-crown-conquered: #B14936;  --map-crown-conquered-hover: #D24831;  --map-crown-conquered-selected: #F3482C;  --map-crown-conquered-stroke: #FFB4A4;  --map-crown-conquered-on: #F3ECDE;
+  --map-company-rule: #D6AC60;  --map-company-rule-hover: #CF9929;  --map-company-rule-selected: #BF8700;  --map-company-rule-stroke: #704D00;  --map-company-rule-on: #0F0C09;
+  --map-lease: #6AA69A;  --map-lease-hover: #65BAA9;  --map-lease-selected: #61D0BB;  --map-lease-stroke: #0D483E;  --map-lease-on: #0F0C09;
+  --map-protectorate: #5587B6;  --map-protectorate-hover: #5297D4;  --map-protectorate-selected: #52A8F4;  --map-protectorate-stroke: #002C50;  --map-protectorate-on: #0F0C09;
+  --map-mandate: #795288;  --map-mandate-hover: #8D59A2;  --map-mandate-selected: #A463BD;  --map-mandate-stroke: #D4ADE4;  --map-mandate-on: #F3ECDE;
+  --map-occupied: #5B4431;  --map-occupied-hover: #705035;  --map-occupied-selected: #865D39;  --map-occupied-stroke: #B39C89;  --map-occupied-on: #F3ECDE;
+  --tenure-1: #3C2F2C;
+  --tenure-2: #5C403A;
+  --tenure-3: #7E5149;
+  --tenure-4: #A16259;
+  --tenure-5: #C6736B;
+  --tenure-6: #EB847E;
+  --tenure-7: #FFA19D;

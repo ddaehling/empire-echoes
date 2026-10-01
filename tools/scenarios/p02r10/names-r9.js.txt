@@ -1,0 +1,418 @@
+/**
+ * map/names.js — what to call a place in the year that is on the map.
+ *
+ * Round 1 labelled the 1913 plate with the names of 2026: Vanuatu for the New
+ * Hebrides, Botswana for the Bechuanaland Protectorate, Kenya for the East
+ * Africa Protectorate, United Arab Emirates for the Trucial States. That is not
+ * a cosmetic slip. Naming is one of the things this subject is *about* — the
+ * dataset carries `namesOverTime` with a `usedBy` field precisely so a student
+ * can see who called a place what, and when — and a map that silently uses the
+ * successor state's name teaches that the colony and the country are the same
+ * object under one continuous title. They are not.
+ *
+ * The rule, in order:
+ *   1  the name British officials used in this year, if the dataset records one;
+ *   2  otherwise any contemporary English name in the window;
+ *   3  otherwise the territory's own title in the dataset;
+ *   4  and where the only contemporary name in the window is in another
+ *      language, that name is carried alongside, because it is the one the
+ *      people there used.
+ *
+ * The modern name is never dropped — it is what the student can find on a map
+ * today — it just stops being the headline. Nothing here is invented: every
+ * string returned comes out of the shard.
+ *
+ * ---------------------------------------------------------------------------
+ * ROUND 5: THE RULE, STATED ONCE, AND THE OTHER END OF THE SAME ERROR.
+ *
+ *   A NAME PRINTED ON A PLATE FOR YEAR Y MUST BE DATEABLE TO Y BY THE DATASET.
+ *
+ * Round 1 fixed one half of this — the 1913 plate calling the New Hebrides
+ * Vanuatu — and left the other half untouched, because every test it wrote ran
+ * at one year. Swept across all 447 years the app can show, three paths were
+ * still printing names the dataset itself dates outside the year on the plate:
+ *
+ *   · at 2020 the plate drew "Cape Colony" across the Republic of South
+ *     Africa, and "Union of South Africa" across it in the group label.
+ *     `usedBy: "modern"` entries were excluded from the headline ALWAYS, so a
+ *     territory whose only recorded name for this year is the name it has
+ *     today fell back to the atlas's own filing title — which for a colony is
+ *     the colony's name, for ever;
+ *   · the unit's own name was used whenever it was *attested* — meaning the
+ *     string appears somewhere in the dataset — with no test of WHEN. That is
+ *     how "Cape Colony" survived over ground the same record says has been the
+ *     Republic since 1961;
+ *   · and `shortName` — a modern index field with no dates on it at all — was
+ *     substituted for any period name longer than 26 characters. At 1888 the
+ *     Kenya plate resolved "Imperial British East Africa Company territory",
+ *     which is right, and then printed "East Africa Protectorate", a name that
+ *     did not exist until 1895.
+ *
+ * Three tests answer all three, and they are different strengths on purpose:
+ *
+ *   `dateable(name, year)`  — the dataset's own `namesOverTime` records for
+ *      that string, anywhere in the dataset. true / false / null, where null
+ *      means the dataset does not date the string and cannot judge it.
+ *   `deadName(name, year)`  — the strong test, for a name that is a TERRITORY
+ *      TITLE rather than a dated record: the title of a territory whose spans
+ *      ended before `year`, where the dataset holds another name for `year`.
+ *      "Cape Colony" in 2020 is dead. "New Hampshire" in 1784 is not — the
+ *      colony ended, the name did not, and the dataset offers nothing else.
+ *   `successorAt(territoryId, year)` — the name the dataset holds for that
+ *      ground in `year` when the title is dead. It is never invented: if the
+ *      shard has nothing for that year, the plate prints nothing, because a
+ *      dead name is worse than a blank.
+ * -------------------------------------------------------------------------*/
+
+/**
+ * Unit ids whose OWN name is younger than the geometry it labels.
+ *
+ * The geometry index is a modern file: it splits out the ground that is still
+ * British today so the atlas can draw it, and it files that ground under the
+ * name it acquired when it was split. `cy-akrotiri-dhekelia` is the case that
+ * matters. The Sovereign Base Areas were created by the Treaty of
+ * Establishment on 16 August 1960 — the same date the Cyprus record in this
+ * dataset opens its "The Sovereign Base Areas stay British" span. Before that
+ * date the ground existed and the name did not, so a 1913 plate that reads
+ * "Akrotiri and Dhekelia, in Cyprus" is doing the exact thing this file exists
+ * to stop: calling a place by its successor's name.
+ *
+ * `year` is the first year the name was in use; `was` is what to call the
+ * ground before it, and `why` is printed to the student so the split is
+ * legible as a decision of this atlas rather than as a fact about 1913.
+ */
+export const UNIT_NAME_FROM = {
+  'cy-akrotiri-dhekelia': {
+    year: 1960,
+    was: null,          // fall back to the territory's own period name
+    why: 'this atlas draws the two areas separately because they stayed British after 16 August 1960 as the Akrotiri and Dhekelia Sovereign Base Areas; before that date this ground had no separate name',
+  },
+};
+
+const yearOf = (v) => {
+  if (v == null) return null;
+  const raw = typeof v === 'object' ? (v.value != null ? v.value : v.display) : v;
+  const m = String(raw == null ? '' : raw).match(/-?\d{3,4}/);
+  return m ? Number(m[0]) : null;
+};
+
+export function makeNamer(data) {
+  const cache = new Map();          // territoryId -> normalised entries
+  const out = new Map();            // territoryId + '@' + year -> resolved
+
+  const entries = (t) => {
+    let list = cache.get(t.id);
+    if (list) return list;
+    list = (t.namesOverTime || [])
+      .filter((n) => n && n.name)
+      .map((n) => ({
+        name: String(n.name),
+        from: yearOf(n.from), to: yearOf(n.to),
+        usedBy: n.usedBy || '', language: n.language || '',
+      }));
+    cache.set(t.id, list);
+    return list;
+  };
+
+  const norm = (s) => String(s || '').toLowerCase().replace(/^the\s+/, '').replace(/[^a-z]/g, '');
+
+  /* ---------------------------------------------------------------------
+     THE THREE DATE TESTS. Built once, lazily, from the shards themselves.
+
+     `dated`   every string the dataset puts a DATE on — every namesOverTime
+               record, anywhere in the dataset, because a name recorded on one
+               territory dates that name for the neighbour that shares it.
+     `titles`  every string the dataset uses as a territory TITLE, with the
+               union of that territory's own spans and its own dated names.
+               A title is not a dated name: it is this atlas's filing label,
+               and the only thing that can kill it is the dataset saying, in
+               the same record, that the ground is called something else now.
+     -------------------------------------------------------------------- */
+  let dated = null, titles = null;
+  const buildIndex = () => {
+    if (dated) return;
+    dated = new Map();
+    titles = new Map();
+    for (const t of data.territories || []) {
+      const list = entries(t);
+      for (const n of list) {
+        /* A SLASH LIST IS A LIST OF NAMES. The shards record several of these
+           — "Mauritius / Maurice / Moris", British-official from 3 December
+           1810 — and indexing only the whole string meant the plain word
+           "Mauritius" was dated ONLY by the Dutch record that ends in 1715, so
+           the strict test called it dead in 1900 and the plate stopped saying
+           it. Each alternative is indexed as the name it is. */
+        for (const part of [n.name, ...String(n.name).split(' / ')]) {
+          const k = norm(part);
+          if (!k) continue;
+          if (!dated.has(k)) dated.set(k, []);
+          dated.get(k).push({ from: n.from, to: n.to });
+        }
+      }
+      let last = null;
+      for (const sp of t.spans || []) {
+        const b = yearOf(sp.end);
+        if (b == null) last = Infinity; else if (last !== Infinity) last = last == null ? b : Math.max(last, b);
+      }
+      for (const title of [t.name, t.shortName, t.formalName]) {
+        const k = norm(title);
+        if (!k) continue;
+        if (!titles.has(k)) titles.set(k, []);
+        titles.get(k).push({ id: t.id, last, list });
+      }
+    }
+  };
+
+  /**
+   * dateable(name, year) -> true | false | null
+   * Does the dataset date this string, and does that dating cover `year`?
+   * null means it does not date the string and has no opinion.
+   */
+  function dateable(name, year) {
+    buildIndex();
+    const recs = dated.get(norm(name));
+    if (!recs || !recs.length) return null;
+    return recs.some((r) => (r.from == null || year >= r.from) && (r.to == null || year <= r.to));
+  }
+
+  /**
+   * deadName(name, year) -> boolean — the strong test, for a TITLE.
+   *
+   * True when the dataset dates the string and `year` is outside those dates;
+   * or when the string is the title of a territory whose spans had ended
+   * before `year` AND that territory's own record holds a different name for
+   * `year`. "Cape Colony" in 2020 is dead: the record says Cape Province, then
+   * Republic of South Africa. "New Hampshire" in 1784 is not: the colony ended
+   * in 1783, the name did not, and the dataset offers nothing in its place.
+   * A name is never called dead because this atlas has nothing better to say.
+   */
+  function deadName(name, year) {
+    if (!name) return false;
+    const d = dateable(name, year);
+    if (d === true) return false;
+    if (d === false) return true;
+    buildIndex();
+    const rows = titles.get(norm(name));
+    if (!rows) return false;
+    /* Every territory that files under this title has to agree it is over, AND
+       the record has to hold the name the ground has NOW. Anything weaker
+       fires on every title in the atlas the moment Britain leaves: almost
+       every shard carries an open-ended endonym, so "Bhutan" after 1949 would
+       have become "Druk Yul", "Kuwait" after 1961 "Al-Kuwait" and the Bahamas
+       after 1973 "Islas de Bajamar" — measured, all three, on the sweep. A
+       colony ending is not a name dying. */
+    return rows.every((row) => {
+      if (row.last == null || row.last === Infinity || year <= row.last) return false;
+      return row.list.some((n) => n.usedBy === 'modern' && norm(n.name) !== norm(name)
+        && (n.from == null || year >= n.from) && (n.to == null || year <= n.to));
+    });
+  }
+
+  /**
+   * supersededTitle(name, year) -> boolean.
+   *
+   * The narrower question the multi-unit branch of `short()` asks, and the one
+   * "Cape Colony over the Republic of South Africa" needed: is this string the
+   * title of a colony that had ENDED by `year`, on ground the dataset itself
+   * records as being called something else now? It differs from `deadName` in
+   * one way — the successor name need not still be current in `year`, because
+   * the caller already has a name for `year` (the enclosing territory's) and is
+   * only asking whether the sub-unit's colonial title may stand instead of it.
+   * "Cape Colony" is superseded from 1911; "New Hampshire" in 1784 is not,
+   * because nothing in that shard says the place is called anything else.
+   */
+  function supersededTitle(name, year) {
+    if (!name) return false;
+    buildIndex();
+    const rows = titles.get(norm(name));
+    if (!rows || !rows.length) return false;
+    return rows.every((row) => row.last != null && row.last !== Infinity && year > row.last
+      && row.list.some((n) => n.usedBy === 'modern' && norm(n.name) !== norm(name)));
+  }
+
+  /**
+   * successorAt(territoryId, year) -> the name the DATASET holds for this
+   * ground in this year when the filing title is dead, or null. Preference:
+   * the name in use today, then a British-official or English name, then the
+   * name the people there used. Nothing is invented; null means the plate
+   * prints nothing, which is the honest answer and better than a dead name.
+   */
+  function successorAt(territoryId, year) {
+    const t = data.byId && data.byId.get(territoryId);
+    if (!t) return null;
+    const win = entries(t).filter((n) => (n.from == null || year >= n.from) && (n.to == null || year <= n.to));
+    if (!win.length) return null;
+    const rank = (n) => (n.usedBy === 'modern' ? 0 : n.usedBy === 'british-official' ? 1 : n.language === 'English' ? 2 : 3);
+    return win.slice().sort((a, b) => rank(a) - rank(b) || (b.from || 0) - (a.from || 0))[0].name;
+  }
+
+  /**
+   * periodName(territoryId, year) ->
+   *   { name, modern, local, formal, source } | null
+   * `name` is what the map should say. `local` is set only when the only
+   * contemporary name recorded is not English.
+   */
+  function periodName(territoryId, year) {
+    if (!territoryId) return null;
+    const key = territoryId + '@' + year;
+    if (out.has(key)) return out.get(key);
+    const t = data.byId && data.byId.get(territoryId);
+    if (!t) { out.set(key, null); return null; }
+    const list = entries(t);
+    const inWindow = list.filter((n) => (n.from == null || year >= n.from) && (n.to == null || year <= n.to));
+    const official = inWindow.find((n) => n.usedBy === 'british-official');
+    const english = inWindow.find((n) => n.language === 'English' && n.usedBy !== 'modern');
+    const modernEntry = list.find((n) => n.usedBy === 'modern');
+    const nonEnglish = inWindow.find((n) => n.language && n.language !== 'English' && n.usedBy !== 'modern');
+    /* THE NAME A PLACE HAS TODAY IS A CONTEMPORARY NAME IN A YEAR THAT IS
+       TODAY. `modern` entries were excluded from the headline at every year,
+       which is right for 1913 — a plate of 1913 must not say Zambia — and
+       wrong for 2020, where it is the ONLY name the dataset records as in use.
+       With nothing else in the window the fallback was the atlas's own filing
+       title, so the 2020 plate printed "Union of South Africa" and, unit by
+       unit, "Cape Colony", over the Republic. A modern name is taken only when
+       no British-official and no contemporary English name covers the year,
+       and only from the year the dataset says it starts. */
+    /* AND IT NEEDS A DATE OF ITS OWN. An undated `modern` entry — and the
+       shards hold plenty, "Mauritius / Maurice / Moris" among them — covers
+       every year there is, so accepting one without a `from` would put the
+       name of 2026 on the plate of 1810: round 1's defect, re-entering by the
+       door round 1 built. No start date, no headline. */
+    const modernNow = (!official && !english && modernEntry && modernEntry.from != null
+      && year >= modernEntry.from
+      && (modernEntry.to == null || year <= modernEntry.to)) ? modernEntry : null;
+    const picked = official || english || modernNow || null;
+    const rec = {
+      name: picked ? picked.name : (t.name || null),
+      source: picked ? (picked.usedBy === 'british-official' ? 'the name British officials used'
+        : picked.usedBy === 'modern' ? 'the name this place has today'
+        : 'a name in use in this year')
+        : 'the title this atlas files the territory under',
+      // Only worth saying when it is actually a different word.
+      local: nonEnglish && nonEnglish.name !== (picked ? picked.name : (t.name || '')) ? nonEnglish : null,
+      picked: !!picked,               // was a CONTEMPORARY name found for this year?
+      modern: modernEntry ? modernEntry.name : null,
+      formal: t.formalName || null,
+      territoryName: t.name || null,
+      unitCount: (t.units || []).length,
+      /* Set only when `picked` is false: the atlas's filing title is a name
+         this dataset's own dates contradict in this year, and here is what it
+         holds instead — or null, in which case the plate says nothing. */
+      dead: !picked && deadName(t.name, year),
+      successor: !picked ? successorAt(territoryId, year) : null,
+    };
+    out.set(key, rec);
+    return rec;
+  }
+
+  /**
+   * Every place name this dataset can DATE.
+   *
+   * The geometry index is a modern file: it calls a shape `in-odisha`,
+   * `in-maharashtra`, `zm-northern-rhodesia` and prints Odisha, Maharashtra
+   * and Zambia. Those are the names of 2026. The only names this atlas can put
+   * a year on are the ones in the shards — a territory's own title, its formal
+   * name, and every entry in `namesOverTime`. So the rule for a unit inside a
+   * larger territory is: use the unit's own name only if the dataset attests
+   * it somewhere as a name for a place; otherwise say what the territory was
+   * called in this year, which is a name with a date on it. "Odisha" in 1913
+   * becomes "Bengal Presidency"; "Assam", "Mysore", "Sindh" and "Elmina" are
+   * attested and stay.
+   */
+  let attested = null;
+  const isAttested = (name) => {
+    if (!attested) {
+      attested = new Set();
+      for (const t of data.territories || []) {
+        for (const n of [t.name, t.formalName, t.shortName]) if (n) attested.add(norm(n));
+        for (const n of t.namesOverTime || []) if (n && n.name) attested.add(norm(n.name));
+      }
+    }
+    return attested.has(norm(name));
+  };
+
+  /**
+   * label(unitId, territoryId, year) -> the words on the focus ring and in the
+   * screen reader's ear, in this year's language.
+   */
+  function label(unitId, territoryId, year) {
+    const unitName = (data.unitName ? data.unitName(unitId) : null) || unitId;
+    const p = periodName(territoryId, year);
+    const anach = UNIT_NAME_FROM[unitId];
+    if (anach && year < anach.year) {
+      // The ground is here; the name is not yet. Say the territory's own
+      // period name, and carry the reason so the dossier and the screen
+      // reader can explain the split rather than hide it.
+      const base = anach.was || (p && p.name) || unitName;
+      return { text: base, period: p, modern: unitName, anachronism: anach.why, notYet: unitName };
+    }
+    if (!p || !p.name) return { text: unitName, period: null, modern: null };
+    const same = norm(p.name) === norm(unitName);
+    if (same) return { text: unitName, period: p, modern: null };
+    // One unit, one territory: the period name is the headline and the modern
+    // name is the parenthesis. A unit inside a larger territory keeps its own
+    // geography and takes the period name as the answer to "whose was it".
+    /* AND THE SPOKEN NAME IS A NAME TOO. "Cape Colony, in Republic of South
+       Africa" is a present tense about a colony that ended in 1910. Where the
+       sub-unit's own title is superseded, the sentence says so instead: the
+       ground first, the dead name second, and the word that dates it. */
+    const text = p.unitCount <= 1
+      ? `${p.name} (now ${unitName})`
+      : (supersededTitle(unitName, year) ? `${p.name} (the former ${unitName})` : `${unitName}, in ${p.name}`);
+    return { text, period: p, modern: unitName };
+  }
+
+  /**
+   * short(unitId, territoryId, year) -> the words that fit ON the plate.
+   *
+   * A label drawn on a map has room for a name and nothing else, so the
+   * parentheses that `label()` carries for the screen reader are dropped here.
+   * The rule is unchanged: the name in use in this year wins, and where the
+   * unit's own name is younger than the year it is not used at all.
+   */
+  function short(unitId, territoryId, year, opts = {}) {
+    const unitName = (data.unitName ? data.unitName(unitId) : null) || unitId;
+    const anach = UNIT_NAME_FROM[unitId];
+    const p = periodName(territoryId, year);
+    if (anach && year < anach.year) return (anach.was || (p && p.name) || unitName);
+    /* THE UNIT'S OWN NAME IS ALSO A NAME, AND IT IS ALSO DATED. Every branch
+       below that can return `unitName` goes through this first: the geometry
+       index is a modern file and the strings in it are the strings of 2026. */
+    const unitDead = deadName(unitName, year);
+    const fallback = () => {
+      if (!unitDead) return unitName;
+      const succ = successorAt(territoryId, year);
+      // Nothing dateable to say. A blank is honest; a dead name is not.
+      return succ && norm(succ) !== norm(unitName) ? succ : null;
+    };
+    if (!p || !p.name) return fallback();
+    // A unit that is no longer held is named by the territory this atlas files
+    // it under — which is right for South West Africa in 1960 and wrong for the
+    // Anglo-Egyptian Sudan in 1960, four years after it stopped existing. So
+    // when the caller says the territory is only a fallback, the period name
+    // is used ONLY if the dataset records that name as in use in this year.
+    if (opts.strict && !p.picked) return fallback();
+    /* THE TERRITORY'S NAME, AND ONE GATE IN FRONT OF ALL THREE WAYS TO IT.
+       `periodName` falls back to the atlas's filing title when no dated name
+       covers the year, and for a colony that title is the colony's name for
+       ever: at 2020 this printed "Cape Colony" over the Republic of South
+       Africa, and at 1898 "Anglo-Egyptian Sudan" over the Mahdist state, a
+       year before the condominium existed. Where the dataset holds a name for
+       the year, that name is printed; where it holds none, nothing is. */
+    const territoryName = () => (p.picked || !p.dead) ? p.name : (p.successor || fallback());
+    // One unit, one territory: the territory's period name IS the place.
+    if (p.unitCount <= 1) return territoryName();
+    // A unit inside a bigger territory keeps its own geography — Bengal inside
+    // British India is Bengal — as long as the dataset can date the name.
+    if (p.modern && norm(p.modern) === norm(unitName)) return territoryName();
+    /* ATTESTED IS NOT DATED — the round-5 correction. `isAttested` asks only
+       whether the string appears somewhere in the dataset, so "Cape Colony"
+       passed it in every year from 1580 to 2026. It has to pass the date too. */
+    if (!isAttested(unitName) || unitDead || (p.picked && supersededTitle(unitName, year))) return territoryName();
+    return unitName;
+  }
+
+  return { periodName, label, short, dateable: (tid, name, year) => dateable(name, year), deadName, supersededTitle, successorAt };
+}
+
+export default { makeNamer, UNIT_NAME_FROM };

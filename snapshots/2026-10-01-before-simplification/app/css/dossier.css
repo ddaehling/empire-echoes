@@ -1,0 +1,1816 @@
+/* =============================================================================
+   dossier.css — P04, the territory dossier. Owned by the panels/dossier piece.
+
+   Tokens only: every colour, size, rule and duration comes from tokens.css.
+   No raw hex, no #000, no #fff, no z-index outside the named layers.
+
+   The panel is one scroll. `.dsr__fold` is what a student sees at 1280x800
+   without moving: name, legal status, how it was taken, how it ended.
+   ========================================================================== */
+
+.dossier {
+  --dsr-pad: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--space-sm) var(--dsr-pad) var(--space-3xl);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  line-height: var(--lh-ui);
+}
+
+/* ------------------------------------------------------------------ head -- */
+
+.dsr__head { margin-bottom: var(--space-2xs); }
+
+.dsr__back {
+  appearance: none;
+  display: inline-flex; align-items: center; gap: var(--space-2xs);
+  margin-bottom: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-sm) var(--space-3xs) var(--space-2xs);
+  min-height: 1.75rem;
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-well);
+  color: var(--link);
+  font: inherit; font-size: var(--fs-caption); cursor: pointer;
+}
+.dsr__back:hover { border-color: var(--border-firm); background: var(--surface-page); }
+
+.dsr__title { display: flex; align-items: baseline; gap: var(--space-sm); }
+.dsr__seal { flex: 0 0 auto; align-self: center; color: var(--accent-ink); line-height: 0; }
+.dsr__seal[data-seal='crown'] { color: var(--text-secondary); }
+
+.dsr__name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-heading);
+  text-wrap: balance;
+}
+.dsr__sub {
+  margin: var(--space-3xs) 0 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.dsr__aka { color: var(--text-min); }
+.dsr__usedby { color: var(--text-min); }
+
+/* ------------------------------------------------------------------ fold -- */
+
+.dsr__fold {
+  display: flex; flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-2xs);
+  border-top: var(--rule-mid) solid var(--border-firm);
+}
+
+.dsr__block { min-width: 0; }
+.dsr__fold .dsr__block + .dsr__block { padding-top: var(--space-2xs); border-top: var(--rule-hair) solid var(--border-soft); }
+.dsr__below .dsr__block { padding-top: var(--space-lg); border-top: var(--rule-fine) solid var(--border-default); margin-top: var(--space-lg); }
+
+.dsr__eyebrow {
+  margin: 0 0 var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+
+/* --------------------------------------------------------------- status -- */
+
+.dsr__statusline {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 0 var(--space-sm);
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+}
+.dsr__statusword { font-weight: var(--w-semibold); color: var(--text-heading); }
+.dsr__statuslabel { color: var(--text-secondary); font-style: italic; font-size: var(--fs-caption); align-self: baseline; }
+
+.dsr__swatch {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 1.15rem; height: 1.15rem;
+  border: var(--rule-fine) solid var(--map-coast);
+  border-radius: var(--radius-xs);
+  background-color: var(--map-never-british);
+  background-image: var(--tex-plain);
+}
+.dsr__swatch[data-fam='never-british']   { background-color: var(--map-never-british); }
+.dsr__swatch[data-fam='lost-former']     { background-color: var(--map-lost-former); }
+.dsr__swatch[data-fam='dominion']        { background-color: var(--map-dominion); }
+.dsr__swatch[data-fam='settlement']      { background-color: var(--map-settlement); }
+.dsr__swatch[data-fam='crown-conquered'] { background-color: var(--map-crown-conquered); }
+.dsr__swatch[data-fam='company-rule']    { background-color: var(--map-company-rule); }
+.dsr__swatch[data-fam='lease']           { background-color: var(--map-lease); }
+.dsr__swatch[data-fam='protectorate']    { background-color: var(--map-protectorate); }
+.dsr__swatch[data-fam='mandate']         { background-color: var(--map-mandate); }
+.dsr__swatch[data-fam='occupied']        { background-color: var(--map-occupied); }
+/* Informal empire gets no fill and no claimed border: that distinction is the
+   content. FEATURE_SPEC charge 5. */
+.dsr__swatch[data-fam='informal'] {
+  background-color: transparent;
+  border-style: dashed; border-color: var(--text-min);
+}
+.dsr__swatch[data-tex='rule-h']            { background-image: var(--tex-rule-h); }
+.dsr__swatch[data-tex='rule-v']            { background-image: var(--tex-rule-v); }
+.dsr__swatch[data-tex='hatch-45']          { background-image: var(--tex-hatch-45); }
+.dsr__swatch[data-tex='hatch-135']         { background-image: var(--tex-hatch-135); }
+.dsr__swatch[data-tex='hatch-135-dense']   { background-image: var(--tex-hatch-135-dense); }
+.dsr__swatch[data-tex='cross']             { background-image: var(--tex-cross); }
+.dsr__swatch[data-tex='stipple']           { background-image: var(--tex-stipple); background-size: var(--tex-stipple-size); }
+.dsr__swatch[data-tex='stipple-coarse']    { background-image: var(--tex-stipple-coarse); background-size: var(--tex-stipple-coarse-size); }
+
+.dsr__statusdef {
+  margin: 0 0 var(--space-3xs);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+
+.dsr__warn { margin-top: var(--space-xs); font-size: var(--fs-micro); }
+
+/* ------------------------------------------------------------ fact lists -- */
+
+.dsr__fact {
+  margin: var(--space-3xs) 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.38;
+  color: var(--text-body);
+}
+.dsr__fact .dsr__k { color: var(--text-min); }
+/* The fold shows three lines of this and the block below the fold prints it
+   whole. A clamp over text that is also printed in full is a summary, not a
+   hiding place. */
+/* No line clamps in the fold. A CSS ellipsis cuts inside a word and gives the
+   student no route to the rest; fields.js clip() cuts at a sentence, a clause
+   or a word boundary and prints a button to the whole of it. */
+.dsr__fold .dsr__statusdef { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.dsr__facts { margin: var(--space-sm) 0 0; display: grid; grid-template-columns: 1fr; gap: var(--space-2xs) 0; }
+.dsr__facts dt {
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+}
+.dsr__facts dd { margin: 0 0 var(--space-xs); font-size: var(--fs-caption); color: var(--text-body); }
+.dsr__facts dd:last-child { margin-bottom: 0; }
+
+.dsr__franchise {
+  margin-top: var(--space-xs);
+  padding-left: var(--space-sm);
+  border-left: var(--rule-mid) solid var(--accent);
+}
+.dsr__franchise .dsr__k { color: var(--accent-ink); }
+
+.dsr__absent {
+  color: var(--text-min);
+  font-style: italic;
+  border-bottom: var(--rule-hair) dashed var(--text-min);
+}
+
+/* -------------------------------------------------------- taken / ended -- */
+
+.dsr__lead {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+}
+.dsr__lead strong { font-weight: var(--w-semibold); }
+
+/* A step often did more than one thing, and the record says so in
+   secondaryMechanisms. Nepal's 1816 headline says it was controlled without a
+   claim of sovereignty AND that ground was signed away outright, because the
+   people named under it lived in the districts that were signed away. Set
+   lighter than the verb: it qualifies the sentence, it is not a second one. */
+.dsr__also {
+  font-weight: var(--w-regular);
+  font-size: 0.86em;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Where the record gives each counterparty a role, the block prints one
+   labelled group per role, so the label is true of the names beside it.
+   Successive groups sit tighter than the first: they are one field. */
+.dsr__from + .dsr__from { margin-top: var(--space-3xs); }
+.dsr__from[data-role="pre-empted"], .dsr__from[data-role="excluded"] { color: var(--text-min); }
+
+.dsr__from, .dsr__instrument, .dsr__resist, .dsr__movement,
+.dsr__borders, .dsr__otheractors, .dsr__more, .dsr__foldnote {
+  margin: var(--space-2xs) 0 0;
+  line-height: 1.38;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.dsr__more, .dsr__foldnote { color: var(--text-min); font-size: var(--fs-micro); }
+
+.dsr__k {
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+}
+
+/* -------------------------------------------------------------- below -- */
+
+.dsr__below { margin-top: var(--space-md); }
+.dsr__foldnote {
+  margin: 0; padding-top: var(--space-sm);
+  border-top: var(--rule-heavy) solid var(--border-firm);
+}
+
+.dsr__prose {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure-narrow);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-book);
+  line-height: var(--lh-prose);
+  text-wrap: pretty;
+}
+
+.dsr__record + .dsr__record { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--border-soft); }
+
+.dsr__cp { margin: var(--space-sm) 0 0; font-size: var(--fs-caption); }
+.dsr__cp b { color: var(--text-heading); }
+.dsr__cp-kind { display: block; font-size: var(--fs-micro); letter-spacing: var(--tr-micro); color: var(--text-min); }
+.dsr__cp-lost { display: block; margin-top: var(--space-3xs); color: var(--text-secondary); }
+
+.dsr__actors { margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+.dsr__actors li { margin: 0 0 var(--space-sm); padding-left: var(--space-md); border-left: var(--rule-fine) solid var(--border-default); }
+.dsr__actor-name { display: block; font-family: var(--font-serif); font-size: var(--fs-prose); font-weight: var(--w-semibold); color: var(--text-heading); }
+.dsr__actor-role { display: block; font-size: var(--fs-caption); color: var(--text-secondary); }
+
+.dsr__missing {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--rule-fine) solid var(--danger);
+  border-left-width: var(--rule-heavy);
+  background: var(--danger-soft);
+  font-size: var(--fs-caption);
+  color: var(--text-body);
+}
+.defect {
+  font-family: var(--font-mono);
+  font-weight: var(--w-semibold);
+  color: var(--danger);
+  letter-spacing: var(--tr-micro);
+}
+
+/* ---------------------------------------------------------------- tolls -- */
+
+.dsr__toll { margin: var(--space-sm) 0 0; font-size: var(--fs-caption); }
+.dsr__range { display: inline-flex; align-items: center; gap: var(--space-2xs); }
+.dsr__range-bar {
+  display: inline-block; width: 2.5rem; height: 0;
+  border-top: var(--rule-mid) solid var(--danger);
+}
+.dsr__nocount { color: var(--danger); font-style: italic; }
+.dsr__tollnote { display: block; margin-top: var(--space-3xs); color: var(--text-secondary); }
+
+/* ------------------------------------------------------------- contested -- */
+
+.dsr__contested { margin: var(--space-sm) 0 0; font-size: var(--fs-caption); color: var(--text-secondary); }
+.dsr__contested .chip { margin-right: var(--space-2xs); }
+
+/* --------------------------------------------------------- because-chips -- */
+
+.dsr__because { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin-top: var(--space-md); }
+.dsr-chip {
+  appearance: none;
+  display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px;
+  min-height: 2.75rem;
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-left-width: var(--rule-mid);
+  border-radius: var(--radius-sm);
+  background: var(--surface-page);
+  color: var(--text-body);
+  font: inherit; font-size: var(--fs-caption); text-align: left; cursor: pointer;
+  max-width: 100%;
+}
+.dsr-chip:hover { background: var(--surface-well); border-color: var(--ink-faint); }
+.dsr-chip__rel {
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+}
+.dsr-chip__t { color: var(--text-heading); }
+.dsr-chip[data-rel='because'] { border-left-color: var(--accent); }
+.dsr-chip[data-rel='because'] .dsr-chip__rel { color: var(--accent-ink); }
+.dsr-chip[data-rel='caused'] { border-left-color: var(--accent-2); }
+.dsr-chip[data-rel='caused'] .dsr-chip__rel { color: var(--accent-2-ink); }
+.dsr-chip[data-rel='inside'] { border-left-color: var(--info); }
+.dsr-chip[data-rel='inside'] .dsr-chip__rel { color: var(--info); }
+.dsr-chip[data-rel='compare'] { border-left-color: var(--border-firm); }
+.dsr-chip[data-rel='compare'] .dsr-chip__rel { color: var(--text-min); }
+
+.dsr__kids { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+.dsr__paint { margin-top: var(--space-sm); }
+
+/* ------------------------------------------------------------ key dates -- */
+
+.dsr__dates { margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+.dsr__dates li {
+  display: grid; grid-template-columns: minmax(6.5rem, auto) 1fr; gap: var(--space-sm);
+  padding: var(--space-2xs) 0;
+  border-top: var(--rule-hair) solid var(--border-soft);
+  font-size: var(--fs-caption);
+}
+.dsr__date-what { color: var(--text-body); }
+
+/* --------------------------------------------------------- misconception -- */
+
+.dsr__belief, .dsr__correction {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  max-width: var(--measure-narrow);
+}
+.dsr__belief { color: var(--text-secondary); font-style: italic; }
+.dsr__correction { padding-left: var(--space-md); border-left: var(--rule-mid) solid var(--accent); }
+
+.dsr__hook {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-lede);
+  font-weight: var(--w-light);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+  max-width: var(--measure-narrow);
+}
+
+.dsr__confidence { margin: var(--space-xl) 0 0; font-size: var(--fs-micro); color: var(--text-min); }
+.dsr__basis { margin: var(--space-2xs) 0 0; flex: 1 1 100%; font-size: var(--fs-micro); color: var(--text-min); }
+
+/* ========================================================== renderSource == */
+/* Charge 8. The four fields are printed BEFORE the quote in DOM order, above
+   it visually, and at the SAME TYPE SIZE. They cannot shrink to a byline. */
+
+.src {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-md);
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-well);
+}
+.src__nop { margin: 0; display: grid; grid-template-columns: 1fr; }
+.src__k {
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+}
+.src__nop dt { font-size: var(--fs-micro); font-weight: var(--w-semibold); letter-spacing: var(--tr-caps); text-transform: uppercase; color: var(--text-min); }
+.src__v {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);      /* the same size as the quote below */
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.src__class { display: block; margin-top: var(--space-2xs); font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.src__class-k { display: block; font-size: var(--fs-micro); color: var(--text-min); }
+.src__for { margin: 0 0 var(--space-sm); font-size: var(--fs-caption); color: var(--text-secondary); }
+.src__quote {
+  margin: var(--space-md) 0 0;
+  padding-left: var(--space-md);
+  border-left: var(--rule-heavy) solid var(--accent);
+}
+.src__quote p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);      /* == .src__v */
+  line-height: var(--lh-prose);
+}
+.src__speaker { margin-top: var(--space-2xs); font-size: var(--fs-caption); color: var(--text-secondary); }
+/* An editor's mark in the margin, not an error banner: the box stays a source,
+   and the rule says the record under it is incomplete. */
+.src[data-defect] { border-left: var(--rule-heavy) solid var(--danger); padding-left: calc(var(--space-md) - var(--rule-heavy) + 1px); }
+
+/* ------------------------------------------------------------- empty state -- */
+
+.dossier--empty { justify-content: flex-start; padding-top: var(--space-2xl); }
+
+/* ----------------------------------------------------------- narrow / sheet -- */
+
+@media (max-width: 62rem) {
+  .dossier { --dsr-pad: var(--space-md); padding-bottom: var(--space-2xl); }
+  .dsr__name { font-size: var(--fs-h4); }
+  .dsr__fold { gap: var(--space-sm); }
+}
+
+/* --------------------------------------------------------------- motion -- */
+
+.dsr-chip, .dsr__back { transition: background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .dsr-chip,
+  :root:not([data-motion="full"]) .dsr__back { transition: none; }
+}
+:root[data-motion="reduced"] .dsr-chip,
+:root[data-motion="reduced"] .dsr__back { transition: none; }
+
+/* --------------------------------------------------------- forced colors -- */
+
+@media (forced-colors: active) {
+  .dsr__swatch { forced-color-adjust: none; border: 1px solid CanvasText; }
+  .dsr-chip, .src, .dsr__missing { border: 1px solid CanvasText; }
+}
+
+/* ----------------------------------------------------------------- print -- */
+
+@media print {
+  .dossier { padding: 0; }
+  .dsr__back, .dsr__paint { display: none; }
+  .dsr__because { break-inside: avoid; }
+  .src { break-inside: avoid; }
+}
+
+.dsr-chip[data-rel='event'] { border-left-color: var(--warn); }
+.dsr-chip[data-rel='event'] .dsr-chip__rel { color: var(--warn); }
+
+/* The fold is a fixed budget of vertical space. These clamps keep it to the
+   four answers; every clamped string is printed whole a few centimetres below,
+   in the same scroll, behind nothing. */
+.dsr__fold .dsr__eyebrow { margin-bottom: 1px; }
+.dsr__fold .dsr__from { margin-top: var(--space-3xs); }
+
+.dsr__srccount {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+.dsr__srccount .defect { font-size: var(--fs-caption); }
+
+/* =============================================================================
+   ROUND 6 — the two grid blocks that used to live here are gone.
+
+   Rounds 2 and 5 each declared `.app { height: … }` and
+   `.app { grid-template-rows/areas: … }` from this file, to defend the
+   dossier's own floor. dossier.css is loaded at runtime by this module, i.e.
+   AFTER layout.css, so a plain `.app` rule silently overruled the shell — and
+   that is how the stage row lost its budget twice. The shell now states the
+   grid once, at `#app` specificity (docs/LAYOUT_BUDGET.md, rule B9), so both
+   blocks were inert; they are deleted rather than left to mislead.
+
+   The floor this piece was defending is now the shell's `--stage-min` and the
+   rail's `--rail-w`, stated once in app/css/layout.css. This panel's job is to
+   fit the column it is given, and §ROUND 6 at the foot of this file is how it
+   does that: four answers above the fold, everything else one named click
+   away, in the sheet.
+   ========================================================================== */
+
+
+/* -------------------------------------------------------- the sticky head --
+   The name, the year, a visible close control and a rail of the sections
+   below. Round 1 had no button in the panel at all: Escape worked and nothing
+   said so. */
+
+.dossier { padding-top: 0; }
+
+.dsr__head {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  margin: 0 calc(-1 * var(--dsr-pad));
+  padding: var(--space-2xs) var(--dsr-pad) var(--space-2xs);
+  background: var(--surface-panel);
+  box-shadow: 0 var(--rule-fine) 0 0 var(--border-soft);
+}
+
+.dsr__bar { display: flex; align-items: center; gap: var(--space-sm); min-height: 1.9rem; }
+.dsr__barspacer { flex: 1 1 auto; }
+
+.dsr__close {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-grid; place-items: center;
+  width: 1.9rem; height: 1.9rem;
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-well);
+  color: var(--text-secondary);
+  font: inherit; font-size: var(--fs-caption); cursor: pointer;
+}
+.dsr__close:hover { border-color: var(--border-firm); background: var(--surface-page); color: var(--text-body); }
+
+.dsr__back { margin-bottom: 0; }
+.dsr__back-to { margin-inline-start: .4em; color: var(--text-min); }
+
+.dsr__title { align-items: baseline; }
+.dsr__year {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-min);
+  letter-spacing: var(--tr-micro);
+  flex: 0 0 auto;
+}
+
+/* One row in the header, because the fold's vertical budget is the four
+   answers and nothing else. Round 2 left this at 868px of content in a 399px
+   box with no cue and no route to the eight sections past the edge; the last
+   button in it is now a count that jumps to the full contents list printed
+   below the fold, where every section is visible at once and in the tab
+   order. */
+.dsr__rail {
+  display: flex; gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  padding-bottom: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+.dsr__rail::-webkit-scrollbar { display: none; }
+.dsr__railbtn { scroll-snap-align: start; }
+.dsr__railbtn[data-all] {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: var(--w-semibold);
+}
+.dsr__railbtn {
+  appearance: none; flex: 0 0 auto;
+  padding: 2px var(--space-sm);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface-well);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dsr__railbtn:hover { border-color: var(--border-firm); color: var(--text-body); background: var(--surface-page); }
+
+.dsr__fold { border-top: 0; padding-top: var(--space-xs); }
+
+/* ------------------------------------------------------- taken, in steps -- */
+
+.dsr__leadk {
+  display: block;
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+  font-family: var(--font-sans);
+}
+.dsr__step {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.38;
+  color: var(--text-secondary);
+}
+.dsr__step .dsr__k { color: var(--accent-ink); }
+.dsr__stepnote { display: block; font-size: var(--fs-micro); color: var(--text-min); }
+
+.dsr__record[data-role='founding'] { border-left: var(--rule-mid) solid var(--accent); padding-left: var(--space-md); }
+.dsr__record[data-role='inforce'] { border-left: var(--rule-mid) solid var(--accent-2); padding-left: var(--space-md); }
+
+.dsr__coverage {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.38;
+  color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------- actors -- */
+
+.dsr__nobody {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border-left: var(--rule-heavy) solid var(--border-firm);
+  background: var(--surface-well);
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+  color: var(--text-body);
+}
+
+.dsr__paintrow { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin: var(--space-sm) 0 0; }
+
+/* --------------------------------------------------------- the evidence -- */
+
+.dsr__shape {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--rule-fine) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface-well);
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+}
+.dsr__shapenote { display: block; margin-top: var(--space-2xs); color: var(--text-secondary); }
+.dsr__weakcount { font-weight: var(--w-semibold); color: var(--warn); }
+
+/* --------------------------------------------------- because-chip basis --
+   Charge 1(c): the justification is printed, at reading size, under the rail.
+   It was a `title` attribute in round 1, which is invisible on a touch screen
+   and silent to a screen reader. */
+
+.dsr__becausewrap { margin-top: var(--space-md); }
+.dsr__because { margin-top: 0; }
+.dsr-chip__to { font-size: var(--fs-micro); color: var(--text-min); }
+.dsr__basishead {
+  margin: var(--space-sm) 0 var(--space-3xs);
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+}
+.dsr__bases { margin: 0; padding: 0; list-style: none; }
+.dsr__bases li {
+  margin: 0 0 var(--space-2xs);
+  padding-left: var(--space-sm);
+  border-left: var(--rule-fine) solid var(--border-soft);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.dsr__basis-t { color: var(--text-body); font-weight: var(--w-medium); }
+
+/* ------------------------------------------------------- the house style -- */
+
+.dsr__hist {
+  border-bottom: var(--rule-fine) dotted var(--warn);
+  padding-bottom: 1px;
+}
+.dsr__style { background: var(--surface-well); padding: var(--space-md); border-radius: var(--radius-sm); }
+.dsr__stylelede { margin: 0; font-size: var(--fs-caption); color: var(--text-secondary); line-height: 1.45; }
+.dsr__stylelist { margin: var(--space-sm) 0 0; padding: 0; list-style: none; }
+.dsr__stylelist li {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--fs-caption); line-height: 1.45;
+  color: var(--text-secondary);
+}
+.dsr__style-now { font-weight: var(--w-semibold); color: var(--text-body); }
+.dsr__style-was { color: var(--danger); text-decoration: line-through; }
+
+/* ---------------------------------------------------- renderSource levels -- */
+
+.src__level {
+  display: block;
+  margin-top: var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  line-height: 1.35;
+  color: var(--text-min);
+}
+.src__level[data-level='work'] { color: var(--accent-2-ink); }
+.src__level[data-level='class'] { color: var(--warn); }
+.src__level[data-level='gap'],
+.src__level[data-level='missing'] { color: var(--danger); }
+.src__v[data-level='class'] { border-left: var(--rule-fine) solid var(--warn); padding-left: var(--space-sm); }
+.src__v[data-level='missing'] { border-left: var(--rule-fine) solid var(--danger); padding-left: var(--space-sm); }
+.src[data-weak] { border-left: var(--rule-mid) solid var(--warn); }
+
+/* ------------------------------------------------------------ narrow/sheet -- */
+
+@media (max-width: 62rem) {
+  .dsr__head { padding-top: var(--space-xs); }
+  .dsr__rail { margin-inline: 0; }
+}
+
+@media (forced-colors: active) {
+  .dsr__railbtn, .dsr__close, .dsr__shape, .dsr__nobody { border: 1px solid CanvasText; }
+  .dsr__hist { border-bottom: 1px dotted CanvasText; }
+}
+
+@media print {
+  .dsr__rail, .dsr__close, .dsr__paintrow { display: none; }
+  .dsr__head { position: static; }
+}
+
+/* The legal condition this record wrote for THIS place at THIS date, at the
+   same size as the class word beside it. Egypt then reads four different legal
+   labels at 1882, 1914, 1922 and 1956, which is what T12 asks of it. */
+.dsr__statusline .dsr__statuslabel {
+  font-size: var(--fs-prose);
+  font-style: italic;
+  color: var(--text-body);
+}
+.dsr__leadk { margin: 0 0 var(--space-3xs); }
+
+/* ------------------------------------------------------- the fold budget --
+   The panel is now a fixed height (about 515px at 1280x800 once the masthead,
+   the timeline and the footer have taken theirs), and the four answers have to
+   fit inside it without scrolling. Every value below is that budget being
+   spent deliberately, and every clamped string is printed whole further down
+   the same scroll, behind nothing. */
+
+.dsr__head { padding-block: var(--space-3xs) var(--space-2xs); }
+.dsr__title { position: relative; padding-inline-end: 2.2rem; gap: var(--space-xs); }
+.dsr__title .dsr__close { position: absolute; inset-block-start: -2px; inset-inline-end: 0; }
+.dsr__name { font-size: var(--fs-h4); line-height: 1.1; }
+.dsr__sub {
+  margin-top: 1px;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;
+  font-size: var(--fs-micro);
+}
+.dsr__year { position: absolute; inset-block-start: 0; inset-inline-end: 2.4rem; margin: 0; }
+.dsr__rail { margin-top: var(--space-3xs); }
+.dsr__railbtn { padding: 1px var(--space-xs); }
+
+.dsr__fold { gap: 0; padding-top: var(--space-2xs); }
+.dsr__fold .dsr__block + .dsr__block { margin-top: var(--space-2xs); padding-top: var(--space-2xs); }
+.dsr__fold .dsr__statusline { font-size: var(--fs-lede); line-height: 1.2; }
+.dsr__fold .dsr__statusline .dsr__statuslabel { font-size: var(--fs-lede); }
+.dsr__fold .dsr__lead { font-size: var(--fs-lede); line-height: 1.2; }
+.dsr__fold .dsr__fact, .dsr__fold .dsr__from { margin-top: 1px; line-height: 1.3; font-size: var(--fs-caption); }
+.dsr__fold .dsr__franchise { margin-top: var(--space-3xs); padding-left: var(--space-xs); }
+.dsr__fold .dsr__step { margin-top: 2px; font-size: var(--fs-micro); line-height: 1.3; }
+.dsr__fold .dsr__step .dsr__stepnote { display: inline; }
+.dsr__fold .dsr__leadk { margin-bottom: 0; }
+.dsr__fold .dsr__eyebrow { margin-bottom: 0; }
+.dsr__foldnote { margin-top: var(--space-md); }
+
+/* The swatch must never be inside the clamp: -webkit-box collapses it to a
+   hairline. Clamp the words, keep the colour-and-texture mark beside them. */
+.dsr__statusline { display: flex; align-items: flex-start; gap: var(--space-sm); }
+.dsr__fold .dsr__statusline { display: flex; -webkit-line-clamp: none; overflow: visible; }
+.dsr__statuswords { min-width: 0; }
+.dsr__fold .dsr__statuswords { min-width: 0; }
+.dsr__statusline .dsr__swatch { margin-top: .18em; }
+
+/* The rail scrolls sideways; say so at its edge rather than letting a label
+   end in nothing. */
+.dsr__rail {
+  mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent 100%);
+}
+
+/* The last of the budget. The four answers must clear the panel's bottom edge
+   on all 260 territories at 1280x800, where the panel is about 515px tall. */
+.dsr__fold .dsr__statusline,
+.dsr__fold .dsr__statusline .dsr__statuslabel,
+.dsr__fold .dsr__lead { font-size: var(--fs-prose); line-height: 1.22; }
+.dsr__fold .dsr__eyebrow { line-height: 1.2; }
+.dsr__fold .dsr__fact, .dsr__fold .dsr__from { line-height: 1.26; }
+.dsr__fold .dsr__block + .dsr__block { margin-top: var(--space-3xs); padding-top: var(--space-3xs); }
+.dsr__head { padding-block: 2px var(--space-3xs); }
+.dsr__fold { padding-top: var(--space-3xs); }
+
+/* No CSS clamp on a fold field. Round 2 capped these at two lines and the
+   flagship franchise line ended "roughly 3% of adults enfranchised af…".
+   fields.js clip() now cuts at a sentence, a clause or a word — never inside a
+   word — and prints a button to the whole of it. */
+
+/* The mark and the words are one line of reading, never two rows. */
+.dsr__statusline { flex-wrap: nowrap; }
+
+/* A section heading takes focus when the rail jumps to it. The ring belongs to
+   the words, not to the width of the panel. */
+.dsr__eyebrow { width: max-content; max-width: 100%; }
+.dsr__eyebrow:focus { outline: none; }
+.dsr__eyebrow:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 3px; border-radius: var(--radius-xs); }
+
+/* The eyebrow above already says how many steps there are, so the in-force
+   line stays short by being written short. */
+.dsr__fold .dsr__leadk { white-space: nowrap; overflow: hidden; text-overflow: clip; }
+
+/* Six more pixels: the last territory whose four answers did not clear the
+   panel edge at 1280x800 was Northern Rhodesia in 1900. */
+.dsr__fold .dsr__block + .dsr__block { margin-top: var(--space-3xs); padding-top: 0; }
+.dsr__rail { margin-top: 2px; }
+.dsr__head { padding-block: 2px 2px; }
+
+/* "How control worked" is a paragraph, and the fold's job is the four answers.
+   The first clause of it here; the whole of it below, under its own heading,
+   with the period it describes named — and a button that goes there. */
+.dsr__fold .dsr__fact--tight { color: var(--text-secondary); }
+
+.dsr__basisone {
+  margin: var(--space-xs) 0 0;
+  padding-left: var(--space-sm);
+  border-left: var(--rule-fine) solid var(--border-soft);
+  font-size: var(--fs-caption); line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+/* =============================================================================
+   ROUND 3 — the panel asks something.
+
+   Round 2 lost to the printed chapter on one measurable thing: across 260
+   territories this panel contained zero interrogatives, zero inputs and zero
+   commitments. Everything below is the typography of a question: a ruled
+   exercise box in the well ground, the belief set as a quotation at reading
+   size, the answers as real buttons, and the record kept out of the DOM until
+   the student has taken a position.
+   ========================================================================== */
+
+.dsr__think { --dsr-ask-rule: var(--accent-2-ink); }
+
+.dsr__ask {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  border: var(--rule-fine) solid var(--border-default);
+  border-inline-start: var(--rule-heavy) solid var(--dsr-ask-rule, var(--accent-2-ink));
+  border-radius: var(--radius-sm);
+  background: var(--surface-well);
+}
+.dsr__ask--toll { --dsr-ask-rule: var(--accent); }
+
+.dsr__askeyebrow {
+  display: block;
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--dsr-ask-rule, var(--accent-2-ink));
+}
+
+.dsr__ask .dsr__belief {
+  margin: 0 0 var(--space-sm);
+  padding: 0;
+  border: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  font-style: normal;
+  color: var(--text-heading);
+}
+.dsr__ask .dsr__belief p { margin: 0; text-indent: 0; }
+.dsr__ask .dsr__belief p::before { content: '\201C'; }
+.dsr__ask .dsr__belief p::after  { content: '\201D'; }
+
+.dsr__askq {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+}
+.dsr__askmark { color: var(--dsr-ask-rule, var(--accent-2-ink)); margin-inline-end: var(--space-2xs); }
+.dsr__askqt { font-weight: var(--w-semibold); }
+.dsr__asknote {
+  display: block;
+  margin-top: var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-regular);
+  color: var(--text-min);
+}
+
+.dsr__choices { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin: 0 0 var(--space-sm); }
+.dsr__choice {
+  appearance: none;
+  display: inline-flex; align-items: center;
+  min-height: 2rem;
+  padding: var(--space-2xs) var(--space-md);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background var(--dur-instant) var(--ease-standard), border-color var(--dur-instant) var(--ease-standard);
+}
+.dsr__choice:hover { border-color: var(--accent); background: var(--surface-page); }
+.dsr__choice[data-chosen='yes'] {
+  border-color: var(--accent);
+  border-width: var(--rule-mid);
+  background: var(--surface-page);
+  color: var(--accent-ink);
+  font-weight: var(--w-semibold);
+}
+.dsr__choice[data-chosen='yes']::before { content: '\2713\00a0'; }
+.dsr__choice:disabled { opacity: .55; cursor: default; }
+.dsr__choice:disabled:hover { border-color: var(--border-firm); background: var(--surface-panel); }
+
+.dsr__askwhy {
+  margin: 0;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-min);
+}
+
+.dsr__askpick { margin: 0 0 var(--space-2xs); font-size: var(--fs-caption); color: var(--text-body); }
+.dsr__askpick b { font-weight: var(--w-semibold); }
+
+.dsr__askverdict {
+  margin: 0 0 var(--space-sm);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--warn);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.dsr__askverdict[data-ok='yes'] { border-inline-start-color: var(--ok); }
+.dsr__askverdict:focus { outline: none; }
+.dsr__askverdict:focus-visible { outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 3px; }
+
+.dsr__reveal { margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: var(--rule-hair) solid var(--border-default); }
+.dsr__revealk {
+  display: block; margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+  color: var(--text-min);
+}
+.dsr__ask .dsr__correction {
+  margin: 0;
+  padding-inline-start: 0;
+  border: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.dsr__askhigher {
+  margin: var(--space-2xs) 0 0;
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-mid) solid var(--danger);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.dsr__asktally, .dsr__asknext {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+/* -------------------------------------------------- routes, never guesses -- */
+
+.dsr__more, .dsr__jump {
+  appearance: none;
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.dsr__more:hover, .dsr__jump:hover { color: var(--link-hover); }
+.dsr__more:focus-visible, .dsr__jump:focus-visible,
+.dsr__choice:focus-visible, .dsr__contentsbtn:focus-visible {
+  outline: var(--rule-mid) solid var(--focus-ring); outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- contents --- */
+
+.dsr__contents {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-sm) 0 0;
+  border-top: var(--rule-hair) solid var(--border-default);
+}
+.dsr__contentsk { display: block; margin: 0 0 var(--space-2xs); font-size: var(--fs-micro); color: var(--text-min); }
+.dsr__contentslist { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.dsr__contentsbtn {
+  appearance: none;
+  padding: 2px var(--space-sm);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface-well);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  cursor: pointer;
+}
+.dsr__contentsbtn:hover { border-color: var(--border-firm); color: var(--text-body); background: var(--surface-page); }
+
+/* -------------------------------------------------------- the open range -- */
+
+.dsr__range[data-open='yes'] .dsr__range-bar {
+  -webkit-mask-image: linear-gradient(to right, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 55%, transparent 100%);
+}
+.dsr__range-open {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--danger);
+  margin-inline-start: var(--space-2xs);
+}
+.dsr__tollwrap { margin: var(--space-sm) 0 0; }
+.dsr__tollwrap .dsr__toll { margin-top: 0; }
+
+/* ---------------------------------------------------- no more wallpaper --- */
+
+.src--again {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-inline-start: var(--rule-fine) solid var(--border-soft);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.src__foragain { display: block; margin-top: var(--space-3xs); color: var(--text-min); }
+.src__v[data-repeat='yes'] { border-inline-start: var(--rule-fine) solid var(--border-soft); padding-inline-start: var(--space-sm); }
+.dsr__srcrepeat, .dsr__causenote {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.dsr__causenote {
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-fine) solid var(--border-soft);
+}
+
+/* ------------------------------------------------------------- both modes -- */
+
+@media (forced-colors: active) {
+  .dsr__ask, .dsr__choice, .dsr__contentsbtn { border: 1px solid CanvasText; }
+  .dsr__choice[data-chosen='yes'] { border: 2px solid Highlight; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dsr__choice { transition: none; }
+}
+@media print {
+  .dsr__contents, .dsr__rail { display: none; }
+  .dsr__ask { border: 1px solid #000; break-inside: avoid; }
+  .dsr__choices { display: none; }
+}
+
+/* The last of the fold's budget, measured rather than guessed: at 1280x800 the
+   dossier column is 421px tall, and the four answers have to clear its bottom
+   edge on all 260 territories. */
+.dsr__fold .dsr__block + .dsr__block { margin-top: 2px; padding-top: 2px; }
+.dsr__fold .dsr__eyebrow { margin-bottom: 0; line-height: 1.15; }
+.dsr__fold .dsr__lead { margin-top: 1px; }
+.dsr__fold .dsr__fact, .dsr__fold .dsr__from { margin-top: 1px; }
+.dsr__fold .dsr__franchise { margin-top: var(--space-3xs); padding-left: var(--space-xs); }
+.dsr__fold .dsr__block + .dsr__block { margin-top: 1px; padding-top: 1px; }
+.dsr__fold { padding-top: 1px; }
+.dsr__head { padding-block: 0 1px; }
+.dsr__sub { margin-top: 0; }
+.dsr__rail { margin-top: 2px; }
+.dsr__fold .dsr__step { margin-top: 1px; }
+
+/* =============================================================================
+   ROUND 4 — an argument, not a record.
+
+   The critic's verdict on round 3: "P04's record is extraordinary… but it is a
+   record, not an argument." Three things follow from that, and they are the
+   only three things this block styles.
+
+     1. The thesis goes above the fold, in its own register — the place a
+        chapter puts its argument and the place we had a subregion.
+     2. The word BECAUSE gets a chip you can see from across the room, because
+        it now means something: a cause this atlas states and signs.
+     3. The header stops being a navigation bar. One control, not fourteen.
+   ========================================================================== */
+
+/* --------------------------------------------- the argument, above the fold
+   One line, in the header, at the size of the sub-line it sits under. It costs
+   about seventeen pixels; a block with its own heading in the fold cost "How
+   it ended" on Kenya 1964, which is how the first attempt at this failed. */
+
+.dsr__meta {
+  display: flex; align-items: baseline; gap: var(--space-sm);
+  margin-top: 2px;
+}
+.dsr__thesisline {
+  margin: 0; flex: 1 1 auto; min-width: 0;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: var(--fs-caption);
+  line-height: 1.3;
+  color: var(--text-body);
+  border-left: var(--rule-mid) solid var(--accent);
+  padding-left: var(--space-sm);
+  text-wrap: pretty;
+}
+.dsr__thesisline .dsr__k { color: var(--accent-ink); }
+
+/* Below the fold, the whole of it, set as the lede it is. */
+.dsr__why .dsr__thesist {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: var(--fs-lede);
+  line-height: 1.34;
+  color: var(--text-heading);
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------- why this step, and not
+   the first one on record. The reason for the ordering is printed, never
+   assumed, and it is set as an aside so it cannot be mistaken for the record. */
+.dsr__whystep {
+  margin: var(--space-3xs) 0 0;
+  font-size: var(--fs-micro);
+  line-height: 1.34;
+  color: var(--text-min);
+}
+.dsr__whystep .dsr__k { color: var(--accent-ink); }
+
+/* ------------------------------------------------ the causal chip, at last --
+   Round 3 had zero of these in the whole atlas. They now carry a statement
+   this atlas signs, so they are the loudest chip in the rail and the reason
+   under them is set at reading size. */
+.dsr-chip[data-authored='yes'] {
+  border-left-width: var(--rule-heavy);
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+.dsr-chip[data-authored='yes'] .dsr-chip__rel { color: var(--accent-ink); font-weight: var(--w-semibold); }
+.dsr-chip[data-rel='causedby'] { border-left-color: var(--accent-2); background: var(--accent-2-soft); }
+.dsr-chip[data-rel='causedby'] .dsr-chip__rel { color: var(--accent-2-ink); }
+.dsr__bases li[data-authored='yes'] {
+  font-size: var(--fs-caption);
+  line-height: 1.42;
+  color: var(--text-body);
+  border-left: var(--rule-fine) solid var(--accent);
+  padding-left: var(--space-sm);
+  margin-block: var(--space-2xs);
+}
+
+/* ----------------------------------------------------- one contents control */
+
+.dsr__toc {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex; align-items: baseline; gap: 4px;
+  padding: 1px var(--space-xs);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface-well);
+  color: var(--text-secondary);
+  font: inherit; font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  white-space: nowrap; cursor: pointer;
+  flex: 0 0 auto;
+}
+.dsr__toc:hover { border-color: var(--border-firm); color: var(--text-body); }
+.dsr__toc-n { font-family: var(--font-mono); color: var(--text-body); }
+/* The header is no longer a navigation bar. Nothing renders .dsr__rail. */
+.dsr__rail { display: none; }
+
+/* ------------------------------------------------- a step printed in brief --
+   British India renders twenty-one conquests. The ones this entry turns on are
+   printed whole; the rest carry their date, their verb and who lost, and a
+   button that opens the prose here. The count and the rule are printed above
+   them, so nothing is quietly missing. */
+.dsr__briefnote {
+  margin: 0 0 var(--space-sm);
+  padding-left: var(--space-sm);
+  border-left: var(--rule-fine) solid var(--border-soft);
+  font-size: var(--fs-micro); line-height: 1.4;
+  color: var(--text-min);
+}
+.dsr__record[data-short='yes'] {
+  padding-block: var(--space-2xs);
+  border-left-color: var(--border-soft);
+}
+.dsr__record[data-short='yes'] .dsr__lead { font-size: var(--fs-small); }
+.dsr__record[data-role='lead'] { border-left-color: var(--accent); }
+.dsr__expandrow { margin: var(--space-3xs) 0 0; }
+
+/* ----------------------------------------------------- the provenance rail --
+   Charge 8's third mechanism. One mark per source, textured by what kind of
+   source it is, so a page that is six modern monographs and no testimony has a
+   visible shape before a word of it is read. */
+.src__rail {
+  display: inline-flex; gap: 3px; align-items: flex-end;
+  margin-inline-end: var(--space-xs);
+  vertical-align: -2px;
+}
+.src__tick {
+  display: inline-block; width: 7px; height: 15px;
+  border: var(--rule-fine) solid var(--ink-faint);
+  border-radius: 1px;
+  background: var(--surface-well);
+}
+.src__tick[data-kind='book'] { background: var(--ink-ghost); }
+.src__tick[data-kind='chapter'] {
+  background: repeating-linear-gradient(135deg, var(--ink-ghost) 0 2px, transparent 2px 4px);
+}
+.src__tick[data-kind='article'] {
+  background: repeating-linear-gradient(0deg, var(--ink-ghost) 0 1px, transparent 1px 3px);
+}
+.src__tick[data-kind='reference-work'] {
+  background: repeating-linear-gradient(90deg, var(--ink-ghost) 0 1px, transparent 1px 3px);
+}
+.src__tick[data-kind='official-record'] { background: var(--accent-2); border-color: var(--accent-2-ink); }
+.src__tick[data-kind='primary-source'] { background: var(--accent); border-color: var(--accent-hover); }
+.src__tick[data-kind='unrecorded'] {
+  background: repeating-linear-gradient(45deg, var(--danger) 0 2px, transparent 2px 4px);
+  border-color: var(--danger);
+}
+.dsr__railkey {
+  list-style: none; margin: var(--space-2xs) 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-sm);
+  font-size: var(--fs-micro); color: var(--text-min);
+}
+.dsr__railkey li { display: flex; align-items: center; gap: 5px; }
+.dsr__railkey .src__tick { height: 11px; }
+
+/* ------------------------------------------------------ attribution gate --
+   The purpose field of one source per dossier is a question before it is an
+   answer. Same typography as the other two gates, so a student learns one
+   shape and not three. */
+.dsr__ask--src { margin: 0; padding: var(--space-2xs) 0 0; border: 0; background: none; }
+.dsr__ask--src .dsr__choices { margin-top: var(--space-2xs); }
+.dsr__ask--src .dsr__reveal { margin-top: var(--space-2xs); }
+.src__v[data-gate='yes'] { border-left: var(--rule-mid) solid var(--accent); padding-left: var(--space-sm); }
+
+@media print {
+  .dsr__toc, .dsr__expandrow { display: none; }
+  .dsr__record[data-short='yes'] { display: block; }
+}
+
+@media (forced-colors: active) {
+  .dsr__toc, .src__tick { border: 1px solid CanvasText; }
+  .dsr-chip[data-authored='yes'] { border: 2px solid CanvasText; }
+}
+
+/* The fold's last resort, and the only step in the ladder that costs no
+   content: tighter leading. Eighteen territories cleared the panel edge by one
+   to eighteen pixels after every other step had run. */
+.dsr__fold[data-tight] .dsr__lead,
+.dsr__fold[data-tight] .dsr__statusline { line-height: 1.14; }
+.dsr__fold[data-tight] .dsr__fact,
+.dsr__fold[data-tight] .dsr__from,
+.dsr__fold[data-tight] .dsr__whystep,
+.dsr__fold[data-tight] .dsr__step { line-height: 1.2; }
+.dsr__fold[data-tight] .dsr__eyebrow { line-height: 1.08; }
+.dsr__fold[data-tight='more'] .dsr__lead,
+.dsr__fold[data-tight='more'] .dsr__statusline { line-height: 1.06; }
+.dsr__fold[data-tight='more'] .dsr__fact,
+.dsr__fold[data-tight='more'] .dsr__from,
+.dsr__fold[data-tight='more'] .dsr__whystep,
+.dsr__fold[data-tight='more'] .dsr__step { line-height: 1.14; }
+.dsr__fold[data-tight='more'] .dsr__block + .dsr__block { margin-top: 0; }
+
+/* `hidden` must win. `.dsr__meta { display: flex }` and
+   `.dsr__sub { display: -webkit-box }` are class selectors, the same
+   specificity as `[hidden]`, and they load later — so two steps of the fold's
+   ladder were setting the attribute and changing nothing. Libya 1943 and Cape
+   Colony 1795 overflowed the panel for exactly that reason. */
+.dossier [hidden] { display: none !important; }
+
+/* ==================================================== ROUND 5 — testimony ==
+   The primary texts. Round 4's verdict was that the four-question apparatus
+   had no archive to read: 613 evidence entries and not one transcribed
+   quotation. `testimony.js` is the archive; this is what it looks like.
+
+   A text made at the time is marked, not decorated. The block carries the
+   panel's one heavier rule and the source boxes inside it a deeper ground, so
+   the eye can tell at a glance — before reading a word, which is charge 8's
+   whole point — that this page holds somebody's own words and not only
+   historians' conclusions about them. */
+
+.dsr__testimony { border-top: var(--rule-mid) solid var(--border-firm); padding-top: var(--space-sm); }
+.dsr__testintro {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  max-width: 62ch;
+}
+/* ROUND 7. This line now says whose hands these documents came from, and on
+   four entries it says that every one of them is British. That is an honesty
+   affordance, and docs/LAYOUT_BUDGET.md §5 gives honesty affordances exactly
+   one look: `.cx-note`. It carries that class and adds only its spacing —
+   `--fs-micro` in `--text-min` was the register for a footnote, and this is
+   not a footnote. */
+.dsr__testtally { margin: var(--space-md) 0 0; max-width: 62ch; }
+/* A source that carries a text made at the time. The ground is the page's, not
+   the well's, so it reads as a document laid on the panel rather than as one
+   more citation card. */
+.src[data-primary='yes'] {
+  background: var(--surface-page);
+  border-color: var(--border-firm);
+}
+.src[data-primary='yes'] .src__quote {
+  margin-top: var(--space-md);
+  border-left-color: var(--accent-ink);
+}
+/* Where to go and check it. Charge 13, one line per source, on the page the
+   student is already reading rather than in a dataset nobody opens. */
+.src__check {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+/* The honest absence, for the 203 entries this atlas has no contemporary text
+   for. It is set as a defect because it is one — a gap in this atlas, and the
+   student is entitled to see it rather than to infer it. */
+.dsr__absence {
+  margin: 0;
+  padding-left: var(--space-md);
+  border-left: var(--rule-heavy) solid var(--warn);
+  font-size: var(--fs-small);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+  max-width: 64ch;
+}
+
+/* A causal claim carries its source on the line the student reads it on. */
+.dsr__basiscite { color: var(--text-min); }
+.dsr__basiscite.defect { color: var(--danger); }
+
+/* ================================================= ROUND 5 — the core path ==
+   The extension sections, folded. The summary is a real heading with its
+   subject and its length on it, so the choice to open is an informed one and
+   the panel stops being a wall. */
+
+.dsr__pathmark {
+  margin: var(--space-xl) 0 var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: var(--rule-mid) solid var(--border-firm);
+}
+.dsr__pathk { margin: 0; color: var(--text-min); }
+.dsr__pathline {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  max-width: 62ch;
+}
+
+.dsr__ext { margin-top: var(--space-sm); border-top: var(--rule-hair) solid var(--border-soft); }
+.dsr__extsum {
+  display: flex; align-items: baseline; gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  cursor: pointer;
+  list-style: none;
+  color: var(--link);
+}
+.dsr__extsum::-webkit-details-marker { display: none; }
+.dsr__extsum::before {
+  content: '▸';
+  flex: 0 0 auto;
+  font-size: var(--fs-caption);
+  color: var(--text-min);
+}
+.dsr__ext[open] > .dsr__extsum::before { content: '▾'; }
+.dsr__extlabel {
+  font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-caps); text-transform: uppercase;
+}
+.dsr__extlen { margin-left: auto; font-size: var(--fs-micro); color: var(--text-min); font-variant-numeric: tabular-nums; }
+.dsr__extsum:hover .dsr__extlabel { text-decoration: underline; }
+.dsr__ext > .dsr__block { margin-top: 0; }
+/* The section's own heading is already on the summary; printing it twice
+   inside is furniture. It stays in the accessibility tree, though — a heading
+   removed with display:none is a heading a screen-reader user has lost. */
+.dsr__ext[open] > .dsr__block > .dsr__eyebrow:first-child {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+@media print {
+  /* Print is one version and it carries everything. */
+  .dsr__ext { display: block; }
+  .dsr__ext > .dsr__block { display: block !important; }
+  .dsr__extsum { list-style: none; }
+  .dsr__ext:not([open]) > .dsr__block { display: block !important; }
+}
+
+/* The extra primary texts, folded inside their own block: the summary names
+   the authors, so the choice is informed rather than blind. */
+.dsr__ext--src { border-top: 0; }
+.dsr__ext--src .dsr__extlen { font-size: var(--fs-micro); text-align: end; }
+
+/* Where the people in this entry came from, declared rather than assumed. */
+.dsr__derived {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-min);
+  max-width: 64ch;
+}
+
+/* The record, put to work: a second visit asks before it tells. */
+.dsr__retrieval {
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-left: var(--rule-heavy) solid var(--accent);
+  background: var(--surface-well);
+}
+.dsr__retrq { margin: 0; font-size: var(--fs-small); line-height: var(--lh-ui); max-width: 62ch; }
+.dsr__retrnote { margin: var(--space-2xs) 0 0; font-size: var(--fs-micro); color: var(--text-min); max-width: 62ch; }
+
+/* A hole, not a defect. --danger stays for [unsourced] and for an entry that
+   names no non-British person; this is the mark for something the archive
+   never gave us. */
+.dsr__gapmark {
+  color: var(--warn);
+  font-weight: var(--w-semibold);
+  white-space: nowrap;
+}
+.dsr__absencenext { margin: var(--space-sm) 0 0; padding-left: var(--space-md); }
+.dsr__absencelead {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  max-width: 64ch;
+}
+
+/* The corpus auditing itself, in front of the student. */
+.dsr__testaudit { margin: var(--space-2xs) 0 0; font-size: var(--fs-caption); color: var(--text-secondary); }
+
+
+/* =============================================================================
+   ROUND 6 — ONE VOICE, AND FOUR THINGS AT A TIME.
+
+   Two jobs, and nothing else.
+
+   §1  RETIRE THIS PANEL'S OWN VERSIONS of things chrome.css now states once for
+       the whole application. Before this pass the dossier carried its own
+       "there is more" (a grey micro link), its own question box (a red or blue
+       left rule of its own devising), its own eyebrow, its own pill for the
+       contents, its own fold summary and its own citation card — six private
+       treatments of six shared ideas, and a reader had to learn each of them
+       separately. Every one of them is deleted here in favour of `.cx-more`,
+       `.cx-ask`, `.cx-panel__head`, `.cx-panel` and `.cx-note`.
+
+       THE LEFT RULE NOW MEANS ONE THING. Round 5 drew a coloured rule on the
+       leading edge of the franchise line, the thesis line, the question, the
+       toll question and two kinds of provenance answer — six different
+       meanings for one mark on one screen. It means "you are being asked
+       something", and nothing else.
+
+   §2  THE INDEX. Ten of this entry's twelve sections are destinations in the
+       shell's sheet rather than screenfuls of this column, and the index is
+       the door to them. It prints the length of every one, because a reader
+       choosing between a sixty-word note and a nine-hundred-word record should
+       be told which is which before they spend the click.
+   ========================================================================== */
+
+/* ---- §1.1  the one "there is more" -------------------------------------- */
+/* .dsr__more is now only a hook for layout; the look is `.cx-more`, and
+   dossier.css loads after chrome.css so its old colour and micro size had to
+   be given back explicitly. */
+.dsr__more, .dsr__jump {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--accent-ink);
+  line-height: inherit;
+}
+.dsr__expandrow { margin: var(--space-2xs) 0 0; }
+
+/* ---- §1.2  the one question --------------------------------------------- */
+/* `.cx-ask` owns the rule, the inset and the margin. What is left here is the
+   part that is this panel's: the belief in quotation marks, the choices, and
+   the reveal that is not in the DOM until the reader has committed. */
+.dsr__ask {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-none);
+  background: none;
+}
+.cx-ask.dsr__ask {
+  border-inline-start: var(--rule-heavy) solid var(--accent-2-ink, var(--info));
+  padding-inline-start: var(--space-md);
+  margin-block: var(--space-lg);
+}
+/* ONE colour for a question. Round 5 drew the death-toll question in madder
+   and the belief question in admiralty blue, so the mark a reader had just
+   learned meant "you are being asked something" changed colour on the second
+   one. The two are the same act and they look the same. */
+.cx-ask.dsr__ask--toll { border-inline-start-color: var(--accent-2-ink, var(--info)); }
+.cx-ask.dsr__ask--src { margin-block: var(--space-md); }
+.dsr__askq { margin-bottom: var(--space-sm); }
+
+/* ---- §1.3  one left rule, one meaning ----------------------------------- */
+.dsr__franchise, .dsr__thesisline, .dsr__basisone, .dsr__basis {
+  border-left: 0;
+  padding-left: 0;
+}
+.dsr__fold .dsr__franchise { padding-left: 0; }
+.dsr__franchise .dsr__k, .dsr__thesisline .dsr__k { color: var(--text-min); }
+/* The franchise line is the field FEATURE_SPEC §2 singles out, so it keeps a
+   mark — the key in the accent, which is a word and not a rule. */
+.dsr__franchise .dsr__k { color: var(--accent-ink); }
+
+/* ---- §1.4  the citation ------------------------------------------------- */
+/* `.cx-panel--tight` gives every source the one panel recipe: square, one
+   hairline, no shadow. The rounded, filled card is gone. */
+.src { background: var(--surface-panel); border-radius: var(--radius-none); }
+.src__quote { border-left-color: var(--border-firm); }
+.src__v[data-level='class'] { border-left-color: var(--warn); }
+
+/* ---- §1.5  the treatments nothing renders any more ---------------------- */
+/* The thirteen-button contents list, the "13 sections" pill, the nine folded
+   <details>, the core-path marker and the header rail. Each was this panel's
+   answer to "there is too much here" and each of them kept all of it in one
+   column. Deleted, not hidden: the sections themselves are in the sheet. */
+.dsr__contents, .dsr__contentsk, .dsr__contentslist, .dsr__contentsbtn,
+.dsr__toc, .dsr__toc-n, .dsr__pathmark, .dsr__pathk, .dsr__pathline,
+.dsr__rail, .dsr__railbtn { display: none; }
+
+/* ---- §2.1  the page this panel is now ----------------------------------- */
+.dsr__page { display: block; }
+.dsr__promo { min-width: 0; }
+.dsr__promoline {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-heading);
+  text-wrap: pretty;
+}
+.dsr__promosay { margin: var(--space-2xs) 0 var(--space-xs); }
+.dsr__promo .cx-more { display: inline-block; }
+
+/* ---- §2.2  the index ---------------------------------------------------- */
+.dsr__indexk { margin: 0 0 var(--space-sm); }
+
+/* THE SENTENCE MUST BE TRUE WHERE IT IS READ. Round 4: "'Everything below
+   opens beside the map, at full height, with its own scroll' is printed
+   verbatim on a 390px phone, where nothing opens beside the map." Correct.
+   Under 62rem `layout.css` turns both rail surfaces into one bottom sheet
+   stacked over the map, so the promise changes and the copy has to change with
+   it. Two spans, one media query, the same 62rem the shell switches on — not a
+   JS listener, because a resize must not be able to leave a lie on screen for
+   a frame. Only these two spans are switched; there is no layout here. */
+.dsr__ifsheet { display: none; }
+@media (max-width: 62rem) {
+  .dsr__ifrail { display: none; }
+  .dsr__ifsheet { display: inline; }
+}
+.dsr__idx {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 0 var(--space-md);
+}
+.dsr__idxrow {
+  display: contents;
+}
+.dsr__idxbtn {
+  grid-column: 1;
+  padding-block: var(--space-3xs);
+  border-top: var(--rule-hair) solid var(--border-soft);
+  display: block;
+}
+.dsr__idxrow:first-child .dsr__idxbtn,
+.dsr__idxrow:first-child .dsr__idxlen { border-top: 0; }
+/* THE ONE ROW THAT SAYS SOMETHING. The contested row prints the dispute's own
+   first sentence under it (see dossier.js, the index). It spans both columns so
+   the two-column rhythm of the list survives, and it is the only row that has
+   one, which is the point: a list in which everything is emphasised emphasises
+   nothing. */
+.dsr__idxsay {
+  grid-column: 1 / -1;
+  margin: 0 0 var(--space-2xs);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: var(--rule-fine) solid var(--border-soft);
+}
+
+.dsr__idxlen {
+  grid-column: 2;
+  align-self: center;
+  padding-block: var(--space-3xs);
+  border-top: var(--rule-hair) solid var(--border-soft);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  white-space: nowrap;
+}
+.dsr__idxlen .num { font-size: inherit; }
+
+/* ---- §2.3  this panel's own sections, standing in the shell's sheet ------
+   A routed section is the same DOM it was in this column, so it needs this
+   panel's typographic ground wherever it is standing. Without this it
+   inherits the body's 16px sans and every eyebrow, key and caption in it
+   changes size on the way through the door. */
+.cx-sheet__body .dsr__block,
+.dsr__printall {
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  line-height: var(--lh-ui);
+  color: var(--text-body);
+}
+.cx-sheet__body .dsr__block { padding-top: 0; margin-top: 0; border-top: 0; }
+.cx-sheet__body .dsr__block + .dsr__block {
+  padding-top: var(--space-lg); margin-top: var(--space-lg);
+  border-top: var(--rule-fine) solid var(--border-default);
+}
+.cx-sheet__body .dsr__prose, .cx-sheet__body .dsr__thesist { max-width: var(--measure); }
+
+/* ---- §2.4  print --------------------------------------------------------
+   Charge 14: the permanent artefact is the printed page, so the ten routed
+   sections are put back into the document for the print and taken out again
+   afterwards (panels/dossier/index.js, beforeprint). */
+.dsr__printall { display: none; }
+@media print {
+  .dsr__printall { display: block; margin-top: var(--space-lg); }
+  .dsr__printall > .dsr__block { break-inside: auto; }
+  .dsr__idx, .dsr__indexk { display: none; }
+}
+
+/* ---- §2.5  the one display figure --------------------------------------
+   The death toll, in `.cx-fig`. The open range keeps its bar — the value is a
+   span with two figures and a rule between them, so it lays out inline inside
+   the figure's value slot rather than stacking. */
+.cx-fig.dsr__toll { margin: var(--space-md) 0 0; gap: 2px; }
+.cx-fig__v.dsr__range { display: inline-flex; align-items: center; gap: var(--space-2xs); }
+.cx-fig.dsr__toll .cx-fig__v .num { font-size: inherit; }
+.cx-fig--none.dsr__toll .cx-fig__v { font-size: var(--fs-small); }
+.dsr__tollwrap .cx-fig.dsr__toll { margin-top: 0; }
+
+/* ---- §1.6  one accent key, not four -------------------------------------
+   Round 5 set the small-caps key of the argument line, the franchise line, the
+   in-force line and the why-this-step line all in madder. Four red marks in
+   one fold is four things claiming to be the important one. The franchise is
+   the field FEATURE_SPEC §2 P04 singles out; it keeps the accent, and every
+   other key is the quiet register the rest of the record is in. */
+.dsr__step .dsr__k, .dsr__thesisline .dsr__k, .dsr__whystep .dsr__k { color: var(--text-min); }
+.dsr__franchise .dsr__k { color: var(--accent-ink); }
+
+/* ---- §1.7  the chip is a destination, not a fifth question ---------------
+   Round 5 gave the chip a 2px coloured rule on its leading edge, in four
+   colours by relation, on the same screen as the question's 3px rule. The
+   mark had five meanings. The relation is already named in words on the chip's
+   own face, in the relation's colour, which is where a relation belongs; the
+   rule goes, and the box becomes the square hairline every other box in this
+   application is. */
+.dsr-chip {
+  border-left-width: var(--rule-fine);
+  border-radius: var(--radius-none);
+}
+.dsr-chip[data-rel='because'],
+.dsr-chip[data-rel='caused'],
+.dsr-chip[data-rel='inside'],
+.dsr-chip[data-rel='compare'],
+.dsr-chip[data-rel='event'] { border-left-color: var(--border-firm); }
+/* A cause this atlas states and signs is the one chip that is not merely a
+   cross-reference, and it keeps a mark — the word, not the edge. */
+.dsr-chip[data-authored='yes'] .dsr-chip__rel { color: var(--accent-ink); }
+
+
+/* =============================================================================
+   ROUND 7 — the panel a keyboard user can read, and the header a phone reader
+   can see.
+
+   Two measured defects, both from the whole-app critic's round-2 report, both
+   reproduced here before anything was changed:
+
+     1. At 390x844 `.map.is-enlarged` is a FIXED strip at [0,46,390,160] on
+        z-index 58, with its own furniture at 59. The dossier is the shell's
+        bottom sheet at [0,180,390,480] on z-index 50. The 26 pixels where they
+        meet are the dossier's title row: `elementFromPoint` over "Khedivate of
+        Egypt" returned `map__plate`, and over the ✕ it returned
+        `map__zoom--home`. On a phone the panel had no visible name and no
+        visible way out.
+     2. The close control measured 30x30 — under the 44x44 minimum target.
+
+   Nothing below changes what is said. It changes only what can be seen and
+   reached.
+   ========================================================================== */
+
+/* ---- the close control is a 44x44 target --------------------------------
+   The drawn box stays the 1.9rem square the header was composed around; the
+   TARGET is 2.75rem, centred on it, so a thumb and a pointer get the same
+   affordance without the header growing a row. `position: relative` here is
+   overridden by `.dsr__title .dsr__close { position: absolute }` further up,
+   and an absolutely positioned button is its own containing block, so the
+   pseudo-element resolves against the button either way. */
+.dsr__close { position: relative; }
+.dsr__close::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%; inset-inline-start: 50%;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  transform: translate(-50%, -50%);
+}
+
+/* ---- the phone: a header that is visible, and a target a thumb can hit ---
+   The map's enlarged plate is deliberately above the panels (map.css: "a plate
+   underneath a panel about the plate"). It is 160px tall and the dossier's
+   header is 78px of it at the join. A reader who has just opened a panel must
+   be able to read its name and close it; 26 pixels of a map strip they can
+   still see 134 pixels of is the cheaper loss, and the panel scrolls away from
+   it the moment they move. The shell's sheet stacks over this panel (rule B7),
+   so the lift stands down while the sheet is up. */
+@media (max-width: 62rem) {
+  /* MEASURED, not guessed. On a phone the map pulls itself out of the stage
+     into a fixed strip at [0,46,390,160] and parents itself into the shell's
+     `overlay` mount — and `.app__overlay` is a stacking context at z-index 70,
+     so `z-index: 58` inside it beats anything under 70 in `#app`. That is why
+     a lift to 60 changed nothing: `elementFromPoint` over the ✕ still returned
+     `map__plate`. The panel a reader has just opened has to be above the strip
+     it was opened from; the price is the bottom 26 px of a 160 px strip, and
+     they still have 134 px of it. */
+  #app:not([data-sheet="open"]) .app__dossier { z-index: calc(var(--z-modal, 70) + 1); }
+
+  .dsr__close { inline-size: 2.75rem; block-size: 2.75rem; font-size: var(--fs-base); }
+  .dsr__title { padding-inline-end: 3.1rem; }
+  .dsr__title .dsr__close { inset-block-start: 0; }
+  .dsr__year { inset-inline-end: 3.4rem; }
+  /* ROUND 7. A 44px touch target in a 24px title row overhangs the row under
+     it: measured at 390x844, the ✕ sat at x 334–378 / y 181–225 and the
+     subtitle ran from x 12 to x 378 on the same line, so the last four words
+     of "the northern deserts" were printed under an opaque button. The
+     subtitle is a one-line clamp, so giving it the button's width back makes
+     it ellipsise clear of the control instead of disappearing behind it. */
+  .dsr__sub { padding-inline-end: 3.1rem; }
+  /* The head is already `position: sticky`; on a phone it also has to be
+     opaque against a scrolling column and separated from the map above it. */
+  .dsr__head {
+    background: var(--surface-panel);
+    box-shadow: 0 calc(-1 * var(--rule-fine)) 0 0 var(--border-default),
+                0 var(--rule-fine) 0 0 var(--border-default);
+  }
+}
+
+/* ---- the focus ring inside the panel ------------------------------------
+   The panel now keeps focus until Escape (see panels/dossier/index.js), so the
+   ring has to be legible on every surface in it, including the sticky head. */
+.dossier :focus-visible { outline: var(--rule-mid) solid var(--focus, var(--accent-ink)); outline-offset: 2px; }
+.dsr__name:focus-visible { outline-offset: 3px; }
+
+/* ---- the citation reference --------------------------------------------
+   `renderSource` prints the full four-question figure; a SECOND appearance of
+   the same source is a reference, and a reference is a citation. It takes the
+   shared `.cx-src` treatment from chrome.css and adds nothing. */
+.src--again.cx-src { margin-block: var(--space-sm); }
+.src--again .cx-src__kind { display: inline; }
+
+/* ---- the answers sheet --------------------------------------------------
+   Every question this student has committed to, in one place, so a teacher can
+   read the session back. `.cx-ask` marks a question that is still open; an
+   answered one is a record, not a question, and prints as one. */
+.dsr__ans { margin: 0; padding: 0; list-style: none; }
+.dsr__ansrow { padding-block: var(--space-sm); border-top: var(--rule-fine) solid var(--border-soft); }
+.dsr__ansrow:first-child { border-top: 0; }
+.dsr__ansq { margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-snug); color: var(--text-body); }
+.dsr__answ { margin: var(--space-2xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-caption); color: var(--text-secondary); }
+.dsr__answ b { color: var(--text-heading); font-weight: var(--w-semibold); }
+.dsr__ansv { display: block; margin-top: 1px; }
+.dsr__ansv[data-ok='yes'] { color: var(--accent-2-ink, var(--info)); }
+.dsr__ansv[data-ok='no'] { color: var(--warn); }
+.dsr__answhere { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-min); }
+.dsr__ansfigs { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-block: var(--space-md); }
+
+/* A touch device is a touch device whatever its width: a 10-inch tablet in
+   landscape is over 62rem and still has no pointer finer than a thumb. */
+@media (pointer: coarse) {
+  .dsr__close { inline-size: 2.75rem; block-size: 2.75rem; font-size: var(--fs-base); }
+  .dsr__title { padding-inline-end: 3.1rem; }
+  .dsr__title .dsr__close { inset-block-start: 0; }
+  .dsr__year { inset-inline-end: 3.4rem; }
+  /* ROUND 7. A 44px touch target in a 24px title row overhangs the row under
+     it: measured at 390x844, the ✕ sat at x 334–378 / y 181–225 and the
+     subtitle ran from x 12 to x 378 on the same line, so the last four words
+     of "the northern deserts" were printed under an opaque button. The
+     subtitle is a one-line clamp, so giving it the button's width back makes
+     it ellipsise clear of the control instead of disappearing behind it. */
+  .dsr__sub { padding-inline-end: 3.1rem; }
+}
+
+/* ============================================================ warrants ==
+ * core/warrant.js, H1 round 5: every printed quantity carries the record that
+ * warrants it, or a visible defect. The check line is set in the same recessive
+ * register as the source apparatus — a small-caps key, prose at the panel's
+ * caption size — because it must be readable without competing with the figure
+ * it stands under. The defect is not: it takes --danger and a rule down its
+ * left edge, the same treatment .src[data-defect] already uses, because a
+ * number nobody can check is a hole in the page and should look like one.
+ */
+.wq__w,
+.wq__defect {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--fs-caption, 0.78rem);
+  line-height: 1.45;
+  color: var(--ink-muted, var(--ink));
+}
+.wq__ws > .wq__w + .wq__w { margin-top: var(--space-3xs, 2px); }
+.wq__w .wq__k { color: var(--ink-faint, var(--ink-muted)); margin-right: 0.35em; }
+.wq__w .wq__cite { font-style: italic; }
+.wq__w .wq__where { display: block; color: var(--ink-faint, var(--ink-muted)); }
+/* WHAT THE FIGURE IS AND IS NOT.
+   Round 7 gave 81 tolls a warrant, and most of them are British campaign
+   returns, colonial commissions and camp registers — the records of the side
+   doing the counting, and usually of the side doing the killing. The `note` is
+   where that is said, once per figure, in the recessive register: it is a
+   caveat on the number, not a second citation, so it sits under the check line
+   in italic and never competes with either. */
+.wq__w .wq__note {
+  display: block;
+  margin-top: var(--space-3xs, 2px);
+  font-style: italic;
+  color: var(--ink-faint, var(--ink-muted));
+}
+.wq__w[data-status="weak"] .wq__k { color: var(--warn, var(--ink-muted)); }
+
+.wq__defect {
+  color: var(--danger);
+  border-left: var(--rule-heavy, 3px) solid var(--danger);
+  padding-left: var(--space-xs);
+}
+.wq__defect .wq__k { color: var(--danger); margin-right: 0.35em; }
+
+/* The compensation figure, printed in the consequences block beside the record
+   that produced it. Beat 6 says "£1.72m paid to Barbadian slave-owners for
+   83,150 people"; this is the page where that sentence can be checked. */
+.dsr__money { margin-top: var(--space-sm); }
+.dsr__moneyline { margin: 0; }
+.dsr__tollnotes > * + * { margin-top: var(--space-2xs); }

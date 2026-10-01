@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Q2_Englisch_UK_5_Verlaufsplanungen_AUSFUEHRLICH_2026_27.pdf",
+    "source": "/Users/daniel/Downloads/Q2_Englisch_UK_5_Verlaufsplanungen_AUSFUEHRLICH_2026_27.pdf",
+    "sha256": "509bbcd18a35b35255d4be47ce549a1fba90dd47c00fb5896099ab80266c355b",
+    "priority": "primary",
+    "confirmedByUser": true
+  },
+  {
+    "name": "Lehrerhandbuch_Q2_Englisch_UK_2026_27.pdf",
+    "source": "/Users/daniel/Downloads/Lehrerhandbuch_Q2_Englisch_UK_2026_27.pdf",
+    "sha256": "f4e4b6ede1f545ddcc89e782c50e5c9c5da771f8f30b161a97ca5a3c415233a6",
+    "priority": "primary",
+    "confirmedByUser": true
+  },
+  {
+    "name": "UK_Q2_Lehrwerksrecherche_SH_2026_27.pdf",
+    "source": "/Users/daniel/Downloads/UK_Q2_Lehrwerksrecherche_SH_2026_27.pdf",
+    "sha256": "e3aec354fbdbafbed0f0a7a76d5a3c0bd39c5ba435c7d7b1ac2a0976b81126bf",
+    "priority": "primary",
+    "confirmedByUser": true
+  }
+]

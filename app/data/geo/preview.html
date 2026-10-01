@@ -1,0 +1,145 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>geo units — build inspection</title>
+<style>
+  body { margin: 0; background: #f6f1e6; color: #221c14; font: 13px/1.4 ui-serif, Georgia, serif; }
+  h2 { font: 600 15px/1 ui-sans-serif, system-ui; margin: 18px 12px 6px; letter-spacing: .02em; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 12px 16px; }
+  figure { margin: 0; background: #fffdf7; border: 1px solid #d8cdb6; }
+  figcaption { font: 11px/1.3 ui-sans-serif, system-ui; padding: 4px 6px; border-top: 1px solid #eadfc8; }
+  svg { display: block; width: 100%; height: auto; background: #dfe9ee; }
+  .land { fill: #ece3d0; stroke: #c9bda2; stroke-width: .3; }
+  .lake { fill: #dfe9ee; stroke: none; }
+  .grat { fill: none; stroke: #c3d3da; stroke-width: .4; }
+  .unit { stroke: #6b4b2a; stroke-width: .35; stroke-linejoin: round; }
+  .dot { fill: #b4381f; stroke: #fffdf7; stroke-width: .6; }
+  #status { padding: 10px 12px; font: 12px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+</style>
+<div id="status">loading…</div>
+<div id="out"></div>
+<script type="module">
+import { feature, geoPath, geoNaturalEarth1, geoMercator, geoEquirectangular } from '../../vendor/geo.js';
+
+const status = document.getElementById('status');
+const out = document.getElementById('out');
+const log = [];
+const say = (m) => { log.push(m); status.textContent = log.join('\n'); };
+
+const j = async (u) => { const r = await fetch(u); if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); };
+
+const [index, coarseT, fineT, landT] = await Promise.all([
+  j('units.index.json'), j('units-coarse.topo.json'), j('units-fine.topo.json'), j('land.topo.json'),
+]);
+
+const coarse = feature(coarseT, coarseT.objects.units);
+const fine = feature(fineT, fineT.objects.units);
+const land = feature(landT, landT.objects.land);
+const lakes = landT.objects.lakes ? feature(landT, landT.objects.lakes) : { features: [] };
+const grat = feature(landT, landT.objects.graticule);
+const byIdC = new Map(coarse.features.map(f => [f.id, f]));
+const byIdF = new Map(fine.features.map(f => [f.id, f]));
+
+say(`vendor OK. units index=${index.length} coarse=${coarse.features.length} fine=${fine.features.length}`);
+say(`land features=${land.features.length} lakes=${lakes.features.length}`);
+
+// deterministic warm palette per region so the eye can group units
+const REGIONS = [...new Set(index.map(e => e.region))].sort();
+const HUES = [8, 28, 45, 78, 120, 160, 190, 210, 235, 260, 285, 310, 335, 350, 15, 55, 100];
+const colOf = (e) => {
+  const h = HUES[REGIONS.indexOf(e.region) % HUES.length];
+  const i = index.filter(x => x.region === e.region).findIndex(x => x.id === e.id);
+  return `hsl(${h} ${42 + (i % 4) * 9}% ${52 + (i % 3) * 9}%)`;
+};
+const meta = new Map(index.map(e => [e.id, e]));
+
+function panel(title, w, h, projFn, opts = {}) {
+  const fig = document.createElement('figure');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  fig.appendChild(svg);
+  const cap = document.createElement('figcaption'); cap.textContent = title; fig.appendChild(cap);
+  const proj = projFn(w, h);
+  const p = geoPath(proj);
+  const add = (cls, d) => { if (!d) return; const el = document.createElementNS('http://www.w3.org/2000/svg', 'path'); el.setAttribute('class', cls); el.setAttribute('d', d); svg.appendChild(el); return el; };
+  add('grat', p({ type: 'GeometryCollection', geometries: grat.features.map(f => f.geometry) }));
+  add('land', p({ type: 'GeometryCollection', geometries: land.features.map(f => f.geometry) }));
+  if (lakes.features.length) add('lake', p({ type: 'GeometryCollection', geometries: lakes.features.map(f => f.geometry) }));
+  const src = opts.fine ? byIdF : byIdC;
+  const ids = opts.ids || index.map(e => e.id);
+  let drawn = 0, dots = 0;
+  for (const id of ids) {
+    const f = src.get(id); const m = meta.get(id);
+    if (!f || !m) continue;
+    const d = p(f);
+    if (d) { const el = add('unit', d); el.setAttribute('fill', colOf(m)); el.setAttribute('fill-opacity', '.85'); drawn++; }
+    if (opts.dots && m.tiny) {
+      const xy = proj(m.point);
+      if (xy && isFinite(xy[0]) && xy[0] > -5 && xy[0] < w + 5 && xy[1] > -5 && xy[1] < h + 5) {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('class', 'dot'); c.setAttribute('cx', xy[0]); c.setAttribute('cy', xy[1]); c.setAttribute('r', opts.dotR || 2.6);
+        svg.appendChild(c); dots++;
+      }
+    }
+  }
+  cap.textContent = `${title} — ${drawn} units${opts.dots ? ', ' + dots + ' markers' : ''}`;
+  return fig;
+}
+
+function section(title, cls) {
+  const h = document.createElement('h2'); h.textContent = title; out.appendChild(h);
+  const g = document.createElement('div'); g.className = cls || 'grid'; out.appendChild(g); return g;
+}
+
+// --- world -----------------------------------------------------------------
+const world = section('World — every geo unit at coarse detail (red dots = units flagged tiny)');
+world.style.gridTemplateColumns = '1fr';
+world.appendChild(panel('all 302 units, Natural Earth projection', 1400, 720,
+  (w, h) => geoNaturalEarth1().fitExtent([[6, 6], [w - 6, h - 6]], { type: 'Sphere' }),
+  { dots: true, dotR: 3.2 }));
+
+// --- region zooms ----------------------------------------------------------
+const REG = [
+  ['British Isles', [-11, 49.5, 2.5, 61]],
+  ['Caribbean', [-86, 9, -58, 28]],
+  ['West Africa', [-18, 3, 16, 15]],
+  ['Southern Africa', [10, -35, 42, -8]],
+  ['East Africa & Nile', [21, -12, 52, 24]],
+  ['Middle East & Gulf', [30, 11, 60, 38]],
+  ['South Asia', [60, 5, 98, 37]],
+  ['South-East Asia', [95, -9, 122, 22]],
+  ['Hong Kong', [113.8, 22.15, 114.45, 22.58]],
+  ['Canada & the Thirteen Colonies', [-142, 24, -50, 72]],
+  ['Australia & NZ', [110, -48, 180, -8]],
+  ['Pacific islands', [140, -25, 220, 25]],
+  ['Malta / Gibraltar / Cyprus', [-7, 33, 36, 40]],
+  ['South Atlantic', [-65, -60, -5, -5]],
+  ['Antarctic sectors', [-180, -90, 180, -58]],
+  ['Indian Ocean', [40, -25, 100, 15]],
+];
+const g2 = section('Region zooms — fine detail');
+for (const [name, bb] of REG) {
+  g2.appendChild(panel(name, 460, 340, (w, h) => {
+    const [x0, y0, x1, y1] = bb;
+    const box = { type: 'Polygon', coordinates: [[[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]]] };  // clockwise: d3 spherical winding
+    return (name === 'Antarctic sectors' ? geoEquirectangular() : geoMercator())
+      .fitExtent([[4, 4], [w - 4, h - 4]], box);
+  }, { fine: true, dots: true, dotR: 2.2 }));
+}
+
+// --- every tiny unit, drawn on its own -------------------------------------
+const tiny = index.filter(e => e.tiny).sort((a, b) => a.area_km2 - b.area_km2);
+const g3 = section(`Every unit flagged tiny (${tiny.length}) — each drawn alone at fine detail`);
+g3.style.gridTemplateColumns = 'repeat(10, 1fr)';
+for (const e of tiny) {
+  const [x0, y0, x1, y1] = e.bbox;
+  const padX = Math.max((x1 - x0) * 0.15, 0.01), padY = Math.max((y1 - y0) * 0.15, 0.01);
+  const cl = (v) => Math.max(-179.999, Math.min(179.999, v));
+  g3.appendChild(panel(`${e.id} · ${e.area_km2} km²`, 150, 130, (w, h) => {
+    const box = { type: 'Polygon', coordinates: [[[cl(x0 - padX), y0 - padY], [cl(x0 - padX), y1 + padY], [cl(x1 + padX), y1 + padY], [cl(x1 + padX), y0 - padY], [cl(x0 - padX), y0 - padY]]] };
+    return geoMercator().fitExtent([[3, 3], [w - 3, h - 3]], box);
+  }, { fine: true, ids: [e.id] }));
+}
+
+say('render complete');
+document.body.dataset.ready = '1';
+</script>

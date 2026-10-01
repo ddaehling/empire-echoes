@@ -1,0 +1,211 @@
+{
+  "$note": "P05 — the five Complication Gates. FEATURE_SPEC §1 charge 11: they sit on the spine's ONLY forward edge, never on a side road. Next is disabled and unfocusable until a placement is made. Any placement advances; there is no right answer and the app says so. There is no dismiss button, because an acknowledgement is not a commitment — declining is a named, recorded choice with its own control, and the Close names it. Where a gate has variants, the one shown is chosen by a predicate over this student's own Ledger, so the complication that arrives is the one that damages the claim they just made.",
+  "axes": {
+    "x": {
+      "id": "force",
+      "label": "What does this do to the claim you have just been given?",
+      "stops": [
+        {
+          "id": "weakens",
+          "label": "weakens it"
+        },
+        {
+          "id": "complicates",
+          "label": "complicates it"
+        },
+        {
+          "id": "no-effect",
+          "label": "doesn't affect it"
+        }
+      ]
+    },
+    "y": {
+      "id": "confidence",
+      "label": "How sure are you?",
+      "stops": [
+        {
+          "id": "sure",
+          "label": "sure"
+        },
+        {
+          "id": "fairly",
+          "label": "fairly sure"
+        },
+        {
+          "id": "unsure",
+          "label": "not sure"
+        }
+      ]
+    }
+  },
+  "noRightAnswer": "There is no right answer here and nothing is scored. Placing it is the point: a fact you have taken a position on is a fact you can still argue with next week.",
+  "gates": [
+    {
+      "id": "g1",
+      "after": "resistance",
+      "chapter": "atlantic",
+      "claim": "Britain built the Atlantic slave system and enslaved people brought it down.",
+      "variants": [
+        {
+          "id": "g1a",
+          "when": {
+            "ledgerHas": "p05:compensation:order"
+          },
+          "eyebrow": "the complication",
+          "title": "The supply side had its own agents",
+          "text": "Almost no European left the coast to capture people. Africans were bought at African ports from African states and merchants — Asante, Dahomey, Oyo, the Aro network in the Bight of Biafra — who fought wars for captives and taxed the trade. Some of those states got rich and armed on it, and some later fought the British with the guns it paid for.",
+          "why": "This does not shift responsibility off the buyers, and this atlas does not offer it as an excuse. It damages a simpler claim than the one you were given: that the trade was something Europeans did <em>to</em> a passive continent. It was a market with powerful sellers, and any account that leaves them out has removed most of the people who were making decisions.",
+          "cite": {
+            "author": "John Thornton",
+            "work": "Africa and Africans in the Making of the Atlantic World, 1400–1800",
+            "year": 1998,
+            "kind": "book",
+            "supports": "African states and merchants as principals rather than victims-only in the Atlantic trade.",
+            "publisher": "Cambridge University Press",
+            "purpose": "To argue, against the then-standard account, that Africans were principals in the Atlantic system and not only its victims — written for other Africanists and early-modernists.",
+            "cannotTell": "It is an argument about agency built from European trade records and African oral and archaeological evidence. It cannot tell you what any individual captive experienced, and its own sources were mostly written by the buyers."
+          }
+        },
+        {
+          "id": "g1b",
+          "eyebrow": "the complication",
+          "title": "For {{fig:fled-to-british-lines}} people, the British lines were the way out",
+          "text": "In the American war of 1775–83 the British offered freedom to enslaved people who left rebel owners and reached their lines — {{fig:fled-to-british-lines}} did. Some were re-enslaved by the British; {{fig:black-loyalists-nova-scotia}} were carried to Nova Scotia in 1783 and about a thousand of those went on to Sierra Leone in 1792.",
+          "why": "It complicates 'Britain the slave power' and 'Britain the liberator' at once. The same state that carried more people across the Atlantic than any other in that century was, for those people, the only available exit — because it was at war with their owners. Motive and effect came apart, and an argument that cannot hold both is too small for the evidence.",
+          "cite": {
+            "author": "Simon Schama",
+            "work": "Rough Crossings: Britain, the Slaves and the American Revolution",
+            "year": 2005,
+            "kind": "book",
+            "supports": "The Dunmore and Philipsburg proclamations, the Black Loyalist evacuation of 1783 and the Sierra Leone settlement.",
+            "publisher": "BBC Books",
+            "purpose": "A narrative history written for a general readership, and made alongside a BBC series — it is telling a story as much as settling a dispute.",
+            "cannotTell": "It follows the people whose escape left a record. The far larger number who did not reach British lines, or who were re-enslaved without a paper trail, are not in it."
+          }
+        }
+      ],
+      "misconception": "M8"
+    },
+    {
+      "id": "g2",
+      "after": "revenue-loop",
+      "chapter": "company",
+      "claim": "A company taxed a province and spent the proceeds on soldiers who took the next one.",
+      "variants": [
+        {
+          "id": "g2a",
+          "eyebrow": "the complication",
+          "title": "Ireland was governed as a colony and staffed the empire",
+          "text": "Ireland was England's first plantation and, after 1801, was ruled from Westminster under coercion acts, with a viceroy in Dublin Castle. It was also, per head, one of the empire's largest suppliers of soldiers, administrators, doctors, missionaries and settlers. Irish people were disproportionately present at both ends of the same system, often within one family.",
+          "why": "It damages any account in which the colonised and the colonisers are two sealed groups. Scots and Welsh people are in the same position: Scotland's share of the East India Company's officers and of the empire's merchants was far above its share of Britain's population. 'Britain did it to them' is not wrong so much as too coarse to explain who was actually in the room.",
+          "cite": {
+            "author": "Kevin Kenny",
+            "work": "Ireland and the British Empire",
+            "year": 2004,
+            "kind": "book",
+            "supports": "Ireland as simultaneously a governed colony and a major supplier of imperial personnel.",
+            "publisher": "Oxford University Press",
+            "purpose": "A volume in the Oxford History of the British Empire companion series, commissioned to gather specialists on one question for other historians.",
+            "cannotTell": "It is a set of essays, not a single argument, so it establishes that Ireland was both colony and coloniser without settling how the two should be weighed."
+          }
+        }
+      ],
+      "misconception": "M2"
+    },
+    {
+      "id": "g3",
+      "after": "two-track",
+      "chapter": "imperial",
+      "claim": "Self-government was given to settler colonies and refused to everyone else.",
+      "variants": [
+        {
+          "id": "g3a",
+          "eyebrow": "the complication",
+          "title": "Responsible government made the rule on the ground harder, not lighter",
+          "text": "Canada got responsible government and then used it. The Numbered Treaties of 1871–1921 took the prairies; the Indian Act of 1876 made First Nations people legal wards; and from the 1880s to 1996 {{fig:residential-schools}} First Nations, Inuit and Métis children were taken into residential schools. In 2015 Canada's Truth and Reconciliation Commission called the policy cultural genocide.",
+          "why": "It complicates the idea that self-government was the good outcome and direct rule the bad one. For Indigenous people in the settler dominions, London's departure removed the only authority that was ever, occasionally, an obstacle. Devolving power devolved it to settlers, and the settlers were the immediate threat.",
+          "cite": {
+            "author": "Truth and Reconciliation Commission of Canada",
+            "work": "Honouring the Truth, Reconciling for the Future: Summary of the Final Report",
+            "year": 2015,
+            "kind": "official-record",
+            "supports": "The residential school system, its scale, and the Commission's own characterisation of it.",
+            "publisher": "Truth and Reconciliation Commission of Canada",
+            "purpose": "A public commission's own summary of its findings, written to be read by Canadian governments, churches and the public, and to justify ninety-four Calls to Action.",
+            "cannotTell": "It is built from survivor testimony and from records the churches and the state chose to keep. It says little about children whose deaths were never recorded, which the Commission itself names as a gap."
+          }
+        }
+      ],
+      "misconception": "M6"
+    },
+    {
+      "id": "g4",
+      "after": "exits",
+      "chapter": "dissolution",
+      "claim": "Britain left when it could no longer afford or win.",
+      "variants": [
+        {
+          "id": "g4a",
+          "eyebrow": "the complication",
+          "title": "Hong Kong does not fit the model you have just assembled",
+          "text": "In 1997 Hong Kong was solvent, quiet, profitable and defended by nobody in particular. Britain did not run out of money there, did not lose a counter-insurgency there, and faced no mass independence movement demanding it go. It left because a lease signed in 1898 on the New Territories ran for ninety-nine years, and China would not renew it.",
+          "why": "A model that explains every case is usually a model that has stopped being checked. Affordability and defeat explain India, Kenya, Aden and Cyprus. They do not explain the last and largest handover of all, which happened on a clock and against a state strong enough to insist. Keep the model; write the exception into it.",
+          "cite": {
+            "author": "Steve Tsang",
+            "work": "A Modern History of Hong Kong",
+            "year": 2004,
+            "kind": "book",
+            "supports": "The 1898 New Territories lease as the operative constraint on the 1997 transfer.",
+            "publisher": "I.B. Tauris",
+            "purpose": "A single-volume political history for students and general readers, written by a historian of Hong Kong shortly after the handover.",
+            "cannotTell": "It is a history of governance and diplomacy; it is not an account of what Hong Kong people were asked, because for most of the period they were not asked."
+          }
+        }
+      ],
+      "misconception": "M3"
+    },
+    {
+      "id": "g5",
+      "after": "fourteen",
+      "chapter": "after",
+      "claim": "The empire was built by force and run for profit.",
+      "variants": [
+        {
+          "id": "g5a",
+          "eyebrow": "the last complication",
+          "title": "'Did empire pay?' assumes the costs and the benefits fell on the same people",
+          "text": "Historians who have tried to total it up disagree, and the disagreement is not really about arithmetic. Davis and Huttenback argued that empire was a transfer from British taxpayers, who paid for the navy, to a small class of investors, who took the returns. Cain and Hopkins locate the beneficiaries in the City rather than in industry. Meanwhile cheap sugar, tea and grain did reach working-class tables in Britain, and famine mortality fell on people who were never asked.",
+          "why": "A single ledger for 'the empire' averages together people whose accounts had nothing to do with each other. Ask instead: paid whom, cost whom, when. That question has answers; 'was it worth it' does not.",
+          "cite": {
+            "author": "Lance E. Davis and Robert A. Huttenback",
+            "work": "Mammon and the Pursuit of Empire: The Political Economy of British Imperialism, 1860–1912",
+            "year": 1986,
+            "kind": "book",
+            "supports": "The argument that imperial defence was a subsidy from British taxpayers to a narrow investing class.",
+            "publisher": "Cambridge University Press",
+            "purpose": "A quantitative economic history, written to test whether empire paid, using company balance sheets and government accounts.",
+            "cannotTell": "It can only count what was written down in British ledgers. Costs borne by colonised people — land, labour, famine mortality — are not in its accounts at all."
+          }
+        }
+      ],
+      "misconception": "M11"
+    },
+    {
+      "id": "g6",
+      "after": "exits",
+      "chapter": "dissolution",
+      "misconception": "M15",
+      "$note": "THE SIXTH FORWARD EDGE, AND THE ONLY ONE WHOSE COMPLICATION IS AN ARGUMENT RATHER THAN A FACT. It sits on the dispute step (tours.json `exits.disputeAfter`), not on `gateAfter`, so `exits` still carries g4. Its citation is NOT written here: tours/index.js injects it at runtime from panels/historiography`s own record of the `partition-authorship` dispute, so there is one text of Yasmin Khan in this application and this file cannot drift away from it.",
+      "claim": "The borders were drawn badly, and that explains what followed.",
+      "variants": [
+        {
+          "id": "g6a",
+          "eyebrow": "the forward edge — an argument",
+          "title": "Two historians, and only one of the two things they argue about can be settled",
+          "text": "Cyril Radcliffe, a British lawyer who had never been to India, was given about five weeks to draw a boundary through Punjab and Bengal, and the award was not published until two days after independence — so people celebrated in places whose country was not yet settled. Ayesha Jalal argues from the Muslim League’s own papers that partition was not what Jinnah was playing for at all. Yasmin Khan argues that whatever the Indian parties wanted, the partition that happened was designed and executed by the departing power in a hurry.",
+          "why": "Borders were sometimes arbitrary and always consequential — and “the borders did it” is a way of not talking about extraction, indirect rule and armed exits. Post-colonial outcomes vary enormously between states with almost identical border histories, so the line cannot be doing all the work: look at what was inside it as well as where it was drawn. On the other thing these two argue about there is no argument to have. Estimates of the dead run {{fig:partition-dead}} because no census was taken across the line and the administrations that would have counted had broken down. A range with a reason is the correct answer."
+        }
+      ]
+    }
+  ]
+}

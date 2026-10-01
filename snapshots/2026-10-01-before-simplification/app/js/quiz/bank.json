@@ -1,0 +1,666 @@
+{
+  "$note": "P10 — the retrieval bank. Every item carries a T-number from DIDACTIC_SPEC §3 and/or a misconception id from §4, and NOTHING else may be tested (FEATURE_SPEC §2 P10, acceptance test 1). The item's CONTENT is not here: it is resolved against the live dataset by items.js, so a question can never go stale and can never be untrue. What is here is the teaching — the wording, the kind of production demanded, the reason that follows the correction, and the map state a wrong answer returns to. ROUND 3: `onPath` used to be a hand-set aspiration that no code read, and round 2's critics reasonably read it as a statement of fact — 'M15, M6 and M7 are all onPath:false'. It now means one measurable thing: a retrieval moment on the guided 24-step route can host this item, because its `kind` is one a checkpoint can render and its T-number belongs to a chapter the route walks. That is checkpoint.js's own exported `canHost`, and tools/scenarios/p10-misconceptions.js fails if any flag here disagrees with it. It is not a promise that every student meets the item: the route has four retrieval moments and the bank has more items than that, and which four a given student gets is decided by what they have already produced and which of §4's eighteen beliefs are still standing. The same scenario walks the route pressing nothing but Next and prints what that student was actually made to commit on.",
+  "version": 1,
+  "items": [
+    {
+      "id": "t1-engines",
+      "subject": "The four engines",
+      "t": "T1",
+      "lo": "LO1",
+      "misconception": "M4",
+      "kind": "match",
+      "onPath": true,
+      "minutes": 3,
+      "question": "Four empires, four engines. Which engine drove which?",
+      "because": "One flag, four machines. The empire of 1750 ran on sugar and enslaved labour; the empire of 1900 ran on factories, steam and strategy. They shared a colour on the map and almost nothing else.",
+      "evidence": {
+        "year": 1820
+      }
+    },
+    {
+      "id": "t1-overlap",
+      "subject": "Three engines at once",
+      "t": "T1",
+      "lo": "LO1",
+      "misconception": "M4",
+      "kind": "year",
+      "onPath": true,
+      "minutes": 4,
+      "question": "Set the year to one where three of the four engines were running at once.",
+      "because": "Overlap is the point. Tidy the four into a relay race and you have taught that empire was one thing that got bigger and then smaller — which is exactly what most people get wrong about it.",
+      "evidence": {
+        "year": 1820
+      }
+    },
+    {
+      "id": "t2-three-islands",
+      "subject": "How the Atlantic began",
+      "t": "T2",
+      "lo": "LO1",
+      "misconception": null,
+      "kind": "order",
+      "onPath": true,
+      "minutes": 6,
+      "question": "Put these three beginnings in the order they happened.",
+      "because": "Two settlements and a conquest, inside fifty years. The Atlantic empire began as a crop sequence — tobacco, then sugar — and sugar is what made enslaved labour the point of it.",
+      "evidence": {
+        "year": 1660
+      }
+    },
+    {
+      "id": "t3-middle-passage",
+      "subject": "The Middle Passage, counted",
+      "t": "T3",
+      "lo": "LO5",
+      "misconception": null,
+      "kind": "estimate",
+      "predict": "t3-embarked",
+      "onPath": true,
+      "minutes": 7,
+      "question": "British ships carried enslaved Africans across the Atlantic for two centuries. How many people?",
+      "because": "The gap between the number forced onto the ships and the number who walked off them is the mortality of the crossing. It is not a rounding error; it is hundreds of thousands of people.",
+      "evidence": {
+        "year": 1780
+      }
+    },
+    {
+      "id": "t4-resistance-order",
+      "subject": "Rebellion before abolition",
+      "t": "T4",
+      "lo": "LO5",
+      "misconception": "M8",
+      "kind": "order",
+      "onPath": true,
+      "minutes": 8,
+      "question": "Put these in the order they happened.",
+      "because": "Abolition comes after the rebellions, not before them. Enslaved people were the first abolitionists, and Parliament moved when holding the colonies got expensive.",
+      "evidence": {
+        "year": 1831,
+        "sel": "jamaica"
+      }
+    },
+    {
+      "id": "t5-compensation",
+      "subject": "Who was compensated",
+      "t": "T5",
+      "lo": "LO5",
+      "misconception": "M8",
+      "kind": "estimate",
+      "predict": "t5-compensation",
+      "onPath": true,
+      "minutes": 9,
+      "question": "Parliament abolished slavery in 1833 and paid compensation. How much, in pounds?",
+      "because": "The money went to the owners, for the loss of their property. The people who had been owned received nothing, and were then held in unpaid 'apprenticeship' for four more years.",
+      "evidence": {
+        "year": 1834
+      }
+    },
+    {
+      "id": "t5-order",
+      "subject": "1807, 1833, 1838, 2015",
+      "t": "T5",
+      "lo": "LO5",
+      "misconception": "M8",
+      "kind": "order",
+      "onPath": true,
+      "minutes": 9,
+      "question": "Put these five in order.",
+      "because": "Two Acts, four years of unpaid labour after the second, and a loan the British taxpayer was still repaying in the twenty-first century. 'Britain abolished slavery' is one clause of a much longer sentence.",
+      "evidence": {
+        "year": 1838
+      }
+    },
+    {
+      "id": "t6-who-conquered",
+      "subject": "Who took Bengal",
+      "t": "T6",
+      "lo": "LO3",
+      "misconception": "M2",
+      "kind": "choose",
+      "predict": "m2-who-conquered",
+      "onPath": true,
+      "minutes": 10,
+      "question": "Who took Bengal?",
+      "because": "A shareholder company with its own army, chartered in London on the last day of 1600. The British state did not take over for another ninety-three years, and only after a rebellion.",
+      "evidence": {
+        "year": 1765,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t7-loop",
+      "subject": "Revenue, sepoys, conquest",
+      "t": "T7",
+      "lo": "LO3",
+      "misconception": "M2",
+      "kind": "order",
+      "onPath": true,
+      "minutes": 13,
+      "question": "Put the four steps of the loop in order.",
+      "because": "Revenue paid for sepoys, sepoys took more land, more land produced more revenue. This is the loop, and it is the single most important mechanism in this atlas.",
+      "evidence": {
+        "year": 1765,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t7-explain",
+      "subject": "Explain the Company’s loop",
+      "t": "T7",
+      "lo": "LO3",
+      "misconception": "M2",
+      "kind": "explain",
+      "onPath": false,
+      "minutes": 14,
+      "question": "In your own words: how did a trading company end up governing millions of people?",
+      "checklist": [
+        "Did you name the mechanism — tax revenue paying for soldiers?",
+        "Did you name a person or a party other than the British?",
+        "Did you give a date or a number?"
+      ],
+      "because": "You cannot explain the Company empire with a list of battles. You need the loop: the diwani gave it money, the money bought sepoys, the sepoys took the next province.",
+      "evidence": {
+        "year": 1765,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t8-army",
+      "subject": "Who did the conquering",
+      "t": "T8",
+      "lo": "LO3",
+      "misconception": "M9",
+      "kind": "estimate",
+      "predict": "t8-army",
+      "onPath": true,
+      "minutes": 14,
+      "question": "Of every hundred soldiers in the Company’s army in the 1850s, how many were British?",
+      "because": "A conquest that runs on the conquered can be switched off by the conquered. In 1857 it very nearly was, and that is why the Crown took over in 1858.",
+      "evidence": {
+        "year": 1857,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t9-1858",
+      "subject": "The year the Company ended",
+      "t": "T9",
+      "lo": "LO2",
+      "misconception": "M2",
+      "kind": "year",
+      "onPath": true,
+      "minutes": 15,
+      "question": "Set the year to the one in which the Company stopped governing India.",
+      "because": "Rebellion, then nationalisation. Parliament abolished the Company's government and handed its territory to the Crown — a mechanism you can date, not a drift.",
+      "evidence": {
+        "year": 1858,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "t10-ics",
+      "subject": "How few governed India",
+      "t": "T10",
+      "lo": "LO2",
+      "misconception": "M9",
+      "kind": "estimate",
+      "predict": "m9-officials",
+      "onPath": true,
+      "minutes": 15,
+      "question": "How many British officers of the Indian Civil Service governed British India?",
+      "because": "Rule ran on Indian clerks, Indian police, Indian soldiers, Indian landholders and Indian princes. Break that collaboration — 1857, 1919, 1942, 1946 — and it wobbles at once.",
+      "evidence": {
+        "year": 1900,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "t11-princely",
+      "subject": "The princely third",
+      "t": "T11",
+      "lo": "LO2",
+      "misconception": null,
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 16,
+      "question": "At independence, how much of the subcontinent was NOT governed directly by Britain?",
+      "because": "Paramountcy left the ruler on the throne and gave Britain the army and the foreign policy. In 1947 every one of those states had to accede to India or to Pakistan, and Kashmir and Hyderabad did not do it quietly. Those decisions are still being argued over with soldiers.",
+      "evidence": {
+        "year": 1930,
+        "sel": "hyderabad"
+      }
+    },
+    {
+      "id": "t12-egypt",
+      "subject": "Egypt’s four legal names",
+      "t": "T12",
+      "lo": "LO2",
+      "misconception": null,
+      "kind": "order",
+      "onPath": true,
+      "minutes": 17,
+      "question": "One country, four legal descriptions. Put them in the order Britain used them.",
+      "because": "Britain occupied Egypt in 1882 to protect the canal and the bondholders, and stayed 74 years without ever annexing it. The label kept changing; the troops did not.",
+      "evidence": {
+        "year": 1900,
+        "sel": "egypt"
+      }
+    },
+    {
+      "id": "t13-berlin",
+      "subject": "What Berlin actually did",
+      "t": "T13",
+      "lo": "LO2",
+      "misconception": "M10",
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 19,
+      "question": "The Berlin Conference of 1884–85 did which of these?",
+      "because": "Rules written in a room in Europe with no African in it, then twenty years of treaties and guns to make them true on the ground. Berlin is the paperwork. The conquest came afterwards, against people who fought it.",
+      "evidence": {
+        "year": 1885
+      }
+    },
+    {
+      "id": "t14-peak",
+      "subject": "When the empire was largest",
+      "t": "T14",
+      "lo": "LO1",
+      "misconception": "M14",
+      "kind": "year",
+      "predict": "t14-peak",
+      "onPath": true,
+      "minutes": 23,
+      "question": "Set the year to when this atlas draws the most British-held places.",
+      "because": "A peak is a measurement, and a measurement needs a unit. Places or square kilometres or people — ask which one before you accept a date for anything's largest.",
+      "evidence": {
+        "year": 1921
+      }
+    },
+    {
+      "id": "t15-two-track",
+      "subject": "Self-rule, and who was refused",
+      "t": "T15",
+      "lo": "LO2",
+      "misconception": null,
+      "kind": "order",
+      "onPath": true,
+      "minutes": 20,
+      "question": "Put these steps towards self-government in order.",
+      "because": "Self-government went early to colonies of British settlers and was refused, in the same decades, to colonies of everybody else. The asymmetry is the lesson, and the criterion was race.",
+      "evidence": {
+        "year": 1931
+      }
+    },
+    {
+      "id": "t16-famine",
+      "subject": "Bengal, 1943",
+      "t": "T16",
+      "lo": "LO9",
+      "misconception": null,
+      "kind": "map",
+      "onPath": false,
+      "minutes": 21,
+      "question": "Two to three million people starved here in 1943, on a working railway. Find it.",
+      "because": "Amartya Sen built his argument on this famine: people starve when they can no longer afford food, not only when there is none. The railways ran the whole time.",
+      "evidence": {
+        "year": 1943,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t16-bengal-1943",
+      "subject": "The famine on the railway",
+      "t": "T16",
+      "lo": "LO9",
+      "misconception": "M7",
+      "alsoMisconceptions": [
+        "M18"
+      ],
+      "kind": "estimate",
+      "onPath": true,
+      "minutes": 21,
+      "question": "Bengal, 1943. Rice was moving on one of the world\u2019s largest railway networks the whole time. How many people starved to death?",
+      "because": "Amartya Sen built the argument of Poverty and Famines on this famine: people starve when they can no longer afford food, not only when there is none to be had. The rice was there and the trains ran. What failed was what a landless labourer\u2019s wages could buy after prices trebled, and what the government of a colony at war would spend to close that gap. And the number is a range for a reason: nobody counted the dead, so every figure here is a reconstruction from population data, and the honest answer is the range with its method attached.",
+      "evidence": {
+        "year": 1943,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "src-macaulay-1835",
+      "subject": "One document, before the atlas tells you what it is",
+      "t": "T6",
+      "lo": "LO10",
+      "misconception": "M7",
+      "alsoMisconceptions": [
+        "M17",
+        "M12"
+      ],
+      "kind": "explain",
+      "onPath": false,
+      "minutes": 20,
+      "question": "This is the sentence everybody quotes when they say the empire gave India English. Before this atlas tells you anything about it, write four lines: what kind of document it is, who made it and when, what it was written to achieve, and what it cannot tell you.",
+      "because": "The lesson does this once with you, on Lobengula\u2019s letter of 1889, and this is the one you do unaided \u2014 on a document of the opposite kind. That is why the four lines are worth having: they turn \u201cwhat the British thought\u201d back into one man, on one date, trying to win one committee. Macaulay was arguing about where an education grant should go, in front of a handful of colleagues, which is why the language is so much blunter than anything meant for publication. And the field that does the most work is the last one. The Minute is silent on the Indians who were arguing for English education at the same time, for their own purposes \u2014 Rammohan Roy among them \u2014 because they were not who it was addressed to. A source cannot be evidence for a question it was never in the room for.",
+      "evidence": {
+        "year": 1835,
+        "sel": "bengal-presidency"
+      }
+    },
+    {
+      "id": "t17-amritsar",
+      "subject": "Amritsar, and its range",
+      "t": "T17",
+      "lo": "LO8",
+      "misconception": "M18",
+      "kind": "estimate",
+      "predict": "t17-amritsar",
+      "onPath": true,
+      "minutes": 22,
+      "question": "At Jallianwala Bagh in Amritsar, in April 1919, how many people were killed?",
+      "because": "Knowing why a number is uncertain is a higher skill than knowing the number. Here the uncertainty has a cause you can name.",
+      "evidence": {
+        "year": 1919,
+        "sel": "punjab-province"
+      }
+    },
+    {
+      "id": "t18-who",
+      "subject": "Who did this",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M17",
+      "kind": "who",
+      "onPath": true,
+      "minutes": 24,
+      "question": "Who did this?",
+      "because": "Anticolonial politics was organised, long, and led by people with names. Ask for the person, not the year.",
+      "evidence": {
+        "year": 1930
+      }
+    },
+    {
+      "id": "t18-who-2",
+      "subject": "Who did this",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M17",
+      "kind": "who",
+      "onPath": true,
+      "minutes": 26,
+      "question": "Who did this?",
+      "because": "Empire is a story about relationships under coercion. Britain is one party in it, and locally it usually did not have most of the agency.",
+      "evidence": {
+        "year": 1900
+      }
+    },
+    {
+      "id": "t18-who-3",
+      "subject": "Who did this",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M17",
+      "kind": "who",
+      "onPath": true,
+      "minutes": 26,
+      "question": "Who did this?",
+      "because": "Six names is the target. A student who can name six people the empire was done to, and say what each of them did, has a different picture of it from one who can name six governors.",
+      "evidence": {
+        "year": 1850
+      }
+    },
+    {
+      "id": "t18-who-4",
+      "subject": "Who did this",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M17",
+      "kind": "who",
+      "onPath": true,
+      "minutes": 26,
+      "question": "Who did this?",
+      "because": "The record names them because somebody wrote them down. Where nobody did, this atlas draws a hole rather than a zero — and that silence has an agent too.",
+      "evidence": {
+        "year": 1930
+      }
+    },
+    {
+      "id": "t19-exits",
+      "subject": "How the empire ended",
+      "t": "T19",
+      "lo": "LO8",
+      "misconception": "M3",
+      "kind": "estimate",
+      "predict": "m3-exits",
+      "onPath": true,
+      "minutes": 25,
+      "question": "Of every hundred departures in this atlas, how many were a negotiated independence?",
+      "because": "A negotiated independence is the commonest single way out, and it is barely a third of them. The rest were handed to another power, merged, partitioned, or fought over. Britain left when it could no longer afford or win; where it thought it could win, it fought — and mostly still lost.",
+      "evidence": {
+        "year": 1960
+      }
+    },
+    {
+      "id": "t19-kenya",
+      "subject": "How Kenya left",
+      "t": "T19",
+      "lo": "LO8",
+      "misconception": "M3",
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 26,
+      "question": "How did Kenya become independent?",
+      "because": "Tens of thousands were detained and over a thousand hanged before the talks began. In 2011 the Foreign Office admitted holding files it had said did not exist; in 2013 it paid 5,228 Kenyan claimants.",
+      "evidence": {
+        "year": 1963,
+        "sel": "kenya"
+      }
+    },
+    {
+      "id": "t20-still",
+      "subject": "What is still British",
+      "t": "T20",
+      "lo": "LO12",
+      "misconception": "M13",
+      "kind": "map",
+      "onPath": false,
+      "minutes": 29,
+      "question": "Find somewhere Britain still governs today.",
+      "because": "The story ends; the history does not. Fourteen Overseas Territories remain, along with live disputes — the Chagos Archipelago among them — and claims that are still being argued in court.",
+      "evidence": {
+        "year": 2020
+      }
+    },
+    {
+      "id": "m5-1770-1820",
+      "subject": "1770 or 1820",
+      "t": "T14",
+      "lo": "LO7",
+      "misconception": "M5",
+      "kind": "choose",
+      "predict": "m5-bigger",
+      "onPath": true,
+      "minutes": 12,
+      "question": "Was the empire bigger in 1770 or in 1820?",
+      "because": "Ask what a loss redirects, not only what it removes. The capital, the ships and the soldiers that had gone to America went east instead, and the empire that came back was bigger and less free.",
+      "evidence": {
+        "year": 1820
+      }
+    },
+    {
+      "id": "m1-settlers",
+      "subject": "Where the people were",
+      "t": "T10",
+      "lo": "LO2",
+      "misconception": "M1",
+      "kind": "choose",
+      "predict": "m1-settlers",
+      "onPath": true,
+      "minutes": 11,
+      "question": "Which single territory held the largest population Britain ever governed?",
+      "because": "The empire was overwhelmingly a system for governing people who were not British. Settlement was the exception, and it was concentrated in five places.",
+      "evidence": {
+        "year": 1941,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "m1-share",
+      "subject": "Who lived in a settler colony",
+      "t": "T15",
+      "lo": "LO2",
+      "misconception": "M1",
+      "kind": "estimate",
+      "onPath": true,
+      "minutes": 20,
+      "question": "Of every 100 people counted in South Africa in 1911, how many were counted as white?",
+      "because": "The empire was overwhelmingly a system for ruling people who were not British. Settlement was the exception, it was concentrated in five places, and even in the settler dominion the settlers were a fifth of the people and the whole of the electorate.",
+      "evidence": {
+        "year": 1911,
+        "sel": "union-of-south-africa"
+      }
+    },
+    {
+      "id": "m15-borders",
+      "subject": "What a border explains",
+      "t": "T13",
+      "lo": "LO4",
+      "misconception": "M15",
+      "alsoMisconceptions": [
+        "M10"
+      ],
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 19,
+      "question": "Four African borders, all drawn in Europe. Which one is now a war?",
+      "because": "You could not have told from the line. The same few rooms in Paris, London and Berlin, inside a single generation, cutting the same kind of community in half — and one of them is a war while the others are a smuggling economy, a people divided between three countries, and the strangest shape on the map. Borders were sometimes arbitrary and they were always consequential. But “the borders did it” is a way of not talking about what happened inside them: who was made to rule whom, what was taken out, and how Britain left. Look at the line, then look past it.",
+      "evidence": {
+        "year": 1961,
+        "sel": "british-cameroons"
+      }
+    },
+    {
+      "id": "m7-railways",
+      "subject": "Who carried the risk",
+      "t": "T7",
+      "lo": "LO10",
+      "misconception": "M7",
+      "alsoMisconceptions": [
+        "M18"
+      ],
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 16,
+      "question": "India’s railways, 1910, one of the world’s largest networks. Who carried the risk?",
+      "because": "Infrastructure was built where it served extraction and control, on terms India did not set. Some of it was genuinely useful afterwards — the network is still there, and so is the Penal Code of 1860. Both are true. The second does not pay for the first, and it does not cancel it either. A student who says “the railways were good” and a student who says “the railways were theft” have both stopped one step early. The third sentence is the useful one.",
+      "evidence": {
+        "year": 1900,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "m11-who-got-rich",
+      "subject": "Which Britons got rich",
+      "t": "T5",
+      "lo": "LO10",
+      "misconception": "M11",
+      "alsoMisconceptions": [
+        "M18"
+      ],
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 10,
+      "question": "Empire made Britain rich. Which Britons?",
+      "because": "Empire concentrated its profits and spread its costs. Some Britons became very rich on it; most got cheaper tea and a larger tax bill. This is one of the places where historians genuinely disagree — about whether empire enriched Britain as a whole or moved money from taxpayers to investors, and about whether ordinary Britons noticed it at all — and the disagreement is printed above rather than settled for you.",
+      "evidence": {
+        "year": 1900,
+        "sel": "great-britain"
+      }
+    },
+    {
+      "id": "m12-said-at-the-time",
+      "subject": "Argued at the time",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M12",
+      "kind": "who",
+      "onPath": true,
+      "minutes": 21,
+      "question": "Which of these four Britons attacked British conduct in the Commons, at the time?",
+      "because": "Every one of them is in this atlas’s own record, and every one of them is British. “You cannot judge them by the standards of the time” assumes there was one standard at the time. There was not. Empire was argued about, in public and in English, the whole way through — and far louder by the people it was being done to: Tipu Sultan fought four wars against the Company, Pemulwuy fought the settlement at Sydney for twelve years. The arguments we make now are mostly the arguments they made then.",
+      "evidence": {
+        "year": 1781,
+        "sel": "caribbean-netherlands"
+      }
+    },
+    {
+      "id": "m18-radcliffe",
+      "subject": "The line, and who drew it",
+      "t": "T19",
+      "lo": "LO8",
+      "misconception": "M18",
+      "alsoMisconceptions": [
+        "M3",
+        "M15"
+      ],
+      "kind": "choose",
+      "onPath": true,
+      "minutes": 26,
+      "question": "India and Pakistan became independent in August 1947. When was the border published?",
+      "because": "Cyril Radcliffe had about five weeks and had never been to India. Both boundary commissions deadlocked four votes to four, which left him deciding alone, and the award was held back until after the flags had gone up — so people celebrated in towns whose country was not yet known. That is who drew it. Who is responsible for partition itself is a live argument: Ayesha Jalal reads Jinnah’s demand as a bargaining position rather than a plan for a state, and most accounts now spread the responsibility across a Congress, a League and a government leaving fast and cheap. And the count cannot be settled at all. Nobody counted. A range with a reason is the correct answer here, not a failure of research.",
+      "evidence": {
+        "year": 1947,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "m6-congress-1885",
+      "subject": "How long they asked for",
+      "t": "T18",
+      "lo": "LO6",
+      "misconception": "M6",
+      "kind": "year",
+      "onPath": true,
+      "minutes": 24,
+      "question": "Set the year Indians first organised nationally to ask for a share in governing.",
+      "because": "Independence was demanded for decades and refused, and then conceded fast when refusing became unaffordable. “Granting” is the loser’s word for losing. Notice what the demand started as, too: seventy-two lawyers, journalists and teachers asking for civil service examinations to be held in India. It took two world wars and a bankrupt Treasury to turn that into a handover — and the refusals in between are the reason the demand hardened.",
+      "evidence": {
+        "year": 1885,
+        "sel": "british-india"
+      }
+    },
+    {
+      "id": "m16-carriers",
+      "subject": "The war on African backs",
+      "t": "T8",
+      "lo": "LO9",
+      "misconception": "M16",
+      "kind": "estimate",
+      "predict": "m16-carriers",
+      "onPath": true,
+      "minutes": 23,
+      "question": "The First World War’s longest campaign was in East Africa. How many carriers died?",
+      "because": "These were imperial world wars, fought in large part by colonial soldiers and colonial labour, and the bill for them is one of the reasons the empire ended. The trenches in France are a real part of the First World War and they are not the whole of it: it ran for four years and three months in East Africa, ending a fortnight after the armistice, and the largest single loss of African life in either world war is missing from most textbooks.",
+      "evidence": {
+        "year": 1917,
+        "sel": "tanganyika"
+      }
+    },
+    {
+      "id": "m16-served",
+      "subject": "Who fought the First World War",
+      "t": "T8",
+      "lo": "LO6",
+      "misconception": "M16",
+      "kind": "estimate",
+      "onPath": true,
+      "minutes": 23,
+      "question": "The First World War is taught as a European war. How many soldiers did India send to it?",
+      "because": "These were imperial world wars, fought in large part by colonial soldiers, and the bill for them is one reason the empire ended. The men who fought it expected something for it. What Punjab got in 1919 was the Rowlatt Acts and Amritsar, and this atlas records the same Lieutenant-Governor driving the recruitment and backing the shootings.",
+      "evidence": {
+        "year": 1918,
+        "sel": "british-india"
+      }
+    }
+  ]
+}

@@ -1,0 +1,519 @@
+/* =============================================================================
+   search.css — P07. The finder, its answers, and the evidence lens.
+
+   THE MAP NEVER DISAPPEARS (FEATURE_SPEC §2 rule 1). There is no scrim here
+   and no full-screen modal: the finder is a plate that hangs from the
+   masthead, at most 46rem wide and at most 58vh tall, with the map live all
+   round it. Its click-catcher paints nothing. Close it and nothing has moved.
+
+   It renders into `overlay`, which the layout budget excludes from rule B5,
+   and it renders NOTHING until the reader opens it — so at data-stage="plate"
+   this file costs the budget zero controls, zero words and zero pixels.
+
+   Every colour is a token. Square corners, one hairline, one shadow, the
+   shared .cx-* chrome for citations, notes and "there is more here".
+   ========================================================================== */
+
+/* --------------------------------------------------------------- the door */
+
+.sr-door {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border: 0; background: none;
+  font-family: var(--font-sans); font-size: var(--fs-caption);
+  font-weight: var(--w-semibold); color: var(--accent-ink);
+  cursor: pointer; white-space: nowrap;
+}
+.sr-door[hidden] { display: none; }
+.sr-door__w::before { content: '⌕\00a0'; font-weight: var(--w-regular); }
+.sr-door:hover .sr-door__w { text-decoration: underline; text-underline-offset: 0.18em; }
+.sr-door__k {
+  font-family: var(--font-mono); font-size: var(--fs-micro);
+  color: var(--text-min); border: var(--rule-hair) solid var(--border-soft);
+  padding: 0 0.28em; border-radius: var(--radius-sm);
+}
+
+/* THE MASTHEAD IS SHARED AND IT IS FULL. Measured at 390x844 in the working
+   stage: six entries in a 390px strip with no scroll and no collapse, and
+   this door was the widest at 77px, pushing three other pieces' controls off
+   the right-hand edge. Below 48rem the door is its glyph, at a 44px hit
+   target, and the sentence lives in `aria-label`. Nothing is lost to a screen
+   reader and 49 pixels come back to the bar. */
+@media (max-width: 47.999rem) {
+  .sr-door {
+    inline-size: 2.75rem; min-block-size: 2.75rem;
+    justify-content: center; padding: 0;
+  }
+  .sr-door__w { font-size: 0; }
+  .sr-door__w::before { font-size: var(--fs-h4); font-weight: var(--w-regular); content: '⌕'; }
+  .sr-door__k { display: none; }
+}
+
+/* THE DOOR INSIDE THE COLLAPSED MASTHEAD. `chrome.css` §E carried these three
+   rules from outside as a transitional shim; they are internalised here, plus
+   the rest of the door's sentence, which only this state has room for. The
+   panel is full width, every entry in it gets a 44px target and one left edge,
+   and a bare glyph in a menu is a rebus. */
+#app[data-tools="open"] .bar__tools .sr-door {
+  inline-size: 100%; min-block-size: 2.75rem;
+  justify-content: flex-start; padding-inline: var(--space-md);
+}
+#app[data-tools="open"] .bar__tools .sr-door__w { font-size: var(--fs-small); }
+#app[data-tools="open"] .bar__tools .sr-door__w::before { font-size: inherit; content: '⌕\00a0'; }
+#app[data-tools="open"] .bar__tools .sr-door__long { display: inline; font-weight: var(--w-regular); }
+.sr-door__long { display: none; }
+
+/* ------------------------------------------------------------ the finder */
+
+.sr {
+  position: absolute; inset: 0; pointer-events: none;
+  /* The map renders its own furniture into this same `overlay` mount, and its
+     hover layer sits at 61. A finder underneath the zoom buttons is a finder
+     with three opaque squares printed through its answers. */
+  z-index: 64;
+}
+.sr[hidden] { display: none; }
+
+/* Paints nothing. It exists so a click outside closes, and so the map does
+   not receive a stray click meant for the list. */
+.sr__scrim { position: absolute; inset: 0; background: none; pointer-events: auto; }
+
+.sr__panel {
+  position: absolute;
+  inset-block-start: calc(var(--bar-h, 3.25rem) + var(--space-xs));
+  inset-inline-start: 50%; transform: translateX(-50%);
+  inline-size: min(46rem, calc(100vw - var(--space-lg) * 2));
+  /* Tall enough that the first answer's LAST line — "what would settle it",
+     which is the whole point of an absence — is on screen without scrolling
+     at 1366x768. Measured: the row needs 450px of list. */
+  max-block-size: min(72vh, 42rem);
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--surface-panel);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none, 0);
+  box-shadow: var(--shadow-lifted);
+  pointer-events: auto;
+  overflow: hidden;
+  /* The row's two-column definition list has to answer to the PANEL's width,
+     not the window's. At 900x700 the panel is 884px wide and the viewport
+     query had already stacked every label above its value. */
+  container-type: inline-size;
+  container-name: srp;
+}
+
+.sr__bar {
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-block-end: var(--rule-fine) solid var(--border-default);
+  background: var(--surface-panel);
+}
+.sr__glyph { font-size: var(--fs-h4); color: var(--text-min); line-height: 1; }
+.sr__input {
+  flex: 1 1 auto; min-inline-size: 0;
+  border: 0; background: none; padding: var(--space-2xs) 0;
+  font-family: var(--font-serif); font-size: var(--fs-lede);
+  font-weight: var(--w-regular); color: var(--text-body);
+}
+.sr__input::placeholder { color: var(--text-min); font-style: italic; }
+.sr__input::-webkit-search-cancel-button { display: none; }
+.sr__year {
+  flex: 0 0 auto;
+  font-family: var(--font-sans); font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  text-transform: uppercase; letter-spacing: var(--tr-caps-wide);
+  color: var(--text-min); white-space: nowrap;
+}
+/* At phone width the chip took 114px of a 372px bar and the field it left
+   could not hold its own prompt. "AT 1900" says the same thing in 55. */
+@media (max-width: 47.999rem) {
+  .sr__yearw { display: none; }
+}
+.sr__x {
+  flex: 0 0 auto; inline-size: 1.75rem; block-size: 1.75rem;
+  border: 0; background: none; cursor: pointer;
+  font-size: var(--fs-h4); line-height: 1; color: var(--text-min);
+}
+.sr__x:hover { color: var(--text-body); background: var(--surface-well); }
+
+.sr__list {
+  margin: 0; padding: 0; list-style: none;
+  min-block-size: 0; min-inline-size: 0;
+  overflow: hidden auto; overscroll-behavior: contain;
+  /* Measured at 900x700: the answer's last line — "Enter · draw the hole on
+     the map" — was guillotined exactly in half by the scroll boundary, which
+     reads as a rendering fault rather than as more content. The last 2rem
+     fades instead, which is the honest signal and costs no height. */
+  mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 2rem), rgba(0, 0, 0, 0.15) 100%);
+}
+/* A list short enough to need no scroll must not be faded: the fade would be
+   printed across the last row of a complete answer. */
+.sr__list:not([data-over='yes']) { mask-image: none; }
+/* Grid and flex children default to a min-content floor, so one long word or
+   one two-column definition list pushes the whole row past the panel and the
+   panel's `overflow: hidden` amputates the sentence. Measured on a 390px
+   phone: five clipped lines in one absence. */
+.sr__list > *, .sr__panel > * { min-inline-size: 0; }
+.sr__row, .sr__row * { min-inline-size: 0; }
+.sr__row p, .sr__row dd, .sr__row dt, .sr__row h3 { overflow-wrap: anywhere; }
+.sr__foot {
+  margin: 0; padding: var(--space-xs) var(--space-md);
+  display: flex; justify-content: space-between; gap: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+  background: var(--surface-well);
+  font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min);
+}
+@media (max-width: 47.999rem) { .sr__hmove { display: none; } }
+.sr__foot kbd {
+  font-family: var(--font-mono); font-size: 0.95em;
+  border: var(--rule-hair) solid var(--border-soft); padding: 0 0.28em;
+}
+
+/* ------------------------------------------------------------- a result */
+
+.sr__row {
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  border-block-end: var(--rule-hair) solid var(--border-soft);
+  cursor: pointer;
+  border-inline-start: var(--rule-heavy) solid transparent;
+}
+.sr__row:last-child { border-block-end: 0; }
+.sr__row.is-active { background: var(--surface-well); border-inline-start-color: var(--accent-2-ink); }
+.sr__row[data-kind='absence'].is-active { border-inline-start-color: var(--danger); }
+
+.sr__eyebrow {
+  margin: 0 0 var(--space-2xs);
+  display: flex; align-items: baseline; gap: var(--space-sm); flex-wrap: wrap;
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+}
+.sr__kind {
+  text-transform: uppercase; letter-spacing: var(--tr-caps-wide);
+  font-weight: var(--w-semibold); color: var(--text-min);
+}
+.sr__kind[data-k='absence'] { color: var(--danger); }
+.sr__inuse { color: var(--text-secondary); font-style: italic; }
+
+.sr__name {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-h4);
+  font-weight: var(--w-semibold); line-height: var(--lh-snug); color: var(--text-heading);
+}
+.sr__name cite { font-style: italic; }
+.sr__via { margin: var(--space-2xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.sr__via em { font-style: normal; font-weight: var(--w-semibold); color: var(--text-secondary); }
+
+.sr__at, .sr__body, .sr__meta {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-sans); font-size: var(--fs-small);
+  line-height: var(--lh-ui); color: var(--text-secondary);
+}
+.sr__at strong { color: var(--text-body); font-weight: var(--w-semibold); }
+.sr__at--out { color: var(--text-min); }
+.sr__body { font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); color: var(--text-body); }
+.sr__meta { font-size: var(--fs-micro); color: var(--text-min); }
+
+.sr__facts { margin: var(--space-xs) 0 0; display: grid; gap: var(--space-2xs); min-inline-size: 0; }
+.sr__fact { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: var(--space-sm); }
+.sr__fact dt {
+  font-family: var(--font-sans); font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  text-transform: uppercase; letter-spacing: var(--tr-caps-wide); color: var(--text-min);
+  padding-block-start: 0.15em;
+}
+.sr__fact dd {
+  margin: 0; font-family: var(--font-sans); font-size: var(--fs-small);
+  line-height: var(--lh-ui); color: var(--text-body);
+}
+.sr__how { color: var(--text-secondary); }
+.sr__none { color: var(--text-min); font-style: italic; }
+
+.sr__cta {
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-sans); font-size: var(--fs-micro); font-weight: var(--w-semibold);
+  color: var(--accent-ink);
+}
+.sr__row:not(.is-active) .sr__cta { visibility: hidden; }
+
+/* ------------------------------------------------------------ an absence */
+
+.sr__row[data-kind='absence'] {
+  background:
+    repeating-linear-gradient(135deg,
+      transparent 0 7px,
+      var(--surface-well) 7px 8px);
+  border-inline-start: var(--rule-heavy) solid var(--danger);
+}
+.sr__row[data-kind='absence'].is-active { background: var(--surface-well); }
+.sr__lede {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-serif); font-size: var(--fs-prose); font-style: italic;
+  line-height: var(--lh-prose); color: var(--text-body);
+}
+.sr__quote {
+  margin: var(--space-sm) 0 0; padding: 0 0 0 var(--space-md);
+  border-inline-start: var(--rule-fine) solid var(--border-firm);
+}
+.sr__quote p {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-prose); color: var(--text-body);
+}
+.sr__quote cite {
+  display: block; margin-block-start: var(--space-2xs);
+  font-family: var(--font-sans); font-size: var(--fs-micro); font-style: normal;
+  color: var(--text-min);
+}
+.sr__facts--absence { margin-block-start: var(--space-md); }
+.sr__fact--settle dt { color: var(--danger); }
+.sr__fact--settle dd { font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); }
+
+/* ------------------------------------------- nothing typed / nothing found */
+
+.sr__blurb { padding: var(--space-md) var(--space-md) var(--space-sm); }
+.sr__blurb p {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans); font-size: var(--fs-small);
+  line-height: var(--lh-ui); color: var(--text-secondary);
+  max-inline-size: var(--measure-wide);
+}
+.sr__blurb--none h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif); font-size: var(--fs-h4); font-weight: var(--w-semibold);
+  color: var(--text-heading);
+}
+.sr__blurb--none h3 em { font-style: italic; }
+.sr__blurb--none p { font-family: var(--font-serif); font-size: var(--fs-prose); line-height: var(--lh-prose); color: var(--text-body); margin-block-end: var(--space-sm); }
+.sr__nearlead { font-family: var(--font-sans) !important; font-size: var(--fs-micro) !important; text-transform: uppercase; letter-spacing: var(--tr-caps-wide); color: var(--text-min) !important; }
+.sr__near { margin: 0 0 var(--space-sm); padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-md); }
+
+.sr__try { border-block-start: var(--rule-hair) solid var(--border-soft); }
+.sr__try button {
+  display: flex; align-items: baseline; gap: var(--space-md); inline-size: 100%;
+  padding: var(--space-sm) var(--space-md); min-block-size: 2.75rem;
+  border: 0; background: none; cursor: pointer; text-align: start;
+}
+.sr__try button:hover { background: var(--surface-well); }
+.sr__tryq { font-family: var(--font-serif); font-size: var(--fs-prose); color: var(--text-body); }
+.sr__tryq::before { content: '⌕\00a0'; color: var(--text-min); }
+.sr__trywhy { font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+
+/* ------------------------------------------------------------- the sheet */
+
+.sr-sheet .sr__eyebrow { margin-block-end: var(--space-xs); }
+.sr-sheet .sr__name { font-size: var(--fs-h3); }
+.sr-sheet__src { margin-block-start: var(--space-lg); }
+.sr-sheet .cx-note { margin-block-start: var(--space-md); }
+
+/* ------------------------------------- what this atlas cannot tell you --
+   The index of the 180 holes, in the rail sheet. Nothing here is a new box
+   treatment: the question is `.cx-ask`, the caveats are `.cx-note`, the
+   expanders are `.cx-more`, every figure is `.num`. Square, one hairline,
+   tokens only. */
+
+.cn { display: grid; gap: var(--space-md); }
+/* The surface takes focus when it opens so a keyboard reader lands inside it
+   rather than back at the skip links. It is a region, not a control, so it
+   draws no ring; `announce()` says what opened. */
+.cn:focus, .cn:focus-visible, .sr-sheet:focus, .sr-sheet:focus-visible,
+.cn__reveal:focus, .cn__reveal:focus-visible { outline: none; box-shadow: none; }
+.cn__lede {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-prose); color: var(--text-body);
+}
+.cn__ask { margin-block: var(--space-sm) 0; }
+/* The commitment. A number on an axis, not a menu: with 180 silences in the
+   atlas any option list containing the true answer prints it before the
+   student has committed. Arrows move it and Enter commits, which is the same
+   grammar as the Ratio Line. */
+.cn__guess { display: grid; gap: var(--space-2xs); margin-block-start: var(--space-sm); }
+.cn__guessrow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); flex-wrap: wrap; }
+.cn__read { display: flex; align-items: baseline; gap: var(--space-sm); flex-wrap: wrap; }
+.cn__readn {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--fs-h3); line-height: 1; color: var(--text-heading);
+}
+.cn__readl { font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min); }
+.cn__slider { inline-size: 100%; min-block-size: 2.75rem; accent-color: var(--accent-2-ink); cursor: pointer; }
+.cn__slider:disabled { cursor: default; }
+.cn__scale {
+  margin: 0; display: flex; justify-content: space-between; gap: var(--space-sm);
+  font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min);
+}
+.cn__commit {
+  flex: 0 0 auto;
+  padding: var(--space-2xs) var(--space-md); min-block-size: 2.75rem;
+  border: var(--rule-fine) solid var(--accent-2-ink);
+  background: var(--surface-panel); color: var(--accent-2-ink);
+  font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold);
+  cursor: pointer;
+}
+.cn__commit:hover { background: var(--accent-2-ink); color: var(--text-on-accent); }
+
+.cn__reveal { display: grid; gap: var(--space-sm); }
+.cn__reveal[hidden] { display: none; }
+.cn__you {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-h4);
+  line-height: var(--lh-snug); color: var(--text-heading);
+}
+.cn__body {
+  margin: 0; font-family: var(--font-sans); font-size: var(--fs-small);
+  line-height: var(--lh-ui); color: var(--text-secondary);
+}
+.cn__warn { margin: 0; }
+
+.cn__head { margin-block: var(--space-sm) 0; }
+.cn__gate { display: grid; gap: var(--space-md); }
+/* `display` on a block that is also toggled with [hidden] beats the UA rule and
+   the block stays in the accessibility tree and in innerText. Measured: the
+   answer was readable before the commit even though `.hidden` was true. */
+.cn__gate[hidden] { display: none; }
+.cn__gatenote { margin: 0; }
+.cn__groups { display: grid; gap: var(--space-lg); }
+.cn__grp { display: grid; gap: var(--space-2xs); }
+.cn__grph { margin: 0; display: flex; align-items: baseline; gap: var(--space-sm); }
+.cn__grpn {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--fs-h3); color: var(--text-heading); line-height: 1;
+}
+.cn__grpl {
+  font-family: var(--font-serif); font-size: var(--fs-prose);
+  font-weight: var(--w-semibold); color: var(--text-heading); line-height: var(--lh-snug);
+}
+.cn__grpg {
+  margin: 0; font-family: var(--font-sans); font-size: var(--fs-small);
+  line-height: var(--lh-ui); color: var(--text-secondary);
+}
+.cn__grpg--who { color: var(--text-min); }
+.cn__toggle { justify-self: start; margin-block-start: var(--space-2xs); }
+
+.cn__list {
+  margin: var(--space-2xs) 0 0; padding: 0; list-style: none;
+  display: grid; gap: 0;
+  /* Capped so a 95-item group cannot bury the two below it. No
+     `overscroll-behavior: contain` here on purpose: inside a sheet that is
+     itself scrolling, containment turns the inner list into a trap. */
+  max-block-size: 22rem; overflow: hidden auto;
+  border-block-start: var(--rule-hair) solid var(--border-soft);
+}
+.cn__list[hidden] { display: none; }
+.cn__item { min-inline-size: 0; }
+.cn__go {
+  display: grid; gap: 0 var(--space-sm); inline-size: 100%;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: var(--space-xs) 0; min-block-size: 2.75rem;
+  border: 0; border-block-end: var(--rule-hair) solid var(--border-soft);
+  background: none; cursor: pointer; text-align: start;
+}
+.cn__go:hover { background: var(--surface-well); }
+.cn__gow {
+  font-family: var(--font-sans); font-size: var(--fs-small); font-weight: var(--w-semibold);
+  color: var(--text-body); line-height: var(--lh-ui); overflow-wrap: anywhere;
+}
+.cn__goy { font-size: var(--fs-micro); color: var(--text-min); justify-self: end; }
+.cn__gowho {
+  grid-column: 1 / -1;
+  font-family: var(--font-sans); font-size: var(--fs-micro); color: var(--text-min);
+  line-height: var(--lh-ui); overflow-wrap: anywhere;
+}
+.cn__grp[data-shape='destroyed'] .cn__grpn { color: var(--danger); }
+.cn__foot { margin: 0; }
+
+/* On a bottom sheet of about 350px the commitment has to reach the fold. Two
+   gaps and one margin come out; nothing shrinks and no type size changes. */
+@media (max-width: 47.999rem) {
+  .cn { gap: var(--space-sm); }
+  .cn__ask { margin-block: var(--space-2xs) 0; }
+  .cn__guess { margin-block-start: var(--space-xs); }
+  .cn__lede { font-size: var(--fs-base); }
+}
+
+.sr-sheet__all { margin: var(--space-sm) 0 0; }
+/* The other two rows in the empty finder are QUERIES the reader can type, and
+   the ⌕ says so. These two are surfaces, so they carry their own marks: the
+   hole's own square, and the lens's rule. Round 3 had the lens row wearing the
+   search glyph, which promised a query it is not. */
+.sr__try--lens .sr__tryq::before { content: '◐\00a0'; color: var(--accent-ink); }
+.sr__try--cannot .sr__tryq { font-weight: var(--w-semibold); }
+.sr__try--cannot .sr__tryq::before { content: '◻\00a0'; color: var(--danger); }
+.sr__try--cannot button { border-inline-start: var(--rule-heavy) solid var(--danger); }
+
+/* -------------------------------------------------------------- the lens */
+
+.lens { display: grid; gap: var(--space-md); }
+.lens__say {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-prose); color: var(--text-body);
+}
+.lens .cx-panel__head { margin: var(--space-sm) 0 0; }
+.lens__stops { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.lens__stop {
+  padding: var(--space-2xs) var(--space-sm); min-block-size: 2.25rem;
+  border: var(--rule-fine) solid var(--border-default);
+  background: var(--surface-panel); color: var(--text-secondary);
+  font-family: var(--font-sans); font-size: var(--fs-small); cursor: pointer;
+}
+.lens__stop .num { font-size: var(--fs-small); }
+.lens__stop:hover { background: var(--surface-well); color: var(--text-body); }
+.lens__stop[aria-pressed='true'] {
+  background: var(--accent-2-ink); border-color: var(--accent-2-ink); color: var(--text-on-accent);
+}
+.lens__stop--off { font-style: italic; }
+.lens__figures {
+  margin: 0; font-family: var(--font-sans); font-size: var(--fs-base);
+  line-height: var(--lh-ui); color: var(--text-body);
+}
+.lens__caution { margin: 0; }
+.lens__caution cite { font-style: italic; }
+.lens__only { margin: 0; }
+.lens__disc { margin: 0; }
+.lens__disc p { margin: var(--space-2xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-small); line-height: var(--lh-ui); color: var(--text-secondary); }
+.lens__discwhen { color: var(--text-min) !important; }
+.lens__list { margin: var(--space-xs) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); }
+.lens__list li { font-family: var(--font-sans); font-size: var(--fs-small); color: var(--text-secondary); line-height: var(--lh-ui); }
+.lens__workname { margin: 0; font-family: var(--font-serif); font-size: var(--fs-prose); color: var(--text-body); }
+.lens__work p { margin: var(--space-2xs) 0 0; font-family: var(--font-sans); font-size: var(--fs-small); color: var(--text-secondary); line-height: var(--lh-ui); }
+
+/* ------------------------------------------------------- narrow viewports */
+
+@media (max-width: 48rem) {
+  .sr__panel {
+    inset-block-start: var(--space-xs);
+    inline-size: calc(100vw - var(--space-sm) * 2);
+    max-block-size: min(74vh, 40rem);
+  }
+}
+
+@container srp (max-width: 30rem) {
+  .sr__fact { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .sr__fact dt { padding-block-start: var(--space-2xs); }
+  .sr__name { font-size: var(--fs-lede); }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: no-preference) {
+  .sr__panel { animation: sr-in var(--dur-fast) var(--ease-out) both; }
+}
+@keyframes sr-in { from { opacity: 0; transform: translate(-50%, -0.4rem); } to { opacity: 1; transform: translate(-50%, 0); } }
+[data-motion='reduced'] .sr__panel { animation: none; }
+
+/* ------------------------------------------------------------ high contrast */
+
+@media (forced-colors: active) {
+  .sr__panel { border: 1px solid CanvasText; }
+  .sr__row.is-active { background: Highlight; color: HighlightText; }
+  .sr__row[data-kind='absence'] { background: none; border-inline-start: 3px solid CanvasText; }
+  /* A gradient mask over text in a forced palette dims the last line instead of
+     signalling more content. The scrollbar does that job here. */
+  .sr__list { mask-image: none; }
+  .cn__commit { border: 1px solid CanvasText; }
+  .cn__grp[data-shape='destroyed'] .cn__grpn { color: CanvasText; }
+}
+
+/* --------------------------------------------------------------- printing */
+
+@media print {
+  .sr, .sr-door { display: none !important; }
+  /* The index of holes is a reference work and a teacher will want it on paper
+     (FEATURE_SPEC charge 14: the printed outputs are the permanent artefacts).
+     Every group opens, nothing is capped, nothing scrolls. */
+  .cn__gate { display: block !important; }
+  .cn__list { display: block !important; max-block-size: none; overflow: visible; }
+  .cn__toggle, .cn__slider, .cn__commit, .cn__scale { display: none !important; }
+  .cn__go { break-inside: avoid; }
+}

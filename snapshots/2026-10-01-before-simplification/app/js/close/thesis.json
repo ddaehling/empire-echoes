@@ -1,0 +1,210 @@
+{
+  "$note": "P21 — the Unfinished Sentence. DIDACTIC_SPEC §2.3's through-line, run in the statusbar from second one with blanks, so the app has a visible ending and a visible distance to it without a progress bar and without a rail. A blank fills when the Ledger earns it; clicking a blank goes to the beat that fills it. It never nags and never blocks.",
+  "$earnedBy": "WHY A SLOT NAMES SEVERAL BEATS AND NOT ONE. Round 5 measured the default route end to end: every one of `core`'s eleven required beats completed, and three of the six blanks — 1, 3 and 5 — stayed empty for ever, because each was keyed by hand to a single beat (`barbados`, `who-took-bengal`, `princely`) that `core` does not carry. The signature scaffold printed three literal `______`, the finish control never left \"Finish here\", and clicking one of those blanks called `tours:goBeat` for a beat that is not in the running route's step list, which returns silently. A control that does nothing, on the sentence DIDACTIC_SPEC §2.3 calls the app's success metric. The cause was not the three ids. It was that a route is composed in `tours/variants` and a blank is keyed in this file, and nothing checked one against the other. So a slot now names its earners in order of preference, `close/index.js` resolves the first one that is actually ON the route the student is running, and `_audit()` checks every slot against every route at mount and calls `console.error` if one cannot be earned and this file has not declared that route partial. A future edit to `variants` that orphans a clause turns every scenario in the repository red on the spot, which is the only way this class stops coming back.",
+  "version": "p05.2",
+  "lead": "Britain's empire started as",
+  "partial": {
+    "eight": "The short run has no Atlantic chapter at all — five beats: the poster, the spine, the loop, the exits and what is left. Blanks 1 and 2 are the sugar islands and the people who never stopped resisting, and no beat on this route earns either. It is a taste, and it says so rather than hanging its own ending on a clause it never taught."
+  },
+  "slots": [
+    {
+      "n": 1,
+      "requires": "barbados",
+      "earnedBy": [
+        "barbados",
+        "compensation"
+      ],
+      "fill": "sugar islands",
+      "after": "worked by",
+      "hint": "the crop, and the islands it was grown on",
+      "short": "worked by",
+      "shortFill": "sugar islands",
+      "$why": "`barbados` is the beat built for this clause. On `core`, which drops it, the clause is earned by `compensation`: its panel reads the Barbados shard, its sort is the Barbados timeline from the 1807 trade Act to full freedom in 1838, and its lede prints £1.72m paid to Barbadian slave-owners for 83,150 people. The crop is named two beats earlier, in the spine's own Atlantic clause. By the time the money is on screen a student on `core` has met both halves of 'sugar islands'."
+    },
+    {
+      "n": 2,
+      "requires": "resistance",
+      "earnedBy": [
+        "resistance"
+      ],
+      "fill": "enslaved Africans who never stopped resisting",
+      "after": ", became",
+      "hint": "who did the work, and what they did about it",
+      "short": ", became",
+      "shortFill": "enslaved Africans"
+    },
+    {
+      "n": 3,
+      "requires": "who-took-bengal",
+      "earnedBy": [
+        "who-took-bengal",
+        "revenue-loop"
+      ],
+      "fill": "a trading company",
+      "after": "that ended up ruling",
+      "hint": "who actually took Bengal",
+      "short": "that ruled",
+      "shortFill": "a trading company",
+      "$why": "`who-took-bengal` makes the student commit to an answer before the record opens, and it is the better earner. `core` drops it and keeps the loop, which opens on the diwani of 12 August 1765 — the right to tax Bengal, granted to a chartered company with shareholders in London — and spends the whole beat on what that company did with it. On `core` blanks 3 and 4 therefore fill together, at the loop, which is honest: one beat earned both."
+    },
+    {
+      "n": 4,
+      "requires": "revenue-loop",
+      "earnedBy": [
+        "revenue-loop"
+      ],
+      "fill": "India, on Indian revenue",
+      "after": ", turned into a global system painted one colour on a map that hid",
+      "hint": "what the diwani paid for",
+      "short": ", one colour hiding",
+      "shortFill": "India, on Indian money"
+    },
+    {
+      "n": 5,
+      "requires": "princely",
+      "earnedBy": [
+        "princely",
+        "egypt",
+        "poster"
+      ],
+      "fill": "a dozen kinds of rule",
+      "mine": {
+        "claimId": "p05:poster:statusCount",
+        "fill": "{answer} — you guessed {said}",
+        "shortFill": "{answer}"
+      },
+      "after": ", and came apart between 1942 and 1997 because",
+      "hint": "how many legal forms the one pink was hiding",
+      "short": ", ended because",
+      "shortFill": "a dozen kinds of rule",
+      "$why": "The clause is about what one colour hid, and three beats earn it. `princely` is the sharpest — change the definition and the map loses a third of the subcontinent. `core` drops it and carries `egypt`, which is the same argument on one country: one place, four legal labels, borders unchanged, 'a colour on a map is a legal claim, not a description of who obeyed whom'. `poster` is the floor, and it is on every route: it is where the student put a number on the question in the first place, which is why `mine` quotes that number back here."
+    },
+    {
+      "n": 6,
+      "requires": "exits",
+      "earnedBy": [
+        "exits",
+        "singapore"
+      ],
+      "fill": "the people it ruled organised, and Britain went broke",
+      "after": ".",
+      "hint": "why it ended",
+      "short": ".",
+      "shortFill": "they organised; Britain went broke",
+      "$why": "`exits` is the beat built for this clause and stays the first choice. The one-period route drops it — the 1947 twin charts mounted inside it cost 521 seconds at a class's reading rate, more than a sixth of the whole period — and keeps `singapore`, which earns the same clause in its own prose and does it in 101. Read the beat: “these were imperial world wars fought largely by colonial soldiers, and the bill for them is one reason the empire ended. Britain finished the war owing more than it could pay and holding an empire it could no longer garrison. Quit India began in August 1942. The Royal Indian Navy mutinied in February 1946. The order of those dates is the mechanism.” Both halves of the clause are there and named — the organising and the insolvency — which is more than the clause asks for. What `singapore` does NOT carry is HOW they left, the exit tally and its grain; that is `exits`, it is T18 and T19 on the longer routes, and the one-period route's own card names it as dropped. Close line 12 requires both beats and is greyed on any route that has only one, so nothing here lets a route claim the exit map it did not run."
+    }
+  ],
+  "prompt": "Now say it in your own words. This becomes the top of your revision sheet.",
+  "placeholder": "Britain's empire started as…",
+  "shortLead": "It started as",
+  "$perRoute": "DIDACTIC_SPEC §8.4(3), amended wave 9: “It completes and signs THIS LESSON'S own through-line — the sentence printed in §8 under that lesson… §2.3's full sentence belongs to the UNIT and may be offered for signing only at the unit Close or at the end of the full route. A lesson must never present a sentence it cannot earn, and must never present §2.3 with the other lesson's half greyed out.” The `partial` mechanism below is exactly that forbidden thing — it greys the blanks a route cannot earn and prints a paragraph explaining why — and it is right for the short run, which is a taste of the whole sentence and says so. It is wrong for a lesson, because a lesson is not a fragment of a unit: it is a whole thing with an argument that finishes. So each lesson gets its own sentence, in `perRoute`, and it is §8's own words for that lesson, split at its own clauses. Every earner named here is a beat that lesson actually walks — `_audit()` checks it at mount against tours.json's `variants`, for this block as well as for the shared one, and calls console.error if a clause is ever orphaned. THE TWO SIGNED HALVES COMPOSE: a student who has finished both lessons has signed both halves of §2.3, and the unit Close is where they become one sentence.",
+  "perRoute": {
+    "lesson-one": {
+      "$why": "LESSON ONE's own through-line, DIDACTIC_SPEC §8: “Britain's empire began as sugar islands worked by enslaved Africans, and as a shareholder company that found taxing people paid better than trading with them.” A complete sentence standing on its own, and every one of its four blanks is earned by a beat on this lesson: the sugar islands by `barbados` (or by `compensation`, whose whole panel is the Barbados timeline), the people by `resistance`, the company by `who-took-bengal`'s [PREDICT] and its 1600 charter, and what the company found by the loop.",
+      "lead": "Britain’s empire began as",
+      "shortLead": "It began as",
+      "prompt": "Now say it in your own words. This is Lesson One’s sentence, and it goes at the top of your revision sheet.",
+      "placeholder": "Britain’s empire began as…",
+      "slots": [
+        {
+          "n": 1,
+          "requires": "barbados",
+          "earnedBy": [
+            "barbados",
+            "compensation"
+          ],
+          "fill": "sugar islands",
+          "after": "worked by",
+          "hint": "the crop, and the islands it was grown on",
+          "short": "worked by",
+          "shortFill": "sugar islands"
+        },
+        {
+          "n": 2,
+          "requires": "resistance",
+          "earnedBy": [
+            "resistance"
+          ],
+          "fill": "enslaved Africans who never stopped resisting",
+          "after": ", and as",
+          "hint": "who did the work, and what they did about it",
+          "short": ", and as",
+          "shortFill": "enslaved Africans"
+        },
+        {
+          "n": 3,
+          "requires": "who-took-bengal",
+          "earnedBy": [
+            "who-took-bengal",
+            "revenue-loop"
+          ],
+          "fill": "a shareholder company",
+          "after": "that found",
+          "hint": "who actually took Bengal",
+          "short": "that found",
+          "shortFill": "a shareholder company"
+        },
+        {
+          "n": 4,
+          "requires": "revenue-loop",
+          "earnedBy": [
+            "revenue-loop"
+          ],
+          "fill": "taxing people paid better than trading with them",
+          "after": ".",
+          "hint": "what the diwani was worth, and why the loop turned",
+          "short": ".",
+          "shortFill": "taxing beat trading"
+        }
+      ]
+    },
+    "lesson-two": {
+      "$why": "LESSON TWO's own through-line, DIDACTIC_SPEC §8: “It turned into a global system painted one colour on a map that hid a dozen kinds of rule, and it came apart between 1942 and 1997 because the people it ruled organised, and Britain went broke.” §8's sentence word for word, with three blanks taken out of it. Blank 1 is earned by `nationalisation` — the beat where the company's ground becomes the Crown's and the map recolours under the student — with `spine` as the floor, since the spine restates the four engines on this lesson's first beat. Blank 2 is `princely` (toggle the definition and direct rule loses a third of the subcontinent) or `scramble` (a rulebook written in Berlin and a race run with guns). Blank 3 is `exits`, or `singapore` where the exits beat is not run.",
+      "lead": "It turned into",
+      "shortLead": "It turned into",
+      "prompt": "Now say it in your own words. This is Lesson Two’s sentence, and it goes at the top of your revision sheet.",
+      "placeholder": "It turned into…",
+      "slots": [
+        {
+          "n": 1,
+          "requires": "nationalisation",
+          "earnedBy": [
+            "nationalisation",
+            "spine"
+          ],
+          "fill": "a global system painted one colour",
+          "after": "on a map that hid",
+          "hint": "what the company's empire became in 1858",
+          "short": ", one colour hiding",
+          "shortFill": "a global system"
+        },
+        {
+          "n": 2,
+          "requires": "princely",
+          "earnedBy": [
+            "princely",
+            "scramble"
+          ],
+          "fill": "a dozen kinds of rule",
+          "after": ", and it came apart between 1942 and 1997 because",
+          "hint": "how many legal forms the one pink was hiding",
+          "short": ", ended because",
+          "shortFill": "a dozen kinds of rule"
+        },
+        {
+          "n": 3,
+          "requires": "exits",
+          "earnedBy": [
+            "exits",
+            "singapore"
+          ],
+          "fill": "the people it ruled organised, and Britain went broke",
+          "after": ".",
+          "hint": "why it ended",
+          "short": ".",
+          "shortFill": "they organised; Britain went broke"
+        }
+      ]
+    }
+  }
+}

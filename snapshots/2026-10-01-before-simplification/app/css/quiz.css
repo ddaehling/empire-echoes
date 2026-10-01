@@ -1,0 +1,803 @@
+/* quiz.css — P10, active recall.
+ *
+ * Adopts the shared chrome (docs/LAYOUT_BUDGET.md §5): .cx-ask for every
+ * question, .cx-more for every route out, .cx-src for every citation,
+ * .cx-note for every caveat, .btn from base.css for every control. It invents
+ * no colour (docs/DESIGN.md §6.8) and no box treatment. There is no filled
+ * madder control here: .cx-cta is the shell's and there is exactly one.
+ *
+ * Nothing in this file is red-for-wrong or green-for-right. A wrong answer is
+ * the cheapest thing in the app and must not look like a failure.
+ */
+
+/* ---- the masthead control ------------------------------------------------ */
+
+.qz-open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-sm);
+  min-height: 1.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--tr-ui);
+  color: var(--text-secondary);
+  background: none;
+  border: var(--rule-fine) solid transparent;
+  border-radius: var(--radius-sm);
+}
+/* `display:inline-flex` beats the UA sheet's `[hidden]{display:none}`, and a
+   control nobody can see must not be counted, measured, tabbed to or read out. */
+.qz-open[hidden] { display: none !important; }
+.qz-open:hover { color: var(--accent-ink); border-color: var(--border-soft); }
+.qz-open[data-due='yes'] { color: var(--accent-ink); }
+.qz-open__n {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+  padding: 0 0.34em;
+  color: var(--accent-ink);
+  border: var(--rule-fine) solid var(--accent);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+/* ---- the card ------------------------------------------------------------ */
+
+.qz { display: flex; flex-direction: column; gap: var(--space-md); }
+/* `display:flex` on a row beats the `hidden` attribute, and a form that stays
+   on screen after the answer lands is a form a reader can quietly rewrite. */
+.qz [hidden], .qz[hidden] { display: none !important; }
+
+.qz__return,
+.qz__lede {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.qz__return {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  border-inline-start: var(--rule-fine) solid var(--border-soft);
+  padding-inline-start: var(--space-sm);
+}
+
+.qz .cx-ask { margin-block: 0; }
+.qz__prompt {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.qz__in { margin-block-start: var(--space-md); }
+
+.qz__act, .qz__next, .qz__ev, .qz__forget {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-md); margin: 0;
+}
+.qz__commit { --btn-edge: var(--accent); color: var(--accent-ink); font-weight: var(--w-semibold); }
+/* Waiting, not forbidden. `aria-disabled` keeps the control in the tab order —
+   a keyboard reader must be able to reach it and be told what is missing —
+   so the closed state is drawn with the secondary ink and a soft edge, which
+   still clears AA, rather than with opacity, which does not. */
+.qz__commit[aria-disabled='true'] {
+  --btn-edge: var(--border-soft);
+  color: var(--text-secondary);
+  cursor: default;
+}
+.qz__commit[aria-disabled='true']:hover { background: none; }
+.qz__hint {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ---- choose / who -------------------------------------------------------- */
+
+.qz-opt {
+  display: flex; align-items: flex-start; gap: var(--space-sm);
+  padding: var(--space-sm);
+  margin-block-end: var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  color: var(--text-body);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+}
+.qz-opt:hover { background: var(--surface-well); }
+/* THE RING GOES ROUND THE ROW, NOT ROUND THE MARK. base.css owns the focus
+   treatment and this does not change it — it moves it onto the element that
+   is actually the target. A 2px ring drawn tight around a 24px radio, with
+   the row's own border still visible outside it, reads at a glance as a
+   CHOSEN answer, which on a commit-then-correct card is the one thing it
+   must not read as. On the row it reads as "here you are". */
+.qz-opt:has(input:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px var(--focus-halo), 0 0 0 5px var(--accent-veil);
+}
+.qz-opt input:focus-visible { outline: none; box-shadow: none; }
+/* THE ANSWER'S OWN TARGET — WCAG 2.2 SC 2.5.8, measured at 390×844.
+
+   Round 3's phone critic counted the controls in a mounted beat that fall
+   under the 24×24 CSS px minimum. Inside a `choose` card the radios measured
+   13×13. The row around each of them is a `<label>` that wraps the input, so
+   the whole 358×44 row already activates it and the success criterion is met
+   through the enclosing target — but a 13px dot on a phone is still a 13px
+   dot to aim at, and a student who aims at the mark rather than the sentence
+   is the student this app is for.
+
+   So the mark itself is 24px, and the row is guaranteed 44 — the AAA figure,
+   because these are the only controls in the app a reader presses while
+   holding a phone one-handed on a bus, and because the row already ran to
+   44 for three lines of four. Nothing else about the card moves. */
+.qz-opt {
+  min-block-size: 2.75rem;
+  align-items: center;
+}
+.qz-opt input {
+  accent-color: var(--accent-ink);
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  margin-block: 0;
+}
+.qz-opt:has(input:checked) { border-color: var(--accent); background: var(--surface-well); }
+.qz-opt[data-chose='yes'] { border-inline-start: var(--rule-heavy) solid var(--accent); }
+.qz-opt input:disabled + span { color: var(--text-secondary); }
+.qz-opt:has(input:disabled) { cursor: default; }
+.qz-opt:has(input:disabled):hover { background: none; }
+
+/* ---- order --------------------------------------------------------------- */
+
+.qz-legend { margin: var(--space-xs) 0 0; padding-inline-start: 1.5rem; list-style: decimal; }
+.qz-legend li {
+  font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-snug); color: var(--text-body);
+  margin-block-end: var(--space-2xs);
+}
+.qz-legend__s { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-secondary); }
+
+.qz-order { list-style: none; margin: 0; padding: 0; }
+.qz-order__i {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-block-end: 0;
+  background: var(--surface-panel);
+}
+.qz-order__i:last-child { border-block-end: var(--rule-fine) solid var(--border-soft); }
+/* The focus ring is base.css's, everywhere. One treatment, one app. */
+.qz-order__i:focus-visible { outline-offset: -3px; }
+.qz-order__n { font-size: var(--fs-caption); color: var(--text-min); }
+.qz-order__t {
+  font-family: var(--font-serif); font-size: var(--fs-small);
+  line-height: var(--lh-snug); color: var(--text-body);
+}
+.qz-order__b { display: flex; gap: 2px; }
+.qz-order__u {
+  width: 1.5rem; height: 1.5rem;
+  font-family: var(--font-sans); font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-page);
+}
+.qz-order__u:hover:not(:disabled) { color: var(--accent-ink); border-color: var(--accent); }
+.qz-order__u:disabled { opacity: 0.3; cursor: not-allowed; }
+.qz-order[data-locked='yes'] .qz-order__b { visibility: hidden; }
+
+/* ---- estimate ------------------------------------------------------------ */
+
+.qz-est { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.qz-out {
+  font-family: var(--font-mono);
+  font-size: var(--fs-h3);
+  font-variant-numeric: tabular-nums slashed-zero;
+  color: var(--text-heading);
+  line-height: var(--lh-solid);
+}
+.qz-range { width: 100%; accent-color: var(--accent-ink); }
+.qz-est__ends {
+  display: flex; justify-content: space-between; margin: 0;
+  font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--text-min);
+}
+
+.qz-conf, .qz-check {
+  margin: var(--space-md) 0 0; padding: 0; border: 0;
+}
+.qz-conf legend, .qz-check legend {
+  padding: 0 0 var(--space-2xs);
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  font-weight: var(--w-semibold); letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase; color: var(--text-min);
+}
+.qz-conf { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+.qz-conf legend { flex-basis: 100%; }
+.qz-conf__o, .qz-check__o {
+  display: flex; align-items: flex-start; gap: var(--space-xs);
+  font-family: var(--font-sans); font-size: var(--fs-small);
+  color: var(--text-secondary); cursor: pointer;
+}
+.qz-check__o { margin-block-end: var(--space-xs); align-items: flex-start; }
+.qz-check__o span { line-height: var(--lh-ui); }
+/* The confidence radios and the checkbox rows answer to the same rule as the
+   options above: 24px marks in rows that clear 44. "Fairly sure" is a
+   commitment this app asks for on every estimate, and it was a 13px dot. */
+.qz-conf__o, .qz-check__o { min-block-size: 2.75rem; }
+.qz-conf__o input, .qz-check__o input {
+  accent-color: var(--accent-ink);
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  margin-block: 0;
+}
+
+/* ---- year / map / explain ------------------------------------------------ */
+
+.qz-yr { display: flex; gap: var(--space-sm); align-items: center; }
+.qz-year {
+  width: 6.5rem; padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-mono); font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-sm);
+}
+.qz-names { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-block-start: var(--space-sm); }
+.qz-names__h { flex-basis: 100%; margin: 0; }
+
+/* ---- a document, before anything is said about it -----------------------
+ *
+ * Round 3, the historian: every transcribed text in this atlas arrives with
+ * its nature, origin, purpose and limits already written. One item now hands
+ * the student the words and none of the four, and takes their sentences
+ * first. So the quotation has to READ like a document and not like a pull
+ * quote: no big grey italics, no decorative marks. A rule down the left, the
+ * text at reading size in the serif every claim in this app is set in, and
+ * the attribution under it in the caption face — which is the same treatment
+ * the dossier gives a source, because it is the same kind of object.
+ *
+ * The four separate blocks below it (`.qz__truth .qz__modelhead` repeated)
+ * need air between them or they read as one paragraph with shouting in it. */
+.qz-doc {
+  margin: 0 0 var(--space-md);
+  padding-inline-start: var(--space-md);
+  border-inline-start: var(--rule-heavy) solid var(--border-firm);
+}
+.qz-doc__q {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+}
+.qz-doc__by {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+.qz__truth .qz__modelhead ~ .qz__modelhead { margin-block-start: var(--space-md); }
+
+.qz-ta {
+  width: 100%; box-sizing: border-box;
+  padding: var(--space-sm);
+  font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-prose); color: var(--text-body);
+  background: var(--surface-page);
+  border: var(--rule-fine) solid var(--border-firm);
+  border-radius: var(--radius-none);
+  resize: vertical;
+}
+
+/* ---- the answer ---------------------------------------------------------- */
+
+.qz__ans {
+  display: flex; flex-direction: column; gap: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-fine) solid var(--border-default);
+}
+.qz__said { margin: 0; display: flex; flex-direction: column; gap: 1px; }
+.qz__said-l {
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  font-weight: var(--w-semibold); letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase; color: var(--text-min);
+}
+.qz__said-v {
+  font-family: var(--font-serif); font-size: var(--fs-small);
+  line-height: var(--lh-snug); color: var(--text-secondary);
+  font-style: italic;
+}
+.qz__truth {
+  margin: 0;
+  font-family: var(--font-serif); font-size: var(--fs-prose);
+  line-height: var(--lh-prose); color: var(--text-body);
+  border-inline-start: var(--rule-heavy) solid var(--accent);
+  padding-inline-start: var(--space-md);
+}
+.qz__truth em { font-style: italic; color: var(--text-secondary); }
+.qz__modelhead {
+  display: block;
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  font-weight: var(--w-semibold); letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase; color: var(--text-min);
+  margin-block-end: var(--space-2xs);
+}
+.qz__why {
+  margin: 0;
+  font-family: var(--font-serif); font-size: var(--fs-small);
+  line-height: var(--lh-prose); color: var(--text-secondary);
+}
+.qz__people { margin: 0; padding-inline-start: 1.1rem; }
+.qz__people li {
+  font-family: var(--font-sans); font-size: var(--fs-caption);
+  line-height: var(--lh-ui); color: var(--text-secondary);
+  margin-block-end: var(--space-2xs);
+}
+.qz__note { display: block; margin-block-start: var(--space-2xs); }
+
+/* ---- nothing due --------------------------------------------------------- */
+
+.qz-sched { list-style: none; margin: 0; padding: 0; }
+.qz-sched__r {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  border-block-end: var(--rule-hair) solid var(--border-soft);
+}
+.qz-sched__s {
+  font-family: var(--font-serif); font-size: var(--fs-small);
+  color: var(--accent-ink); text-align: start;
+}
+.qz-sched__s:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+.qz-sched__w {
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  color: var(--text-min); white-space: nowrap;
+}
+
+.qz__grid { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.qz-chip {
+  display: inline-flex; align-items: baseline; gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  font-family: var(--font-sans); font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-panel);
+}
+.qz-chip:hover { border-color: var(--accent); color: var(--accent-ink); }
+.qz-chip__s { font-family: var(--font-sans); color: var(--text-min); }
+.qz-chip[data-state='missed'] { border-color: var(--border-firm); }
+.qz__forget { margin-block-start: var(--space-md); }
+
+/* Said once, on the first question this student is ever asked, and never
+   again. Two lines at caption size: the sheet band is 332px tall at 390×844,
+   and a preamble that pushes the question off the top of its own sheet is
+   worse than no preamble at all. */
+.qz__first {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-prose);
+  color: var(--text-secondary);
+}
+.qz__forget .cx-note { flex: 1 1 12rem; }
+
+/* ---- narrow -------------------------------------------------------------- */
+
+/* ---- a shim, and the reason for it ---------------------------------------
+   Measured on a 390px phone: the shell's rail sheet sits at z-index 52, the
+   dossier at 71, and the map's own furniture is re-parented on a phone into
+   `.app__overlay` at 70 — later in the DOM, so it printed through the question:
+   the zoom buttons and the definition dial sat on top of the words. This lifts
+   the sheet clear, and ONLY while a recall card is the thing inside it, so no
+   other piece's sheet is affected. It is the shell's rule to fix; delete this
+   block when it does. */
+@media (max-width: 62rem) {
+  #sheet:has(.qz) { z-index: calc(var(--z-modal, 70) + 5); }
+}
+
+/* ---- the control's label is keyed on the CONTAINER, not the viewport ------
+ *
+ * ROUND 3, measured. This block used to read `@media (max-width: 62rem)`, so at
+ * 900×700 — a listed test viewport, and one where the masthead does NOT
+ * collapse — the control printed as a bare `?` with its word hidden and no
+ * Tools panel anywhere to restore it. An unlabelled mark in a bar is the exact
+ * defect this round's verdict named on another piece ("the disabled Next
+ * collapses to an unlabelled dashed '·'"), and chrome.css §E says so in as many
+ * words: "DELETE when each keys its label on the container rather than the
+ * viewport."
+ *
+ * The word now disappears in one place only: inside the collapsed 46px strip,
+ * which the shell marks with `#app[data-bar="stack"]`, and where chrome.css
+ * gives it straight back the moment that strip becomes the Tools panel. At
+ * every width where the control is in an open bar it carries its word.
+ */
+#app[data-bar="stack"] .qz-open__l {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+}
+#app[data-bar="stack"] .qz-open::before {
+  content: '?'; font-family: var(--font-serif); font-size: var(--fs-base);
+}
+
+/* The question's own rows stay keyed on width: this is about the sheet the
+   card is drawn in, not about the masthead. */
+@media (max-width: 62rem) {
+  .qz-order__i { grid-template-columns: 1.4rem minmax(0, 1fr) auto; }
+}
+
+/* ---- the commit never falls below the fold -------------------------------
+ *
+ * ROUND 3, measured at 390×844 and 900×700. The rail sheet is 332px tall on a
+ * phone; a four-option `choose` card is 377px, so the fourth option was clipped
+ * mid-sentence and `Commit` sat 80px below the bottom edge with nothing
+ * pointing down. A student was shown a question and no way to answer it. After
+ * committing it is worse: the answered card is 1200px in a 297px scrollport,
+ * and the route onward — "Next question", "Back to the map" — was 900px below
+ * the fold.
+ *
+ * And it is not a phone problem. Measured at 900x700, where the rail is a SIDE
+ * column 652px tall: `Commit` sat at y=848, 185px BELOW the bottom of its own
+ * sheet, with the card scrolled to the top. So the rule is unconditional. It
+ * costs nothing where the card already fits — a sticky box that is fully in
+ * view never moves — and it is the difference between a question and a dead
+ * end everywhere else.
+ *
+ * Both rows are in normal flow, so scrolling to the end of the card sets them
+ * down in their own place and everything below them (the "why this one, for
+ * you" line, the citation) is fully readable.
+ *
+ * `data-pin` is set by `_pin()` from the sheet scrollport's own overflow, not
+ * from a width. Sticky means "never lower than this line", so on a card that
+ * already fits it would push Commit to the foot of a 700px sheet, away from
+ * the question. It is only ever on when there is something below the fold.
+ */
+.qz[data-pin='yes'] .qz__act:not([hidden]),
+.qz[data-pin='yes'] .qz__next {
+  position: sticky;
+  /* Chrome pins a sticky child to the scrollport's CONTENT box, and
+     `.cx-sheet__body` carries `padding: var(--space-lg)` — measured, the row
+     stopped 16px short of the sheet's edge and the tail of the last option
+     printed in the gap. The same token drives both, so this cancels exactly
+     and keeps doing so if the sheet's padding ever changes. */
+  inset-block-end: calc(-1 * var(--space-lg));
+  z-index: 2;
+  margin-block-start: var(--space-sm);
+  padding-block: var(--space-sm);
+  background: var(--surface-panel, var(--surface-page));
+  box-shadow: 0 -1px 0 var(--border-soft, rgba(0, 0, 0, .14));
+}
+
+/* ---- every target in a card clears 24 --------------------------------------
+ *
+ * WCAG 2.2 SC 2.5.8, measured at 390x844 across every card this module can
+ * draw. The options and the confidence rows are handled at their own rules
+ * above; what was left were the text controls — "Open that record" in the
+ * evidence row at 111x18, the scheduled-item rows, the chips in the done
+ * panel, and "Clear what this app remembers about me". They are `.cx-more`,
+ * the shell's inline-link class, so the rule is scoped to this card and does
+ * not reach a single control belonging to another piece. Nothing moves
+ * visually: an inline link with a 24px box around it looks the same and is
+ * twice the target. */
+.qz .cx-more,
+.qz-sched__s,
+.qz-chip {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qz-open, .qz-opt, .qz-order__u { transition: none; }
+}
+
+/* ---- the checkpoint ------------------------------------------------------
+ *
+ * Four moments on the guided path where the rail carries a question from
+ * earlier in the session instead of the beat. It has to read as an interruption
+ * with a reason — not as an error, not as a test — so it takes the same
+ * admiralty rule as .cx-ask on its leading edge and nothing else. No colour
+ * that is not already in the sheet, no box, no shadow, no badge.
+ */
+
+.qz-cp {
+  margin: 0;
+  border-block-start: var(--rule-fine) solid var(--border-soft);
+  padding-block-start: var(--space-sm);
+}
+.qz-cp__lede {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-prose);
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.qz-cp__why {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-ui);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.qz-cp__band {
+  display: block;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+/* THE INTERVAL. One clause, in the body colour rather than the secondary, so
+   the gap reads as the fact it is and the reason that follows reads as the
+   explanation it is. No new line and no new block: it is the first clause of a
+   paragraph that was already there, which is the only way a sentence earns
+   room on a 223px reading window. */
+.qz-cp__gap {
+  color: var(--text-body);
+  margin-inline-end: 0.35em;
+}
+.qz-cp__pos {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ==========================================================================
+ * THE EIGHTEEN — DIDACTIC_SPEC §4, offered as a belief rather than a topic.
+ *
+ * A misconception is defeated by activation, disconfirmation and replacement,
+ * and the activation is the sentence itself. So every control that leads to
+ * one PRINTS THE BELIEF, in quotation marks, in the serif that carries every
+ * other claim in this app — a claim somebody made, not a chapter heading, so a
+ * reader can recognise their own opinion in it and want to argue with it.
+ *
+ * One object, three places: the foot of a path-placed correction, the foot of
+ * a checkpoint, and the done card. It is NOT a button with a twenty-word
+ * label — measured at 390×844 that ran three lines out of a pinned control row
+ * and printed over the correction behind it. Two clamped lines, and the row it
+ * sits in is `position: sticky` there, so the clamp is the budget, not a
+ * nicety: `--qz-belief-lines` is what stops the pin eating the answer.
+ * ========================================================================== */
+
+.qz-belief {
+  --qz-belief-lines: 2;
+  display: block;
+  flex-basis: 100%;
+  inline-size: 100%;
+  text-align: start;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--rule-fine) solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-panel);
+  color: var(--text-body);
+  cursor: pointer;
+}
+.qz-belief:hover { border-color: var(--accent); }
+.qz-belief__a {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-caps-wide);
+  text-transform: uppercase;
+  color: var(--text-min);
+}
+.qz-belief:hover .qz-belief__a { color: var(--accent-ink); }
+.qz-belief__q {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--qz-belief-lines);
+  line-clamp: var(--qz-belief-lines);
+  overflow: hidden;
+  margin-block-start: var(--space-3xs);
+  font-family: var(--font-serif);
+  font-size: var(--fs-prose);
+  line-height: var(--lh-snug);
+  text-wrap: pretty;
+}
+
+/* The done card's list of beliefs the atlas has not yet argued with. One
+   column, because these are sentences and a two-column grid of twenty-word
+   sentences is unreadable at every width this app supports. There is room to
+   read them all there, so the clamp comes off. */
+.qz-beliefs { display: flex; flex-direction: column; gap: var(--space-2xs); }
+.qz-beliefs .qz-belief__q { -webkit-line-clamp: 4; line-clamp: 4; }
+
+/* ==========================================================================
+ * THE FIRST VIEW — what is on screen before anybody scrolls.
+ *
+ * MEASURED, at 390×844, under the dock law: the bottom sheet is 279px and its
+ * scrollport 223px, of which the pinned Commit row takes 44. That leaves about
+ * 180px for an eyebrow, a question and the answers — and `tools/scenarios/
+ * p10-firstview.js` prints, per item, how many answers actually land inside it.
+ * Before this pass six cards put NO answer in the first view at all, including
+ * `m15-borders`, which printed a five-line question and five options a reader
+ * could not see. A commit-then-correct card whose commitment is below the fold
+ * is not a commit-then-correct card; it is a paragraph with a scrollbar.
+ *
+ * Half the fix was editorial — every §4 question is now sixteen words or so,
+ * and the long teaching moved into the correction, where it belongs, after the
+ * commitment. This is the other half: at `data-rail="sheet"` the answer rows
+ * give up four pixels of padding each and the blocks above them give up their
+ * margins. Measured saving on a four-option card: 44px, which is one more
+ * option in view. Nothing is hidden, nothing is clamped, and every one of
+ * these rules is inert at `data-rail="side"`, where there is no shortage.
+ * ========================================================================== */
+
+#app[data-rail='sheet'] .qz-opt {
+  padding: var(--space-xs) var(--space-sm);
+  margin-block-end: var(--space-3xs);
+  line-height: var(--lh-snug);
+}
+#app[data-rail='sheet'] .qz__in { margin-block-start: var(--space-sm); }
+#app[data-rail='sheet'] .qz__prompt { margin-block-start: var(--space-xs); }
+#app[data-rail='sheet'] .qz-order__i { padding-block: var(--space-2xs); }
+
+/* A matching item prints its left column as a reference list before the rows
+   the reader moves. At 390 that list was taking 150px of the 180 available.
+   The span beside each name ("1585–1838") is a date the card repeats in the
+   correction and is not part of the pairing, so at sheet width it steps down
+   to the caption size rather than taking a line of its own. */
+#app[data-rail='sheet'] .qz-legend { margin-block-start: var(--space-2xs); }
+#app[data-rail='sheet'] .qz-legend li { line-height: var(--lh-snug); }
+#app[data-rail='sheet'] .qz-legend__s {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--text-min);
+  white-space: nowrap;
+}
+
+/* Every pixel the first view can give back, at sheet width only. The bargain
+   line drops to micro (it is said once, on the first question a student is
+   ever asked, and it is the card that most needs its answers visible), and the
+   pinned control row gives up four pixels top and bottom. Measured together:
+   22px, which is the difference between one whole answer and none on a card
+   with a fifteen-word question. */
+#app[data-rail='sheet'] .qz__first {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  margin-block-end: var(--space-2xs);
+}
+#app[data-rail='sheet'] .qz[data-pin='yes'] .qz__act:not([hidden]),
+#app[data-rail='sheet'] .qz[data-pin='yes'] .qz__next {
+  padding-block: var(--space-2xs);
+  margin-block-start: var(--space-2xs);
+}
+
+/* The one line that tells a reader what the rows below are being matched
+   against, at sheet width, where the reference list itself has moved under
+   them. A caption, not a prompt: measured, the serif prompt was two lines and
+   pushed the first movable row past the pinned control bar, so `t1-engines`
+   showed a matching task with nothing visible to match. */
+.qz-legend__cue { margin: var(--space-2xs) 0 0; }
+#app[data-rail='sheet'] .qz-legend__w { margin-block-start: var(--space-sm); }
+#app[data-rail='sheet'] .qz-order__i { padding-block: var(--space-3xs); }
+
+/* A pinned control row that covers the correction defeats its own purpose.
+   Measured at 390×844: "you said" plus a two-line belief offer plus the note
+   under it is 117px of a 223px scrollport, and the correction — the thing the
+   commitment was made in order to earn — was entirely behind it. So a foot row
+   carrying a belief stops being sticky and takes its place after the evidence,
+   which is also the order a reader wants it in: answer, correction, reason,
+   then the next thing to argue with. */
+.qz[data-pin='yes'] .qz__next:has(.qz-belief) {
+  position: static;
+  box-shadow: none;
+  background: none;
+}
+
+/* Where a name in a correction came from, said in the smaller sans voice the
+   rest of the app uses for provenance — so the claim and the place it is
+   recorded in are never mistaken for each other. The year printed here is the
+   year of the EPISODE the atlas names the person in, which is not always the
+   year of the act: Emily Hobhouse is named in the record of the Orange River
+   Colony, taken in 1900, and her report is dated 1901 in her own line. */
+.qz__truth .qz__note {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-ui);
+  color: var(--text-min);
+  margin-block-start: var(--space-3xs);
+}
+
+/* ---- the card that has to fit a phone ------------------------------------
+   MEASURED. At 390×844 inside a beat the reading window a correction gets is
+   `.cx-sheet__body` at 390×223, and the M15 card was 2,259px in it — the
+   replacement model four screens down and the way out four screens below that,
+   with nothing on the glass to say so. The single biggest block was not the
+   teaching: it was 646px of provenance sitting between the model and the exit.
+   index.js measures the real window after layout and folds, as far as it has
+   to and no further; these are the two controls it folds into. Neither hides a
+   word — the citation's own name stays on the line that remains, and the
+   button says what is behind it. */
+
+.qz-prov { display: block; }
+.qz-prov__t {
+  display: flex; flex-direction: column; gap: 1px;
+  inline-size: 100%; text-align: start;
+  margin: 0; padding: var(--space-2xs) 0;
+  background: none; border: 0;
+  border-block-start: var(--rule-fine) solid var(--border-subtle);
+  cursor: pointer; color: inherit;
+  /* A 44px target: this is the control a phone reader presses to get the
+     provenance back, and every other control on the card is bigger. */
+  min-block-size: 44px;
+  justify-content: center;
+}
+.qz-prov__t:hover .qz-prov__n,
+.qz-prov__t:focus-visible .qz-prov__n { color: var(--accent); }
+.qz-prov__n {
+  font-family: var(--font-sans); font-size: var(--fs-caption);
+  font-weight: var(--w-semibold); line-height: var(--lh-ui);
+  color: var(--text-secondary);
+}
+/* The affordance is the caret, and it turns when the body opens. */
+.qz-prov__n::after { content: ' \203a'; display: inline-block; transform: rotate(90deg); }
+.qz-prov__t[aria-expanded='true'] .qz-prov__n::after { transform: rotate(-90deg); }
+.qz-prov__m {
+  font-family: var(--font-sans); font-size: var(--fs-micro);
+  line-height: var(--lh-ui); color: var(--text-min);
+}
+.qz-prov__body[hidden] { display: none; }
+
+/* The folded tail of a correction reads as the same quotation it was cut from,
+   so it keeps the rule down its edge. */
+.qz__truth--rest { margin-block-start: var(--space-xs); }
+.qz__more { border-block-start: 0; }
+
+/* Keyboard focus must never land under the seam where the sheet body is cut.
+   A scroll margin on every control in the card buys it a line of clearance. */
+.qz button, .qz input, .qz textarea, .qz [tabindex] {
+  scroll-margin-block: var(--space-md);
+}
+
+/* ---- 44px, everywhere a finger lands -------------------------------------
+   MEASURED at 390×844: sixteen of the twenty controls on a quiz card were
+   under 44px in the short dimension — the answer options at 36, Commit at 38,
+   the confidence radios at 20, the slider at 16, and every "Skip it" / "Back
+   to the map" link at 18. Round 2's phone critic: "raise every tap target to
+   44px minimum". These are the controls a student presses while holding the
+   phone one-handed, and the option row is the primary interaction of the whole
+   module. The cost is about 30px in a 223px reading window, which is a trade
+   worth making: a target you cannot hit is not a smaller control, it is a
+   control that is not there. `.btn` and `.cx-more` are the shell's classes and
+   are raised only inside `.qz`. */
+
+.qz-opt { min-block-size: 44px; align-items: center; }
+/* The phone rail tightens the padding to buy reading room; it must not undo
+   the floor. */
+#app[data-rail='sheet'] .qz-opt { min-block-size: 44px; }
+
+.qz-conf__o, .qz-check__o { min-block-size: 44px; align-items: center; }
+.qz-conf__o input, .qz-check__o input { margin-block-start: 0; }
+
+.qz .btn { min-block-size: 44px; display: inline-flex; align-items: center; }
+.qz .cx-more { display: inline-flex; align-items: center; min-block-size: 44px; }
+
+/* A range input draws a 16px track in a box of whatever height it is given;
+   giving it 44 centres the track and makes the whole band draggable. */
+.qz-range { block-size: 44px; }
+
+/* Raising every target to 44px cost the sheet rail about 25px, and on the two
+   cards with a prompt line above the answers — `t20-still` and the map items —
+   that was the difference between a first answer partly in view and none at
+   all. The room comes back out of the rhythm rather than out of the targets:
+   at 390 a prompt sits one space below the question, not two, and the note
+   under an answer list keeps its words and loses its air. */
+#app[data-rail='sheet'] .qz__prompt {
+  margin-block-start: var(--space-3xs);
+  line-height: var(--lh-snug);
+}
+#app[data-rail='sheet'] .qz__in { margin-block-start: var(--space-2xs); }
+#app[data-rail='sheet'] .qz-names { margin-block-start: var(--space-2xs); }
