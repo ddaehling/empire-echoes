@@ -408,6 +408,34 @@ async function check(name, run) {
   );
 
   await check(
+    "the previously published analysis revision keeps all seven original prompts, responses and notes",
+    async () => {
+      const fixture = JSON.parse(await fs.readFile(path.join(ROOT, "tools/qa/fixtures/enquiry-analysis-v4.json"), "utf8"));
+      const saved = fixture.notebook;
+      assert.equal(saved.contentRevision, "enquiry-analysis-2026-10-01");
+      assert.equal(saved.promptSnapshot.length, 7);
+      const before = JSON.stringify(saved);
+      const recovered = engine.recoverSavedState(saved, null, { archivedAt: stamp });
+      assert.equal(JSON.stringify(saved), before);
+      assert.deepEqual(recovered.answers, {});
+      assert.deepEqual(recovered.notebooks, {});
+      assert.deepEqual(recovered.completedStages, {});
+      assert.equal(recovered.previousAttempts.length, 1);
+      const archive = recovered.previousAttempts[0];
+      assert.deepEqual(archive.attempt, saved);
+      assert.deepEqual(archive.promptSnapshot, saved.promptSnapshot);
+      const text = engine.recoveredAttemptText(archive);
+      for (const prompt of saved.promptSnapshot) {
+        assert.ok(text.includes(prompt.prompt), `${prompt.id} retains its exact published question`);
+        assert.ok(text.includes(saved.answers[prompt.id]));
+        assert.ok(text.includes(saved.notebooks[prompt.id].note));
+        assert.notEqual(prompt.prompt, engine.promptSnapshot().find((item) => item.id === prompt.id).prompt);
+      }
+      assert.deepEqual(engine.normaliseSaved(recovered).previousAttempts, recovered.previousAttempts);
+    },
+  );
+
+  await check(
     "empty, short and lengthy answers have no completion, name or source gate",
     () => {
       const state = engine.emptyState();

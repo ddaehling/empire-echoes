@@ -1,4 +1,30 @@
-# Clear tasks for an ungraded enquiry
+# An enquiry that prepares the final judgement
+
+**Current revision: `identity-connections-2026-10-01`.** This section supersedes the archived challenge-revision notes below. The five independent initial reviews, research and second verdicts are in `task7-review/`.
+
+Five reviewers found that the earlier route did not adequately support free choice of two cases for task 7. Most stops taught historical analysis without providing contemporary evidence. All six now pair historical evidence with a dated modern source and require one integrated response connecting them.
+
+| Case | Contemporary evidence | Reasoning practised |
+| --- | --- | --- |
+| Company rule | Shropshire Council’s 2020–2021 Clive statue decisions | Select historical evidence, explain a public-memory dispute, limit a local claim |
+| Slavery | M Shed’s 2024 Colston display | Rewrite a proposed label, explain agency and interpret an actual curatorial choice |
+| Monarchy | Charles’s 2024 speech, with India’s changed relationship in 1949 | Analyse language and institutions; distinguish official self-presentation from popular identity |
+| Partition | Imran Javed’s 2022 family-object display in London | Explain public remembering without merging families or dates |
+| Windrush | The 2020/2022 reviews and 2022 monument | Analyse attachment, weigh documentary policy choices and public recognition |
+| Kenya | Charles’s 2023 speech, alongside the 2013 settlement | Evaluate recognition and distinguish institutional claims from people’s responses |
+| Final comment | Any two supported cases; visible ONS evidence about overlapping labels | Compare explanatory reach; show how a relevant limit or another evidenced influence changes the overall judgement |
+
+Task 7 retains the user’s central question. Its comparison area contains six individual disclosures with the learner’s response, notes and all required evidence. The ONS source is now visible core reading; it records identity labels in England and Wales in 2021, not their causes.
+
+Planning time is **about 60 minutes**: 40 across the six cases, 20 for the final comment. This is an ambitious estimate, not measured classroom timing. Teachers can split the route and should protect the final writing and revision time. No grades, word limits, citation quotas, new response fields or completion gates have been added.
+
+Every modern card is available locally, with attribution, dates, original links and scope. The Jamaica label remains proposed wording, not M Shed’s words. The 1949 declaration supplies a real institutional bridge for the royal comparison. Javed is distinct from the earlier families. The Windrush policy mechanism is a later contingent choice, not an inevitable outcome of empire. Neither a government statement nor an individual’s memory represents the whole population.
+
+All seven response IDs remain stable. A new content revision archives earlier work with its exact saved questions and TXT/JSON recovery instead of attaching old answers to new prompts. Teacher guidance and the handout are synchronised to the new tasks. Five second reviews accepted the revised student sequence; these are expert-agent reviews and learner simulations, not a real classroom trial. See `task7-review/ACCEPTANCE.md` for verification and final hashes.
+
+---
+
+# Archived notes: earlier challenge revision
 
 Challenge revision, 1 October 2026, in `app/journey/js/rallye-content.js`. The six historical stops and final school-magazine comment remain. This supersedes the current-use task and assessment requirements in the earlier unit-alignment reports; the frozen earlier app and its recovery material remain unchanged.
 

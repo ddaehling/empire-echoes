@@ -4,6 +4,7 @@
 const assert = require("node:assert/strict");
 const { chromium } = require("playwright");
 const { startServer, ready, download } = require("./qa/learning-harness.js");
+const previousAnalysis = require("./qa/fixtures/enquiry-analysis-v4.json").notebook;
 
 // A saved live v4 notebook from before the analysis-focused revision.
 // The original wording is deliberately independent of the current content.
@@ -47,69 +48,74 @@ const old = {
       headless: true,
       args: ["--enable-unsafe-swiftshader"],
     });
-    const context = await browser.newContext({
-      viewport: { width: 1280, height: 900 },
-      reducedMotion: "reduce",
-      acceptDownloads: true,
-    });
-    const page = await context.newPage();
-    page.setDefaultTimeout(12000);
-    const errors = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    await page.goto(`${origin}/app/journey/js/rallye-state.js`);
-    await page.evaluate((saved) => {
-      localStorage.setItem("empire-echoes-enquiry-v4", JSON.stringify(saved));
-    }, old);
-    await ready(page, `${origin}/app/journey/#rallye`);
+    for (const saved of [old, previousAnalysis]) {
+      const old = saved;
+      const oldPrompt = old.promptSnapshot.find((item) => item.id === "departure-and-division");
+      const context = await browser.newContext({
+        viewport: { width: 1280, height: 900 },
+        reducedMotion: "reduce",
+        acceptDownloads: true,
+      });
+      const page = await context.newPage();
+      page.setDefaultTimeout(12000);
+      const errors = [];
+      page.on("pageerror", (error) => errors.push(error.message));
+      await page.goto(`${origin}/app/journey/js/rallye-state.js`);
+      await page.evaluate((saved) => {
+        localStorage.setItem("empire-echoes-enquiry-v4", JSON.stringify(saved));
+      }, old);
+      await ready(page, `${origin}/app/journey/#rallye`);
 
-    assert.match(
-      await page.locator(".ry-notice").innerText(),
-      /earlier work is preserved with its original questions/i,
-    );
-    assert.equal(await page.locator(".ry-recovered-work").isVisible(), true);
-    const originalData = JSON.parse(
-      await download(
+      assert.match(
+        await page.locator(".ry-notice").innerText(),
+        /earlier work is preserved with its original questions/i,
+      );
+      assert.equal(await page.locator(".ry-recovered-work").isVisible(), true);
+      const originalData = JSON.parse(
+        await download(
+          page,
+          '[data-ry-download-archive="0"][data-ry-archive-format="json"]',
+        ),
+      );
+      assert.deepEqual(originalData.attempt, old);
+      assert.deepEqual(originalData.promptSnapshot, old.promptSnapshot);
+      const readable = await download(
         page,
-        '[data-ry-download-archive="0"][data-ry-archive-format="json"]',
-      ),
-    );
-    assert.deepEqual(originalData.attempt, old);
-    assert.deepEqual(originalData.promptSnapshot, old.promptSnapshot);
-    const readable = await download(
-      page,
-      '[data-ry-download-archive="0"][data-ry-archive-format="txt"]',
-    );
-    for (const text of [
-      oldPrompt.prompt,
-      ...oldPrompt.instructions,
-      old.answers[oldPrompt.id],
-      old.notebooks[oldPrompt.id].note,
-    ]) assert.ok(readable.includes(text));
-    console.log("PASS prior v4 work is explained, discoverable, and downloadable with its exact original question");
+        '[data-ry-download-archive="0"][data-ry-archive-format="txt"]',
+      );
+      for (const prompt of old.promptSnapshot)
+        for (const text of [
+          prompt.prompt,
+          ...prompt.instructions,
+          old.answers[prompt.id],
+          old.notebooks[prompt.id].note,
+        ]) assert.ok(readable.includes(text));
+      console.log(`PASS ${old.contentRevision} work is explained, discoverable, and downloadable with its exact original questions`);
 
-    await page.locator("[data-ry-start] button[type=submit]").click();
-    await page.locator(`[data-ry-stage="${oldPrompt.id}"]`).first().click();
-    await page.locator(`#ry-answer[data-ry-written="${oldPrompt.id}"]`).waitFor();
-    assert.equal(await page.locator("#ry-answer").inputValue(), "");
-    const newAnswer = "My new analysis belongs to the revised assignment.";
-    await page.locator("#ry-answer").fill(newAnswer);
-    await page.locator('[data-ry-action="next"]').click();
-    await page.reload();
-    await page.locator("html[data-ready=true]").waitFor();
-    const resumed = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("empire-echoes-enquiry-v4")),
-    );
-    assert.notEqual(resumed.contentRevision, old.contentRevision);
-    assert.equal(resumed.previousAttempts.length, 1);
-    assert.deepEqual(resumed.previousAttempts[0].attempt, old);
-    assert.equal(resumed.answers[oldPrompt.id], newAnswer);
-    assert.equal(resumed.completedStages[oldPrompt.id], undefined);
-    const currentPrompt = resumed.promptSnapshot.find((item) => item.id === oldPrompt.id);
-    assert.notEqual(currentPrompt.prompt, oldPrompt.prompt);
-    assert.ok(!readable.includes(currentPrompt.prompt));
-    assert.deepEqual(errors, []);
-    console.log("PASS revised writing reloads separately without duplicate archives, old completion, or browser errors");
-    await context.close();
+      await page.locator("[data-ry-start] button[type=submit]").click();
+      await page.locator(`[data-ry-stage="${oldPrompt.id}"]`).first().click();
+      await page.locator(`#ry-answer[data-ry-written="${oldPrompt.id}"]`).waitFor();
+      assert.equal(await page.locator("#ry-answer").inputValue(), "");
+      const newAnswer = "My new analysis belongs to the revised assignment.";
+      await page.locator("#ry-answer").fill(newAnswer);
+      await page.locator('[data-ry-action="next"]').click();
+      await page.reload();
+      await page.locator("html[data-ready=true]").waitFor();
+      const resumed = await page.evaluate(() =>
+        JSON.parse(localStorage.getItem("empire-echoes-enquiry-v4")),
+      );
+      assert.notEqual(resumed.contentRevision, old.contentRevision);
+      assert.equal(resumed.previousAttempts.length, 1);
+      assert.deepEqual(resumed.previousAttempts[0].attempt, old);
+      assert.equal(resumed.answers[oldPrompt.id], newAnswer);
+      assert.equal(resumed.completedStages[oldPrompt.id], undefined);
+      const currentPrompt = resumed.promptSnapshot.find((item) => item.id === oldPrompt.id);
+      assert.notEqual(currentPrompt.prompt, oldPrompt.prompt);
+      assert.ok(!readable.includes(currentPrompt.prompt));
+      assert.deepEqual(errors, []);
+      console.log(`PASS ${old.contentRevision} revised writing reloads separately without duplicate archives, old completion, or browser errors`);
+      await context.close();
+    }
   } finally {
     await browser?.close();
     await new Promise((resolve) => server.close(resolve));

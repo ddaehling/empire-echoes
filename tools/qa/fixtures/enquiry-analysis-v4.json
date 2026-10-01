@@ -1,0 +1,127 @@
+{
+  "capturedFromCommit": "08b3132601ad5d7d95565b0698ebee1fedd1d2ea",
+  "capturedFromPath": "app/journey/js/rallye-content.js",
+  "contentSHA256": "4a7a713438bab91382e12374069efa396d931f487ee905c14466cf6707bb7e6f",
+  "notebook": {
+    "version": 4,
+    "rallyeId": "empire-echoes-rallye-v1",
+    "contentRevision": "enquiry-analysis-2026-10-01",
+    "promptSnapshot": [
+      {
+        "id": "profit-and-power",
+        "title": "When trade becomes rule",
+        "prompt": "Which development best shows that the East India Company had become a political power in Bengal? Compare its intervention in 1757 with its tax-collecting rights in 1765, and defend your choice using the source.",
+        "operator": "Compare and judge",
+        "responsePurpose": "Your judgement about power",
+        "instructions": []
+      },
+      {
+        "id": "freedom-and-memory",
+        "title": "Who made freedom happen?",
+        "prompt": "A museum label says: “Britain gave enslaved people their freedom.” Rewrite it for visitors your age, using both sources to decide what an accurate account needs to include. Explain the most important change you made.",
+        "operator": "Rewrite",
+        "responsePurpose": "Your museum label",
+        "instructions": []
+      },
+      {
+        "id": "rule-and-resistance",
+        "title": "One colour, unequal power",
+        "prompt": "Choose a word or phrase from Queen Victoria’s proclamation and quote it in your response. Explain what image of British rule it creates and why the Queen might want to create that image after the uprising. What would you need to find out before deciding whether the promise matched people’s lives?",
+        "operator": "Analyse wording",
+        "responsePurpose": "Your reading of the proclamation",
+        "instructions": []
+      },
+      {
+        "id": "departure-and-division",
+        "title": "Independence is more than a border",
+        "prompt": "How does the evidence change a story of partition told only through borders and independence dates? Develop an argument using Singh’s concern and the family memory, and explain why the timing of the events they describe matters.",
+        "operator": "Interpret evidence",
+        "responsePurpose": "Your interpretation of partition",
+        "instructions": []
+      },
+      {
+        "id": "migration-and-belonging",
+        "title": "Who gets to belong?",
+        "prompt": "Analyse how the words “my beloved England” shape the criticism in the Windrush testimony. Use the review’s findings and Britain’s colonial relationship with the Caribbean to explain your interpretation.",
+        "operator": "Analyse language and context",
+        "responsePurpose": "Your reading of belonging",
+        "instructions": []
+      },
+      {
+        "id": "remembering-empire",
+        "title": "When does an empire end?",
+        "prompt": "Assess whether Hague’s statement offers meaningful recognition of colonial harm. Use the wording of both extracts and the settlement details to support a qualified judgement.",
+        "operator": "Evaluate",
+        "responsePurpose": "Your judgement on recognition",
+        "instructions": []
+      },
+      {
+        "id": "whose-britain",
+        "title": "The past inside the present",
+        "prompt": "Write a comment for your school magazine answering: “How far does Britain’s imperial past help explain British identities today?” Choose two cases from your journey and explain how each helps you understand belonging, public memory or ideas about Britain today. Give your view, and discuss another influence on identity or something your sources cannot tell you.",
+        "operator": "Comment",
+        "responsePurpose": "Your school-magazine comment",
+        "instructions": [
+          "Refer to the source or person when you use their evidence, so readers can follow your thinking."
+        ]
+      }
+    ],
+    "previousAttempts": [],
+    "student": {
+      "name": "Returning analysis learner",
+      "className": "Q2"
+    },
+    "answers": {
+      "profit-and-power": "My saved analysis for stop 1, before the identity connections revision.",
+      "freedom-and-memory": "My saved analysis for stop 2, before the identity connections revision.",
+      "rule-and-resistance": "My saved analysis for stop 3, before the identity connections revision.",
+      "departure-and-division": "My saved analysis for stop 4, before the identity connections revision.",
+      "migration-and-belonging": "My saved analysis for stop 5, before the identity connections revision.",
+      "remembering-empire": "My saved analysis for stop 6, before the identity connections revision.",
+      "whose-britain": "My saved analysis for stop 7, before the identity connections revision."
+    },
+    "notebooks": {
+      "profit-and-power": {
+        "note": "My exact note for the earlier stop 1.",
+        "citations": []
+      },
+      "freedom-and-memory": {
+        "note": "My exact note for the earlier stop 2.",
+        "citations": []
+      },
+      "rule-and-resistance": {
+        "note": "My exact note for the earlier stop 3.",
+        "citations": []
+      },
+      "departure-and-division": {
+        "note": "My exact note for the earlier stop 4.",
+        "citations": []
+      },
+      "migration-and-belonging": {
+        "note": "My exact note for the earlier stop 5.",
+        "citations": []
+      },
+      "remembering-empire": {
+        "note": "My exact note for the earlier stop 6.",
+        "citations": []
+      },
+      "whose-britain": {
+        "note": "My exact note for the earlier stop 7.",
+        "citations": []
+      }
+    },
+    "completedStages": {
+      "profit-and-power": true,
+      "freedom-and-memory": true,
+      "rule-and-resistance": true,
+      "departure-and-division": true,
+      "migration-and-belonging": true,
+      "remembering-empire": true,
+      "whose-britain": true
+    },
+    "startedAt": "2026-10-01T14:00:00.000Z",
+    "finishedAt": "2026-10-01T14:45:00.000Z",
+    "updatedAt": "2026-10-01T14:45:00.000Z",
+    "currentIndex": 6
+  }
+}

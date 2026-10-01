@@ -9,6 +9,7 @@ const esc = (value) =>
       ],
   );
 const list = (items) => (Array.isArray(items) ? items.filter(Boolean) : []);
+const routeMinutes = (guide) => list(guide.route).reduce((sum, step) => sum + (Number(step.minutes) || 0), 0);
 const paragraphs = (items) =>
   list(typeof items === "string" ? [items] : items)
     .map((text) => `<p>${esc(text)}</p>`)
@@ -83,8 +84,8 @@ function stationMarkup(station, index, documentMode) {
 function guideBody(guide, documentMode = false) {
   const final = guide.finalAssessment || {};
   return `<section class="tg-section" id="tg-preparation"><h2 tabindex="-1">Before you begin</h2>${paragraphs(guide.overview)}${guide.overviewNote ? `<p class="tg-note">${esc(guide.overviewNote)}</p>` : ""}${subsection("What students are working towards", bulletList(guide.learningGoals), 3)}${subsection("Set up the lesson", bulletList(guide.preparation), 3)}</section>
-    <section class="tg-section" id="tg-unit"><h2 tabindex="-1">Place in the Q2 English unit</h2>${paragraphs(guide.unitAlignment)}${subsection("One 60-minute lesson", bulletList(guide.lessonIntegration), 3)}${subsection("Transfer to the class materials", bulletList(guide.materialConnections), 3)}${subsection("English language and feedback", bulletList(guide.languageFeedback), 3)}</section>
-    <section class="tg-section" id="tg-route"><h2 tabindex="-1">The 45-minute route</h2><p class="tg-section-intro">Allow time for the final written judgement. Students can revisit the atlas and their sources throughout.</p>${routeMarkup(guide, documentMode)}</section>
+    <section class="tg-section" id="tg-unit"><h2 tabindex="-1">Place in the Q2 English unit</h2>${paragraphs(guide.unitAlignment)}${subsection("Plan the lesson", bulletList(guide.lessonIntegration), 3)}${subsection("Transfer to the class materials", bulletList(guide.materialConnections), 3)}${subsection("English language and feedback", bulletList(guide.languageFeedback), 3)}</section>
+    <section class="tg-section" id="tg-route"><h2 tabindex="-1">The route · about ${routeMinutes(guide)} minutes</h2><p class="tg-section-intro">Allow time for the final written judgement. Students can revisit the atlas and their sources throughout.</p>${routeMarkup(guide, documentMode)}</section>
     <section class="tg-section" id="tg-background"><h2 tabindex="-1">Background for the conversation</h2><p class="tg-section-intro">Read these notes before the lesson; use the examples and prompts to support the conversation.</p>${list(
       guide.background,
     )
@@ -128,12 +129,12 @@ function guideBody(guide, documentMode = false) {
 }
 
 const documentCSS = `
-*{box-sizing:border-box}html{color:#202332;background:#fff}body{font:16px/1.6 Arial,Helvetica,sans-serif;max-width:850px;margin:0 auto;padding:52px 44px}h1,h2,h3{font-family:Georgia,serif;font-weight:normal;line-height:1.2;color:#18233b;letter-spacing:-.02em}h1{font-size:40px;margin:10px 0 18px}h2{font-size:28px;margin:0 0 20px}h3{font-size:22px;margin:24px 0 14px}h4,.tg-subheading{font:600 16px/1.4 Arial,Helvetica,sans-serif;margin:22px 0 8px}p{margin:0 0 14px;orphans:3;widows:3;overflow-wrap:anywhere}li{margin:0 0 8px}a{color:#b44421;text-decoration:underline;overflow-wrap:anywhere}header{border-bottom:2px solid #b44421;padding-bottom:28px;margin-bottom:30px}.tg-document-label{font-size:14px;color:#474e61}.tg-section{margin:0 0 38px;padding-top:24px;border-top:1px solid #c8cdd8}.tg-section:first-child{border-top:0}.tg-section-intro,.tg-meta{color:#474e61}.tg-meta{font-size:14px}.tg-note,.tg-question{padding:18px;background:#fae8df;margin:20px 0}.tg-question h4{margin-top:0}.tg-question p:last-child{margin-bottom:0}.tg-topic{margin-top:30px}.tg-route{padding:0;list-style:none}.tg-route li{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #d5d9e1}.tg-route-time{width:55px;flex-shrink:0;font-weight:bold}.tg-route-time span{font-size:13px;font-weight:normal}.tg-route p{margin:4px 0 0}.tg-sources{padding-left:20px}.tg-sources li{margin-bottom:14px}.tg-sources p{font-size:14px;margin:3px 0}.tg-source-url{display:block;font-size:11px;line-height:1.4;overflow-wrap:anywhere;color:#474e61;margin:4px 0 6px}.tg-map-reference{font-size:14px;color:#474e61}.tg-document-footer{font-size:12px;border-top:1px solid #c8cdd8;padding-top:18px}button{display:none}@page{size:A4;margin:17mm 18mm 18mm}@media print{body{padding:0;max-width:none;font-size:10pt;line-height:1.45}h1{font-size:25pt}h2{font-size:18pt}h3{font-size:15pt}h4,.tg-subheading{font-size:10.5pt;margin:16px 0 6px}h2,h3,h4{break-after:avoid-page}.tg-topic-heading{break-inside:avoid;break-after:avoid-page}#tg-route{break-inside:avoid-page}p,li{orphans:3;widows:3}.tg-section{margin-bottom:22pt;padding-top:16pt}.tg-topic{margin-top:20pt}.tg-question,.tg-route li,.tg-sources li{break-inside:avoid}.tg-source-url{font-size:8pt}.tg-section-intro,.tg-meta,.tg-map-reference{font-size:9pt}#tg-stations,#tg-final{break-before:page}.tg-note,.tg-question{-webkit-print-color-adjust:exact;print-color-adjust:exact}a{color:#202332}.tg-document-footer{font-size:8pt}}@media(max-width:600px){body{padding:28px 20px}h1{font-size:32px}}
+*{box-sizing:border-box}html{color:#202332;background:#fff}body{font:16px/1.6 Arial,Helvetica,sans-serif;max-width:850px;margin:0 auto;padding:52px 44px}h1,h2,h3{font-family:Georgia,serif;font-weight:normal;line-height:1.2;color:#18233b;letter-spacing:-.02em}h1{font-size:40px;margin:10px 0 18px}h2{font-size:28px;margin:0 0 20px}h3{font-size:22px;margin:24px 0 14px}h4,.tg-subheading{font:600 16px/1.4 Arial,Helvetica,sans-serif;margin:22px 0 8px}p{margin:0 0 14px;orphans:3;widows:3;overflow-wrap:anywhere}li{margin:0 0 8px}a{color:#b44421;text-decoration:underline;overflow-wrap:anywhere}header{border-bottom:2px solid #b44421;padding-bottom:28px;margin-bottom:30px}.tg-document-label{font-size:14px;color:#474e61}.tg-section{margin:0 0 38px;padding-top:24px;border-top:1px solid #c8cdd8}.tg-section:first-child{border-top:0}.tg-section-intro,.tg-meta{color:#474e61}.tg-meta{font-size:14px}.tg-note,.tg-question{padding:18px;background:#fae8df;margin:20px 0}.tg-question h4{margin-top:0}.tg-question p:last-child{margin-bottom:0}.tg-topic{margin-top:30px}.tg-route{padding:0;list-style:none}.tg-route li{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #d5d9e1}.tg-route-time{width:55px;flex-shrink:0;font-weight:bold}.tg-route-time span{font-size:13px;font-weight:normal}.tg-route p{margin:4px 0 0}.tg-sources{padding-left:20px}.tg-sources li{margin-bottom:14px}.tg-sources p{font-size:14px;margin:3px 0}.tg-source-url{display:block;font-size:11px;line-height:1.4;overflow-wrap:anywhere;color:#474e61;margin:4px 0 6px}.tg-map-reference{font-size:14px;color:#474e61}.tg-document-footer{font-size:12px;border-top:1px solid #c8cdd8;padding-top:18px}button{display:none}@page{size:A4;margin:17mm 18mm 18mm}@media print{body{padding:0;max-width:none;font-size:10pt;line-height:1.45}h1{font-size:25pt}h2{font-size:18pt}h3{font-size:15pt}h4,.tg-subheading{font-size:10.5pt;margin:16px 0 6px}h2,h3,h4{break-after:avoid-page}.tg-topic-heading{break-inside:avoid;break-after:avoid-page}#tg-route{break-inside:avoid-page}p,li{orphans:3;widows:3}.tg-section{margin-bottom:22pt;padding-top:16pt}.tg-topic{margin-top:20pt}.tg-question,.tg-route li,.tg-sources li{break-inside:avoid}.tg-source-url{font-size:8pt}.tg-section-intro,.tg-meta,.tg-map-reference{font-size:9pt}.tg-note,.tg-question{-webkit-print-color-adjust:exact;print-color-adjust:exact}a{color:#202332}.tg-document-footer{font-size:8pt}}@media(max-width:600px){body{padding:28px 20px}h1{font-size:32px}}
 `;
 
 /** A complete standalone handout: no JavaScript, login or network needed to read it. */
 export function renderTeacherDocument(guide = teacherGuide) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(guide.title || "Empire / Echoes — Teacher guide")}</title><style>${documentCSS}</style></head><body><header><p class="tg-document-label">Empire / Echoes · Teacher guide · 45-minute enquiry</p><h1>${esc(guide.title || "Teacher guide")}</h1>${guide.subtitle ? `<p>${esc(guide.subtitle)}</p>` : ""}<p>This handout includes the complete background, station discussion notes and optional support for the final comment. Examples illustrate possible reasoning. Students may develop a different view and revise their work throughout.</p></header>${guideBody(guide, true)}<footer class="tg-document-footer">Empire / Echoes · Teacher handout · A learning enquiry: read, discuss, write and revise.</footer></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(guide.title || "Empire / Echoes — Teacher guide")}</title><style>${documentCSS}</style></head><body><header><p class="tg-document-label">Empire / Echoes · Teacher guide · about ${routeMinutes(guide)} minutes</p><h1>${esc(guide.title || "Teacher guide")}</h1>${guide.subtitle ? `<p>${esc(guide.subtitle)}</p>` : ""}<p>This handout includes the complete background, station discussion notes and optional support for the final comment. Examples illustrate possible reasoning. Students may develop a different view and revise their work throughout.</p></header>${guideBody(guide, true)}<footer class="tg-document-footer">Empire / Echoes · Teacher handout · A learning enquiry: read, discuss, write and revise.</footer></body></html>`;
 }
 
 export function teacherGuideText(guide = teacherGuide) {
@@ -155,7 +156,7 @@ export function teacherGuideText(guide = teacherGuide) {
       ),
     );
   heading(guide.title || "Empire / Echoes — Teacher guide");
-  add(guide.subtitle, "Teacher handout · 45-minute enquiry");
+  add(guide.subtitle, `Teacher handout · about ${routeMinutes(guide)} minutes`);
   heading("Before you begin");
   add(guide.overview, guide.overviewNote);
   heading("Learning goals");
@@ -164,13 +165,13 @@ export function teacherGuideText(guide = teacherGuide) {
   add(guide.preparation);
   heading("Place in the Q2 English unit");
   add(guide.unitAlignment);
-  heading("One 60-minute lesson");
+  heading("Plan the lesson");
   add(guide.lessonIntegration);
   heading("Transfer to the class materials");
   add(guide.materialConnections);
   heading("English language and feedback");
   add(guide.languageFeedback);
-  heading("The 45-minute route");
+  heading(`The route · about ${routeMinutes(guide)} minutes`);
   list(guide.route).forEach((step) =>
     add(`${step.minutes} minutes — ${step.title}`, step.focus),
   );
@@ -261,7 +262,7 @@ export function createTeacher(host, { data, onExplore } = {}) {
   const headings = [
     ["preparation", "Before you begin"],
     ["unit", "Q2 English & lesson plan"],
-    ["route", "45-minute route"],
+    ["route", `Route · about ${routeMinutes(teacherGuide)} minutes`],
     ["background", "Background notes"],
     ["stations", "Station discussion notes"],
     ["final", "Final comment"],

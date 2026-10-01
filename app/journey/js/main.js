@@ -813,7 +813,7 @@ async function boot() {
     document.documentElement.dataset.ready = "true";
     document.documentElement.dataset.version = "empire-echoes-v3";
     announce(
-      "The atlas is ready. Explore the map or begin the 45-minute Empire Rallye.",
+      "The atlas is ready. Explore the map or begin the Empire Rallye. Plan about 60 minutes for the enquiry.",
     );
   } catch (error) {
     showBootError(error);

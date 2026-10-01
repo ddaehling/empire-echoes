@@ -60,7 +60,8 @@ function inspect(value, trail = "content") {
       assert.equal(stages.length, 7);
       assert.equal(rallye.stations.length, 6);
       assert.equal(new Set(stages.map((s) => s.id)).size, 7);
-      assert.equal(rallye.minutes, 45);
+      assert.equal(rallye.minutes, 60);
+      assert.equal(stages.reduce((total, stage) => total + stage.minutes, 0), rallye.minutes);
       assert.ok(rallye.contentRevision);
       assert.notEqual(rallye.contentRevision, "q2-unit-aligned-v1");
       for (const stage of stages) {
@@ -113,14 +114,34 @@ function inspect(value, trail = "content") {
         }
       }
       const wording = stages.filter((s) =>
-        /analyse.*word|word.*analys/i.test(s.investigation.operator),
+        /analyse/i.test(s.investigation.operator),
       );
-      assert.equal(wording.length, 2);
+      assert.ok(wording.length > 0, "The enquiry includes close source analysis");
       for (const stage of wording)
         assert.ok(
           (RALLYE_RESOURCES[stage.id] || []).some((s) => s.excerpt),
           `${stage.id} needs authentic language to analyse`,
         );
+    },
+  );
+  await check(
+    "every selectable case supplies dated modern and historical evidence; the final ONS source is essential",
+    () => {
+      for (const stage of rallye.stations) {
+        const records = RALLYE_RESOURCES[stage.id];
+        const required = stage.essentialSourceIds.map((id) => records.find((record) => record.id === id));
+        assert.ok(required.every(Boolean), `${stage.id} essential records resolve`);
+        assert.ok(stage.presentDaySourceIds.length, `${stage.id} offers a contemporary connection`);
+        for (const id of stage.presentDaySourceIds) {
+          assert.ok(stage.essentialSourceIds.includes(id), `${id} must be visible without optional research`);
+          const record = required.find((record) => record.id === id);
+          assert.ok(record.date && record.organisation && record.summary && record.scope, `${id} is dated, attributed, readable and scoped`);
+          assert.notEqual(record.optional, true, `${id} is not optional evidence`);
+        }
+        assert.ok(required.some((record) => !stage.presentDaySourceIds.includes(record.id)), `${stage.id} retains historical evidence`);
+      }
+      assert.ok(rallye.finalAssessment.essentialSourceIds.includes("final-identities"));
+      assert.notEqual(RALLYE_RESOURCES[rallye.finalAssessment.id].find((record) => record.id === "final-identities").optional, true);
     },
   );
   console.log(`\n${passes} current learning-content checks passed.`);

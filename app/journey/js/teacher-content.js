@@ -3,6 +3,42 @@ import { rallye } from "./rallye-content.js";
 /** Teacher-facing context, discussion examples and optional support for an ungraded enquiry. */
 const source = (label, url) => ({ label, url });
 const sources = {
+  cliveMemory: source(
+    "Shropshire Council · Robert Clive statue update, 19 November 2021",
+    "https://newsroom.shropshire.gov.uk/2021/11/robert-clive-statue-in-the-square-shrewsbury-an-update/",
+  ),
+  cliveDecision: source(
+    "Shropshire Council · statement about the Clive statue, 25 September 2020",
+    "https://newsroom.shropshire.gov.uk/2020/09/robert-clive-statue-shrewsbury/",
+  ),
+  bristolMemory: source(
+    "Bristol Museums · M Shed’s Colston statue display, 15 March 2024",
+    "https://www.bristolmuseums.org.uk/blog/new-display-at-m-shed-the-toppling-of-the-colston-statue/",
+  ),
+  londonDeclaration: source(
+    "The Commonwealth · London Declaration, 1949",
+    "https://thecommonwealth.org/london-declaration-1949",
+  ),
+  royalCommonwealth: source(
+    "Royal Household · Charles III at the Commonwealth Heads of Government meeting, 25 October 2024",
+    "https://www.royal.uk/news-and-activity/2024-10-25/his-majestys-speech-to-open-the-commonwealth-heads-of-government",
+  ),
+  familyMemory: source(
+    "British Museum · Imran Javed, A Confluence of Stories, 24 October 2022",
+    "https://www.britishmuseum.org/blog/confluence-stories",
+  ),
+  windrushMonument: source(
+    "UK Government · National Windrush Monument unveiled, 22 June 2022",
+    "https://www.gov.uk/government/news/national-windrush-monument-unveiled-at-london-waterloo-station",
+  ),
+  windrushProgress: source(
+    "Wendy Williams · Windrush review progress update, 31 March 2022",
+    "https://www.gov.uk/government/publications/windrush-lessons-learned-review-progress-update/windrush-lessons-learned-review-progress-update-accessible",
+  ),
+  kenyaRoyal: source(
+    "Royal Household · Charles III at the state banquet in Kenya, 31 October 2023",
+    "https://www.royal.uk/news-and-activity/2023-10-31/a-speech-by-his-majesty-the-king-at-the-state-banquet-kenya",
+  ),
   union: source(
     "UK Parliament · the Union, constitution and trade",
     "https://www.parliament.uk/about/living-heritage/evolutionofparliament/legislativescrutiny/act-of-union-1707/overview/the-articles-constitution-and-trade/",
@@ -95,126 +131,111 @@ const sources = {
 
 const keyDetails = {
   "profit-and-power": {
-    evidence: [sources.company, sources.diwani],
-    note: "The task asks students to compare two kinds of political power and defend a choice. In 1757, the Company helped Mir Jafar replace Bengal’s ruler; in 1765, it acquired tax-collecting rights. Discuss the criterion behind the judgement: influence over who rules, or a continuing capacity to raise revenue and administer territory. Either choice can be convincing when the comparison explains what the other development also shows. Revenue could finance officials and troops, but taxation was not the only source of finance. Keep the earlier 1600 trading charter distinct from these developments.",
+    evidence: [sources.company, sources.diwani, sources.cliveMemory, sources.cliveDecision],
+    note: "The task now asks why Company history matters to a documented British public-memory dispute. Students can choose 1757 political intervention or 1765 revenue rights as their strongest evidence, but must explain what it changes about commemorating Clive. Shropshire Council decided to retain the statue with interpretation in 2020; its 2021 update records a temporary panel, not proof that every planned permanent measure was completed. A statue and its interpretation are decisions about public honour. The council record establishes the institution’s response to petitions, not the views of all Shrewsbury residents or all Britons. Historical knowledge helps explain the dispute’s subject; later petitions and council choices help explain its form. Keep those explanatory steps distinct.",
     alternatives: [
-      "A student may choose 1757 because helping replace a ruler demonstrates power over political leadership, while recognising the later importance of revenue rights.",
-      "A student may choose 1765 because tax collection and an administration show sustained governing capacity, while recognising the political intervention in 1757.",
+      "A student may find the colonial history central to understanding why Clive’s public honour became disputed, while arguing that it does not determine whether the statue should be removed or reinterpreted.",
+      "A student may emphasise the council’s distinction between explaining history and celebrating it: retaining an object and changing its interpretation can alter the public story without establishing what viewers think."
     ],
     misconceptions: [
       "A charter in 1600 gave the Company ownership of India.",
       "Company rule and direct Crown government were identical.",
-      "Every inhabitant of Britain benefited equally from imperial profits.",
+      "A council decision or petition proves a national consensus about empire."
     ],
     discussion: [
-      "What would you need to know about taxpayers, soldiers or local officials to test the proposed causal chain?",
+      "Which part of the debate needs historical explanation, and which needs evidence about later choices?"
     ],
   },
   "freedom-and-memory": {
-    evidence: [
-      sources.rebellionJamaica,
-      sources.emancipation,
-      sources.sharpe,
-      sources.compensation,
-    ],
-    note: "The task asks for a replacement museum label for teenage visitors and an explanation of the writer’s main editorial choice. Discuss how details from both sources change the story, rather than accepting a list of facts or a reversed slogan. Cotton’s military proclamation of 2 January 1832 records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.",
+    evidence: [sources.rebellionJamaica, sources.emancipation, sources.bristolMemory, sources.sharpe, sources.compensation],
+    note: "The proposed label is the classroom writing stimulus, not a quotation from M Shed. Students should use both Jamaica sources to make an editorial choice, then explain its relevance to a real feature of the Bristol museum’s 2024 display. Cotton’s 1832 proclamation records colonial threats and reveals resistance, but does not provide the rebels’ own account. Parliament’s account makes apprenticeship and compensation visible. M Shed’s preserved graffiti, protest material and contrasting perspectives document contested public memory. Colston’s earlier slave trading and the Jamaican rebellion are different episodes; do not merge their actors or dates. A display can invite reconsideration of a national story without proving how visitors respond. Do not require a uniformly celebratory or condemnatory conclusion.",
     alternatives: [
-      "The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination; the explanation should show why that emphasis changes a visitor’s understanding.",
-      "A student may preserve a place for abolitionist campaigning while using both sources to explain why enslaved people’s actions and the limits of the legal change also belong in the label.",
+      "A label may foreground resistance while acknowledging parliamentary action; M Shed’s inclusion of protest can support a connection to whose actions become visible in public memory.",
+      "A student may emphasise the gap between abolition and full freedom, then use the display’s differing perspectives to argue that public memory remains contested. The display does not prove that all visitors adopt the student’s view."
     ],
     misconceptions: [
       "The 1807 Act immediately freed enslaved people in Jamaica.",
       "Those formerly enslaved received the compensation.",
-      "Jamaica became independent when apprenticeship ended.",
+      "The proposed classroom label is M Shed’s own wording, or Colston was an actor in the 1831 Jamaican rebellion."
     ],
     discussion: [
-      "Whose name, action or experience belongs on a public panel, and which evidence justifies the choice?",
+      "How does your choice of actor or verb change the image of Britain a reader encounters?"
     ],
   },
   "rule-and-resistance": {
-    evidence: [
-      sources.proclamationText,
-      sources.proclamation,
-      sources.rebellion,
-      sources.canada,
-    ],
-    note: "Link a short phrase from the original wording to a purpose and a plausible audience effect. For example, the promise of equal protection presents Crown rule as fair and reassuring after rebellion. This is an interpretation of the wording, not proof of its success or implementation. The student card reproduces an excerpt from the 1858 proclamation via a later book: His Majesty King George’s Speeches in India, Appendix E, PDF p. 178 / printed xviii, held by Tamil Digital Library. The separate British Library catalogue record supplies contextual provenance. Distinguish the original proclamation, its later reproduction and the editorial summary. Canada remains an optional comparison of governmental forms; elected settler government was not universal political equality.",
+    evidence: [sources.proclamationText, sources.proclamation, sources.londonDeclaration, sources.royalCommonwealth, sources.rebellion, sources.canada],
+    note: "Analyse an exact phrase from Victoria’s proclamation, then use the intervening constitutional change to interpret Charles’s 2024 account. “Equal and impartial” offers protection within a relationship of ruler and subjects; it does not promise independent statehood. India’s independence and the 1949 agreement that a republic could remain in the Commonwealth changed the relationship. The monarch is now a symbolic head of an association of independent countries, not India’s ruler. Charles’s speech supplies a royal self-presentation of cooperation, painful shared history and equality. Similar ideals do not prove unchanged power or a causal inheritance of popular beliefs. The task asks what this institutional image can reveal about ideas of Britain, while reserving judgement about acceptance or practice. The modern card distinguishes its paraphrase from a short original quotation. Interpret Charles’s position through the account; analyse only the printed quotation as his exact wording. The Victoria excerpt is reproduced from Appendix E of His Majesty King George’s Speeches in India, with provenance linked separately.",
     alternatives: [
-      "Students may request court records, recruitment records, testimony or local administrative records to test the promise.",
-      "A student may argue that the promise later offered a standard against which subjects could criticise rule, while distinguishing that inference from demonstrated practice.",
+      "A student may emphasise transformation: an imperial ruler’s assurance becomes a symbolic leader’s account of cooperation between independent members. Imperial history explains why this change and painful shared history matter.",
+      "A student may identify a continuing institutional wish to present authority as fair, while explaining that rhetorical resemblance alone cannot establish continuity in constitutional power, public belief or lived equality."
     ],
     misconceptions: [
-      "A biased or official source is useless.",
-      "Self-government meant equal rights for Indigenous peoples and all other inhabitants.",
-      "All Indian communities reacted identically to Company rule or the rebellion.",
+      "An official statement proves that its promises were fulfilled.",
+      "The Commonwealth is simply the empire renamed, or the monarch governs all its members.",
+      "A royal speech expresses the identity of every British person."
     ],
     discussion: [
-      "What can an unfulfilled promise still tell a historian about an institution and the people it addresses?",
+      "What changes when equality refers to protected subjects in one source and independent member states in another?"
     ],
   },
   "departure-and-division": {
-    evidence: [sources.partition, sources.independence],
-    note: "The task asks students to argue how a borders-and-dates account changes when read alongside both personal accounts. Singh’s concern about Sikh interests being ignored raises the question of whose voice counts in political decisions; the family memory makes losing a home visible. Students should connect those details to their argument and explain why chronology changes what can be claimed. Singh wrote on 1 June 1946, and the later oral testimony recalls displacement before partition. Neither account establishes displacement caused by the final 1947 boundary or is a response written after independence. Keep the date of the remembered experience separate from the later act of remembering, and avoid treating either perspective as universal.",
+    evidence: [sources.partition, sources.familyMemory, sources.independence],
+    note: "Students use one earlier account and Javed’s separate 2022 display. Either Singh’s concern about representation or the aunt’s memory of displacement can enrich a borders-only narrative; both concern events before the final 1947 boundary. Javed’s bracelet remembers his own family’s lost Punjabi home. It is neither the aunt’s object nor evidence that Singh’s concern describes Javed’s family. The documented bridge is a person choosing to bring family history into a London museum’s public account of South Asian heritage. It supports an interpretation of this act of remembrance, not an inferred citizenship, a universal British Asian identity, or a claim that partition explains all South Asian migration to Britain. Family transmission and curatorial choice matter alongside the event being remembered. The source cannot tell us how every visitor interprets the display.",
     alternatives: [
-      "An argument may emphasise representation and insecurity, showing how Singh’s concern and the family’s loss complicate a story centred on sovereign states.",
-      "An argument may emphasise chronology: concerns and displacement already existed before the final border, so independence dates cannot by themselves explain every experience. Both accounts still have limited individual scope.",
+      "Using the aunt’s account, a student can connect the human significance of losing home to Javed’s distinct act of preserving his family’s lost village through an object. The link is thematic and commemorative, not a shared biography.",
+      "Using Singh’s concern, a student can contrast uncertainty over political representation with the later ability of a curator to make one family’s experience visible. That does not establish a direct causal path from the letter to the display."
     ],
     misconceptions: [
-      "The map shows precise day-by-day borders in August 1947.",
-      "Partition was inevitable because religious communities could never coexist.",
-      "Every South Asian person in Britain has the same migration or partition history.",
+      "The final 1947 border caused the displacement remembered before it was drawn.",
+      "Javed’s family and Iqbal’s aunt are the same family.",
+      "One object represents every South Asian person in Britain or proves visitors share one identity."
     ],
     discussion: [
-      "Which matters more for the question you are asking: a constitutional document, a boundary map, or a person’s testimony? Explain rather than rank them absolutely.",
+      "What does the historical event explain about this object, and what does Javed’s decision to exhibit it add?"
     ],
   },
   "migration-and-belonging": {
-    evidence: [
-      sources.migration,
-      sources.nationality,
-      sources.windrush,
-      sources.windrushRoots,
-    ],
-    note: "The task now focuses on how “my beloved England” shapes the witness’s criticism. Connect the possessive “my” and affectionate “beloved” to an interpretation of attachment, then explain how the reported treatment makes that language significant. A reading of hurt, betrayal or an appeal to belonging should draw on the review’s findings and the colonial relationship, rather than simply call the language emotional. Imperial subjecthood helps explain a historical connection; it does not establish this unnamed person’s exact status, biography or feelings beyond the quoted words. Ena Clare Sullivan’s registration is a separate source: do not attribute the testimony to her or infer that she experienced the scandal. Neither source represents all migrants.",
+    evidence: [sources.migration, sources.windrush, sources.windrushProgress, sources.windrushMonument, sources.nationality, sources.windrushRoots],
+    note: "Read “my beloved England” as a particular person’s expression of attachment, then weigh its tension with institutional treatment and public recognition. A reading of hurt, betrayal or an assertion of belonging should connect words to the review’s documented failures. Colonial subjecthood explains an established relationship with Britain; it does not make later documentary requirements and administrative failures inevitable. Those later choices help explain the mechanism of exclusion more immediately. The 2022 monument supplies a distinct commemorative intervention: Basil Watson, the committee, consultation and government support shaped what the public sees. It cannot establish that injustice was resolved or that all visitors feel welcome. Ena Sullivan’s 1968 record and the review’s unnamed witness are separate people; do not infer Ena’s emotions or involvement in the scandal. Contributions to society are part of the history, not a condition people must meet to deserve belonging.",
     alternatives: [
-      "A student may read the affection as intensifying a sense of betrayal: treatment by institutions conflicts with the attachment the speaker expresses.",
-      "A student may read the possessive and affection as an assertion of belonging, or as an appeal to the country to meet expectations. Support the interpretation through the wording, review findings and colonial context without claiming a single intended effect.",
+      "A student may judge the imperial relationship crucial to understanding the tension, while giving later documentary rules and institutional failures greater explanatory force for the specific harm.",
+      "A student may read the monument as a meaningful public assertion of belonging shaped by migrants and descendants, while arguing that recognition alone does not establish equal treatment. Different judgements about its significance can be supported."
     ],
     misconceptions: [
-      "The 1948 Act had already taken effect when the Empire Windrush arrived in June.",
-      "Legal residence means every person was a British citizen, or legal citizenship always meant equal treatment.",
-      "Black British history began in 1948.",
+      "The unnamed witness in the review is Ena Sullivan.",
+      "Historical subjecthood, lawful residence and citizenship mean exactly the same thing.",
+      "A public monument establishes that everyone now feels included or that discrimination has ended."
     ],
     discussion: [
-      "What evidence would establish legal status, and what different evidence would establish felt belonging?",
+      "Which evidence concerns legal membership, which concerns felt attachment, and which concerns a public representation?"
     ],
   },
   "remembering-empire": {
-    evidence: [sources.kenya, sources.hongKong],
-    note: "The task asks for a qualified judgement about meaningful recognition, not only identification of the contrast. Students can define what would make recognition meaningful and weigh the wording of both extracts alongside the £19.9 million settlement, including legal costs, for 5,228 claimants and support for a Nairobi memorial. Regret, material settlement and public commemoration can carry significance while denial of liability limits the legal acknowledgement. Different judgements are defensible. Do not treat the total as money divided equally among claimants, turn regret into an unlimited apology, or assume survivors all approved. Their views would help assess the settlement’s meaning. Hong Kong remains an optional comparison.",
+    evidence: [sources.kenya, sources.kenyaRoyal, sources.hongKong],
+    note: "The task compares two dated official positions: Hague’s 2013 statement and Charles’s 2023 speech. Students should weigh whether the later account strengthens or complicates recognition. Hague expressed regret and announced a £19.9 million settlement, including legal costs, for 5,228 claimants and support for a Nairobi memorial, while denying liability. Charles condemned colonial violence, expressed sorrow and regret, and presented Kenya and Britain as partners; references to British Kenyans also locate the relationship within life in Britain. These are not interchangeable legal acts. The speech does not expand the settlement or prove survivors accepted the response. Historical harm and survivors’ pursuit of redress help explain why the institutions address this past; their specific wording and choices shape the image of Britain presented. Students must keep a claim about official public memory distinct from one about every British resident’s identity.",
     alternatives: [
-      "Students may judge the recognition meaningful because regret is accompanied by a settlement and memorial support, while explaining how the liability denial limits that conclusion.",
-      "Students may judge the recognition insufficient because responsibility remains restricted, while acknowledging the settlement’s material and commemorative significance. The official statement alone cannot settle what survivors considered adequate.",
+      "A student may judge Charles’s account to strengthen recognition through a fuller public acknowledgment and a forward-looking partnership, while noting that it does not alter Hague’s legal qualification.",
+      "A student may judge the language of partnership to complicate recognition by moving attention towards the future, while acknowledging that naming colonial harm remains meaningful. Survivors’ perspectives would help assess adequacy."
     ],
     misconceptions: [
-      "The 2013 statement resolved every claim arising from colonial rule.",
-      "Hong Kong became an independent sovereign state in 1997.",
-      "Every overseas territory and all imperial relationships disappeared in 1997.",
+      "The 2023 speech created a new settlement or accepted every legal claim.",
+      "Regret, apology, liability and redress are interchangeable.",
+      "The government or monarch speaks for all survivors, British Kenyans or British residents."
     ],
     discussion: [
-      "Which phrases establish the statement’s scope, and which additional voices would change or extend the account?",
+      "What would change if the question concerned survivors’ satisfaction rather than official recognition?"
     ],
   },
 };
 
 const possibleExamples = {
-  "profit-and-power": "Helping Mir Jafar replace Bengal’s ruler in 1757 shows that the Company could influence political leadership. I find the 1765 tax-collecting rights stronger evidence of sustained political power: the museum describes officials and soldiers collecting revenue and policing territory, with tax income supporting further military action. Both developments go beyond trade, but 1765 shows a continuing capacity to govern as well as intervene.",
-  "freedom-and-memory": "Replacement label: Enslaved people in Jamaica resisted slavery, and colonial forces threatened them with death if they did not surrender. Parliament’s abolition law took effect in 1834, but compulsory apprenticeship continued until 1838, while compensation went to slave-owners. Freedom involved struggle and an incomplete legal transition. Editorial choice: I replaced “gave” because it makes enslaved people passive. Cotton’s threats reveal resistance to colonial control, while Parliament’s account shows why abolition did not immediately mean freedom from compulsory work.",
-  "rule-and-resistance": "“Equal and impartial” presents Crown rule as fair and protective. After the uprising, this assurance could seek trust and loyalty among people in India. It establishes the official promise, but evidence of administration and people’s experiences is needed to judge whether it was fulfilled.",
-  "departure-and-division": "Borders and independence dates show a change of states but can hide whose interests were heard and what losing a home meant. Singh’s concern that Sikh interests were being ignored points to uncertainty about representation; Iqbal’s aunt’s memory makes family displacement visible. Both concern the period before the final 1947 border: Singh wrote in 1946, and the later testimony recalls an earlier displacement. They therefore complicate a story that begins with the new boundary, but cannot prove that this boundary caused the family’s move or establish everyone’s experience.",
-  "migration-and-belonging": "“My” claims a personal connection to England, while “beloved” expresses affection. That attachment makes the witness’s disbelief sound like hurt or betrayal rather than simple rejection of the country. Williams’s findings of harm to lawful residents give this contrast an institutional context. Colonial subjecthood had already connected the Caribbean to Britain, so belonging cannot be understood only as arrival from somewhere unrelated. Yet this unnamed witness is not Ena Sullivan, and the quotation cannot tell us how all migrants felt.",
-  "remembering-empire": "I find the recognition meaningful but limited. “Sincerely regrets” publicly acknowledges the abuses, and the £19.9 million settlement for 5,228 claimants, including legal costs, gives the response material substance. Support for a Nairobi memorial also offers public commemoration. However, “We continue to deny liability” maintains a legal boundary around responsibility. Recognition therefore does not amount to accepting every claim. The statement establishes the government’s position; survivors’ accounts would be needed to assess whether they regarded this response as adequate.",
-  "whose-britain": "A map cannot tell the whole story of Britain. Imperial history helps explain important, but different, experiences of belonging. In Jamaica, Sharpe’s supporters resisted slavery; Parliament’s account shows that compulsory apprenticeship continued after abolition. Together, these sources challenge a simple national story in which Britain gave freedom. Remembering whose actions mattered can change which experiences a public account recognises. Windrush offers a direct connection to belonging: colonial ties meant Caribbean arrivals could be British subjects, yet legal status did not guarantee fair treatment. Williams’s review documents how lawful residents later suffered injustice. Empire therefore helps explain both connection and exclusion. However, the review cannot tell us how everyone in Britain defines themselves. Region, class and personal experience also matter. We should use imperial history to explain particular relationships and question public stories, while recognising that it is one influence on plural identities rather than a complete explanation."
+  "profit-and-power": "Company rule helps explain why honouring Clive is controversial. The 1765 revenue rights show sustained governing power, not simply successful trade; that changes what a monument to him can celebrate. In 2020 Shropshire Council chose to keep the statue while adding historical explanation, and its 2021 update records a temporary panel. The history explains the subject of the dispute, but does not dictate one response: the council chose reinterpretation. This is strong evidence that an institution was reconsidering public honour, but it cannot establish what people across Britain believe about empire.",
+  "freedom-and-memory": "Proposed label: Enslaved people in Jamaica resisted slavery. Colonial forces threatened rebels with death; parliamentary abolition later left compulsory apprenticeship in place until 1838, while compensation went to owners. Freedom involved struggle and an incomplete legal transition. My wording invites visitors to reconsider an image of Britain as the sole giver of freedom. M Shed’s 2024 display keeps evidence of the Colston statue protest visible and includes differing perspectives. It too makes conflict over public honour visible, though Colston’s slave trading belongs to a different history from the Jamaican rebellion. These choices show how public memory can challenge a national story; they do not prove visitors all change their minds.",
+  "rule-and-resistance": "Victoria’s phrase “equal and impartial” presents the Crown as a fair protector after rebellion, but the relationship remains one of ruler and subjects. India’s independence and the 1949 agreement that it could remain a Commonwealth member as a republic changed that relationship. Charles’s 2024 account presents independent countries cooperating, with painful shared history to address, rather than the monarch governing India. Empire helps explain why the monarchy needs to describe a changed place in the world. The sources establish this institutional image, not that equality was achieved or that British people all identify with it. Shared language of fairness alone would not prove unchanged power.",
+  "departure-and-division": "Iqbal’s aunt’s memory makes losing a home visible in a way a border cannot. It concerns displacement before the final 1947 boundary, so it cannot establish that this boundary caused the move. Javed’s separate 2022 display gives a later example of remembering loss: his bracelet names his own family’s lost Punjabi village. Exhibiting it in a London museum brings a private family connection into Britain’s public account of South Asian heritage. Partition helps explain what the object remembers; Javed’s decision explains why that memory becomes publicly visible here. This supports a claim about one act of remembrance, not everyone’s identity or visitors’ reactions.",
+  "migration-and-belonging": "“My” asserts attachment to England and “beloved” makes the witness’s criticism sound like hurt or betrayal. Imperial subjecthood helps explain an existing Caribbean relationship with Britain, rather than an arrival from an unrelated place. Yet later documentary requirements and administrative failures help explain how lawful residents were excluded; that outcome was not inevitable because of empire. The 2022 monument offers a different public recognition of this history, shaped partly by Basil Watson and public consultation. It can affirm a place for Caribbean migration in Britain’s public memory without proving that unfair treatment has ended. Empire is therefore essential context for this tension, but later choices help explain both exclusion and commemoration. The witness is not Ena Sullivan, and neither source represents every migrant.",
+  "remembering-empire": "Charles’s 2023 account strengthens public recognition by naming colonial violence and connecting the past to a relationship with Kenya and British Kenyans. Hague’s 2013 “sincerely regrets” already acknowledged abuse, backed by a settlement and memorial support, while “We continue to deny liability” limited legal responsibility. The King’s later emphasis on partnership does not remove that qualification. I therefore find stronger public recognition without evidence of a fuller legal settlement. Colonial harm and survivors’ claims explain why British institutions still address this past after independence. The two sources reveal official ways of presenting Britain, but cannot show whether survivors accepted them or how all British people identify.",
+  "whose-britain": "The end of colonial rule did not remove empire from Britain’s public stories or people’s sense of belonging. But different kinds of evidence support different explanations. In the Jamaica case, resistance, apprenticeship and compensation to owners complicate an account of Britain simply giving freedom. M Shed’s 2024 display of the toppled Colston statue, including protest material and contrasting perspectives, documents a modern British institution making disagreement over slavery visible. These are distinct episodes, but the history helps explain why honouring a slave trader can challenge a generous national self-image. It does not dictate the museum’s choices or visitors’ reactions.\n\nWindrush provides a more direct connection to a person’s expressed belonging. Colonial subjecthood connected the Caribbean to Britain; the 2020 review records an affected person’s attachment to “my beloved England” alongside institutional harm. Later documentary rules and failures help explain that harm more immediately, while the 2022 monument shows a deliberate act of recognition. Empire supplies an important relationship, but later decisions shape its consequences.\n\nThe museum case therefore illuminates contested public memory, while Windrush also shows an individual attachment and its tension with treatment. Neither measures all British identities. The 2021 census permits overlapping labels but does not explain their causes. I can defend empire’s importance to these specific relationships and disputes, rather than claim it is the leading cause of everyone’s identity. That narrower conclusion follows from what the sources establish, not from proof that empire mattered little elsewhere."
 };
 
 function makeStationKey(station) {
@@ -229,7 +250,7 @@ function makeStationKey(station) {
     operator: task.operator,
     product: task.responsePurpose,
     requirements: task.instructions,
-    answer: [possibleExamples[station.id]],
+    answer: possibleExamples[station.id].split("\n\n"),
     teachingNote: detail.note,
     evidence: detail.evidence,
     alternatives: detail.alternatives,
@@ -250,25 +271,27 @@ function makeFinalKey(final) {
     product: task.responsePurpose,
     prompt: task.prompt,
     requirements: task.instructions,
-    answer: [possibleExamples[final.id]],
-    teachingNote: "Read this as a comment for a school magazine. Invite students to develop their own position and explain how their chosen historical examples help them think about belonging or public memory today. A complication or a specific source limit can make the judgement more precise. The example is a conversation starter; students do not need to share its conclusion or copy its structure.",
+    answer: possibleExamples[final.id].split("\n\n"),
+    teachingNote: "Read the final response as an argument for a school magazine, not as two separate historical summaries. Each chosen case needs historical evidence, a dated modern action or experience, and an explanation of the connection. Compare the kinds and strength of explanation: a museum dispute may illuminate contested public memory, while a witness supplies evidence of a particular attachment. Ask what the two cases together justify and how a specific limit changes that judgement. A limited source does not prove that empire had a small influence; it may mean the broader causal claim cannot be established. The required census card records overlapping identity labels in England and Wales in 2021, not their causes, the whole UK or opinion in 2026. An alternative influence must be evidenced, rather than added as a list of possible factors. The sample illustrates one defensible position and is not a required conclusion.",
     alternatives: [
-      "A partial disagreement might argue that the sources establish particular institutional and community connections but cannot prove that empire is more important than every other influence on identity.",
-      "An agreement might use migration as a direct connection and public memory as a contested connection, while arguing that present borders are an inadequate measure of either.",
-      "Students may weigh class, religion, regional politics, European relationships or later events as additional influences. Discuss how those influences qualify the argument and what further evidence would help.",
+      "A stronger claim may argue that imperial history is indispensable for understanding the selected public disputes and relationships, while showing that later institutions and individuals choose how to respond to that inheritance. Indispensable context is not a complete cause of every outcome.",
+      "A more limited claim may argue that the sources establish specific acts of remembrance more clearly than they explain personal self-identification across Britain. That shifts the conclusion towards public memory; it does not prove that empire is unimportant to identities beyond the sources.",
+      "Company rule and partition offer a different pair: the council’s response concerns public honour, while Javed makes a family connection public. Comparing institutional and personal acts of selection can qualify a broad account of national memory without inventing a shared British opinion.",
+      "Monarchy and Kenya can support an argument about changing official accounts of Britain’s place in the world. Distinguish the constitutional change documented in 1949 from claims about recognition or partnership in speeches; acceptance and lived consequences need other evidence."
     ],
     misconceptions: [
-      "There is one national psychology that can be read from the size of the empire.",
-      "A government statement is a public-opinion survey.",
-      "The class must agree with the teacher or reach one shared conclusion about identity.",
+      "Two historical facts automatically explain two identities today.",
+      "A museum display or official speech measures everyone’s beliefs, or a limited source proves empire had little influence.",
+      "Census labels reveal how much empire, region or any other factor caused people’s identities.",
+      "The class must agree with the teacher or reach one shared conclusion about identity."
     ],
     discussion: task.discussionPrompts || [],
-    evidence: [sources.identities, sources.windrush, sources.kenya],
+    evidence: [sources.identities, sources.bristolMemory, sources.emancipation, sources.windrush, sources.windrushProgress, sources.windrushMonument],
     feedback: [
       "Invite students to explain, compare and revise their ideas. Discuss evidence and reasoning without turning the examples into a required answer.",
-      "Offer one optional next step that helps a student develop their own idea, such as: ‘How does that historical detail help explain the connection you describe?’ Give the student time to revise if they wish.",
+      "Offer one optional next step that helps a student develop their own idea, such as: ‘What does the historical detail explain about the dated modern example, and what depends on later choices?’ Give the student time to revise if they wish.",
       "A source can be named naturally in a sentence: ‘Parliament’s account explains …’ or ‘The Williams review records …’. The notebook is optional, and formal citation formatting is unnecessary for this classroom activity.",
-      "For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. When interpreting language or evaluating a speaker’s position, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
+      "For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. When making a claim about a speaker’s language choices, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
       "For English-language support, discuss one useful revision in audience, organisation or vocabulary. For example, replace an unclear ‘they’ with the group intended, or try ‘although’ to make a contrast visible. Keep factual clarification separate from language support.",
       "Work remains editable. Saving and downloading preserve a learning record; they do not lock a response or automatically judge its quality. The teacher material is openly accessible so students may use it as another support if that suits the lesson.",
     ],
@@ -276,14 +299,15 @@ function makeFinalKey(final) {
 }
 
 export const teacherGuide = {
-  id: "empire-echoes-teacher-guide-enquiry-analysis-2026-10-01",
+  id: "empire-echoes-teacher-guide-identity-connections-2026-10-01",
+  minutes: rallye.minutes,
   title: "Before the discussion",
   subtitle:
     "Q2 English: background, discussion examples and optional support for the Empire / Echoes learning enquiry.",
   overviewNote:
     "Teacher reference · The sample responses illustrate possible reasoning and invite discussion; students can develop a different view and revise their work throughout.",
   overview: [
-    "This Q2 English activity asks how imperial history helps explain plural British identities today. Students read short evidence cards, analyse original public language, and write an audience-aware comment in English. Commerce, coercion, resistance, independence, migration and public memory supply relevant contextual knowledge. Territorial extent is a starting point, not a measure of human experience.",
+    "This Q2 English activity asks how imperial history helps explain plural British identities today. Each of six cases now pairs history with a documented recent act of remembrance, personal account or official statement. Students practise explaining and limiting those connections before comparing two in an audience-aware final comment. The added challenge lies in inference and judgement, not factual recall. Territorial extent is a starting point, not a measure of human experience.",
     "There is no single British state of mind. Distinguish a state’s institutions and official statements from a population’s varied identities, and distinguish both from individual experiences. Students may agree, disagree or qualify the final claim. Discuss the evidence and the connections they make, without seeking political agreement.",
     "The route samples South Asia, the Caribbean and Kenya, with comparisons to Canada and Hong Kong. It cannot represent every colony or community. The wider atlas and territory pages provide a route into further enquiries rather than a claim to completeness.",
   ],
@@ -291,7 +315,7 @@ export const teacherGuide = {
     "Compare evidence and defend an interpretation or judgement; distinguish an original excerpt from an institutional account or editorial summary, and explain how timing and perspective limit a claim.",
     "Analyse how a short quotation presents authority or responsibility: connect language choice, purpose, audience and a plausible effect rather than naming a device alone.",
     "Explain historical connections clearly in English, including colonised people’s agency and differences between legal status, lived belonging and public memory.",
-    "Write a coherent school-magazine comment that develops two historical connections, weighs a complication or evidence limit and reaches a qualified judgement about plural British identities.",
+    "Write a coherent school-magazine comment that explains two documented connections, compares their explanatory reach and lets an evidenced complication or source limit shape the overall judgement about British identities.",
     "Revise one aspect of evidence, organisation or language; use precise vocabulary and connectors to make relationships and limits intelligible.",
   ],
   unitAlignment: [
@@ -301,11 +325,11 @@ export const teacherGuide = {
     "The route covers one Empire-to-postcolonial-Britain enquiry. It does not replace the full UK unit, the Elizabethan Age strand, or planned listening, viewing, mediation and extended speaking lessons. The primary plans assign distinct competences to those lessons; changing the medium changes the learning opportunity.",
   ],
   lessonIntegration: [
-    "0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse how to support an interpretation or judgement with evidence; do not pre-teach the model answers.",
-    "5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses that compare evidence, explain editorial choices, analyse language and evaluate recognition.",
-    "50–57 minutes: in pairs, each student defends one connection with a named source; the partner paraphrases it, then asks one question about scope or a counterpoint. Offer one question about evidence and one optional language suggestion. Give the writer time to respond or revise.",
-    "57–60 minutes: students record a specific revision target and name a question to carry into the next class text. If the timetable offers only 45 minutes, orient navigation beforehand and move this discussion/transfer to the next lesson.",
-    "Timing is a planning estimate, not a classroom trial. Use the prepared core cards and indicated passages. Unrestricted web research, all optional comparisons and a first encounter with the interface will require extra time. Adjust support or extend the lesson when needed rather than removing the final judgement.",
+    "Before the enquiry: briefly demonstrate the evidence cards, map return, optional notes and downloads. Distinguish original wording from a labelled paraphrase. Ask students to explain a connection rather than simply place an old fact beside a modern one; do not pre-teach the examples.",
+    "Allow about 40 minutes for the six stations: 6, 7, 7, 7, 6 and 7 minutes. Each response practises a historical-to-modern connection through a different task: judgement, editorial choice, language comparison, family memory, causal explanation or evaluation of recognition. The map and extra sources are optional explorations.",
+    "Protect about 20 minutes for the final comment: for example, 4 to choose two cases and retrieve evidence, 11 to draft, 4 to check the comparison and qualification, and 1 to download. The final page brings each case’s saved response, notes and core sources together, so students do not need to start research again.",
+    "Plan orientation and debrief in addition to this 60-minute enquiry. If the timetable is shorter, split the route across lessons and keep the final writing time intact; browser saving and downloads support continuation. These are flexible estimates, not timers or results from a classroom trial.",
+    "In the debrief, partners defend one connection with a named source and explain what it does not establish. Ask the partner to identify how that limit changes the conclusion, then offer one evidence question and one optional language suggestion. Give writers time to revise and carry one researchable question into the next class text."
   ],
   materialConnections: [
     "Pathway Advanced 2024: Robert Tombs, In Defence of the British Empire, and Afua Hirsch, The New Black, offer subsequent comparison of argument and perspective; Paul Hawkins, The Bloody British!, supports analysis of irony and stereotypes (material research, PDF p. 7). The app supplies historical evidence for these readings, not their text or conclusions.",
@@ -321,9 +345,9 @@ export const teacherGuide = {
     "Feedback example: “Your Windrush detail supports the link between imperial status and later treatment. Explain that link before the next example. For language, replace ‘everyone’ with a precise group and use ‘although’ to connect legal status and unequal treatment.” Ask the student to make the revision immediately.",
   ],
   preparation: [
-    "Before class, open the six stations and their source links on the school network. Check the external pages are accessible. The atlas and source summaries work locally while the server is running; external websites and their full documents need internet access. The application is not an offline web cache.",
-    "For limited connectivity, print or save the linked readings in advance where permission allows. Students can use the supplied source summaries as their evidence base and identify them explicitly as summaries. Do not ask them to pretend they opened a blocked source. A prepared short source pack is a fair alternative to live browsing.",
-    "Reserve 30 minutes for six station responses and 15 for the final comment, including revision and download. Use the 60-minute wrapper below when the full lesson is available. Discussion is outside the timed 45-minute enquiry.",
+    "Before class, open the six stations and final task on the school network. All required evidence, including original excerpts, is readable inside the assignments; external links provide optional provenance and further reading. The application itself must be loaded from the server and is not an offline web cache.",
+    "For limited connectivity, save or print the prepared source cards in advance. Students can use the supplied paraphrases for contextual claims and the printed original excerpts for language analysis. They do not need to navigate a book scan or open a blocked site to finish any case. Keep author, date and source limit with each reading.",
+    "Reserve about 40 minutes for the six station responses and 20 for the final comment, including planning, revision and download. Allow orientation and discussion in addition, or continue across lessons. The most important output is the final explanatory judgement.",
     "The task names the purpose and audience of each response. Let students use the space they need to explain their idea. Read the supplied evidence, choose a useful detail and discuss its significance; open-ended research is optional extension work.",
     "Demonstrate changing the year, opening a territory page, and returning to the rallye. Explain that annual map snapshots and present-day geographic units cannot resolve every historical boundary, exact transfer date, local institution or degree of control.",
     "Ask each student to use their own browser profile and download their learning record when useful. Browser drafts can be lost when browsing data is cleared. On shared computers, download first and use the enquiry’s confirmed reset before another student begins.",
@@ -345,6 +369,15 @@ export const teacherGuide = {
         "A useful classroom distinction is between legal membership, felt belonging and an official national story. These may reinforce one another or conflict. A minister’s speech supplies evidence of an official position at a particular time; it does not establish what all citizens believe. Treat any claim that empire caused a modern political choice as a hypothesis needing further evidence.",
       ],
       evidence: [sources.union, sources.identities],
+    },
+    {
+      title: "Connect evidence across time without assuming continuity",
+      paragraphs: [
+        "The prepared contemporary examples document specific actions: Shropshire Council’s 2020–2021 Clive interpretation; M Shed’s 2024 contested-statue display; Charles’s 2024 Commonwealth speech; Javed’s 2022 London museum display; the 2020/2022 Windrush reviews and 2022 monument; and the 2023 royal account of Kenya. Their dates remain part of the claim. They are evidence relevant to thinking about Britain today, not observations of all views or circumstances in 2026.",
+        "In each case, identify what history explains and what later agency adds. Clive’s Company role explains the subject of a commemoration dispute, while a council selects its response. Partition supplies Javed’s family history, while he chooses to exhibit an object. Imperial subjecthood supplies a relationship, while later policy decisions and record failures produce a specific mechanism of exclusion. Neither an inherited relationship nor a later choice alone supplies every explanation.",
+        "The final task compares explanations, not the moral seriousness of different harms. A personal quotation, an institutional statement, a museum intervention and census labels answer different questions. A source’s inability to establish a population-wide claim is a reason to narrow or suspend that claim; it is not evidence that the historical influence must be small. Accept different qualified judgements that respect these boundaries.",
+      ],
+      evidence: [sources.cliveMemory, sources.bristolMemory, sources.familyMemory, sources.windrushProgress, sources.royalCommonwealth, sources.kenyaRoyal],
     },
     {
       title:
@@ -414,7 +447,7 @@ export const teacherGuide = {
   ],
   differentiatedPrompts: {
     support: [
-      "Offer this structure: “The map shows … . Source [title] adds … . Together they suggest … . However, neither tells us … .”",
+      "Offer this thinking sequence: historical relationship → dated modern evidence → connection to a particular person or public account → what the evidence leaves unresolved. Then ask how that limit changes the overall claim. Students can plan it orally or in their optional notes; no extra form is needed.",
       "Give a small glossary: revenue = income collected by a government; sovereignty = supreme political authority; emancipation = release from slavery; citizenship = legal membership; identity = a person’s or group’s sense of belonging.",
       "Let pairs discuss one source before each student writes an individual response. Give students time to express and revise their own ideas.",
       "For language support, allow a bilingual glossary and a plan in the student’s strongest language, then produce the response in English. Recognise historical understanding while teaching the English needed to express it. Offer a specific phrase or explanation that helps the student communicate their intended meaning.",
@@ -422,7 +455,7 @@ export const teacherGuide = {
     extension: [
       "Compare an official statement with a survivor’s account, a local museum interpretation or a historian’s analysis. Explain what changes when the viewpoint changes.",
       "Trace one named institution, place or object in Britain back to an imperial connection. Establish the connection through evidence rather than assuming its name is sufficient.",
-      "Challenge the final claim: which aspects of identity might be better explained by class, religion, domestic constitutional history or later international relationships?",
+      "Investigate whether another influence better explains an aspect of identity: locate evidence about class, religion, domestic constitutional history or later international relationships, then compare explanations. A list of possible influences alone cannot establish their importance.",
       "Investigate a case missing from the route, such as Ireland, Australia or an African territory. Explain whether it strengthens or changes your initial argument.",
     ],
   },
@@ -432,8 +465,14 @@ export const teacherGuide = {
     "Can abolition be a source of pride without erasing enslavement and resistance? What would an honest commemorative text include?",
     "When are the actions of a state useful evidence about national identity, and when would that inference be too broad?",
     "What additional evidence would help distinguish imperial inheritance from later choices? Make one researchable question rather than a general opinion.",
+    "Did your source limit show that empire explains less, or that the wider claim remains unestablished? Explain how that distinction affected your final judgement.",
   ],
   furtherReading: [
+    {
+      ...sources.windrushProgress,
+      level: "essential",
+      note: "The Background section explains documentary requirements and missing records. Keep this 2022 explanation distinct from the 2020 witness quotation.",
+    },
     {
       ...sources.partition,
       level: "essential",
@@ -466,8 +505,8 @@ export const teacherGuide = {
     },
     {
       ...sources.identities,
-      level: "extension",
-      note: "Read the measurement caveats as well as the results. Do not use it as an empire-attitudes survey.",
+      level: "essential",
+      note: "This is now required student evidence. Read the scope caveats: overlapping labels do not establish causes or measure attitudes to empire.",
     },
     {
       ...sources.windrushRoots,

@@ -5,7 +5,8 @@
  * `context`, `locator` and links are supporting details, not extra tasks.
  * `optional` readings extend the route. All original-source visits are optional.
  * Original evidence was checked on 1 October 2026; see
- * docs/unit-alignment/SOURCES.md and docs/learning-revision/SOURCES.md.
+ * docs/unit-alignment/SOURCES.md, docs/learning-revision/SOURCES.md and
+ * docs/learning-revision/task7-review/.
  */
 const source = (record) => ({
   summaryLabel: "In our words · paraphrase",
@@ -32,6 +33,23 @@ export const RALLYE_RESOURCES = {
       context:
         "The museum’s article explains the battle of Plassey and the growth of Company rule. Its collection also includes William Heath’s picture made around 1821, decades after the battle; the additional link leads to that object. These are modern museum explanations, not accounts by people paying Bengal’s taxes.",
       locator: "Original article: “Regime change” and “Imperial power”.",
+    }),
+    source({
+      id: "profit-clive-memory",
+      title: "What should Shrewsbury do with Clive’s statue?",
+      organisation: "Shropshire Council and Shrewsbury Museum",
+      date: "Council decisions and updates: 2020–2021",
+      kind: "Council accounts of a public monument dispute",
+      url: "https://newsroom.shropshire.gov.uk/2021/11/robert-clive-statue-in-the-square-shrewsbury-an-update/",
+      provenanceUrl: "https://newsroom.shropshire.gov.uk/2020/09/robert-clive-statue-shrewsbury/",
+      provenanceLabel: "Read the council’s earlier explanation (2020)",
+      summary:
+        "After petitions about Robert Clive’s statue in Shrewsbury, Shropshire Council chose in 2020 to keep it with added historical explanation. The council argued that learning about controversial history should differ from celebrating it. In November 2021, its museum reported that a temporary interpretation panel had been installed and that information about colonial objects had been added to its catalogue. A permanent panel was still planned. These decisions kept the monument in public space while changing the information presented about it.",
+      scope:
+        "These are the council’s accounts of its decisions in 2020–2021. They do not measure all residents’ opinions, visitors’ reactions or the monument’s condition today.",
+      context:
+        "This is the same Robert Clive who secured the Company’s tax-collecting rights in Bengal in 1765. The petitions disagreed about the statue’s future. The council’s response is one institutional choice about how a British town remembers an imperial figure.",
+      locator: "2021 update: the decision to retain the statue and the museum’s interpretation work. The 2020 statement explains the council’s reasoning.",
     }),
     source({
       id: "profit-charter",
@@ -87,6 +105,21 @@ export const RALLYE_RESOURCES = {
         "Parliament’s public history website describes legislation and campaigning. It is a modern explanation, not a document written in the 1830s.",
       locator: "Original page: “Anti-Slavery Society” and “Freedom”.",
     }),
+    source({
+      id: "freedom-bristol-memory",
+      title: "A contested statue becomes a museum display",
+      organisation: "M Shed, Bristol Museums · Helen McConnell-Simpson, curator",
+      date: "Display opened March 2024 · statue toppled in 2020",
+      kind: "Museum account of its own exhibition",
+      url: "https://www.bristolmuseums.org.uk/blog/new-display-at-m-shed-the-toppling-of-the-colston-statue/",
+      summary:
+        "In March 2024, Bristol’s M Shed opened a permanent display of the statue of slave trader Edward Colston, toppled during a 2020 Black Lives Matter protest. The display preserves protest graffiti on the statue and includes placards. It presents accounts by people who took part in toppling it and people who opposed the action. Community contributors helped shape the display. Some African Caribbean participants stressed that racial injustice extended beyond the dispute over one statue.",
+      scope:
+        "This describes a museum’s curatorial choices and selected contributions. It does not show that all visitors, Bristol residents or British people interpret the statue alike.",
+      context:
+        "Colston’s slave trading belongs to an earlier episode than the Jamaican rebellion and abolition sources. Those sources can help question how British involvement in slavery is remembered; they are not evidence that Colston caused the later events in Jamaica. The proposed label in this assignment is not a quotation from M Shed’s display.",
+      locator: "Original article: the new permanent display, accounts on different sides of the dispute, and community involvement.",
+    }),
   ],
   "rule-and-resistance": [
     source({
@@ -112,6 +145,25 @@ export const RALLYE_RESOURCES = {
         "His Majesty King George’s Speeches in India, Appendix E: PDF page 178, printed page xviii. Read the two paragraphs above for this assignment.",
       provenanceUrl: "https://searcharchives.bl.uk/catalog/041-000566434",
       provenanceLabel: "View the British Library catalogue record (HTML)",
+    }),
+    source({
+      id: "rule-commonwealth",
+      title: "A monarch speaks of independent, equal nations",
+      organisation: "Charles III · The Commonwealth",
+      date: "Speech: 25 October 2024 · relationship changed in 1949",
+      kind: "Royal speech, with context from the London Declaration",
+      url: "https://www.royal.uk/news-and-activity/2024-10-25/his-majestys-speech-to-open-the-commonwealth-heads-of-government",
+      provenanceUrl: "https://thecommonwealth.org/london-declaration-1949",
+      provenanceLabel: "Read the London Declaration (1949)",
+      summary:
+        "India became independent in 1947. In 1949, Commonwealth governments agreed that India could remain in the association when it became a republic. The monarch would symbolise an association of independent countries, rather than rule India. In Samoa in 2024, Charles III spoke as Head of the Commonwealth. He linked his role to his mother’s and grandfather’s, acknowledged painful aspects of the shared past, and promoted cooperation on education, opportunity and climate change.",
+      excerpt: "All nations are equal in this unique and voluntary association.",
+      excerptLabel: "Charles III’s words to Commonwealth leaders, 2024",
+      scope:
+        "The speech presents the monarch’s account of the relationship. It does not prove that all members have equal influence or that people in Britain share his view.",
+      context:
+        "The Head of the Commonwealth is a symbolic role, chosen by its members; it does not give the holder authority to govern them. India is a republic. Some Commonwealth countries were never British colonies. Compare what the two royal speakers claim, while keeping their different political relationships clear.",
+      locator: "Speech: opening paragraphs on the voluntary association and later passages on shared history. Declaration: India’s continued membership as a republic.",
     }),
     source({
       id: "rule-canada",
@@ -181,6 +233,21 @@ export const RALLYE_RESOURCES = {
       locator:
         "Original webpage: source 3b for the letter, or source 6 for a recorded memory. The summary above includes the evidence needed for this task.",
     }),
+    source({
+      id: "departure-family-memory",
+      title: "A family’s lost village in a London museum",
+      organisation: "Imran Javed, collection manager · British Museum",
+      date: "24 October 2022 · bracelet commissioned in 2019",
+      kind: "Personal account of a museum display",
+      url: "https://www.britishmuseum.org/blog/confluence-stories",
+      summary:
+        "In 2022, British Museum collection manager Imran Javed described a display combining museum objects with his own possessions. One was a bracelet bearing the name of his family’s village in Punjab. His Punjabi Muslim ancestors had left that village during Partition and settled in what is now Pakistan. Javed commissioned the bracelet to remember their journey and a home they had lost. By including it in a London museum display, he brought his family history into a public account of South Asian heritage in Britain.",
+      scope:
+        "This is one person’s family memory and curatorial choice. It does not represent all British South Asian families, explain every migration to Britain, or tell us visitors’ responses.",
+      context:
+        "Javed’s family is different from the families in the earlier archive card. His 2022 account shows a later choice to preserve and share a connection to a place lost through Partition. The complete evidence needed here is in this card; the museum website is an optional visit.",
+      locator: "Original article: the village-name bracelet and the account of Javed’s family’s journey from Punjab.",
+    }),
   ],
   "migration-and-belonging": [
     source({
@@ -209,22 +276,39 @@ export const RALLYE_RESOURCES = {
       id: "migration-review",
       title: "The Windrush review: lawful residents harmed",
       organisation: "Wendy Williams, independent reviewer",
-      date: "19 March 2020",
-      kind: "Review of government actions",
-      url: "https://www.gov.uk/government/publications/windrush-lessons-learned-review",
-      urlLabel: "Publication page and full report (PDF)",
+      date: "Review: 19 March 2020 · follow-up: 31 March 2022",
+      kind: "Independent review and later explanation of government actions",
+      url: "https://www.gov.uk/government/publications/windrush-lessons-learned-review-progress-update/windrush-lessons-learned-review-progress-update-accessible",
+      urlLabel: "Read the 2022 follow-up (HTML)",
+      provenanceUrl: "https://www.gov.uk/government/publications/windrush-lessons-learned-review",
+      provenanceLabel: "Original 2020 review publication and PDF",
       summary:
-        "Williams investigated the Windrush scandal. She found that people legally living in Britain had been wrongly targeted by immigration controls. Some lost their jobs and suffered other serious harm. She linked this to failures in government policy and institutions, including poor understanding of history. Her report also quotes an affected person.",
+        "Williams’s 2020 review found that lawful residents had been wrongly targeted by immigration controls and seriously harmed. Her 2022 follow-up explains how later governments increasingly required documentary proof of status for work, housing and services. Some long-settled residents had not been given documents, and the Home Office had not kept records confirming their status. They could not prove their rights when challenged. Williams identified failures in policy and institutions, including poor historical understanding. Her original review quotes an affected person:",
       excerpt:
         "I can’t believe I have been treated like this by my beloved England",
       excerptLabel:
-        "An affected person’s original words, quoted in Williams’s review",
+        "An affected person’s words, quoted in Williams’s 2020 review",
       scope:
-        "This records documented harm and one person’s response. The speaker is not identified here and is not Ena Sullivan from the other card.",
+        "The reports explain documented harm and government decisions; the quotation records one person’s response. The speaker is not identified here and is not Ena Sullivan from the other card. These reports do not establish everyone’s feelings or the situation in 2026.",
       context:
         "The government commissioned Williams’s independent review, which used interviews and departmental records. The Home Office published it. One person’s words cannot establish what every migrant or British person believes.",
       locator:
-        "The evidence needed for this task is included above. The publication page offers the full report as a PDF: pages 7–8 contain the summary and introduction, with the quotation on page 8. Recommendation 6, on page 15, concerns historical understanding.",
+        "The 2022 HTML report’s Introduction → Background explains the documentation problem. In the original 2020 PDF, pages 7–8 contain the summary and introduction, with the quotation on page 8; recommendation 6 on page 15 concerns historical understanding.",
+    }),
+    source({
+      id: "migration-monument",
+      title: "Choosing to remember Windrush at Waterloo",
+      organisation: "Windrush Commemoration Committee · UK government",
+      date: "22 June 2022",
+      kind: "Account of a national monument’s unveiling",
+      url: "https://www.gov.uk/government/news/national-windrush-monument-unveiled-at-london-waterloo-station",
+      summary:
+        "A national monument unveiled at London Waterloo in June 2022 presents a Caribbean family standing together on suitcases. Jamaican sculptor Basil Watson connected the work to his parents’ migration and to Caribbean people’s cultural influence in Britain. The Windrush Commemoration Committee commissioned the sculpture after public consultation, with government funding. It was intended as a permanent place for reflection and recognition. The sculpture makes a Caribbean family part of the story told in a major London public space.",
+      scope:
+        "This records a particular act of public remembrance. A monument cannot by itself show how welcome everyone feels or whether injustices have been resolved; consultation does not mean unanimous agreement.",
+      context:
+        "The committee was chaired by Baroness Floella Benjamin. The artist and community contributors took part in shaping how migration would be remembered. Their agency matters alongside official decisions. Recognition of people’s work or culture is not a condition of their right to belong.",
+      locator: "Original announcement: the sculpture, the committee and consultation, and Basil Watson’s account of his family’s connection.",
     }),
   ],
   "remembering-empire": [
@@ -245,6 +329,21 @@ export const RALLYE_RESOURCES = {
       context:
         "Hague was the minister responsible for the UK’s relations with other countries. His statement explained and defended the settlement. The slash between the extracts separates two passages; they are not one continuous sentence. Survivors may assess the statement differently.",
       locator: "Original page: the paragraphs on regret and liability.",
+    }),
+    source({
+      id: "memory-royal-visit",
+      title: "Remembering colonial violence during a royal visit",
+      organisation: "Charles III",
+      date: "31 October 2023",
+      kind: "Speech at a state banquet in Kenya",
+      url: "https://www.royal.uk/news-and-activity/2023-10-31/a-speech-by-his-majesty-the-king-at-the-state-banquet-kenya",
+      summary:
+        "During his 2023 visit to Kenya, Charles III condemned violence committed against Kenyans during their struggle for independence and expressed sorrow and regret. He wanted to learn from people affected by those events. In the same speech, he celebrated the contributions of Kenyans and British Kenyans to life in Britain, including medicine, the arts and education. He presented the two countries as equal partners and linked an honest discussion of their history with the possibility of a closer future relationship.",
+      scope:
+        "This shows the king’s public position in 2023. It does not establish survivors’ acceptance, repair the harms by itself or represent everyone’s idea of Britain.",
+      context:
+        "The speech came during the sixtieth year of Kenyan independence and ten years after Hague’s settlement statement. It was a diplomatic speech, not a new court ruling or an acceptance of legal liability. Recognition, compensation and survivors’ responses are different kinds of evidence.",
+      locator: "Original speech: the contributions of Kenyans and British Kenyans, the struggle for independence, and the future relationship.",
     }),
     source({
       id: "memory-hong-kong",
@@ -272,14 +371,13 @@ export const RALLYE_RESOURCES = {
       kind: "Official census report for England and Wales",
       url: "https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/ethnicity/bulletins/nationalidentityenglandandwales/census2021",
       summary:
-        "People could choose several national identities in the 2021 census. Answers included British, English, Welsh and other identities, sometimes combined. National identity describes how people see themselves; it differs from citizenship and ethnicity. This report covers England and Wales, not the whole UK.",
+        "In the 2021 census, people in England and Wales could select more than one national identity. For example, 13.6% selected English and British together. ONS describes national identity as people’s own sense of where they belong or consider home, rather than something determined by citizenship or ethnic group. These answers show that identity labels can overlap. They do not explain why someone chose a label or what that person thinks about Britain’s imperial past.",
       scope:
-        "The census records identity labels. It did not ask whether empire caused people to choose them or what they thought of empire.",
+        "This is evidence about identity labels in England and Wales in 2021, not the whole UK or a survey of views in 2026. It cannot measure how much empire, or any other influence, caused those choices.",
       context:
         "The Office for National Statistics publishes census findings. The order of answer options changed between 2011 and 2021, which also affects comparisons between the two censuses.",
       locator:
-        "Original page: section 8, “National identity”, and section 10, “Strengths and limitations”.",
-      optional: true,
+        "Original page: section 2 on combinations of UK identities; section 8, “National identity”; and section 10, “Strengths and limitations”.",
     }),
     source({
       id: "final-charter",

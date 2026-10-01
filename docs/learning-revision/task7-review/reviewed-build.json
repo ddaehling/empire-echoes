@@ -1,0 +1,11 @@
+{
+  "revision": "identity-connections-2026-10-01",
+  "reviewRound": 2,
+  "sha256": {
+    "app/journey/js/rallye-content.js": "da585b96df81f23cce95c7c3adcf540d0c82e0e3c62f3f10cb18a576ae9c5ae3",
+    "app/journey/js/rallye-resources.js": "2bcc12bb1faee1d5af267c8a0d2b07ce0f02241958f7c72add252db54723c7a9",
+    "app/journey/js/rallye.js": "2bce930f5f71dadefcab6b6d6e94c14fe0b6df86a19414617429f05b36783555",
+    "app/journey/css/rallye.css": "4fb57aa7cc2ae07cc107cf190c12b3c610c04ade08a0ce895753eae4552c9283"
+  },
+  "finalCopyCorrection": "Comparison guide now says dated contemporary evidence rather than dated evidence from Britain today, accommodating British institutional speeches delivered abroad."
+}

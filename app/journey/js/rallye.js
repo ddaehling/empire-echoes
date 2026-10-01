@@ -274,19 +274,29 @@ export function createRallye(
         "",
       )}</ol><button type="button" class="ry-review-link${screen === "review" ? " is-current" : ""}" data-ry-action="review" ${screen === "review" ? 'aria-current="page"' : ""}>Review & download ${arrow}</button></nav></aside>`;
   }
-  function sourceCard(source) {
+  function sourceCard(source, headingLevel = 3) {
     const url = safeURL(source.url);
     const provenance = safeURL(source.provenanceUrl);
     const isLong = longExcerpt(source.excerpt);
     const summary = source.summary
       ? `<p class="ry-summary-label">${esc(source.summaryLabel || "Prepared summary · paraphrase")}</p><p class="ry-source-summary">${esc(source.summary)}</p>`
       : "";
-    return `<article class="ry-source"><div class="ry-source-heading"><h3>${esc(source.title)}</h3><p class="ry-source-meta">${esc([source.organisation, source.date].filter(Boolean).join(" · "))}</p></div>${source.excerpt ? `<p class="ry-excerpt-label">${esc(source.excerptLabel || "Original wording · short extract")}</p><blockquote${isLong ? ' class="ry-long-excerpt"' : ""}>${excerptParagraphs(source.excerpt)}</blockquote>${source.excerptNote ? `<p class="ry-source-note">${esc(source.excerptNote)}</p>` : ""}` : ""}${isLong && summary ? `<details class="ry-source-context ry-source-paraphrase"><summary>In our words</summary><div class="ry-disclosure-body">${summary}</div></details>` : summary}${source.scope ? `<p class="ry-source-scope">${esc(source.scope)}</p>` : ""}<details class="ry-source-context"><summary>Source details and original</summary><div class="ry-disclosure-body">${source.kind ? `<p>${esc(source.kind)}</p>` : ""}${paragraphs(source.context)}${source.locator ? `<p><strong>Find it:</strong> ${esc(source.locator)}</p>` : ""}${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(originalLinkLabel(source))} ↗<span class="ry-sr"> (opens in a new tab)</span></a>` : ""}${provenance ? `<p><a href="${esc(provenance)}" target="_blank" rel="noopener noreferrer">${esc(provenanceLinkLabel(source))} ↗<span class="ry-sr"> (opens in a new tab)</span></a></p>` : ""}</div></details></article>`;
+    return `<article class="ry-source"><div class="ry-source-heading"><h${headingLevel}>${esc(source.title)}</h${headingLevel}><p class="ry-source-meta">${esc([source.organisation, source.date].filter(Boolean).join(" · "))}</p></div>${source.excerpt ? `<p class="ry-excerpt-label">${esc(source.excerptLabel || "Original wording · short extract")}</p><blockquote${isLong ? ' class="ry-long-excerpt"' : ""}>${excerptParagraphs(source.excerpt)}</blockquote>${source.excerptNote ? `<p class="ry-source-note">${esc(source.excerptNote)}</p>` : ""}` : ""}${isLong && summary ? `<details class="ry-source-context ry-source-paraphrase"><summary>In our words</summary><div class="ry-disclosure-body">${summary}</div></details>` : summary}${source.scope ? `<p class="ry-source-scope">${esc(source.scope)}</p>` : ""}<details class="ry-source-context"><summary>Source details and original</summary><div class="ry-disclosure-body">${source.kind ? `<p>${esc(source.kind)}</p>` : ""}${paragraphs(source.context)}${source.locator ? `<p><strong>Find it:</strong> ${esc(source.locator)}</p>` : ""}${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(originalLinkLabel(source))} ↗<span class="ry-sr"> (opens in a new tab)</span></a>` : ""}${provenance ? `<p><a href="${esc(provenance)}" target="_blank" rel="noopener noreferrer">${esc(provenanceLinkLabel(source))} ↗<span class="ry-sr"> (opens in a new tab)</span></a></p>` : ""}</div></details></article>`;
+  }
+  function evidenceGroups(stage, headingLevel = 2, headingId = "") {
+    const sources = essentialSources(stage);
+    const presentDayIds = new Set(array(stage.presentDaySourceIds));
+    const contemporary = sources.filter((source) => presentDayIds.has(source.id));
+    const historical = sources.filter((source) => !presentDayIds.has(source.id));
+    const groups = contemporary.length
+      ? [["Historical evidence", historical], ["A connection today", contemporary]]
+      : [["Evidence to use", sources]];
+    return groups.filter(([, records]) => records.length).map(([title, records], index) => `<section class="ry-evidence-group"><h${headingLevel}${headingId && index === 0 ? ` id="${esc(headingId)}"` : ""}>${title}</h${headingLevel}><div class="ry-source-list">${records.map((source) => sourceCard(source, headingLevel + 1)).join("")}</div></section>`).join("");
   }
   function evidence(stage) {
     const sources = essentialSources(stage);
     if (!sources.length) return "";
-    return `<section class="ry-evidence ry-sources" aria-labelledby="ry-sources-title"><h2 id="ry-sources-title">Evidence to use</h2><p>Read the evidence here. Opening the full sources is optional.</p><div class="ry-source-list">${sources.map(sourceCard).join("")}</div></section>`;
+    return `<section class="ry-evidence ry-sources" aria-labelledby="ry-sources-title"><p>Read the evidence here. Opening the full sources is optional.</p>${evidenceGroups(stage, 2, "ry-sources-title")}</section>`;
   }
   function research(stage) {
     const core = essentialSources(stage);
@@ -294,7 +304,7 @@ export function createRallye(
       (source) => !core.includes(source),
     );
     const focus = stage.mapFocus;
-    return `<details class="ry-disclosure ry-research"><summary>Explore sources${focus ? " and the atlas" : " further"} (optional)</summary><div class="ry-disclosure-body"><p>The prepared material is available here without opening other websites. Its source details are included automatically in your download.</p>${focus ? `<div class="ry-map-actions"><p>${esc(data?.get?.(focus.territoryId)?.name || stage.location || focus.territoryId)} · ${esc(focus.year)}</p><button type="button" class="ry-secondary" data-ry-action="explore">Open on the atlas ↗</button><button type="button" class="ry-text-link" data-ry-action="territory">Read the territory story ↗</button></div><p class="ry-input-help">Use the return link to come back to this response. A map colour shows a political relationship; it cannot describe everyone’s experience.</p>` : ""}${paragraphs(stage.researchInstructions)}${optional.length ? `<div class="ry-source-list">${optional.map(sourceCard).join("")}</div>` : ""}</div></details>`;
+    return `<details class="ry-disclosure ry-research"><summary>Explore sources${focus ? " and the atlas" : " further"} (optional)</summary><div class="ry-disclosure-body"><p>The prepared material is available here without opening other websites. Its source details are included automatically in your download.</p>${focus ? `<div class="ry-map-actions"><p>${esc(data?.get?.(focus.territoryId)?.name || stage.location || focus.territoryId)} · ${esc(focus.year)}</p><button type="button" class="ry-secondary" data-ry-action="explore">Open on the atlas ↗</button><button type="button" class="ry-text-link" data-ry-action="territory">Read the territory story ↗</button></div><p class="ry-input-help">Use the return link to come back to this response. A map colour shows a political relationship; it cannot describe everyone’s experience.</p>` : ""}${paragraphs(stage.researchInstructions)}${optional.length ? `<div class="ry-source-list">${optional.map((source) => sourceCard(source)).join("")}</div>` : ""}</div></details>`;
   }
   function languageSupport(task) {
     const support = task.support;
@@ -324,7 +334,7 @@ export function createRallye(
     return `<details class="ry-disclosure ry-notebook"><summary>Notes and chosen evidence</summary><div class="ry-disclosure-body"><p>Optional: keep a useful detail, name the source you chose, or paste a link from your own research. These notes stay with your download.</p><div class="ry-field"><label for="ry-notes">Your notes</label><textarea id="ry-notes" rows="4" data-ry-notes placeholder="A detail, a source, a connection or a question…">${esc(notebook(stage).note)}</textarea></div></div></details>`;
   }
   function earlierResponses() {
-    return `<details class="ry-disclosure ry-earlier-responses"><summary>Your earlier responses and evidence</summary><div class="ry-disclosure-body"><p>Return to an earlier response to develop it, or use its evidence in your comment.</p>${rallye.stations.map((stage) => `<section><h3>${esc(stage.title)}</h3><p class="ry-preserve">${esc(state.answers[stage.id] || "You have not written a response here yet.")}</p><button type="button" class="ry-text-link" data-ry-stage="${esc(stage.id)}">Revisit this stop ${arrow}</button>${essentialSources(stage).map(sourceCard).join("")}</section>`).join("")}</div></details>`;
+    return `<section class="ry-comparison ry-earlier-responses" aria-labelledby="ry-comparison-title"><h2 id="ry-comparison-title">Build your comparison</h2><p>Choose two cases to compare. For each, connect a historical relationship to dated contemporary evidence, explain what that connection suggests about identities, and consider what it cannot explain.</p><p>Open a case to bring your response, notes and evidence together. You can revisit any stop to develop your thinking.</p><div class="ry-comparison-cases">${rallye.stations.map((stage) => `<details class="ry-disclosure ry-comparison-case" data-ry-case="${esc(stage.id)}"><summary>${esc(stage.caseLabel || stage.title)}</summary><div class="ry-disclosure-body"><h3>Your response</h3><p class="ry-preserve">${esc(state.answers[stage.id] || "You have not written a response here yet.")}</p>${state.notebooks[stage.id]?.note ? `<h3>Your notes</h3><p class="ry-preserve">${esc(state.notebooks[stage.id].note)}</p>` : ""}<button type="button" class="ry-text-link" data-ry-stage="${esc(stage.id)}">Revisit this stop ${arrow}</button>${evidenceGroups(stage, 3)}</div></details>`).join("")}</div></section>`;
   }
   function currentStage() {
     const stage = stages[state.currentIndex];

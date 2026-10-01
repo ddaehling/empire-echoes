@@ -525,8 +525,13 @@
   padding-top: 24px;
   border-top: 1px solid var(--line, #d2d9e2);
 }
-.ry-evidence > h2 {
+.ry-evidence-group > h2 {
   margin-bottom: 17px;
+}
+.ry-evidence-group + .ry-evidence-group {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line, #d2d9e2);
 }
 .ry-evidence > p {
   margin-bottom: 16px;
@@ -540,7 +545,8 @@
   padding-top: 22px;
   border-top: 1px solid var(--line, #d2d9e2);
 }
-.ry-source-heading h3 {
+.ry-source-heading h3,
+.ry-source-heading h4 {
   font-size: 1.0625rem;
 }
 .ry-source-heading > .ry-label,
@@ -632,6 +638,40 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+}
+
+/* Earlier work is within reach when students build their final comparison. */
+.ry-comparison {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line, #d2d9e2);
+}
+.ry-comparison > h2 {
+  margin-bottom: 12px;
+}
+.ry-comparison > p {
+  color: var(--text, #39465a);
+}
+.ry-comparison > p + p {
+  margin-top: 12px;
+}
+.ry-comparison-cases {
+  margin-top: 18px;
+  border-top: 1px solid var(--line, #d2d9e2);
+}
+.ry-comparison-case > .ry-disclosure-body > h3:first-child {
+  margin-top: 8px;
+}
+.ry-comparison-case .ry-evidence-group {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line, #d2d9e2);
+}
+.ry-comparison-case .ry-evidence-group > h3 {
+  margin: 0 0 16px;
+}
+.ry-comparison-case .ry-source-heading h4 {
+  margin: 0;
 }
 
 /* The question and response form are one writing section. */
