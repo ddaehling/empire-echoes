@@ -92,7 +92,7 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "A museum label says: “Britain gave enslaved people their freedom.” This is an invented teaching example. Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.",
+          "A museum label says: “Britain gave enslaved people their freedom.” Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.",
         instructions: [
           "Write the replacement label itself. You can choose a detail about abolition, compulsory apprenticeship or compensation.",
         ],

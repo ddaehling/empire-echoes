@@ -274,7 +274,7 @@ In the 1830s, resistance in Jamaica and decisions in Britain's Parliament formed
 
 #### Student task
 
-A museum label says: “Britain gave enslaved people their freedom.” This is an invented teaching example. Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.
+A museum label says: “Britain gave enslaved people their freedom.” Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.
 
 Rewrite - Your museum label
 
