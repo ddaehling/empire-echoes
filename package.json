@@ -4,6 +4,8 @@
   "description": "A British Empire classroom atlas with an unfolding globe, territory stories, a written evidence rallye and a teacher key.",
   "main": "index.js",
   "scripts": {
+    "build": "node scripts/build-static.mjs",
+    "test:deployment": "node scripts/verify-static.mjs",
     "start": "node tools/serve.js",
     "test": "node tools/classroom-test.js",
     "test:next": "node tools/next-test.js",
@@ -13,7 +15,9 @@
     "test:journey:unit": "node tools/journey-unit-test.js",
     "test:journey:focus": "node tools/journey-focus-test.js",
     "test:journey:map": "node tools/journey-map-semantics-test.js && node tools/journey-map-experience-test.js",
-    "validate:data": "node tools/validate-data.js"
+    "validate:data": "node tools/validate-data.js",
+    "test:journey:learning": "node tools/journey-learning-test.js",
+    "test:journey:progress": "node tools/journey-progress-test.js"
   },
   "keywords": [],
   "author": "",

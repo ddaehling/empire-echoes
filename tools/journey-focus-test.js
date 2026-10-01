@@ -378,11 +378,9 @@ async function desktopJourney(browser, origin, projection) {
     );
     const mapPixels = await pixelStats(
       page,
-      await page
-        .locator("#scene-stage")
-        .screenshot({
-          path: path.join(ARTIFACTS, `${projection}-focused-map.png`),
-        }),
+      await page.locator("#scene-stage").screenshot({
+        path: path.join(ARTIFACTS, `${projection}-focused-map.png`),
+      }),
     );
     assert.ok(
       mapPixels.orangeFraction > 0.005,
@@ -659,23 +657,31 @@ async function rallyeJourney(browser, origin) {
   const { context, page, errors } = await contextPage(browser);
   try {
     await ready(page, `${origin}/app/journey/#rallye`);
+    const storageKey = await page.evaluate(
+      async () => (await import("./js/rallye-state.js")).RALLYE_STORAGE_KEY,
+    );
     await page.locator("#ry-name").fill("Isolated focus QA");
     await page.locator("[data-ry-start] button[type=submit]").click();
     const draft =
       "My saved argument remains recoverable after reading the territory's story.";
     await page.locator("#ry-answer").fill(draft);
     await page.waitForFunction(
-      (text) => localStorage.getItem("empire-echoes-rallye-v3")?.includes(text),
-      draft,
+      ({ key, text }) => localStorage.getItem(key)?.includes(text),
+      { key: storageKey, text: draft },
     );
-    const before = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("empire-echoes-rallye-v3")),
+    const before = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)),
+      storageKey,
     );
     // Current curriculum may start with a modern identity stop without a map.
     // The real territory return route must preserve its response either way.
     const storyButton = page.locator('[data-ry-action="territory"]');
-    if (await storyButton.count()) await storyButton.click();
-    else
+    if (await storyButton.count()) {
+      const research = page.locator(".ry-research");
+      if (!(await research.evaluate((node) => node.open)))
+        await research.locator(":scope > summary").click();
+      await storyButton.click();
+    } else
       await page.evaluate(() => {
         location.hash = "territory?id=british-india&year=1930&return=rallye";
       });
@@ -687,8 +693,9 @@ async function rallyeJourney(browser, origin) {
     await page.locator("#rallye-view").waitFor({ state: "visible" });
     await closed(page);
     assert.equal(await page.locator("#ry-answer").inputValue(), draft);
-    const after = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("empire-echoes-rallye-v3")),
+    const after = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)),
+      storageKey,
     );
     assert.deepEqual(after.answers, before.answers);
     assert.deepEqual(after.notebooks, before.notebooks);

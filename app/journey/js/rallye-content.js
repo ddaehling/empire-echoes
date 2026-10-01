@@ -1,28 +1,23 @@
-// Six focused English responses (30 minutes) and a final comment (15 minutes).
-// Suggested lengths are planning guidance; all marks require human assessment.
-// Changed questions use contentRevision so earlier drafts retain their original prompts.
+// Six historical enquiries and a final comment, with editable, ungraded responses.
+// Stable task IDs are paired with contentRevision so earlier work keeps its original prompts.
+// Source IDs preserve provenance; optional help never controls completion.
 export const rallye = {
   id: "empire-echoes-rallye-v1",
-  activityLabel: "A 45-minute English enquiry",
+  activityLabel: "An English enquiry",
   title: "Empire. Evidence. Identity.",
-  subtitle:
-    "A 45-minute English enquiry: from imperial power to identities today.",
+  subtitle: "Explore the history. Read the evidence. Develop your own view.",
   minutes: 45,
-  points: 40,
   introduction:
-    "Follow six stops from a trading charter to resistance, independence, migration and memory. Build a small evidence bank, analyse how sources present power, then write a comment for your school magazine about British identities today.",
+    "How did a trading company gain power in India? Who resisted slavery? What changed when colonies became independent, and what connections remained? Follow six historical stops, then bring your ideas together in a comment about British identities today.",
   instructions: [
-    "Plan for 30 minutes on the six stops and 15 minutes on your final comment, including revision and hand-in. The times are guides, not a countdown.",
-    "Use the map and prepared source cards, then write the short product named at each stop. The two wording analyses use authentic quotations; the labelled summaries are our paraphrases.",
-    "The prepared cards provide the evidence for the timed enquiry, online or offline. Open original websites for optional further research.",
-    "Save a source at the Jamaica, Windrush and Kenya stops. For the final comment, select at least two sources and explain what their evidence shows. A saved link alone is not an argument.",
-    "All seven written responses are required. Word targets guide your planning; concise, clear reasoning matters more than length. Your work saves in this browser until you finish and download it.",
-    "A teacher gives feedback on evidence, analysis and English communication. The 40 practice marks are local formative criteria, not an official examination scale. Supported disagreement can earn full marks.",
+    "At each stop, read the introduction and the prepared evidence, then write your response. The introductions explain the history you need; you can work in your own words and at your own pace.",
+    "Use the map to explore where and when events happened. Extra sources and language help are available if you want them. The prepared evidence can be read without opening other websites.",
+    "Your writing saves in this browser and stays editable. You can return to an earlier stop or download your work whenever you want.",
   ],
   framing:
-    "British identities are plural: national, regional, ethnic, family and generational identities may overlap. England, Great Britain and the United Kingdom are not interchangeable names. A writer’s or government’s claim is not evidence of what everyone thinks; test it against a specific source and context.",
+    "British identities are the different ways people understand their connection to Britain. Someone may describe themselves through their nation, region, family, language, religion or other experiences, and these connections can overlap. People in Britain do not all share one identity or one view of the past. As you read, distinguish what a particular person or government says from what you can know about a whole population.",
   mapReminder:
-    "The atlas uses annual snapshots and approximate modern geographical units. A colour records a political relationship, not equal rights, complete control or shared beliefs. Use the dated sources to explain what changes on the map.",
+    "The map shows changing political relationships using annual snapshots and approximate modern geographical areas. A shared colour does not mean that everyone had the same rights or experiences. The sources help explain the people and decisions behind the colours.",
   stations: [
     {
       id: "profit-and-power",
@@ -32,54 +27,25 @@ export const rallye = {
       minutes: 4,
       theme: "Commerce, wealth and power",
       context:
-        "The East India Company received a royal trading charter in 1600; this did not make it the ruler of India. After warfare and political agreements, it acquired revenue-collection rights in Bengal, Bihar and Orissa in 1765. Tax income could finance troops and government. Expansion depended on decisions, alliances and resistance.",
+        "The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.\n\nThis stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. You will compare the Company's position in 1600 and 1765, then use the evidence to explain how control of money could change what a trading business was able to do.",
       mapFocus: {
         year: 1765,
         territoryId: "british-india",
       },
       sourceIds: ["profit-company", "profit-charter"],
       researchInstructions: [
-        "Compare 1600 with 1765 on the atlas. Then read “From trade to tax collection” to explain the change; colour alone cannot explain how power grew.",
+        "You can compare 1600 with 1765 on the map to see how the Company’s position changed.",
       ],
       investigation: {
         prompt:
-          "Explain how revenue collection helped the East India Company move from trade towards territorial rule. Use the 1600–1765 change and one source detail to connect money with power.",
-        instructions: [
-          "Aim for 20–35 words in your own words. Show how the steps connect, rather than listing dates.",
-        ],
-        minWords: 15,
-        maxWords: 80,
-        minSources: 0,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Historical change",
-            points: 2,
-            description:
-              "Accurately distinguishes the 1600 trading charter from the later revenue rights; one mark for each.",
-          },
-          {
-            criterion: "Causal connection",
-            points: 2,
-            description:
-              "Explains how revenue could finance troops or administration and thus support governing or territorial power; reward the connected mechanism.",
-          },
-          {
-            criterion: "Clear English",
-            points: 1,
-            description:
-              "Communicates the relationship concisely in intelligible own wording, using cause and effect accurately.",
-          },
-        ],
-        teacherAnswer:
-          "The Company began as a chartered trader in 1600. Its 1765 revenue rights supplied tax income to finance troops and administration, helping it exercise and extend territorial power.",
+          "Explain how the East India Company gained more power in Bengal between 1600 and 1765. Use the source to connect its new right to collect taxes with its ability to govern.",
+        instructions: [],
         operator: "Explain",
-        responsePurpose: "A short causal note",
-        expectedWords: "20–35 words",
+        responsePurpose: "Your explanation",
         support: {
           stems: [
-            "The evidence links … to … because …",
-            "This helps explain …, although …",
+            "At first, the Company … . Later, it … .",
+            "This gave it more power because …",
           ],
           vocabulary: [
             {
@@ -87,16 +53,25 @@ export const rallye = {
               meaning: "money received, for example through taxes",
             },
             {
-              term: "to exert influence on",
-              meaning: "to affect decisions or a situation",
+              term: "to govern",
+              meaning: "to exercise authority over a place and its people",
             },
             {
-              term: "a consequence of",
-              meaning: "a result of something",
+              term: "to finance",
+              meaning: "to provide money for something",
             },
           ],
         },
+        discussionPrompts: [
+          "How can control over money help an organisation control a territory?",
+          "What might a taxpayer’s account add to the museum’s explanation?",
+        ],
       },
+      essentialSourceIds: ["profit-company"],
+      contextParagraphs: [
+        "The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.",
+        "This stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. You will compare the Company's position in 1600 and 1765, then use the evidence to explain how control of money could change what a trading business was able to do.",
+      ],
     },
     {
       id: "freedom-and-memory",
@@ -106,80 +81,60 @@ export const rallye = {
       minutes: 5,
       theme: "Enslavement, resistance and remembrance",
       context:
-        "In Jamaica, Samuel Sharpe helped organise enslaved workers in 1831; a strike became a rebellion, suppressed by colonial forces. Parliament’s 1833 Abolition Act took effect in 1834, but compulsory unpaid apprenticeship continued until 1838. Compensation went to slave-owners. Ending slavery did not end British colonial rule.",
+        "Jamaica was a British colony in the Caribbean. On plantations, enslaved people were forced to work, often producing sugar for sale overseas. Enslavement meant that people were treated as property and denied control over their own lives. They resisted in different ways, while campaigners also demanded an end to slavery. Abolition means ending a practice through law; emancipation means being freed from slavery.\n\nIn the 1830s, resistance in Jamaica and decisions in Britain's Parliament formed part of the struggle over slavery and freedom. At this stop, you are helping to improve a museum label for visitors your age. A label tells readers who acted and what changed, so its choice of words matters. Read the evidence about resistance and the changes between 1833 and 1838 before deciding how to tell this story.",
       mapFocus: {
         year: 1838,
         territoryId: "jamaica",
       },
       sourceIds: ["freedom-rebellion", "freedom-compensation"],
       researchInstructions: [
-        "Locate Jamaica in 1838 and check its continuing colonial status. Read the two core cards for resistance and abolition evidence.",
-        "Save one source to your notebook. The museum sentence below is an invented teaching example, not an authentic museum quotation.",
+        "You can find Jamaica on the map in 1838. It was still a British colony when compulsory apprenticeship ended.",
       ],
       investigation: {
         prompt:
-          "An invented museum label reads: “Britain gave enslaved people their freedom.” Rewrite it for visitors your age. Include enslaved people’s resistance and one accurate detail about abolition, apprenticeship or compensation.",
+          "A museum label says: “Britain gave enslaved people their freedom.” This is an invented teaching example. Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.",
         instructions: [
-          "Aim for 20–35 words. Write the replacement label itself, choosing evidence that changes the story of who acted.",
-          "Save at least one source that supports your label; you do not need to add a separate explanation.",
+          "Write the replacement label itself. You can choose a detail about abolition, compulsory apprenticeship or compensation.",
         ],
-        minWords: 20,
-        maxWords: 80,
-        minSources: 1,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Agency and historical accuracy",
-            points: 3,
-            description:
-              "Recognises enslaved people’s active resistance, accurately describes a relevant abolition/apprenticeship/compensation detail, and avoids presenting freedom as an uncomplicated gift; one mark for each.",
-          },
-          {
-            criterion: "Source evidence",
-            points: 1,
-            description:
-              "Selects a concrete detail supported by a saved relevant source; a link without a relevant detail is insufficient.",
-          },
-          {
-            criterion: "Audience and clarity",
-            points: 1,
-            description:
-              "Produces a concise, intelligible museum label for teenage readers rather than a separate academic explanation.",
-          },
-        ],
-        teacherAnswer:
-          "Enslaved people, including Samuel Sharpe’s supporters in Jamaica, resisted slavery. Abolition took effect in 1834, but compulsory apprenticeship continued until 1838, while slave-owners received compensation.",
         operator: "Rewrite",
-        responsePurpose: "A museum label for teenage visitors",
-        expectedWords: "20–35 words",
+        responsePurpose: "Your museum label",
         support: {
-          stems: ["This panel explains how …", "The evidence from … shows …"],
+          stems: ["Enslaved people …", "Although …, … continued."],
           vocabulary: [
             {
               term: "resistance",
               meaning: "action against an imposed power",
             },
             {
-              term: "apprenticeship",
-              meaning: "here: compulsory labour after legal abolition",
+              term: "abolition",
+              meaning: "the legal ending of slavery",
             },
             {
-              term: "to compensate",
-              meaning: "to pay someone for a loss",
+              term: "compensation",
+              meaning: "money paid for a loss; here, it went to slave-owners",
             },
           ],
         },
+        discussionPrompts: [
+          "Whose actions does the original label leave out?",
+          "How do the source details change the story a visitor would take away?",
+        ],
       },
+      essentialSourceIds: ["freedom-rebellion", "freedom-compensation"],
+      contextParagraphs: [
+        "Jamaica was a British colony in the Caribbean. On plantations, enslaved people were forced to work, often producing sugar for sale overseas. Enslavement meant that people were treated as property and denied control over their own lives. They resisted in different ways, while campaigners also demanded an end to slavery. Abolition means ending a practice through law; emancipation means being freed from slavery.",
+        "In the 1830s, resistance in Jamaica and decisions in Britain's Parliament formed part of the struggle over slavery and freedom. At this stop, you are helping to improve a museum label for visitors your age. A label tells readers who acted and what changed, so its choice of words matters. Read the evidence about resistance and the changes between 1833 and 1838 before deciding how to tell this story.",
+      ],
     },
     {
       id: "rule-and-resistance",
       title: "One colour, unequal power",
-      location: "India / Canada",
-      period: "1857 → 1867",
+      location: "India / Britain",
+      period: "1857 → 1858",
       minutes: 6,
       theme: "Authority, agency and unequal citizenship",
       context:
-        "After the 1857 uprising, governing powers in British India passed from the Company to the Crown in 1858. Victoria’s proclamation announced the new relationship between the Crown and its subjects. Canada’s self-governing dominion in 1867 offers a different form of imperial government, with inequalities of its own.",
+        "By the mid-nineteenth century, the East India Company governed large parts of India. In 1857, soldiers and other groups rose against its rule. Their reasons and aims differed; people in India did not all take the same side. After the uprising, Britain's Parliament transferred the Company's governing powers to the Crown in 1858. Crown rule meant government under the authority of the British monarch, carried out through British ministers and officials.\n\nQueen Victoria then issued a proclamation: a public announcement explaining the new government's position. It addressed people living under British rule in India at a time of conflict and distrust. You will examine a short passage from that announcement. Pay attention to the actual words Victoria used, their possible purpose in this situation, and the difference between an official promise and evidence about people's lives.",
       mapFocus: {
         year: 1858,
         territoryId: "british-india",
@@ -191,55 +146,18 @@ export const rallye = {
         "rule-rebellion",
       ],
       researchInstructions: [
-        "Inspect India in 1858. Read the proclamation’s authentic quotation and its context before writing.",
-        "The Canada card helps explain why one imperial map colour can cover different forms of rule; use it as context if helpful.",
+        "You can explore India in 1858. The optional Canada source shows a different form of government within the same empire.",
       ],
       investigation: {
         prompt:
-          "Analyse how one word or short phrase in Victoria’s 1858 proclamation presents British rule to people in India. Explain its possible effect or purpose, then state why this promise cannot establish how people were actually treated.",
-        instructions: [
-          "Aim for 35–50 words. Select exact wording from the authentic quotation, explain what it does, and use the historical context.",
-          "A possible audience effect is an interpretation. Do not assume everyone accepted the promise, or that the promise proves either success or universal failure.",
-        ],
-        minWords: 25,
-        maxWords: 100,
-        minSources: 0,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Precise textual evidence",
-            points: 1,
-            description:
-              "Selects an exact, relevant word or phrase from the authentic proclamation, not from the editorial summary.",
-          },
-          {
-            criterion: "Language and function",
-            points: 2,
-            description:
-              "Explains how the wording presents rule and connects this to an intended audience, purpose or plausible reader effect; mere device naming is insufficient.",
-          },
-          {
-            criterion: "Historical context",
-            points: 1,
-            description:
-              "Uses the change to Crown rule or the aftermath of the uprising to make the interpretation more specific.",
-          },
-          {
-            criterion: "Source limit",
-            points: 1,
-            description:
-              "Explains that a stated promise does not establish implementation or every person’s response.",
-          },
-        ],
-        teacherAnswer:
-          "“Equal and impartial” presents Crown rule as fair and protective. After the uprising, this assurance could seek trust and loyalty among people in India. It establishes the official promise, but evidence of administration and people’s experiences is needed to judge whether it was fulfilled.",
+          "Choose a word or phrase from Queen Victoria’s proclamation and quote it in your response. Explain what image of British rule it creates and why the Queen might want to create that image after the uprising. What would you need to find out before deciding whether the promise matched people’s lives?",
+        instructions: [],
         operator: "Analyse wording",
-        responsePurpose: "A note linking language, purpose and evidence",
-        expectedWords: "35–50 words",
+        responsePurpose: "Your reading of the proclamation",
         support: {
           stems: [
-            "The phrase “…” presents … as …, which could …",
-            "This suggests …, but does not establish …",
+            "The words “…” make British rule sound …",
+            "To find out whether …, we would need …",
           ],
           vocabulary: [
             {
@@ -247,16 +165,25 @@ export const rallye = {
               meaning: "treating different sides fairly",
             },
             {
-              term: "a disconnect between … and …",
-              meaning: "a lack of agreement between two things",
+              term: "proclamation",
+              meaning: "a public announcement by a ruler or government",
             },
             {
-              term: "to establish",
-              meaning: "to show with evidence",
+              term: "to reassure",
+              meaning: "to make someone feel less worried",
             },
           ],
         },
+        discussionPrompts: [
+          "How might different readers have responded to this promise?",
+          "Which other kinds of evidence could help us investigate how the promise was put into practice?",
+        ],
       },
+      essentialSourceIds: ["rule-proclamation"],
+      contextParagraphs: [
+        "By the mid-nineteenth century, the East India Company governed large parts of India. In 1857, soldiers and other groups rose against its rule. Their reasons and aims differed; people in India did not all take the same side. After the uprising, Britain's Parliament transferred the Company's governing powers to the Crown in 1858. Crown rule meant government under the authority of the British monarch, carried out through British ministers and officials.",
+        "Queen Victoria then issued a proclamation: a public announcement explaining the new government's position. It addressed people living under British rule in India at a time of conflict and distrust. You will examine a short passage from that announcement. Pay attention to the actual words Victoria used, their possible purpose in this situation, and the difference between an official promise and evidence about people's lives.",
+      ],
     },
     {
       id: "departure-and-division",
@@ -266,60 +193,30 @@ export const rallye = {
       minutes: 4,
       theme: "Decolonisation and its human consequences",
       context:
-        "British rule ended in 1947 and independent India and Pakistan were created. Partition was accompanied by mass displacement and violence. Political movements, regional and religious tensions, British decisions and negotiations all shaped events. A legal change on a map cannot capture these varied human experiences.",
+        "In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.\n\nA map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns or a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
       mapFocus: {
         year: 1947,
         territoryId: "british-india",
       },
       sourceIds: ["departure-partition"],
       researchInstructions: [
-        "Compare 1946 and 1948 on the atlas. Read the partition card: separate the constitutional change from a documented human experience.",
+        "You can compare 1946 and 1948 on the map to see the change from British rule to independence.",
       ],
       investigation: {
         prompt:
-          "Outline what changed politically in 1947 and one human experience surrounding partition that the map cannot show. Use a specific detail from the partition source.",
+          "Describe the political change in 1947: name the two new independent countries and say whose rule ended. Then use one detail from the source to show how people’s homes or concerns about their future were affected in the period around partition.",
         instructions: [
-          "Aim for 20–30 words in two short sentences. Distinguish the change in government from people’s experiences.",
+          "Keep the timing of your example clear. The letter was written in 1946, and the family testimony recalls displacement before partition.",
         ],
-        minWords: 15,
-        maxWords: 80,
-        minSources: 0,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Constitutional change",
-            points: 1,
-            description:
-              "Identifies the end of British rule and/or the creation of independent India and Pakistan accurately.",
-          },
-          {
-            criterion: "Human experience and evidence",
-            points: 2,
-            description:
-              "Identifies displacement, violence or another supported human experience and gives a source-supported detail; one mark for each. Distinguishes earlier events from consequences of the 1947 partition.",
-          },
-          {
-            criterion: "Distinction",
-            points: 1,
-            description:
-              "Clearly separates political independence from lived experience instead of treating one as a full account of the other.",
-          },
-          {
-            criterion: "Precise English",
-            points: 1,
-            description:
-              "Uses concise, intelligible own wording and accurate references to people, places or events.",
-          },
-        ],
-        teacherAnswer:
-          "Independent India and Pakistan replaced British rule in 1947. Iqbal’s aunt recalls her family’s earlier displacement, showing a human experience invisible in the map’s colour change.",
         operator: "Outline",
-        responsePurpose:
-          "Two sentences distinguishing a border change from experience",
-        expectedWords: "20–30 words",
+        responsePurpose: "Your account of the change",
         support: {
-          stems: ["The map records … . The source adds … ."],
+          stems: ["In 1947, …", "The source adds the experience of …, who …"],
           vocabulary: [
+            {
+              term: "partition",
+              meaning: "the division of a territory into separate parts",
+            },
             {
               term: "displacement",
               meaning: "being forced to leave one’s home",
@@ -328,13 +225,18 @@ export const rallye = {
               term: "testimony",
               meaning: "a person’s account of an experience",
             },
-            {
-              term: "sovereignty",
-              meaning: "authority to govern a territory",
-            },
           ],
         },
+        discussionPrompts: [
+          "What does a border map make visible, and what does a person’s account add?",
+          "Why does it matter whether an experience happened before or after a new border was drawn?",
+        ],
       },
+      essentialSourceIds: ["departure-partition"],
+      contextParagraphs: [
+        "In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.",
+        "A map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns or a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
+      ],
     },
     {
       id: "migration-and-belonging",
@@ -344,62 +246,25 @@ export const rallye = {
       minutes: 5,
       theme: "Citizenship, migration and everyday belonging",
       context:
-        "Windrush arrived in June 1948 carrying passengers from the Caribbean and elsewhere. People from Britain’s Caribbean colonies were British subjects then; the British Nationality Act passed later in 1948 took effect in 1949. Decades later, the Windrush scandal exposed wrongful treatment of people lawfully living in Britain. Legal status did not ensure fair treatment.",
+        "Empire Windrush was the name of a ship that brought passengers from the Caribbean and elsewhere to Britain in June 1948. At the time, Jamaica and several other Caribbean islands were British colonies, and their people were British subjects: they had a legal relationship with Britain through its empire. The name Windrush has also come to describe a wider generation of people who moved from the Caribbean to Britain after the Second World War.\n\nDecades later, the Windrush scandal revealed that people who were lawfully living in Britain had been wrongly treated as having no right to be there. Some lost jobs or access to services. You will read about Ena Sullivan's life after her arrival and a separate review of the scandal. These sources raise different questions: what rights did a person have, how did institutions treat them, and where did they feel they belonged?",
       mapFocus: {
         year: 1948,
         territoryId: "jamaica",
       },
       sourceIds: ["migration-windrush", "migration-review"],
       researchInstructions: [
-        "Find Jamaica in 1948: it remained a colony until 1962. Read the arrival card and the later review, keeping their different dates and voices clear.",
-        "Save one source to your notebook. Its evidence should support the distinction in your response.",
+        "You can find Jamaica in 1948. It remained a British colony until 1962.",
       ],
       investigation: {
         prompt:
-          "Explain the difference between legal status and accepted belonging using one Windrush detail. Connect the example to Britain’s imperial relationship with the Caribbean.",
-        instructions: [
-          "Aim for 25–40 words. Make the contrast clear, for example with a concession or contrasting clause.",
-          "Use and save a relevant source. One person’s experience cannot represent everyone’s identity or treatment.",
-        ],
-        minWords: 20,
-        maxWords: 100,
-        minSources: 1,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Legal status and belonging",
-            points: 2,
-            description:
-              "Distinguishes a legal entitlement/status from social acceptance or institutional treatment, and explains the difference rather than listing two terms.",
-          },
-          {
-            criterion: "Specific source evidence",
-            points: 1,
-            description:
-              "Uses a relevant, attributable detail from the arrival evidence or Williams review.",
-          },
-          {
-            criterion: "Imperial connection",
-            points: 1,
-            description:
-              "Connects the example accurately with colonial ties or British subjecthood, without crediting June 1948 arrivals to an Act effective in 1949.",
-          },
-          {
-            criterion: "Coherent English contrast",
-            points: 1,
-            description:
-              "Expresses the relationship clearly with appropriate linking or sentence structure; no particular linking word is required.",
-          },
-        ],
-        teacherAnswer:
-          "Caribbean colonial ties meant arrivals could be British subjects, yet this status did not guarantee acceptance. Williams’s review documents injustice towards lawful residents, showing how institutions could exclude people whose lives and belonging were already connected to Britain.",
+          "Use a detail from the Windrush sources to explain how someone could have a legal right to live in Britain yet be treated as if they did not belong. Connect this example to Britain’s colonial relationship with the Caribbean.",
+        instructions: [],
         operator: "Explain",
-        responsePurpose: "A short contrast about citizenship and belonging",
-        expectedWords: "25–40 words",
+        responsePurpose: "Your explanation of belonging",
         support: {
           stems: [
-            "Although …, the evidence shows …",
-            "This example suggests …, but does not represent …",
+            "Although … had the right to …, …",
+            "The connection with empire matters because …",
           ],
           vocabulary: [
             {
@@ -411,95 +276,77 @@ export const rallye = {
               meaning: "being or feeling part of a community",
             },
             {
-              term: "regardless of",
-              meaning: "without being affected by",
+              term: "lawful resident",
+              meaning: "someone who has a legal right to live in a country",
             },
           ],
         },
+        discussionPrompts: [
+          "How are legal rights, treatment by institutions and a personal feeling of belonging connected?",
+          "What can the two sources tell us, and what can neither tell us about every migrant’s identity?",
+        ],
       },
+      essentialSourceIds: ["migration-windrush", "migration-review"],
+      contextParagraphs: [
+        "Empire Windrush was the name of a ship that brought passengers from the Caribbean and elsewhere to Britain in June 1948. At the time, Jamaica and several other Caribbean islands were British colonies, and their people were British subjects: they had a legal relationship with Britain through its empire. The name Windrush has also come to describe a wider generation of people who moved from the Caribbean to Britain after the Second World War.",
+        "Decades later, the Windrush scandal revealed that people who were lawfully living in Britain had been wrongly treated as having no right to be there. Some lost jobs or access to services. You will read about Ena Sullivan's life after her arrival and a separate review of the scandal. These sources raise different questions: what rights did a person have, how did institutions treat them, and where did they feel they belonged?",
+      ],
     },
     {
       id: "remembering-empire",
       title: "When does an empire end?",
-      location: "Kenya / Hong Kong / Britain",
-      period: "1963 → 1997 → public memory",
+      location: "Kenya / Britain",
+      period: "1950s → 1963 → 2013",
       minutes: 6,
       theme: "Independence, responsibility and continuing connections",
       context:
-        "Kenya became independent in 1963. In 2013, the UK government acknowledged torture and ill-treatment during colonial rule and announced a settlement for 5,228 claimants, while denying legal liability. Hong Kong’s 1997 transfer of sovereignty offers another constitutional ending; neither date erased all historical connections. Some UK Overseas Territories remain.",
+        "Kenya, in East Africa, was under British colonial rule. In the 1950s, the Mau Mau movement fought against that rule. The colonial government declared an emergency and detained many people, meaning it held them in camps or prisons, often without a trial. People suffered torture and other ill-treatment at the hands of the colonial authorities. Kenya became independent in 1963, but some survivors later brought claims against the British government over their treatment.\n\nIn 2013, Britain's Foreign Secretary, William Hague, announced a settlement of those claims in Parliament. A settlement is an agreement that resolves a legal dispute. You will read two short extracts from his statement. One expresses regret; the other concerns liability, meaning legal responsibility. Examine how these words present the government's position and what the event reveals about the relationship between independence and later demands for recognition.",
       mapFocus: {
         year: 1963,
         territoryId: "kenya",
       },
       sourceIds: ["memory-mau-mau", "memory-hong-kong"],
       researchInstructions: [
-        "Inspect Kenya around 1963, then read the 2013 statement’s authentic quotations and provenance. Save this source to your notebook.",
-        "Hong Kong in 1997 is an optional comparison: a change of sovereignty can coexist with continuing connections and memories.",
+        "You can explore Kenya around its independence in 1963. Hong Kong’s transfer in 1997 is an optional comparison.",
       ],
       investigation: {
         prompt:
-          "Analyse the contrast between the expressions of regret and the denial of liability in the 2013 Kenya statement. What position does this wording present, and how does the statement complicate the idea that imperial history ended at independence?",
+          "Compare the words expressing regret with the words denying legal responsibility in the 2013 Kenya statement. Explain what the government acknowledges and what it refuses to accept. Then explain why this statement shows that the consequences of colonial rule continued after Kenya became independent.",
         instructions: [
-          "Aim for 35–50 words. Link a precise word or phrase to the government’s communicative purpose and a continuing consequence.",
-          "Save the statement. It records an official position in 2013; it cannot establish what all people in Britain think today.",
+          "Use a word or phrase from the quotation to explain your reading.",
         ],
-        minWords: 25,
-        maxWords: 100,
-        minSources: 1,
-        points: 5,
-        rubric: [
-          {
-            criterion: "Precise textual evidence",
-            points: 1,
-            description:
-              "Refers precisely to authentic wording expressing regret and/or limiting liability, clearly distinguished from editorial paraphrase.",
-          },
-          {
-            criterion: "Language and purpose",
-            points: 2,
-            description:
-              "Explains the tension between acknowledgement and a legal boundary, and its communicative effect or purpose; reward analysis rather than treating regret as an unlimited admission.",
-          },
-          {
-            criterion: "Connection across time",
-            points: 1,
-            description:
-              "Explains how the post-independence statement, claims or settlement show continuing consequences of colonial rule.",
-          },
-          {
-            criterion: "Scope and clarity",
-            points: 1,
-            description:
-              "Expresses a bounded interpretation of this official position without generalising it to all British opinion or claiming all responsibility was accepted.",
-          },
-        ],
-        teacherAnswer:
-          "The expression of regret recognises suffering, while the government denies legal liability for the claims. This presents an acknowledgement of abuse alongside a legal defence. Addressing claimants in 2013 shows that consequences continued after Kenya’s independence; it does not reveal every Briton’s views.",
         operator: "Analyse wording",
-        responsePurpose:
-          "A source analysis connecting independence with continuing consequences",
-        expectedWords: "35–50 words",
+        responsePurpose: "Your reading of the statement",
         support: {
           stems: [
-            "By using “…”, the speaker presents … as …",
-            "This supports the claim that …, but cannot tell us …",
+            "The words “…” acknowledge …, while “…” …",
+            "Although Kenya became independent in 1963, …",
           ],
           vocabulary: [
             {
               term: "to acknowledge",
-              meaning: "to recognise that something is true",
+              meaning: "to recognise that something happened or is true",
             },
             {
               term: "liability",
               meaning: "legal responsibility",
             },
             {
-              term: "to grapple with",
-              meaning: "to work hard to understand or deal with something",
+              term: "settlement",
+              meaning: "an agreement intended to resolve a dispute",
             },
           ],
         },
+        discussionPrompts: [
+          "How does the wording distinguish recognition of suffering from legal responsibility?",
+          "Which other voices would help us understand what the settlement meant to people affected by colonial violence?",
+        ],
       },
+      essentialSourceIds: ["memory-mau-mau"],
+      contextParagraphs: [
+        "Kenya, in East Africa, was under British colonial rule. In the 1950s, the Mau Mau movement fought against that rule. The colonial government declared an emergency and detained many people, meaning it held them in camps or prisons, often without a trial. People suffered torture and other ill-treatment at the hands of the colonial authorities. Kenya became independent in 1963, but some survivors later brought claims against the British government over their treatment.",
+        "In 2013, Britain's Foreign Secretary, William Hague, announced a settlement of those claims in Parliament. A settlement is an agreement that resolves a legal dispute. You will read two short extracts from his statement. One expresses regret; the other concerns liability, meaning legal responsibility. Examine how these words present the government's position and what the event reveals about the relationship between independence and later demands for recognition.",
+      ],
     },
   ],
   finalAssessment: {
@@ -509,83 +356,49 @@ export const rallye = {
     minutes: 15,
     theme: "A comment for your school magazine",
     context:
-      "Today’s map shows borders. Your evidence bank shows how trade, resistance, rule, independence, migration and memory created relationships that crossed them. Use two cases to explain connections to identities in Britain, while considering what imperial history cannot explain on its own.",
+      "Your school magazine is preparing an issue about identities in Britain: how people describe themselves, where they feel they belong, and how others see them. These identities can overlap. Someone may feel British as well as Scottish, Welsh, English or Northern Irish, or connect their identity to a region, religion, family history or community. There is no single experience or opinion shared by everyone in Britain.\n\nYou have now encountered trade, resistance, government, independence, migration and public memory. Your comment will use selected evidence from these stops to explore how much imperial history helps explain identities today. Readers may know little about the events, so make each connection understandable. You can reach your own judgement, while considering another influence on identity or what your chosen sources cannot tell you. A comment presents and supports a point of view for its readers.",
     sourceIds: ["final-identities", "final-charter"],
     researchInstructions: [
-      "Use two minutes to choose and order your evidence, nine to write, three to revise and one to download your hand-in.",
-      "Choose at least two sources from your notebook. No new reading is required: the final reference cards are optional context.",
+      "You can return to any of the six stops and use its sources. The extra sources here are optional.",
     ],
     investigation: {
       prompt:
-        "Your school magazine asks: “How far does Britain’s imperial past help explain British identities today?” Write a comment for readers your age. Develop two connections between past events and present-day belonging, public memory or ideas about Britain. Use one case about resistance or independence and one about belonging or memory. Consider a complication and explain one limit of your evidence.",
+        "Write a comment for your school magazine answering: “How far does Britain’s imperial past help explain British identities today?” Choose two cases from your journey and explain how each helps you understand belonging, public memory or ideas about Britain today. Give your view, and discuss another influence on identity or something your sources cannot tell you.",
       instructions: [
-        "Aim for 120–180 words. Give a clear judgement and explain how each historical example supports it; a list of events is not an argument.",
-        "Identify at least two relevant sources in your comment and save them in your notebook. Judge the value of your examples by their explanatory relevance and whose experiences they represent.",
-        "Write clear paragraphs for readers your age. Treat British identities as plural: experiences and views can differ between and within nations, communities and generations. Supported disagreement can earn full marks.",
-        "During revision, check one past-to-present link for overstatement and improve one sentence for clarity. A complication might be another influence on identity or a source that cannot show present-day opinion.",
+        "Refer to the source or person when you use their evidence, so readers can follow your thinking.",
       ],
-      minWords: 100,
-      maxWords: 240,
-      minSources: 2,
-      points: 10,
-      rubric: [
-        {
-          criterion: "Judgement and explanation",
-          points: 3,
-          description:
-            "States a defensible judgement and develops two historical-to-present connections, one mark for each. Uses relevance or representation to weigh what the cases can explain and considers a complication; do not reward unsupported inevitability.",
-        },
-        {
-          criterion: "Purposeful evidence",
-          points: 2,
-          description:
-            "Uses accurate evidence from two cases, including resistance/independence and belonging/memory, and identifies at least two relevant sources. Credit evidence that advances the argument, not a list of facts or links.",
-        },
-        {
-          criterion: "Source scope",
-          points: 1,
-          description:
-            "Explains a specific source limit and respects plural identities; a single official statement or individual experience is not evidence of everyone’s present opinion.",
-        },
-        {
-          criterion: "Audience and text type",
-          points: 2,
-          description:
-            "Produces a focused comment with an accessible position and explanations suited to school-magazine readers; one mark for a recognisable comment, one for effective audience awareness.",
-        },
-        {
-          criterion: "Coherence and English",
-          points: 2,
-          description:
-            "Organises the argument clearly and uses sufficiently precise, intelligible English to connect claim, evidence and qualification; one mark for each. Assess communication, not a quota of advanced vocabulary.",
-        },
-      ],
-      teacherAnswer:
-        "A map cannot tell the whole story of Britain. Imperial history helps explain important, but different, experiences of belonging. In Jamaica, Sharpe’s supporters resisted slavery; Parliament’s account shows that compulsory apprenticeship continued after abolition. Together, these sources challenge a simple national story in which Britain gave freedom. Remembering whose actions mattered can change which experiences a public account recognises. Windrush offers a direct connection to belonging: colonial ties meant Caribbean arrivals could be British subjects, yet legal status did not guarantee fair treatment. Williams’s review documents how lawful residents later suffered injustice. Empire therefore helps explain both connection and exclusion. However, the review cannot tell us how everyone in Britain defines themselves. Region, class and personal experience also matter. We should use imperial history to explain particular relationships and question public stories, while recognising that it is one influence on plural identities rather than a complete explanation.",
       operator: "Comment",
-      responsePurpose: "An evidence-based school-magazine comment",
-      expectedWords: "120–180 words",
+      responsePurpose: "Your school-magazine comment",
       support: {
         stems: [
-          "The evidence from … helps explain … because …",
-          "Although …, this source cannot establish …",
+          "The example of … helps explain … because …",
+          "However, this evidence cannot tell us …",
         ],
         vocabulary: [
           {
-            term: "a judgement",
-            meaning: "a conclusion reached after considering evidence",
-          },
-          {
-            term: "a distorted view of",
-            meaning: "an account that gives a misleading impression",
+            term: "public memory",
+            meaning: "how a society remembers and discusses its past",
           },
           {
             term: "a legacy",
             meaning: "an effect of the past that continues",
           },
+          {
+            term: "to qualify a claim",
+            meaning: "to make clear when, or how far, a statement is true",
+          },
         ],
       },
+      discussionPrompts: [
+        "Which historical connection do you find most useful for understanding a present-day question, and why?",
+        "What other influences shape identities, and whose experience would you want to hear next?",
+      ],
     },
+    essentialSourceIds: [],
+    contextParagraphs: [
+      "Your school magazine is preparing an issue about identities in Britain: how people describe themselves, where they feel they belong, and how others see them. These identities can overlap. Someone may feel British as well as Scottish, Welsh, English or Northern Irish, or connect their identity to a region, religion, family history or community. There is no single experience or opinion shared by everyone in Britain.",
+      "You have now encountered trade, resistance, government, independence, migration and public memory. Your comment will use selected evidence from these stops to explore how much imperial history helps explain identities today. Readers may know little about the events, so make each connection understandable. You can reach your own judgement, while considering another influence on identity or what your chosen sources cannot tell you. A comment presents and supports a point of view for its readers.",
+    ],
   },
-  contentRevision: "q2-english-2026-10-01",
+  contentRevision: "ungraded-2026-10-01",
 };

@@ -1,3 +1,5 @@
+> Current revision: the teacher requested a fully editable learning enquiry with expanded context and no grading or response-length requirements. `docs/learning-revision/CONTRACT.md` and the current source take precedence over this earlier revision record. The preceding version is frozen in `snapshots/2026-10-01-before-simplification/`.
+
 # Integration and ownership
 
 The original build contract below records the first redesign. Current English-unit alignment and territory-focus ownership are defined in `docs/unit-alignment/WORKING_CONTRACT.md`; that contract takes precedence for the new phase.

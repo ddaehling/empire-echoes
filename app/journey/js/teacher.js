@@ -48,16 +48,6 @@ const subsection = (title, content, level = 4) =>
   content
     ? `<div class="tg-subsection"><h${level} class="tg-subheading">${esc(title)}</h${level}>${content}</div>`
     : "";
-const rubric = (items) =>
-  list(items).length
-    ? `<dl class="tg-rubric">${list(items)
-        .map(
-          (item) =>
-            `<div><dt>${esc(item.label)}</dt><dd>${esc(item.description)}</dd></div>`,
-        )
-        .join("")}</dl>`
-    : "";
-
 function routeMarkup(guide, documentMode) {
   return `<ol class="tg-route">${list(guide.route)
     .map(
@@ -69,25 +59,24 @@ function routeMarkup(guide, documentMode) {
 
 function stationMarkup(station, index, documentMode) {
   const map = station.map;
-  const mapLabel = map
-    ? `Explore ${station.mapLabel || station.title} in ${map.year}`
-    : "";
+  const mapLabel = map ? `Explore ${station.mapLabel || station.title} in ${map.year}` : "";
   const mapAction = map
     ? documentMode
       ? `<p class="tg-map-reference">Map reference: ${esc(map.territoryId || "world map")}, ${esc(map.year)}.</p>`
       : `<button class="tg-map-link" type="button" data-tg-map="${index}">${esc(mapLabel)} <span aria-hidden="true">↗</span></button>`
     : "";
-  const body = `${station.prompt ? `<div class="tg-question"><h4>Student question</h4><p>${esc(station.prompt)}</p>${station.operator || station.product ? `<p class="tg-meta">${esc([station.operator, station.product].filter(Boolean).join(" · "))}</p>` : ""}${station.expectedWords ? `<p class="tg-meta">${esc(station.expectedWords)}</p>` : ""}${station.sourceRequirement ? `<p class="tg-meta">${esc(station.sourceRequirement)}</p>` : ""}${bulletList(station.requirements)}</div>` : ""}${mapAction}
-    ${subsection("What a well-supported answer could say", paragraphs(station.answer))}
+  const body = `${subsection("The student scenario", paragraphs(station.context))}
+    ${station.prompt ? `<div class="tg-question"><h4>Student task</h4><p>${esc(station.prompt)}</p>${station.operator || station.product ? `<p class="tg-meta">${esc([station.operator, station.product].filter(Boolean).join(" · "))}</p>` : ""}${bulletList(station.requirements)}</div>` : ""}${mapAction}
+    ${subsection("One possible response", paragraphs(station.answer))}
+    ${subsection("Notes for the conversation", paragraphs(station.teachingNote))}
     ${subsection("Evidence to draw on", sources(station.evidence, documentMode))}
-    ${subsection("Other defensible interpretations", bulletList(station.alternatives))}
-    ${subsection("Listen for these misconceptions", bulletList(station.misconceptions))}
-    ${subsection("Use in discussion", bulletList(station.discussion))}
-    ${subsection("When reviewing responses", rubric(station.rubric))}`;
+    ${subsection("Other possible interpretations", bulletList(station.alternatives))}
+    ${subsection("Misconceptions to discuss", bulletList(station.misconceptions))}
+    ${subsection("Use in discussion", bulletList(station.discussion))}`;
   return topic(`${index + 1}. ${station.title}`, body, {
     id: `tg-${station.id}`,
     documentMode,
-    subtitle: `${station.minutes || ""} minutes${station.points ? ` · ${station.points} marks` : ""}${station.expectedWords ? ` · ${station.expectedWords}` : ""}`,
+    subtitle: station.minutes ? `${station.minutes} minutes · flexible planning guide` : "",
   });
 }
 
@@ -96,7 +85,7 @@ function guideBody(guide, documentMode = false) {
   return `<section class="tg-section" id="tg-preparation"><h2 tabindex="-1">Before you begin</h2>${paragraphs(guide.overview)}${guide.overviewNote ? `<p class="tg-note">${esc(guide.overviewNote)}</p>` : ""}${subsection("What students are working towards", bulletList(guide.learningGoals), 3)}${subsection("Set up the lesson", bulletList(guide.preparation), 3)}</section>
     <section class="tg-section" id="tg-unit"><h2 tabindex="-1">Place in the Q2 English unit</h2>${paragraphs(guide.unitAlignment)}${subsection("One 60-minute lesson", bulletList(guide.lessonIntegration), 3)}${subsection("Transfer to the class materials", bulletList(guide.materialConnections), 3)}${subsection("English language and feedback", bulletList(guide.languageFeedback), 3)}</section>
     <section class="tg-section" id="tg-route"><h2 tabindex="-1">The 45-minute route</h2><p class="tg-section-intro">Allow time for the final written judgement. Students can revisit the atlas and their sources throughout.</p>${routeMarkup(guide, documentMode)}</section>
-    <section class="tg-section" id="tg-background"><h2 tabindex="-1">Background for the conversation</h2><p class="tg-section-intro">Read these notes before the lesson; use the station keys when reviewing students’ work.</p>${list(
+    <section class="tg-section" id="tg-background"><h2 tabindex="-1">Background for the conversation</h2><p class="tg-section-intro">Read these notes before the lesson; use the examples and prompts to support the conversation.</p>${list(
       guide.background,
     )
       .map((section) =>
@@ -110,12 +99,12 @@ function guideBody(guide, documentMode = false) {
       .join(
         "",
       )}${list(guide.misconceptions).length ? topic("Common misconceptions", bulletList(guide.misconceptions), { documentMode }) : ""}</section>
-    <section class="tg-section" id="tg-stations"><h2 tabindex="-1">Station keys</h2><p class="tg-section-intro">These are possible lines of reasoning. Reward a supported argument, including one that reaches a different conclusion.</p>${list(
+    <section class="tg-section" id="tg-stations"><h2 tabindex="-1">Station discussion notes</h2><p class="tg-section-intro">These examples open up possible lines of reasoning. Invite students to compare them with their own ideas and explore different conclusions.</p>${list(
       guide.stations,
     )
       .map((station, index) => stationMarkup(station, index, documentMode))
       .join("")}</section>
-    <section class="tg-section" id="tg-final"><h2 tabindex="-1">The final assessment</h2>${final.title ? `<h3>${esc(final.title)}</h3>` : ""}${final.minutes || final.expectedWords ? `<p class="tg-meta">${final.minutes ? `${final.minutes} minutes` : ""}${final.points ? ` · ${final.points} marks` : ""}${final.expectedWords ? ` · ${esc(final.expectedWords)}` : ""}</p>` : ""}${final.prompt ? `<div class="tg-question"><h4>Student question</h4><p>${esc(final.prompt)}</p>${final.operator || final.product ? `<p class="tg-meta">${esc([final.operator, final.product].filter(Boolean).join(" · "))}</p>` : ""}${bulletList(final.requirements)}</div>` : ""}${subsection("A possible synthesis", paragraphs(final.answer))}${subsection("Other defensible judgements", bulletList(final.alternatives))}${subsection("Common pitfalls", bulletList(final.misconceptions))}${subsection("Assessment guidance", rubric(final.rubric))}${subsection("Marking the whole enquiry", bulletList(final.marking))}${subsection("Supporting evidence", sources(final.evidence, documentMode))}</section>
+    <section class="tg-section" id="tg-final"><h2 tabindex="-1">The final comment</h2>${final.title ? `<h3>${esc(final.title)}</h3>` : ""}${final.minutes ? `<p class="tg-meta">${final.minutes} minutes · flexible planning guide</p>` : ""}${subsection("The student scenario", paragraphs(final.context))}${final.prompt ? `<div class="tg-question"><h4>Student task</h4><p>${esc(final.prompt)}</p>${final.operator || final.product ? `<p class="tg-meta">${esc([final.operator, final.product].filter(Boolean).join(" · "))}</p>` : ""}${bulletList(final.requirements)}</div>` : ""}${subsection("One possible synthesis", paragraphs(final.answer))}${subsection("Notes for the conversation", paragraphs(final.teachingNote))}${subsection("Other possible judgements", bulletList(final.alternatives))}${subsection("Misconceptions to discuss", bulletList(final.misconceptions))}${subsection("Use in discussion", bulletList(final.discussion))}${subsection("Optional supportive feedback", bulletList(final.feedback))}${subsection("Supporting evidence", sources(final.evidence, documentMode))}</section>
     <section class="tg-section" id="tg-discussion"><h2 tabindex="-1">Bring the class back together</h2>${bulletList(guide.discussion)}${subsection("Support without supplying the answer", bulletList(guide.differentiatedPrompts?.support), 3)}${subsection("Extend the enquiry", bulletList(guide.differentiatedPrompts?.extension), 3)}</section>
     <section class="tg-section" id="tg-reading"><h2 tabindex="-1">Sources & further reading</h2>${subsection(
       "Essential pre-reading",
@@ -139,12 +128,12 @@ function guideBody(guide, documentMode = false) {
 }
 
 const documentCSS = `
-*{box-sizing:border-box}html{color:#202332;background:#fff}body{font:16px/1.6 Arial,Helvetica,sans-serif;max-width:850px;margin:0 auto;padding:52px 44px}h1,h2,h3{font-family:Georgia,serif;font-weight:normal;line-height:1.2;color:#18233b;letter-spacing:-.02em}h1{font-size:40px;margin:10px 0 18px}h2{font-size:28px;margin:0 0 20px}h3{font-size:22px;margin:24px 0 14px}h4,.tg-subheading{font:600 16px/1.4 Arial,Helvetica,sans-serif;margin:22px 0 8px}p{margin:0 0 14px;orphans:3;widows:3;overflow-wrap:anywhere}li{margin:0 0 8px}a{color:#b44421;text-decoration:underline;overflow-wrap:anywhere}header{border-bottom:2px solid #b44421;padding-bottom:28px;margin-bottom:30px}.tg-document-label{font-size:14px;color:#474e61}.tg-section{margin:0 0 38px;padding-top:24px;border-top:1px solid #c8cdd8}.tg-section:first-child{border-top:0}.tg-section-intro,.tg-meta{color:#474e61}.tg-meta{font-size:14px}.tg-note,.tg-question{padding:18px;background:#fae8df;margin:20px 0}.tg-question h4{margin-top:0}.tg-question p:last-child{margin-bottom:0}.tg-topic{margin-top:30px}.tg-route{padding:0;list-style:none}.tg-route li{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #d5d9e1}.tg-route-time{width:55px;flex-shrink:0;font-weight:bold}.tg-route-time span{font-size:13px;font-weight:normal}.tg-route p{margin:4px 0 0}.tg-rubric{margin:0}.tg-rubric>div{padding:12px 0;border-top:1px solid #d5d9e1}.tg-rubric dt{font-weight:bold}.tg-rubric dd{margin:4px 0 0}.tg-sources{padding-left:20px}.tg-sources li{margin-bottom:14px}.tg-sources p{font-size:14px;margin:3px 0}.tg-source-url{display:block;font-size:11px;line-height:1.4;overflow-wrap:anywhere;color:#474e61;margin:4px 0 6px}.tg-map-reference{font-size:14px;color:#474e61}.tg-document-footer{font-size:12px;border-top:1px solid #c8cdd8;padding-top:18px}button{display:none}@page{size:A4;margin:17mm 18mm 18mm}@media print{body{padding:0;max-width:none;font-size:10pt;line-height:1.45}h1{font-size:25pt}h2{font-size:18pt}h3{font-size:15pt}h4,.tg-subheading{font-size:10.5pt}h2,h3,h4{break-after:avoid-page}.tg-topic-heading{break-inside:avoid;break-after:avoid-page}#tg-route{break-inside:avoid-page}p,li{orphans:3;widows:3}.tg-section{margin-bottom:22pt;padding-top:16pt}.tg-topic{margin-top:20pt}.tg-question,.tg-rubric>div,.tg-route li,.tg-sources li{break-inside:avoid}.tg-source-url{font-size:8pt}.tg-section-intro,.tg-meta,.tg-map-reference{font-size:9pt}#tg-stations,#tg-final{break-before:page}.tg-note,.tg-question{-webkit-print-color-adjust:exact;print-color-adjust:exact}a{color:#202332}.tg-document-footer{font-size:8pt}}@media(max-width:600px){body{padding:28px 20px}h1{font-size:32px}}
+*{box-sizing:border-box}html{color:#202332;background:#fff}body{font:16px/1.6 Arial,Helvetica,sans-serif;max-width:850px;margin:0 auto;padding:52px 44px}h1,h2,h3{font-family:Georgia,serif;font-weight:normal;line-height:1.2;color:#18233b;letter-spacing:-.02em}h1{font-size:40px;margin:10px 0 18px}h2{font-size:28px;margin:0 0 20px}h3{font-size:22px;margin:24px 0 14px}h4,.tg-subheading{font:600 16px/1.4 Arial,Helvetica,sans-serif;margin:22px 0 8px}p{margin:0 0 14px;orphans:3;widows:3;overflow-wrap:anywhere}li{margin:0 0 8px}a{color:#b44421;text-decoration:underline;overflow-wrap:anywhere}header{border-bottom:2px solid #b44421;padding-bottom:28px;margin-bottom:30px}.tg-document-label{font-size:14px;color:#474e61}.tg-section{margin:0 0 38px;padding-top:24px;border-top:1px solid #c8cdd8}.tg-section:first-child{border-top:0}.tg-section-intro,.tg-meta{color:#474e61}.tg-meta{font-size:14px}.tg-note,.tg-question{padding:18px;background:#fae8df;margin:20px 0}.tg-question h4{margin-top:0}.tg-question p:last-child{margin-bottom:0}.tg-topic{margin-top:30px}.tg-route{padding:0;list-style:none}.tg-route li{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #d5d9e1}.tg-route-time{width:55px;flex-shrink:0;font-weight:bold}.tg-route-time span{font-size:13px;font-weight:normal}.tg-route p{margin:4px 0 0}.tg-sources{padding-left:20px}.tg-sources li{margin-bottom:14px}.tg-sources p{font-size:14px;margin:3px 0}.tg-source-url{display:block;font-size:11px;line-height:1.4;overflow-wrap:anywhere;color:#474e61;margin:4px 0 6px}.tg-map-reference{font-size:14px;color:#474e61}.tg-document-footer{font-size:12px;border-top:1px solid #c8cdd8;padding-top:18px}button{display:none}@page{size:A4;margin:17mm 18mm 18mm}@media print{body{padding:0;max-width:none;font-size:10pt;line-height:1.45}h1{font-size:25pt}h2{font-size:18pt}h3{font-size:15pt}h4,.tg-subheading{font-size:10.5pt;margin:16px 0 6px}h2,h3,h4{break-after:avoid-page}.tg-topic-heading{break-inside:avoid;break-after:avoid-page}#tg-route{break-inside:avoid-page}p,li{orphans:3;widows:3}.tg-section{margin-bottom:22pt;padding-top:16pt}.tg-topic{margin-top:20pt}.tg-question,.tg-route li,.tg-sources li{break-inside:avoid}.tg-source-url{font-size:8pt}.tg-section-intro,.tg-meta,.tg-map-reference{font-size:9pt}#tg-stations,#tg-final{break-before:page}.tg-note,.tg-question{-webkit-print-color-adjust:exact;print-color-adjust:exact}a{color:#202332}.tg-document-footer{font-size:8pt}}@media(max-width:600px){body{padding:28px 20px}h1{font-size:32px}}
 `;
 
 /** A complete standalone handout: no JavaScript, login or network needed to read it. */
 export function renderTeacherDocument(guide = teacherGuide) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(guide.title || "Empire / Echoes — Teacher key")}</title><style>${documentCSS}</style></head><body><header><p class="tg-document-label">Empire / Echoes · Teacher key · 45-minute enquiry</p><h1>${esc(guide.title || "Teacher key")}</h1>${guide.subtitle ? `<p>${esc(guide.subtitle)}</p>` : ""}<p>This handout includes the complete background, station keys and final assessment guidance. Model responses illustrate reasoning; they are not scripts students must reproduce.</p></header>${guideBody(guide, true)}<footer class="tg-document-footer">Empire / Echoes · Teacher handout · All written responses require a teacher’s judgement.</footer></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(guide.title || "Empire / Echoes — Teacher guide")}</title><style>${documentCSS}</style></head><body><header><p class="tg-document-label">Empire / Echoes · Teacher guide · 45-minute enquiry</p><h1>${esc(guide.title || "Teacher guide")}</h1>${guide.subtitle ? `<p>${esc(guide.subtitle)}</p>` : ""}<p>This handout includes the complete background, station discussion notes and optional support for the final comment. Examples illustrate possible reasoning. Students may develop a different view and revise their work throughout.</p></header>${guideBody(guide, true)}<footer class="tg-document-footer">Empire / Echoes · Teacher handout · A learning enquiry: read, discuss, write and revise.</footer></body></html>`;
 }
 
 export function teacherGuideText(guide = teacherGuide) {
@@ -165,9 +154,7 @@ export function teacherGuideText(guide = teacherGuide) {
         source.note,
       ),
     );
-  const addRubric = (items) =>
-    list(items).forEach((item) => add(`${item.label}: ${item.description}`));
-  heading(guide.title || "Empire / Echoes — Teacher key");
+  heading(guide.title || "Empire / Echoes — Teacher guide");
   add(guide.subtitle, "Teacher handout · 45-minute enquiry");
   heading("Before you begin");
   add(guide.overview, guide.overviewNote);
@@ -195,17 +182,15 @@ export function teacherGuideText(guide = teacherGuide) {
   });
   heading("Common misconceptions");
   add(guide.misconceptions);
-  heading("Station keys");
+  heading("Station discussion notes");
   list(guide.stations).forEach((station, index) => {
     heading(`${index + 1}. ${station.title}`);
     add(
       `${station.minutes} minutes`,
-      station.expectedWords,
-      station.points && `${station.points} marks`,
-      station.sourceRequirement,
+      station.context,
       station.operator,
       station.product,
-      "Student question:",
+      "Student task:",
       station.prompt,
       station.requirements,
     );
@@ -213,49 +198,46 @@ export function teacherGuideText(guide = teacherGuide) {
       add(
         `Map reference: ${station.map.territoryId || "world map"}, ${station.map.year}.`,
       );
-    add("What a well-supported answer could say:", station.answer);
+    add("One possible response:", station.answer, "Notes for the conversation:", station.teachingNote);
     heading("Evidence");
     addSources(station.evidence);
     if (list(station.alternatives).length) {
-      heading("Other defensible interpretations");
+      heading("Other possible interpretations");
       add(station.alternatives);
     }
     if (list(station.misconceptions).length) {
-      heading("Misconceptions");
+      heading("Misconceptions to discuss");
       add(station.misconceptions);
     }
     if (list(station.discussion).length) {
       heading("Discussion");
       add(station.discussion);
     }
-    if (list(station.rubric).length) {
-      heading("When reviewing responses");
-      addRubric(station.rubric);
-    }
   });
   const final = guide.finalAssessment || {};
-  heading("The final assessment");
+  heading("The final comment");
   add(
     final.title,
     final.minutes && `${final.minutes} minutes`,
-    final.expectedWords,
-    final.points && `${final.points} marks`,
+    final.context,
     final.operator,
     final.product,
-    "Student question:",
+    "Student task:",
     final.prompt,
     final.requirements,
-    "A possible synthesis:",
+    "One possible synthesis:",
     final.answer,
+    "Notes for the conversation:",
+    final.teachingNote,
   );
-  heading("Other defensible judgements");
+  heading("Other possible judgements");
   add(final.alternatives);
-  heading("Common pitfalls");
+  heading("Misconceptions to discuss");
   add(final.misconceptions);
-  heading("Assessment guidance");
-  addRubric(final.rubric);
-  heading("Marking the whole enquiry");
-  add(final.marking);
+  heading("Use in discussion");
+  add(final.discussion);
+  heading("Optional supportive feedback");
+  add(final.feedback);
   addSources(final.evidence);
   heading("Bring the class back together");
   add(guide.discussion);
@@ -266,7 +248,7 @@ export function teacherGuideText(guide = teacherGuide) {
   heading("Sources and further reading");
   addSources(guide.sources);
   addSources(guide.furtherReading);
-  add("\nAll written responses require a teacher’s judgement.");
+  add("\nA learning enquiry: read, discuss, write and revise.");
   return output.join("\n\n") + "\n";
 }
 
@@ -281,15 +263,15 @@ export function createTeacher(host, { data, onExplore } = {}) {
     ["unit", "Q2 English & lesson plan"],
     ["route", "45-minute route"],
     ["background", "Background notes"],
-    ["stations", "Station keys"],
-    ["final", "Final assessment"],
+    ["stations", "Station discussion notes"],
+    ["final", "Final comment"],
     ["discussion", "Class discussion"],
     ["reading", "Sources & reading"],
   ];
   host.classList.add("teacher-guide");
-  host.innerHTML = `<div class="tg-header"><div><p class="tg-label">Teacher key</p><h1 data-tg-heading tabindex="-1">${esc(teacherGuide.title || "Before the lesson.")}</h1><p class="tg-deck">${esc(teacherGuide.subtitle || "The context, evidence and questions behind the journey.")}</p></div><div class="tg-actions"><button type="button" class="tg-button tg-button-primary" data-tg-action="print">Print handout <span aria-hidden="true">↗</span></button><a class="tg-button" href="assets/teacher-handout.pdf" download="empire-echoes-teacher-handout.pdf">Download PDF</a><button type="button" class="tg-button tg-button-quiet" data-tg-download="html">HTML</button><button type="button" class="tg-button tg-button-quiet" data-tg-download="txt">Plain text</button></div></div>
-    <p class="tg-export-note">Print the complete key, or keep a copy to read offline. All background notes and answers are included.</p>
-    <div class="tg-layout"><aside class="tg-contents" aria-label="Teacher key contents"><p>In this handout</p><nav aria-label="Jump to teacher key section">${headings.map(([id, label]) => `<button type="button" data-tg-jump="tg-${id}">${label}</button>`).join("")}</nav><button class="tg-expand" type="button" data-tg-action="expand" aria-expanded="false">Expand all notes <span aria-hidden="true">+</span></button><p class="tg-reader-note">Written work is reviewed by you. Look for evidence and reasoning, rather than a single “correct” view of British identity.</p></aside><article class="tg-reading">${guideBody(teacherGuide)}</article></div><p class="tg-status" role="status" aria-live="polite"></p>`;
+  host.innerHTML = `<div class="tg-header"><div><p class="tg-label">Teacher guide</p><h1 data-tg-heading tabindex="-1">${esc(teacherGuide.title || "Before the lesson.")}</h1><p class="tg-deck">${esc(teacherGuide.subtitle || "The context, evidence and questions behind the journey.")}</p></div><div class="tg-actions"><button type="button" class="tg-button tg-button-primary" data-tg-action="print">Print handout <span aria-hidden="true">↗</span></button><a class="tg-button" href="assets/teacher-handout.pdf" download="empire-echoes-teacher-handout.pdf">Download PDF</a><button type="button" class="tg-button tg-button-quiet" data-tg-download="html">HTML</button><button type="button" class="tg-button tg-button-quiet" data-tg-download="txt">Plain text</button></div></div>
+    <p class="tg-export-note">Print the complete guide, or keep a copy to read offline. Background notes, discussion examples and optional support are included.</p>
+    <div class="tg-layout"><aside class="tg-contents" aria-label="Teacher guide contents"><p>In this handout</p><nav aria-label="Jump to teacher guide section">${headings.map(([id, label]) => `<button type="button" data-tg-jump="tg-${id}">${label}</button>`).join("")}</nav><button class="tg-expand" type="button" data-tg-action="expand" aria-expanded="false">Expand all notes <span aria-hidden="true">+</span></button><p class="tg-reader-note">Use the examples to explore evidence and reasoning together; students may revise their ideas throughout.</p></aside><article class="tg-reading">${guideBody(teacherGuide)}</article></div><p class="tg-status" role="status" aria-live="polite"></p>`;
 
   const notify = (message) => {
     const status = host.querySelector(".tg-status");
@@ -315,10 +297,10 @@ export function createTeacher(host, { data, onExplore } = {}) {
     if (!host.querySelector(".tg-print-document")) {
       const printDocument = document.createElement("div");
       printDocument.className = "tg-print-document";
-      printDocument.innerHTML = `<div class="tg-header"><div><p class="tg-label">Empire / Echoes · Teacher key</p><h1>${esc(teacherGuide.title)}</h1><p class="tg-deck">${esc(teacherGuide.subtitle)}</p></div></div><article class="tg-reading">${guideBody(teacherGuide, true)}</article>`;
+      printDocument.innerHTML = `<div class="tg-header"><div><p class="tg-label">Empire / Echoes · Teacher guide</p><h1>${esc(teacherGuide.title)}</h1><p class="tg-deck">${esc(teacherGuide.subtitle)}</p></div></div><article class="tg-reading">${guideBody(teacherGuide, true)}</article>`;
       host.append(printDocument);
     }
-    document.body.classList.add("printing-teacher-key");
+    document.body.classList.add("printing-teacher-guide");
   };
   const afterPrint = () => {
     if (printState)
@@ -327,7 +309,7 @@ export function createTeacher(host, { data, onExplore } = {}) {
       });
     printState = null;
     host.querySelector(".tg-print-document")?.remove();
-    document.body.classList.remove("printing-teacher-key");
+    document.body.classList.remove("printing-teacher-guide");
     if (!destroyed) syncExpand();
   };
   const download = (format) => {
@@ -341,7 +323,7 @@ export function createTeacher(host, { data, onExplore } = {}) {
     downloadURL = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = downloadURL;
-    anchor.download = `empire-echoes-teacher-key.${html ? "html" : "txt"}`;
+    anchor.download = `empire-echoes-teacher-guide.${html ? "html" : "txt"}`;
     document.body.append(anchor);
     anchor.click();
     anchor.remove();

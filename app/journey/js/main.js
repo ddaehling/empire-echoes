@@ -391,11 +391,11 @@ function reflectProgress(next = {}) {
   $("#assessment-cta").innerHTML =
     `${progress.submitted ? "View your field notes" : progress.started ? "Continue the rallye" : "Begin the rallye"} <span aria-hidden="true">→</span>`;
   $("#assessment-status").textContent = progress.submitted
-    ? "Completed on this device. Download your work to hand it in."
+    ? "Your notes are saved. Revisit, edit or download them at any time."
     : !progress.canSave
       ? "Keep this tab open and download your notes before leaving."
       : progress.started
-        ? `${progress.completed} of ${progress.total} investigations ready · Saved on this device.`
+        ? `${progress.completed} of ${progress.total} tasks marked done by you · Saved on this device.`
         : "Your field notes are saved as you go.";
 }
 async function renderRoute({ initial = false } = {}) {
@@ -514,9 +514,10 @@ async function renderRoute({ initial = false } = {}) {
     document.title = "The Empire Rallye · Empire / Echoes";
   } else if (activeView === "teacher") {
     teacher.show();
-    document.title = "Teacher key · Empire / Echoes";
+    document.title = "Teacher guide · Empire / Echoes";
   } else {
     returningToRallye = parameters.get("return") === "rallye";
+    $("#rallye-map-return").hidden = !returningToRallye;
     if (parameters.has("place"))
       selectedId = data.get(parameters.get("place"))
         ? parameters.get("place")
@@ -537,7 +538,7 @@ async function renderRoute({ initial = false } = {}) {
       globe?.focusTerritory(selectedId);
     document.title = "Empire / Echoes · An atlas of power and belonging";
   }
-  if (!initial && request === routeRequest) {
+  if (!initial && request === routeRequest && activeView !== "rallye") {
     if (
       leavingFocus &&
       restoredFocus?.isConnected &&

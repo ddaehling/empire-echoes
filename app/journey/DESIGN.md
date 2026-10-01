@@ -1,3 +1,5 @@
+> Current revision: the teacher requested a fully editable learning enquiry with expanded context and no grading or response-length requirements. `docs/learning-revision/CONTRACT.md` and the current source take precedence over this earlier revision record. The preceding version is frozen in `snapshots/2026-10-01-before-simplification/`.
+
 # Empire / Echoes — design direction and review
 
 ## Use and visual idea

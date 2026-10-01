@@ -1,0 +1,980 @@
+{
+  "observedAt": "2026-10-01T19:29:51.158Z",
+  "contentRevision": "ungraded-2026-10-01",
+  "browser": "Chromium isolated Playwright context",
+  "automatedRules": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21aa"
+  ],
+  "sourceSha256": {
+    "app/journey/index.html": "6e4138c621558782a89a3db7765d8183309da72e3f76897e2d10d1f27f79af08",
+    "app/journey/js/main.js": "88a16d00867e2c8dbc29d3c5f3c706555145b65f82ec86a0732011b346c09ff1",
+    "app/journey/js/rallye.js": "ece9ee93b447720e3027301c855715ac60dbbb101ce859292c636a5e149ed20b",
+    "app/journey/js/rallye-content.js": "0bfe0aff52c238f295f2c5ef656bd8535d814954999f566f2b97dedae3c5a29c",
+    "app/journey/js/rallye-resources.js": "871b1be21ac14ee954523d1f74c1568de1bbb3c8bf6c0f43ed189fa5f8231f00",
+    "app/journey/js/rallye-state.js": "b34faa9d2eefbbce0ae0dc725a8481ec383c56448e10965c18c4b4d48c3e3edf",
+    "app/journey/css/rallye.css": "2907dfcc4dc10606b91c00678671ec9b69a1f05741c4eece334cd4e5f60c5e28",
+    "app/journey/css/experience.css": "c7e238ff284d508e25c0fe46b681fdb26f8a0b80f75ea4b01a90a573c1f2d062",
+    "app/journey/js/teacher.js": "ec330e148757dfb46b8fe95fc73fc251d6d4ae1be065e0f5d871c0b60777deaf",
+    "app/journey/js/teacher-content.js": "8db0596841c87295da040349de7d7990df6f01c8ec7e03d7629edf6a7d80a192",
+    "app/journey/css/teacher.css": "00105d6d22411da6b6c2eee5278b4d8a6dadd9ee71c87bdf3019e1e90f0ab4d8"
+  },
+  "matrix": [
+    {
+      "name": "intro-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-1-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-320",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-1-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-390",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "width": 390,
+      "scrollWidth": 390,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-1-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-768",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-1-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-1-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-2-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-2-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-3-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-3-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-4-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-4-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-5-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-5-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-6-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-6-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-7-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-7-1440-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "task-1-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-320-200pct",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "width": 320,
+      "scrollWidth": 320,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-1-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-768-200pct",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "width": 768,
+      "scrollWidth": 768,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-1-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-2-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-3-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-4-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-5-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-6-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "task-7-1440-200pct",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": null,
+      "axeIncomplete": null
+    },
+    {
+      "name": "review-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "width": 1440,
+      "scrollWidth": 1440,
+      "bannedMatches": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            [
+              "#nav-count"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "interactions": [
+    {
+      "name": "Heading focus after begin and stage navigation",
+      "pass": true,
+      "result": "When trade becomes rule"
+    },
+    {
+      "name": "Keyboard order and focus visibility",
+      "pass": true,
+      "result": [
+        {
+          "tag": "SUMMARY",
+          "text": "Source details and original",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "ry-answer",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(57, 70, 90)"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Help with language",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Explore sources and the atlas",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Notes and chosen evidence",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Next stop",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Save a copy of your work",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Start a fresh notebook",
+          "outline": "rgb(180, 68, 33) solid 3px",
+          "border": "rgb(24, 35, 59)"
+        }
+      ]
+    },
+    {
+      "name": "Source disclosure toggles by keyboard",
+      "pass": true
+    },
+    {
+      "name": "Checkbox is learner controlled; live status; no quality gate",
+      "pass": true,
+      "result": "You marked this stop as done. You can still edit it."
+    },
+    {
+      "name": "explore return restores response, focus, scroll and disclosure",
+      "pass": true,
+      "result": {
+        "before": 1670,
+        "after": 1670,
+        "focus": "explore"
+      }
+    },
+    {
+      "name": "territory return restores response, focus, scroll and disclosure",
+      "pass": true,
+      "result": {
+        "before": 1670,
+        "after": 1670,
+        "focus": "territory"
+      }
+    },
+    {
+      "name": "Reset dialog labels, initial focus, tab trap, Escape restoration",
+      "pass": true
+    },
+    {
+      "name": "Review remains editable after save; live confirmation",
+      "pass": true,
+      "result": "Your review is saved. You can continue editing every response."
+    },
+    {
+      "name": "Fresh notebook preserves separate recovery and original answer",
+      "pass": true,
+      "result": "Earlier saved work\n\nThese answers are kept with their original questions in separate recovery files. They have not been attached to the new questions. Recover a readable copy or the original saved data here.\n\nSaved attempt 1\n\nName not supplied \u00b7 ungraded-2026-10-01\n\nDownload earlier work (.txt)\nDownload original data (.json)"
+    }
+  ],
+  "legacyRecovery": {
+    "legacyRecoveryPass": true,
+    "axe": [],
+    "oldKeyUnchanged": true,
+    "newResponseEmpty": true
+  }
+}

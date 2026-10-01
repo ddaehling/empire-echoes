@@ -1,3 +1,5 @@
+> Current revision: the teacher requested a fully editable learning enquiry with expanded context and no grading or response-length requirements. `docs/learning-revision/CONTRACT.md` and the current source take precedence over this earlier revision record. The preceding version is frozen in `snapshots/2026-10-01-before-simplification/`.
+
 # Q2 English: revised enquiry and territory focus
 
 Implemented 1 October 2026. The revision follows the three primary PDFs confirmed by the teacher in Downloads. Eleven agents reviewed and revised the English activity; two further agents implemented and independently checked territory focus. Specialist findings and the completion audit are in [unit-alignment](unit-alignment/ACCEPTANCE.md).

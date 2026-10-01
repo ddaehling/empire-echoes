@@ -199,12 +199,14 @@ a svg {
   display: flex;
   flex-direction: column;
   flex: none;
+  max-width: 100%;
+  min-width: 0;
 }
 .brand-wordmark {
   font-size: 24px;
   font-weight: 650;
   line-height: 1.1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.035em;
 }
 .brand-wordmark i {
   font-family: var(--serif);
@@ -224,6 +226,8 @@ a svg {
 }
 .main-nav {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   align-items: stretch;
   align-self: stretch;
   gap: 28px;
@@ -1183,7 +1187,15 @@ input[type="range"] {
 }
 .site-footer > div {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: 25px;
+}
+.site-footer a {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .site-footer a:hover {
   text-decoration: underline;
@@ -2078,4 +2090,16 @@ input[type="range"] {
   .territory-view {
     padding: 0;
   }
+}
+
+/* A clear return path when the atlas is opened from a learning task. */
+.atlas-task-return:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0 0 1rem;
+  color: var(--ink, #18233b);
+  font-weight: 650;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }

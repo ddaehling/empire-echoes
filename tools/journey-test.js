@@ -5,11 +5,13 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const crypto = require("node:crypto");
-const { spawn } = require("node:child_process");
+const {
+  startServer: privateServer,
+  noAssessment,
+} = require("./qa/learning-harness.js");
 const { chromium } = require("playwright");
 const ROOT = path.resolve(__dirname, "..");
-const PORT = Number(process.env.PORT) || 8947;
-const URL = process.env.BASE_URL || `http://127.0.0.1:${PORT}/app/journey/`;
+let URL = process.env.BASE_URL;
 const PREFIX = process.env.QA_ARTIFACT_DIR || "/tmp";
 const artifact = (name) => path.join(PREFIX, `journey-final-${name}`);
 const failures = [];
@@ -46,27 +48,8 @@ async function preserve() {
 }
 async function startServer() {
   if (process.env.BASE_URL) return null;
-  const server = spawn(process.execPath, [path.join(ROOT, "tools/serve.js")], {
-    env: { ...process.env, PORT: String(PORT), HOST: "127.0.0.1" },
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  await new Promise((resolve, reject) => {
-    const timer = setTimeout(
-      () => reject(new Error("Test server startup timeout")),
-      10000,
-    );
-    server.stdout.on("data", (d) => {
-      if (String(d).includes("Classroom atlas:")) {
-        clearTimeout(timer);
-        resolve();
-      }
-    });
-    server.stderr.on("data", (d) => {
-      clearTimeout(timer);
-      reject(new Error(String(d)));
-    });
-    server.on("error", reject);
-  });
+  const { server, origin } = await privateServer();
+  URL = `${origin}/app/journey/`;
   return server;
 }
 async function ready(page) {
@@ -285,33 +268,20 @@ async function main() {
     });
     const stages = [...content.stations, content.finalAssessment];
     await check(
-      "rallye provides six English evidence tasks and a causal identity comment in45 minutes, with40 human marks",
+      "six historical tasks and the final identity comment are ungraded",
       async () => {
         assert.equal(stages.length, 7);
-        assert.equal(
-          stages.reduce((n, s) => n + s.minutes, 0),
-          45,
-        );
-        assert.equal(
-          stages.reduce((n, s) => n + s.investigation.points, 0),
-          40,
-        );
-        assert.equal(
-          content.stations.reduce((n, s) => n + s.minutes, 0),
-          30,
-        );
-        assert.equal(content.finalAssessment.minutes, 15);
+        assert.equal(content.minutes, 45);
+        assert.ok(content.contentRevision);
+        noAssessment(content);
         assert.ok(
           stages.every(
-            (s) =>
-              s.investigation.minWords > 0 &&
-              s.investigation.operator &&
-              s.investigation.responsePurpose,
+            (s) => s.investigation.operator && s.investigation.responsePurpose,
           ),
         );
         assert.equal(
-          content.stations.filter(
-            (s) => s.investigation.operator === "Analyse wording",
+          content.stations.filter((s) =>
+            /analyse.*word/i.test(s.investigation.operator),
           ).length,
           2,
         );
@@ -320,57 +290,30 @@ async function main() {
           /imperial|empire/i,
         );
         assert.match(content.finalAssessment.investigation.prompt, /identit/i);
-        assert.match(
-          content.finalAssessment.investigation.expectedWords,
-          /120.*180/,
-        );
-        assert.ok(content.contentRevision);
       },
     );
     await route(page, "rallye", "rallye");
     await check(
-      "name and all seven typed answers are required; incomplete work cannot finish",
+      "all seven task pages provide editable learning responses without length gates",
       async () => {
-        await page.locator("[data-ry-start] button").click();
-        assert.ok(await page.locator("#ry-name-error").isVisible());
         await page.locator("#ry-name").fill("QA Learner <history>");
         await page.locator("#ry-class").fill("Year 11");
-        await page.locator("[data-ry-start] button").click();
-        await page.locator("[data-ry-action=review]").click();
-        await page.locator("[data-ry-action=complete]").click();
-        assert.equal(await page.locator(".ry-report").count(), 0);
-        assert.match(
-          await page.locator("#rallye-view").innerText(),
-          /Write at least/,
-        );
-      },
-    );
-    await check(
-      "each rallye stop accepts written reasoning and source citations, and drafts survive map excursions/reload",
-      async () => {
+        await page.locator("[data-ry-start] button[type=submit]").click();
         for (const [i, stage] of stages.entries()) {
           await page.locator(`[data-ry-stage="${stage.id}"]`).first().click();
+          assert.ok(await page.locator("#ry-answer").isEditable());
+          assert.equal(
+            await page.locator("#ry-answer").getAttribute("maxlength"),
+            null,
+          );
+          noAssessment(await page.locator("#rallye-view").innerText());
           await page
             .locator("#ry-answer")
-            .fill(stage.investigation.teacherAnswer);
-          const required = stage.investigation.minSources || 0;
-          for (let n = 0; n < required; n++) {
-            if (i === stages.length - 1) {
-              await page.locator("#ry-reuse-source").selectOption({ index: 1 });
-              await page.locator("[data-ry-action=reuse-source]").click();
-            } else
-              await page
-                .locator("[data-ry-cite-source]:enabled")
-                .filter({ visible: true })
-                .first()
-                .click();
-          }
+            .fill(`Evidence connects the history to ${stage.title}.`);
+          await page.locator("[data-ry-done]").check();
           if (i === 0) {
-            await page.locator(".ry-notebook > summary").click();
-            await page
-              .locator("#ry-notes")
-              .fill("Evidence notebook survives a map excursion.");
-            await page.locator("[data-ry-action=explore]").first().click();
+            await page.locator(".ry-research > summary").click();
+            await page.locator('[data-ry-action="explore"]').first().click();
             await page.locator("#explore-view").waitFor({ state: "visible" });
             assert.equal(
               await page.locator("#hero-year").textContent(),
@@ -378,43 +321,41 @@ async function main() {
             );
             await page
               .locator('a[href="#rallye"]')
-              .filter({ hasText: "Return to your rallye", visible: true })
+              .filter({ visible: true })
+              .last()
               .click();
             await page.locator("#ry-answer").waitFor();
             assert.equal(
               await page.locator("#ry-answer").inputValue(),
-              stage.investigation.teacherAnswer,
+              `Evidence connects the history to ${stage.title}.`,
             );
           }
         }
         await page.reload();
         await page.locator("html[data-ready=true]").waitFor();
-        assert.equal(await page.locator("#nav-count").textContent(), "7/7");
         const draft = JSON.parse(await download(page, "json"));
-        assert.equal(draft.status, "draft");
         assert.equal(draft.stages.length, 7);
-        assert.equal(draft.grades, null);
+        noAssessment(draft);
       },
     );
     await check(
-      "completion locks the portfolio, keeps all40 marks for human review, and exports all answers",
+      "saving a review keeps the portfolio editable and exports every answer",
       async () => {
-        await page.locator("[data-ry-action=review]").click();
-        await page.locator("[data-ry-action=complete]").click();
-        await page.locator(".ry-report").waitFor();
-        assert.match(await page.locator(".ry-report").innerText(), /40/);
-        assert.match(
-          await page.locator(".ry-report").innerText(),
-          /teacher review|human|no automatic grade/i,
-        );
-        assert.equal(await page.locator("#ry-answer").count(), 0);
+        await page.locator('[data-ry-action="review"]').click();
+        await page.locator('[data-ry-action="complete"]').click();
+        noAssessment(await page.locator("#rallye-view").innerText());
+        await page.locator(`[data-ry-stage="${stages[0].id}"]`).first().click();
+        const edited =
+          "A revised answer remains editable after the saved review.";
+        await page.locator("#ry-answer").fill(edited);
         const json = JSON.parse(await download(page, "json"));
-        assert.equal(json.status, "completed");
-        assert.equal(json.grades.written.earned, null);
-        assert.equal(json.grades.written.pending, 40);
-        assert.ok(json.stages.every((s) => s.response && s.complete));
+        noAssessment(json);
+        assert.equal(json.stages[0].response, edited);
+        assert.ok(json.stages.every((s) => s.response));
         const text = await download(page, "txt"),
           html = await download(page, "html");
+        noAssessment(text);
+        noAssessment(html);
         assert.ok(
           stages.every((s) => text.includes(s.title) && html.includes(s.title)),
         );
@@ -434,7 +375,8 @@ async function main() {
         await reportPage.close();
         await page.reload();
         await page.locator("html[data-ready=true]").waitFor();
-        assert.ok(await page.locator(".ry-report").isVisible());
+        await page.locator(`[data-ry-stage="${stages[0].id}"]`).first().click();
+        assert.equal(await page.locator("#ry-answer").inputValue(), edited);
       },
     );
     await check(
@@ -476,9 +418,10 @@ async function main() {
         assert.ok(
           stages.every((s) => guide.text.includes(s.investigation.prompt)),
         );
-        assert.match(guide.text, /40/);
+        noAssessment(guide.text);
+        noAssessment(guide.html);
         assert.match(guide.text, /Windrush|migration/i);
-        assert.ok(guide.html.length > 30000);
+        assert.ok(guide.html.includes("<!doctype html>"));
         await fs.writeFile(artifact("teacher.html"), guide.html);
       },
     );
@@ -512,7 +455,7 @@ async function main() {
     await context.close();
   } finally {
     await browser?.close();
-    if (server && server.exitCode === null) server.kill();
+    if (server) await new Promise((resolve) => server.close(resolve));
   }
   console.log(
     `\n${passes} passed; ${failures.length} failed. Evidence: ${artifact("*")}`,

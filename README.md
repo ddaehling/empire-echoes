@@ -6,49 +6,52 @@ history to British identities. Both earlier classroom versions remain available.
 
 ## Latest experience · Empire / Echoes
 
-Open **http://localhost:8777/app/journey/** after starting the server below.
+Open **http://localhost:8777/app/journey/** locally. The published classroom address is
+**https://ddaehling.github.io/empire-echoes/** (publication is verified in the current release record).
 
-The latest version has a new blue/orange visual identity and these features:
+- **Atlas:** rotate, zoom, switch between globe and flat map, or use fullscreen. Year
+  changes show additions, departures and changes of authority. Year-end snapshots
+  and modern geographic approximations are explained in the interface.
+- **Territory stories:** opening a place highlights it on the same global map and
+  fades the surrounding app. Close restores the atlas. Stories, photographs and
+  source credits remain available.
+- **The enquiry:** six historical stops and a final school-magazine comment connect
+  empire with British identities. Each page explains the situation, offers prepared
+  evidence, then presents one clear task and an editable response. Optional language
+  help and further research stay out of the main reading path. Students control
+  their own progress and can revisit, revise or download at any time.
+- **Learning notebook:** there are no scores, response-length targets or completion
+  thresholds. Provided sources accompany exports automatically; optional notes can
+  name chosen evidence. Nothing is submitted automatically.
 
-- **Atlas:** rotate, zoom or expand the globe to full screen. Switching to Flat map
-  returns the globe to its home orientation and physically unfolds its geographic
-  surface. Year changes blend the map colours and distinguish additions, removals
-  and changes of authority with different outline styles. The map now shows the end
-  of each year, so independence and handover appear in the relevant year. Approximate
-  dates and modern geographical boundaries remain explained in the interface.
-- **Territory stories:** opening a place zooms and highlights it on the existing globe
-  or flat map, while the rest of the app fades. Closing restores the atlas view and
-  keyboard focus. All 260 records have chronology, forms of government and evidence.
-  Twelve have researched narratives; six include credited archival photographs.
-- **The rallye:** six short English products take a planned 30 minutes, followed by
-  15 minutes to plan, write and revise a school-magazine comment about plural British
-  identities. Two stops analyse authentic wording; another rewrites a museum label
-  for teenage visitors. The task appears before the reading, with optional language
-  support beside the answer. Eight prepared core cards suffice; seven further cards
-  and external research are optional. Students collect citations, save notes and
-  download or print their work. The 275–420-word target and 40 formative marks guide
-  teacher feedback; completion does not grade the quality of reasoning or English.
-
-The timing is a planning estimate, not a classroom trial. The teacher key suggests
-adaptations for reading speed, support needs and extended discussion.
-
-The **Teacher key** includes preparation, a 60-minute lesson wrapper, links to the three
-primary planning PDFs and related class materials, historical background, precise question
-keys, alternative arguments, misconceptions and English feedback. Download its
-[PDF handout](app/journey/assets/teacher-handout.pdf), use its HTML/text exports, or print
-the complete key from the website.
+The **Teacher guide** includes historical background, possible discussion responses,
+English support, classroom pacing and connections to the three primary planning PDFs.
+Download its [PDF handout](app/journey/assets/teacher-handout.pdf), use its HTML/text
+exports, or print it. Allow flexible classroom time: the earlier 45-minute estimate
+has not been tested with pupils, and the expanded introductions may need more time.
 
 Core maps, text, photographs, fonts and code work without external network access when
-served locally. Original source links require the internet. Native fullscreen has a
-viewport fallback; WebGL has an SVG map fallback; motion respects reduced-motion settings.
-Rallye progress uses its own local-storage key, `empire-echoes-rallye-v3`. Earlier saved
-answers retain their original questions and separate downloads when the assignments change.
-Work stays in the browser until the student downloads or prints it. Starting again requires
-confirmation. See [the Q2 alignment record](docs/UNIT_ALIGNMENT.md) for the source mapping,
-workload changes and verification.
+served locally. Original source links require internet access. Fullscreen has a viewport
+fallback; WebGL has an SVG fallback; motion respects reduced-motion preferences.
 
-Both older versions remain at their existing addresses, with their original files and
-saved work preserved: **http://localhost:8777/app/next/** and **http://localhost:8777/app/**.
+The current notebook uses `empire-echoes-enquiry-v4` in browser storage. Earlier v3 work
+is read without changing its stored copy and is recoverable with its original questions.
+Browser storage belongs to the site, browser and device: local and hosted notebooks do
+not transfer automatically. Download important work before switching devices or addresses.
+
+## Preserved version and deployment
+
+The exact version preceding this revision is available at
+[snapshots/2026-10-01-before-simplification/app/journey/](snapshots/2026-10-01-before-simplification/app/journey/).
+The matching Git tag is `classroom-snapshot-2026-10-01`; its 314-file manifest is verified
+by the deployment build. Both earlier applications also remain unchanged at `/app/next/`
+and `/app/`.
+
+The repository is [ddaehling/empire-echoes](https://github.com/ddaehling/empire-echoes).
+GitHub Pages publishes an allowlisted `dist/` artifact; `vercel.json` supports deploying
+the same build on Vercel. See [deployment instructions](docs/DEPLOYMENT.md) and
+[the current revision record](docs/learning-revision/ACCEPTANCE.md). Credits and licences
+are available at [licenses/](licenses/).
 
 ## Previous experience · Explore & assess
 
@@ -169,8 +172,12 @@ npm run test:journey:unfold
 npm run test:journey:map
 npm run test:journey:fullscreen
 npm run test:journey:unit
+npm run test:journey:progress
+npm run test:journey:learning
 npm run test:journey:focus
 npm run validate:data
+npm run build
+npm run test:deployment
 ```
 
 The classroom regression suite starts its own local server and checks the main classroom

@@ -1,6 +1,6 @@
 import { rallye } from "./rallye-content.js";
 
-/** Teacher-facing context and marking guidance. Historical interpretation is assessed by a person. */
+/** Teacher-facing context, discussion examples and optional support for an ungraded enquiry. */
 const source = (label, url) => ({ label, url });
 const sources = {
   union: source(
@@ -12,8 +12,8 @@ const sources = {
     "https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/ethnicity/bulletins/nationalidentityenglandandwales/census2021",
   ),
   company: source(
-    "National Army Museum · Armies of the East India Company",
-    "https://www.nam.ac.uk/explore/armies-east-india-company",
+    "National Army Museum · Battle of Plassey",
+    "https://www.nam.ac.uk/explore/battle-plassey",
   ),
   diwani: source(
     "National Army Museum · Clive at Plassey, 1757",
@@ -96,10 +96,10 @@ const sources = {
 const keyDetails = {
   "profit-and-power": {
     evidence: [sources.company, sources.diwani],
-    note: "Look for a causal connection between revenue, finance and governing capacity, not just the phrase “trade made Britain rich”. The two anchors should remain distinct: the 1600 charter authorised trade; the 1765 rights enabled revenue collection. An answer can explain how taxes financed troops or administration without claiming that taxation was the only source of finance. This is a concise causal note, not an essay about every motive for empire.",
+    note: "Look for a causal connection between revenue, finance and governing capacity, not just the phrase “trade made Britain rich”. The two anchors should remain distinct: the 1600 charter authorised trade; the 1765 rights enabled revenue collection. An answer can explain how taxes financed troops or administration without claiming that taxation was the only source of finance. Focus the conversation on this causal connection.",
     alternatives: [
       "A student may explain the connection through military finance or administrative capacity, provided the mechanism is clear.",
-      "A strong qualification may emphasise Indian intermediaries, contested authority or variation between territories, provided evidence is relevant.",
+      "A different interpretation may emphasise Indian intermediaries, contested authority or variation between territories, provided evidence is relevant.",
     ],
     misconceptions: [
       "A charter in 1600 gave the Company ownership of India.",
@@ -117,7 +117,7 @@ const keyDetails = {
       sources.sharpe,
       sources.compensation,
     ],
-    note: "The required product is the replacement museum label for teenage visitors; do not demand a separate explanation. The initial label is an invented teaching example. The student’s primary evidence is Cotton’s military proclamation of 2 January 1832: it records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Accept multiple agents and a clear correction: resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.",
+    note: "The task invites a replacement museum label for teenage visitors. Discuss the label itself. The initial label is an invented teaching example. The student’s primary evidence is Cotton’s military proclamation of 2 January 1832: it records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Accept multiple agents and a clear correction: resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.",
     alternatives: [
       "The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination.",
       "A student may preserve a place for abolitionist pride while explaining why recognition of slavery and those resisting it is also necessary.",
@@ -154,7 +154,7 @@ const keyDetails = {
   },
   "departure-and-division": {
     evidence: [sources.partition, sources.independence],
-    note: "Require a concise distinction between the 1947 political change and one source-supported human experience; no casualty total or present-day identity link is required at this stop. The archive includes Santokh Singh’s letter of 1 June 1946 and, separately, later oral testimony in which Iqbal’s aunt recalls earlier family displacement. Do not conflate these sources, date either experience from the map, or redraft the letter as a response written after August 1947. The final comment is where a student may develop a qualified later connection.",
+    note: "Help students distinguish the 1947 political change from a source-supported human experience. A casualty total is unnecessary; students can develop a later connection in their final comment. The archive includes Santokh Singh’s letter of 1 June 1946 and, separately, later oral testimony in which Iqbal’s aunt recalls earlier family displacement. Do not conflate these sources, date either experience from the map, or redraft the letter as a response written after August 1947. The final comment is where a student may develop a qualified later connection.",
     alternatives: [
       "An answer may use another accurate consequence supported by the supplied card, while keeping the evidence’s date and scope clear.",
       "Students can name displacement or violence without inventing a precise casualty total or a single experience shared by all affected people.",
@@ -175,10 +175,10 @@ const keyDetails = {
       sources.windrush,
       sources.windrushRoots,
     ],
-    note: "Credit a clear separation between legal status and treatment, expressed through an intelligible contrast rather than a compulsory linking word. The connection is not that every migrant had an identical status, but that imperial nationality and later rules created relationships an “unconnected outsider” story misses. Ena Clare Sullivan’s nationality registration of 3 December 1968 records her 1948 arrival and later working life; it is not a passenger list or evidence that she experienced the later scandal. The 2020 review answers a different question. Its quoted witness is unnamed on PDF p. 8; do not attribute those words to Sullivan or use them to represent all migrants.",
+    note: "Discuss the difference between legal status and treatment, and help students express the contrast clearly. The connection is not that every migrant had an identical status, but that imperial nationality and later rules created relationships an “unconnected outsider” story misses. Ena Clare Sullivan’s nationality registration of 3 December 1968 records her 1948 arrival and later working life; it is not a passenger list or evidence that she experienced the later scandal. The 2020 review answers a different question. Its quoted witness is unnamed on PDF p. 8; do not attribute those words to Sullivan or use them to represent all migrants.",
     alternatives: [
       "An answer can emphasise legal exclusion, social acceptance, cultural contribution or institutional failure, if it gives relevant evidence.",
-      "A student may distinguish citizenship from lawful residence rather than treating them as synonyms. That precision should be rewarded.",
+      "A student may distinguish citizenship from lawful residence rather than treating them as synonyms. That distinction can help the class understand the evidence.",
     ],
     misconceptions: [
       "The 1948 Act had already taken effect when the Empire Windrush arrived in June.",
@@ -191,7 +191,7 @@ const keyDetails = {
   },
   "remembering-empire": {
     evidence: [sources.kenya, sources.hongKong],
-    note: "Analyse the contrast between regret and the denial of liability; a factual summary of the settlement alone is incomplete. The statement acknowledges suffering while maintaining a legal boundary. Claims and the official response continued after independence, but the source cannot measure present public opinion. Do not silently convert an expression of regret into an unlimited apology or admission of legal liability. Hong Kong is an optional comparison of constitutional change, not a second required case at this stop.",
+    note: "Invite students to explore the contrast between regret and the denial of liability, then explain how the two parts work together. The statement acknowledges suffering while maintaining a legal boundary. Claims and the official response continued after independence, but the source cannot measure present public opinion. Do not silently convert an expression of regret into an unlimited apology or admission of legal liability. Hong Kong is an optional comparison of constitutional change, not a second required case at this stop.",
     alternatives: [
       "Students may stress that a settlement can both acknowledge harm and limit institutional responsibility.",
       "An answer may conclude that political endings matter greatly, while showing that they do not end every memory, claim or connection.",
@@ -207,6 +207,16 @@ const keyDetails = {
   },
 };
 
+const possibleExamples = {
+  "profit-and-power": "The Company began as a chartered trader in 1600. Its 1765 revenue rights supplied tax income to finance troops and administration, helping it exercise and extend territorial power.",
+  "freedom-and-memory": "Enslaved people, including Samuel Sharpe’s supporters in Jamaica, resisted slavery. Abolition took effect in 1834, but compulsory apprenticeship continued until 1838, while slave-owners received compensation.",
+  "rule-and-resistance": "“Equal and impartial” presents Crown rule as fair and protective. After the uprising, this assurance could seek trust and loyalty among people in India. It establishes the official promise, but evidence of administration and people’s experiences is needed to judge whether it was fulfilled.",
+  "departure-and-division": "Independent India and Pakistan replaced British rule in 1947. Iqbal’s aunt recalls her family’s earlier displacement, showing a human experience invisible in the map’s colour change.",
+  "migration-and-belonging": "Caribbean colonial ties meant arrivals could be British subjects, yet this status did not guarantee acceptance. Williams’s review documents injustice towards lawful residents, showing how institutions could exclude people whose lives and belonging were already connected to Britain.",
+  "remembering-empire": "The phrase “sincerely regrets” recognises suffering, while “deny liability” rejects legal responsibility for the claims. This presents an acknowledgement of abuse alongside a legal defence. Addressing claimants in 2013 shows that consequences continued after Kenya’s independence; it does not reveal every Briton’s views.",
+  "whose-britain": "A map cannot tell the whole story of Britain. Imperial history helps explain important, but different, experiences of belonging. In Jamaica, Sharpe’s supporters resisted slavery; Parliament’s account shows that compulsory apprenticeship continued after abolition. Together, these sources challenge a simple national story in which Britain gave freedom. Remembering whose actions mattered can change which experiences a public account recognises. Windrush offers a direct connection to belonging: colonial ties meant Caribbean arrivals could be British subjects, yet legal status did not guarantee fair treatment. Williams’s review documents how lawful residents later suffered injustice. Empire therefore helps explain both connection and exclusion. However, the review cannot tell us how everyone in Britain defines themselves. Region, class and personal experience also matter. We should use imperial history to explain particular relationships and question public stories, while recognising that it is one influence on plural identities rather than a complete explanation."
+};
+
 function makeStationKey(station) {
   const task = station.investigation;
   const detail = keyDetails[station.id];
@@ -214,26 +224,17 @@ function makeStationKey(station) {
     id: station.id,
     title: station.title,
     minutes: station.minutes,
+    context: station.contextParagraphs || [station.context],
     prompt: task.prompt,
-    expectedWords: task.expectedWords
-      ? `Aim for ${task.expectedWords}; completion range ${task.minWords}–${task.maxWords} words.`
-      : `Completion range: ${task.minWords}–${task.maxWords} words.`,
     operator: task.operator,
     product: task.responsePurpose,
     requirements: task.instructions,
-    points: task.points,
-    sourceRequirement: task.minSources
-      ? `At least ${task.minSources} source saved in the notebook and used in the answer.`
-      : "Use the supplied evidence; an extra notebook entry is optional.",
-    answer: [task.teacherAnswer, detail.note],
+    answer: [possibleExamples[station.id]],
+    teachingNote: detail.note,
     evidence: detail.evidence,
     alternatives: detail.alternatives,
     misconceptions: detail.misconceptions,
-    discussion: detail.discussion,
-    rubric: task.rubric.map((row) => ({
-      label: `${row.criterion} · ${row.points} ${row.points === 1 ? "mark" : "marks"}`,
-      description: row.description,
-    })),
+    discussion: task.discussionPrompts || detail.discussion,
     map: { ...station.mapFocus },
   };
 }
@@ -244,74 +245,65 @@ function makeFinalKey(final) {
     id: final.id,
     title: final.title,
     minutes: final.minutes,
-    expectedWords: task.expectedWords
-      ? `Aim for ${task.expectedWords}; completion range ${task.minWords}–${task.maxWords} words.`
-      : `Completion range: ${task.minWords}–${task.maxWords} words.`,
+    context: final.contextParagraphs || [final.context],
     operator: task.operator,
     product: task.responsePurpose,
-    points: task.points,
     prompt: task.prompt,
     requirements: task.instructions,
-    answer: [
-      task.teacherAnswer,
-      "Read the response as a comment for a school magazine, not a checklist of approved opinions. A well-supported qualification or disagreement can earn full marks. Two historical connections should do explanatory work: one involving resistance or independence and one involving belonging or memory. Naming places is insufficient. A complication or specific source limit should qualify the judgement rather than merely add the word “biased”.",
-    ],
+    answer: [possibleExamples[final.id]],
+    teachingNote: "Read this as a comment for a school magazine. Invite students to develop their own position and explain how their chosen historical examples help them think about belonging or public memory today. A complication or a specific source limit can make the judgement more precise. The example is a conversation starter; students do not need to share its conclusion or copy its structure.",
     alternatives: [
-      "A defensible partial disagreement might argue that the sources establish particular institutional and community connections but cannot prove that empire is more important than every other influence on identity. It should still explain those connections accurately.",
-      "A defensible agreement might use migration as a direct link and public memory as a contested link, while arguing that present borders are an inadequate measure of either.",
-      "Students may weigh class, religion, regional politics, European relationships or later events as additional influences. These are not escape clauses: explain why they qualify the argument and what evidence would be needed.",
+      "A partial disagreement might argue that the sources establish particular institutional and community connections but cannot prove that empire is more important than every other influence on identity.",
+      "An agreement might use migration as a direct connection and public memory as a contested connection, while arguing that present borders are an inadequate measure of either.",
+      "Students may weigh class, religion, regional politics, European relationships or later events as additional influences. Discuss how those influences qualify the argument and what further evidence would help.",
     ],
     misconceptions: [
       "There is one national psychology that can be read from the size of the empire.",
       "A government statement is a public-opinion survey.",
-      "An essay earns marks for agreement with the teacher or for strong moral language alone.",
+      "The class must agree with the teacher or reach one shared conclusion about identity.",
     ],
-    rubric: task.rubric.map((row) => ({
-      label: `${row.criterion} · ${row.points} ${row.points === 1 ? "mark" : "marks"}`,
-      description: row.description,
-    })),
+    discussion: task.discussionPrompts || [],
     evidence: [sources.identities, sources.windrush, sources.kenya],
-    marking: [
-      `The six station investigations carry ${rallye.stations.reduce((sum, station) => sum + station.investigation.points, 0)} marks together; the final response carries ${task.points}: ${rallye.stations.reduce((sum, station) => sum + station.investigation.points, 0) + task.points} local formative marks in total, all assessed by a teacher. This is not an official Abitur mark scheme, examination or grade conversion.`,
-      "Award the published analytic criteria, including partial credit. Do not infer quality from word count, spelling alone or the presence of a keyword.",
-      "A high-quality response links evidence to an explanation, qualifies its scope and identifies a specific source limitation. A developing response supplies accurate facts but leaves the connections implicit. Give the next step as a reasoning task.",
-      "Source attribution may use the institution and title or a clear notebook reference. A list of URLs without substantive use does not satisfy evidence criteria. Do not demand formal academic citation style in a timed school task.",
-      "For contextual explanation, accept the labelled summary or a pre-issued equivalent if a link is blocked. For the two tasks analysing language, students need the original wording printed in the source card or an equivalent teacher-issued original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
-      "Assess English through the published task criteria: clear task focus, appropriate audience and register, connected reasoning and precise vocabulary. Do not count every grammar error as a separate deduction or let one error remove otherwise demonstrated historical understanding. Give a content/evidence next step and one language next step.",
-      "The application checks completion and word ranges; it does not grade interpretation. Teacher material is openly accessible for classroom use, so treat this as a formative enquiry rather than a secure examination.",
+    feedback: [
+      "Invite students to explain, compare and revise their ideas. Discuss evidence and reasoning without turning the examples into a required answer.",
+      "Offer one optional next step that helps a student develop their own idea, such as: ‘How does that historical detail help explain the connection you describe?’ Give the student time to revise if they wish.",
+      "A source can be named naturally in a sentence: ‘Parliament’s account explains …’ or ‘The Williams review records …’. The notebook is optional, and formal citation formatting is unnecessary for this classroom activity.",
+      "For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. For the two tasks analysing language, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
+      "For English-language support, discuss one useful revision in audience, organisation or vocabulary. For example, replace an unclear ‘they’ with the group intended, or try ‘although’ to make a contrast visible. Keep factual clarification separate from language support.",
+      "Work remains editable. Saving and downloading preserve a learning record; they do not lock a response or automatically judge its quality. The teacher material is openly accessible so students may use it as another support if that suits the lesson.",
     ],
   };
 }
 
 export const teacherGuide = {
-  id: "empire-echoes-teacher-guide-v2-english-q2",
+  id: "empire-echoes-teacher-guide-ungraded-2026-10-01",
   title: "Before the discussion",
   subtitle:
-    "Q2 English: background, language support and an evidence key for the 45-minute Empire / Echoes enquiry.",
+    "Q2 English: background, discussion examples and optional support for the Empire / Echoes learning enquiry.",
   overviewNote:
-    "Teacher reference · Background pre-reading: 15–20 minutes; keep the longer station key beside you when marking. The sample arguments illustrate reasoning; they are not scripts students must reproduce.",
+    "Teacher reference · The sample responses illustrate possible reasoning and invite discussion; students can develop a different view and revise their work throughout.",
   overview: [
     "This Q2 English activity asks how imperial history helps explain plural British identities today. Students read short evidence cards, analyse original public language, and write an audience-aware comment in English. Commerce, coercion, resistance, independence, migration and public memory supply relevant contextual knowledge. Territorial extent is a starting point, not a measure of human experience.",
-    "There is no single British state of mind. Distinguish a state’s institutions and official statements from a population’s varied identities, and distinguish both from individual experiences. Students may agree, disagree or qualify the final claim. Award marks for accurate evidence and warranted connections, not political agreement.",
+    "There is no single British state of mind. Distinguish a state’s institutions and official statements from a population’s varied identities, and distinguish both from individual experiences. Students may agree, disagree or qualify the final claim. Discuss the evidence and the connections they make, without seeking political agreement.",
     "The route samples South Asia, the Caribbean and Kenya, with comparisons to Canada and Hong Kong. It cannot represent every colony or community. The wider atlas and territory pages provide a route into further enquiries rather than a claim to completeness.",
   ],
   learningGoals: [
     "Read selectively for an accurate claim and a usable, attributed detail; distinguish an original excerpt from an institutional account or editorial summary.",
     "Analyse how a short quotation presents authority or responsibility: connect language choice, purpose, audience and a plausible effect rather than naming a device alone.",
-    "Explain historical connections concisely in English, including colonised people’s agency and differences between legal status, lived belonging and public memory.",
+    "Explain historical connections clearly in English, including colonised people’s agency and differences between legal status, lived belonging and public memory.",
     "Write a coherent school-magazine comment that develops two historical connections, weighs a complication or evidence limit and reaches a qualified judgement about plural British identities.",
     "Revise one aspect of evidence, organisation or language; use precise vocabulary and connectors to make relationships and limits intelligible.",
   ],
   unitAlignment: [
-    "Primary planning materials: Q2_Englisch_UK_5_Verlaufsplanungen_AUSFUEHRLICH_2026_27.pdf (213 pages), Lehrerhandbuch_Q2_Englisch_UK_2026_27.pdf (129 pages), and UK_Q2_Lehrwerksrecherche_SH_2026_27.pdf (22 pages). The shorter 28-page plans and the three supplied classroom documents are supplementary. These are the teacher’s planning materials, not official assessment regulations.",
+    "Primary planning materials: Q2_Englisch_UK_5_Verlaufsplanungen_AUSFUEHRLICH_2026_27.pdf (213 pages), Lehrerhandbuch_Q2_Englisch_UK_2026_27.pdf (129 pages), and UK_Q2_Lehrwerksrecherche_SH_2026_27.pdf (22 pages). The shorter 28-page plans and the three supplied classroom documents are supplementary. These documents guide the teaching sequence and its learning aims.",
     "The guide follows the handbook’s principle that selected historical knowledge should serve analysis of the present, with careful distinctions between evidence, interpretation and judgement (handbook, PDF pp. 12–13). Its primary competence focus is reading and text/media analysis leading to written production; the follow-up provides a brief speaking opportunity.",
     "Possible placement: consolidate historical anchors before Plan A’s memory discussion (detailed plans, PDF pp. 41–43), or connect a contemporary belonging enquiry to Plan B’s functional use of background knowledge (PDF pp. 75, 79). This is an adaptation using this app’s sources and products, not a reproduction of those lessons.",
     "The route covers one Empire-to-postcolonial-Britain enquiry. It does not replace the full UK unit, the Elizabethan Age strand, or planned listening, viewing, mediation and extended speaking lessons. The primary plans assign distinct competences to those lessons; changing the medium changes the learning opportunity.",
   ],
   lessonIntegration: [
-    "0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, notebook citation, map return and hand-in. Briefly rehearse outline, analyse and comment; do not pre-teach the model answers.",
-    "5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are short station products, including two focused analyses of original wording.",
-    "50–57 minutes: in pairs, each student defends one connection with a named source; the partner paraphrases it, then asks one question about scope or a counterpoint. Give one evidence-related and one language-related feedback point. This is a short follow-up, not a full speaking assessment.",
+    "0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse outline, analyse and comment; do not pre-teach the model answers.",
+    "5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses, including two focused analyses of original wording.",
+    "50–57 minutes: in pairs, each student defends one connection with a named source; the partner paraphrases it, then asks one question about scope or a counterpoint. Offer one question about evidence and one optional language suggestion. Give the writer time to respond or revise.",
     "57–60 minutes: students record a specific revision target and name a question to carry into the next class text. If the timetable offers only 45 minutes, orient navigation beforehand and move this discussion/transfer to the next lesson.",
     "Timing is a planning estimate, not a classroom trial. Use the prepared core cards and indicated passages. Unrestricted web research, all optional comparisons and a first encounter with the interface will require extra time. Adjust support or extend the lesson when needed rather than removing the final judgement.",
   ],
@@ -331,12 +323,12 @@ export const teacherGuide = {
   preparation: [
     "Before class, open the six stations and their source links on the school network. Check the external pages are accessible. The atlas and source summaries work locally while the server is running; external websites and their full documents need internet access. The application is not an offline web cache.",
     "For limited connectivity, print or save the linked readings in advance where permission allows. Students can use the supplied source summaries as their evidence base and identify them explicitly as summaries. Do not ask them to pretend they opened a blocked source. A prepared short source pack is a fair alternative to live browsing.",
-    "Reserve 30 minutes for six short station products and 15 for the final comment, including revision and hand-in. Use the 60-minute wrapper below when the full lesson is available. Discussion is outside the timed 45-minute enquiry.",
-    "Use each task’s displayed word guidance: short evidence notes and focused analyses prepare a 120–180-word final comment. Upper limits are ceilings, not targets. Read the indicated passage, record a usable detail and explain its significance; open-ended research is extension work.",
+    "Reserve 30 minutes for six station responses and 15 for the final comment, including revision and download. Use the 60-minute wrapper below when the full lesson is available. Discussion is outside the timed 45-minute enquiry.",
+    "The task names the purpose and audience of each response. Let students use the space they need to explain their idea. Read the supplied evidence, choose a useful detail and discuss its significance; open-ended research is optional extension work.",
     "Demonstrate changing the year, opening a territory page, and returning to the rallye. Explain that annual map snapshots and present-day geographic units cannot resolve every historical boundary, exact transfer date, local institution or degree of control.",
-    "Ask each student to use their own browser profile and download their hand-in at the end. A saved browser draft is not a submission to the teacher and can be lost when browsing data is cleared. On shared computers, download first and use the rallye’s confirmed reset before another student begins.",
+    "Ask each student to use their own browser profile and download their learning record when useful. Browser drafts can be lost when browsing data is cleared. On shared computers, download first and use the enquiry’s confirmed reset before another student begins.",
     "Give a brief content note for enslavement, racial discrimination, colonial violence and partition. Require evidence-based language and never ask students to speak on behalf of a nationality, religion or ancestry. No student needs to disclose family history to complete the task.",
-    "Read the background sections and station keys first. The essential reading list is enough to teach this lesson; the extension reading is for answering further questions, not homework required to finish the rallye.",
+    "Read the background sections and station discussion notes first. The essential reading list is enough to teach this lesson; the extension reading is for answering further questions, not homework required to finish the rallye.",
   ],
   route: [...rallye.stations, rallye.finalAssessment].map((item) => ({
     id: item.id,
@@ -418,14 +410,14 @@ export const teacherGuide = {
     "Independence means that previous relationships or inequalities disappeared. Separate sovereignty from migration, language, trade, memory and institutions.",
     "An official apology, regret or settlement proves everyone agrees. Identify the speaker, precise wording, date, audience and limits of the claim.",
     "Empire explains every modern British attitude. Require a mechanism and evidence; leave room for other histories and disagreement within and between communities.",
-    "A stronger answer must condemn or celebrate empire more forcefully. Mark the historical reasoning, accuracy and use of evidence, not the emotional intensity.",
+    "A forceful condemnation or celebration supplies its own evidence. Ask which source supports the claim, and leave space for a student to qualify or revise it.",
   ],
   differentiatedPrompts: {
     support: [
-      "Use this short structure: “The map shows … . Source [title] adds … . Together they suggest … . However, neither tells us … .”",
+      "Offer this structure: “The map shows … . Source [title] adds … . Together they suggest … . However, neither tells us … .”",
       "Give a small glossary: revenue = income collected by a government; sovereignty = supreme political authority; emancipation = release from slavery; citizenship = legal membership; identity = a person’s or group’s sense of belonging.",
-      "Let pairs discuss one source before each student writes an individual answer. Accept accurate concise prose; do not reward extra words for their own sake.",
-      "For language support, allow a bilingual glossary and a brief plan in the student’s strongest language, then produce the response in English. Recognise historical understanding while teaching the English needed to express it; assess language through the published criteria rather than ignoring it or counting isolated errors.",
+      "Let pairs discuss one source before each student writes an individual response. Give students time to express and revise their own ideas.",
+      "For language support, allow a bilingual glossary and a plan in the student’s strongest language, then produce the response in English. Recognise historical understanding while teaching the English needed to express it. Offer a specific phrase or explanation that helps the student communicate their intended meaning.",
     ],
     extension: [
       "Compare an official statement with a survivor’s account, a local museum interpretation or a historian’s analysis. Explain what changes when the viewpoint changes.",

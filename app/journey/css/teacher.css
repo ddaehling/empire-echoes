@@ -336,23 +336,6 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.tg-rubric {
-  margin: 0;
-}
-.tg-rubric > div {
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-}
-.tg-rubric dt {
-  font-weight: 650;
-  font-size: 16px;
-  color: var(--ink);
-}
-.tg-rubric dd {
-  margin: 5px 0 0;
-  color: var(--text);
-  line-height: 1.6;
-}
 .tg-sources a {
   color: var(--accent);
   font-weight: 500;
@@ -488,28 +471,28 @@
     size: A4;
     margin: 17mm 18mm 18mm;
   }
-  body.printing-teacher-key {
+  body.printing-teacher-guide {
     background: #fff !important;
     color: #171c2c !important;
   }
-  body.printing-teacher-key > :not(main):not(.teacher-guide),
-  body.printing-teacher-key main > :not(#teacher-view) {
+  body.printing-teacher-guide > :not(main):not(.teacher-guide),
+  body.printing-teacher-guide main > :not(#teacher-view) {
     display: none !important;
   }
-  body.printing-teacher-key main {
+  body.printing-teacher-guide main {
     display: block !important;
     max-width: none !important;
     width: auto !important;
     padding: 0 !important;
     margin: 0 !important;
   }
-  body.printing-teacher-key .teacher-guide > :not(.tg-print-document) {
+  body.printing-teacher-guide .teacher-guide > :not(.tg-print-document) {
     display: none !important;
   }
-  body.printing-teacher-key .tg-print-document {
+  body.printing-teacher-guide .tg-print-document {
     display: block !important;
   }
-  body.printing-teacher-key #teacher-view {
+  body.printing-teacher-guide #teacher-view {
     display: block !important;
   }
   .teacher-guide {
@@ -572,8 +555,7 @@
     font-size: 10.5pt;
   }
   .tg-section p,
-  .tg-section li,
-  .tg-rubric dd {
+  .tg-section li {
     font-size: 10pt;
     line-height: 1.45;
   }
@@ -646,12 +628,6 @@
   .tg-sources li > p {
     font-size: 9pt;
   }
-  .tg-rubric > div {
-    padding-block: 8pt;
-  }
-  .tg-rubric dt {
-    font-size: 10pt;
-  }
   .tg-sources li {
     margin-bottom: 4pt;
   }
@@ -689,7 +665,6 @@
   }
   .tg-route li,
   .tg-question,
-  .tg-rubric > div,
   .tg-sources li {
     break-inside: avoid;
   }

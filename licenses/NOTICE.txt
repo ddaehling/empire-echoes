@@ -1,0 +1,27 @@
+Empire / Echoes — bundled assets
+
+The current app and frozen classroom version use the following unmodified
+font files downloaded from Google Fonts. Original font download locations
+are recorded in each app/assets/fonts/manifest.json. Their copyright notices
+and SIL Open Font License 1.1 texts accompany this site:
+
+Source Sans 3: source-sans-3-OFL.txt
+https://github.com/google/fonts/blob/main/ofl/sourcesans3/OFL.txt
+
+Source Serif 4: source-serif-4-OFL.txt
+https://github.com/google/fonts/blob/main/ofl/sourceserif4/OFL.txt
+
+IBM Plex Mono: ibm-plex-mono-OFL.txt
+https://github.com/google/fonts/blob/main/ofl/ibmplexmono/OFL.txt
+
+Third-party JavaScript notices are preserved with the files under
+app/vendor/licenses/, app/journey/vendor/ and app/next/vendor/.
+
+The six historical photographs are supplied with their individual source,
+credit, rights-record URL and recorded public-domain basis in
+app/journey/assets/territories/manifest.json, and in the visible image credits.
+The frozen copy preserves its own manifest and credits.
+
+Geometry source information and limitations are preserved in
+app/data/geo/README.md. External historical readings remain links to their
+publishers. The three source teaching PDFs are not redistributed by this site.
