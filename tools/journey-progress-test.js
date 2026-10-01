@@ -254,6 +254,159 @@ async function check(name, run) {
     },
   );
 
+
+  await check(
+    "published v4 work retains its exact old prompts and downloadable answers after the analysis revision",
+    () => {
+      // Captured from the published ungraded content before its prompts changed.
+      // Keep this fixture literal: deriving it from current content would conceal relabelling.
+      const saved = {
+        "version": 4,
+        "rallyeId": "empire-echoes-rallye-v1",
+        "contentRevision": "ungraded-2026-10-01",
+        "promptSnapshot": [
+          {
+            "id": "profit-and-power",
+            "title": "When trade becomes rule",
+            "prompt": "Explain how the East India Company gained more power in Bengal between 1600 and 1765. Use the source to connect its new right to collect taxes with its ability to govern.",
+            "operator": "Explain",
+            "responsePurpose": "Your explanation",
+            "instructions": []
+          },
+          {
+            "id": "freedom-and-memory",
+            "title": "Who made freedom happen?",
+            "prompt": "A museum label says: “Britain gave enslaved people their freedom.” Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.",
+            "operator": "Rewrite",
+            "responsePurpose": "Your museum label",
+            "instructions": [
+              "Write the replacement label itself. You can choose a detail about abolition, compulsory apprenticeship or compensation."
+            ]
+          },
+          {
+            "id": "rule-and-resistance",
+            "title": "One colour, unequal power",
+            "prompt": "Choose a word or phrase from Queen Victoria’s proclamation and quote it in your response. Explain what image of British rule it creates and why the Queen might want to create that image after the uprising. What would you need to find out before deciding whether the promise matched people’s lives?",
+            "operator": "Analyse wording",
+            "responsePurpose": "Your reading of the proclamation",
+            "instructions": []
+          },
+          {
+            "id": "departure-and-division",
+            "title": "Independence is more than a border",
+            "prompt": "Describe the political change in 1947: name the two new independent countries and say whose rule ended. Then use one detail from the source to show how people’s homes or concerns about their future were affected in the period around partition.",
+            "operator": "Outline",
+            "responsePurpose": "Your account of the change",
+            "instructions": [
+              "Keep the timing of your example clear. The letter was written in 1946, and the family testimony recalls displacement before partition."
+            ]
+          },
+          {
+            "id": "migration-and-belonging",
+            "title": "Who gets to belong?",
+            "prompt": "Use a detail from the Windrush sources to explain how someone could have a legal right to live in Britain yet be treated as if they did not belong. Connect this example to Britain’s colonial relationship with the Caribbean.",
+            "operator": "Explain",
+            "responsePurpose": "Your explanation of belonging",
+            "instructions": []
+          },
+          {
+            "id": "remembering-empire",
+            "title": "When does an empire end?",
+            "prompt": "Compare the words expressing regret with the words denying legal responsibility in the 2013 Kenya statement. Explain what the government acknowledges and what it refuses to accept. Then explain why this statement shows that the consequences of colonial rule continued after Kenya became independent.",
+            "operator": "Analyse wording",
+            "responsePurpose": "Your reading of the statement",
+            "instructions": [
+              "Use a word or phrase from the quotation to explain your reading."
+            ]
+          },
+          {
+            "id": "whose-britain",
+            "title": "The past inside the present",
+            "prompt": "Write a comment for your school magazine answering: “How far does Britain’s imperial past help explain British identities today?” Choose two cases from your journey and explain how each helps you understand belonging, public memory or ideas about Britain today. Give your view, and discuss another influence on identity or something your sources cannot tell you.",
+            "operator": "Comment",
+            "responsePurpose": "Your school-magazine comment",
+            "instructions": [
+              "Refer to the source or person when you use their evidence, so readers can follow your thinking."
+            ]
+          }
+        ],
+        "previousAttempts": [],
+        "student": {
+          "name": "Returning learner",
+          "className": "Q2"
+        },
+        "answers": {
+          "departure-and-division": "India and Pakistan became independent when British rule ended. The letter shows uncertainty about the future."
+        },
+        "notebooks": {
+          "departure-and-division": {
+            "note": "My note about the 1946 letter.",
+            "citations": [
+              {
+                "title": "Letter source",
+                "url": "https://example.org/partition-letter"
+              }
+            ]
+          }
+        },
+        "completedStages": {
+          "departure-and-division": true
+        },
+        "startedAt": "2026-10-01T12:00:00.000Z",
+        "finishedAt": "2026-10-01T12:00:00.000Z",
+        "updatedAt": "2026-10-01T12:00:00.000Z",
+        "currentIndex": 3
+      };
+      const before = JSON.stringify(saved);
+      assert.notEqual(saved.contentRevision, engine.RALLYE_CONTENT_REVISION);
+      const oldPartition = saved.promptSnapshot.find(
+        (stage) => stage.id === "departure-and-division",
+      );
+      const newPartition = engine.promptSnapshot().find(
+        (stage) => stage.id === "departure-and-division",
+      );
+      assert.notEqual(oldPartition.prompt, newPartition.prompt);
+      const migrated = engine.recoverSavedState(saved, legacy, {
+        archivedAt: stamp,
+      });
+      assert.equal(JSON.stringify(saved), before, "Migration does not mutate the saved record");
+      assert.deepEqual(migrated.student, saved.student);
+      assert.deepEqual(migrated.answers, {});
+      assert.deepEqual(migrated.notebooks, {});
+      assert.deepEqual(migrated.completedStages, {});
+      assert.equal(migrated.startedAt, null);
+      assert.equal(migrated.finishedAt, null);
+      assert.equal(migrated.previousAttempts.length, 1);
+      const archived = migrated.previousAttempts[0];
+      assert.deepEqual(archived.promptSnapshot, saved.promptSnapshot);
+      assert.deepEqual(archived.attempt, saved);
+      const recovered = engine.recoveredStages(archived).find(
+        (stage) => stage.id === "departure-and-division",
+      );
+      assert.deepEqual(recovered.original, oldPartition);
+      assert.equal(recovered.response, saved.answers[oldPartition.id]);
+      const recoveryDownload = engine.recoveredAttemptText(archived);
+      for (const stage of saved.promptSnapshot) {
+        assert.ok(recoveryDownload.includes(stage.prompt));
+        for (const instruction of stage.instructions)
+          assert.ok(recoveryDownload.includes(instruction));
+      }
+      assert.ok(recoveryDownload.includes(saved.answers[oldPartition.id]));
+      assert.ok(recoveryDownload.includes(saved.notebooks[oldPartition.id].note));
+      assert.ok(recoveryDownload.includes(saved.notebooks[oldPartition.id].citations[0].url));
+      assert.ok(!recoveryDownload.includes(newPartition.prompt));
+      migrated.answers[oldPartition.id] = "My separate answer to the revised task.";
+      const resumed = engine.recoverSavedState(
+        JSON.parse(JSON.stringify(migrated)),
+        legacy,
+      );
+      assert.equal(resumed.previousAttempts.length, 1, "Reload does not duplicate the archive");
+      assert.deepEqual(resumed.previousAttempts[0], archived);
+      assert.equal(resumed.answers[oldPartition.id], migrated.answers[oldPartition.id]);
+      assert.deepEqual(JSON.parse(JSON.stringify(archived)).attempt, saved);
+    },
+  );
+
   await check(
     "empty, short and lengthy answers have no completion, name or source gate",
     () => {

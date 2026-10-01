@@ -177,7 +177,10 @@ export function createRallye(
         "An earlier notebook could not be read. Its stored copy has been left in place.";
     }
     state = recoverSavedState(currentRaw, legacyRaw);
-    if (state.previousAttempts.length && !current) {
+    if (
+      state.previousAttempts.length &&
+      (!current || (currentRaw && currentRaw.contentRevision !== RALLYE_CONTENT_REVISION))
+    ) {
       storageNotice =
         "Your earlier work is preserved with its original questions. This enquiry has a separate notebook. Open Earlier saved work below to recover it.";
     }

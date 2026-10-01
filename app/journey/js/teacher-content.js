@@ -96,10 +96,10 @@ const sources = {
 const keyDetails = {
   "profit-and-power": {
     evidence: [sources.company, sources.diwani],
-    note: "Look for a causal connection between revenue, finance and governing capacity, not just the phrase “trade made Britain rich”. The two anchors should remain distinct: the 1600 charter authorised trade; the 1765 rights enabled revenue collection. An answer can explain how taxes financed troops or administration without claiming that taxation was the only source of finance. Focus the conversation on this causal connection.",
+    note: "The task asks students to compare two kinds of political power and defend a choice. In 1757, the Company helped Mir Jafar replace Bengal’s ruler; in 1765, it acquired tax-collecting rights. Discuss the criterion behind the judgement: influence over who rules, or a continuing capacity to raise revenue and administer territory. Either choice can be convincing when the comparison explains what the other development also shows. Revenue could finance officials and troops, but taxation was not the only source of finance. Keep the earlier 1600 trading charter distinct from these developments.",
     alternatives: [
-      "A student may explain the connection through military finance or administrative capacity, provided the mechanism is clear.",
-      "A different interpretation may emphasise Indian intermediaries, contested authority or variation between territories, provided evidence is relevant.",
+      "A student may choose 1757 because helping replace a ruler demonstrates power over political leadership, while recognising the later importance of revenue rights.",
+      "A student may choose 1765 because tax collection and an administration show sustained governing capacity, while recognising the political intervention in 1757.",
     ],
     misconceptions: [
       "A charter in 1600 gave the Company ownership of India.",
@@ -117,10 +117,10 @@ const keyDetails = {
       sources.sharpe,
       sources.compensation,
     ],
-    note: "The task invites a replacement museum label for teenage visitors. Discuss the label itself. The initial label is an invented teaching example. The student’s primary evidence is Cotton’s military proclamation of 2 January 1832: it records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Accept multiple agents and a clear correction: resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.",
+    note: "The task asks for a replacement museum label for teenage visitors and an explanation of the writer’s main editorial choice. Discuss how details from both sources change the story, rather than accepting a list of facts or a reversed slogan. Cotton’s military proclamation of 2 January 1832 records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.",
     alternatives: [
-      "The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination.",
-      "A student may preserve a place for abolitionist pride while explaining why recognition of slavery and those resisting it is also necessary.",
+      "The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination; the explanation should show why that emphasis changes a visitor’s understanding.",
+      "A student may preserve a place for abolitionist campaigning while using both sources to explain why enslaved people’s actions and the limits of the legal change also belong in the label.",
     ],
     misconceptions: [
       "The 1807 Act immediately freed enslaved people in Jamaica.",
@@ -154,10 +154,10 @@ const keyDetails = {
   },
   "departure-and-division": {
     evidence: [sources.partition, sources.independence],
-    note: "Help students distinguish the 1947 political change from a source-supported human experience. A casualty total is unnecessary; students can develop a later connection in their final comment. The archive includes Santokh Singh’s letter of 1 June 1946 and, separately, later oral testimony in which Iqbal’s aunt recalls earlier family displacement. Do not conflate these sources, date either experience from the map, or redraft the letter as a response written after August 1947. The final comment is where a student may develop a qualified later connection.",
+    note: "The task asks students to argue how a borders-and-dates account changes when read alongside both personal accounts. Singh’s concern about Sikh interests being ignored raises the question of whose voice counts in political decisions; the family memory makes losing a home visible. Students should connect those details to their argument and explain why chronology changes what can be claimed. Singh wrote on 1 June 1946, and the later oral testimony recalls displacement before partition. Neither account establishes displacement caused by the final 1947 boundary or is a response written after independence. Keep the date of the remembered experience separate from the later act of remembering, and avoid treating either perspective as universal.",
     alternatives: [
-      "An answer may use another accurate consequence supported by the supplied card, while keeping the evidence’s date and scope clear.",
-      "Students can name displacement or violence without inventing a precise casualty total or a single experience shared by all affected people.",
+      "An argument may emphasise representation and insecurity, showing how Singh’s concern and the family’s loss complicate a story centred on sovereign states.",
+      "An argument may emphasise chronology: concerns and displacement already existed before the final border, so independence dates cannot by themselves explain every experience. Both accounts still have limited individual scope.",
     ],
     misconceptions: [
       "The map shows precise day-by-day borders in August 1947.",
@@ -175,10 +175,10 @@ const keyDetails = {
       sources.windrush,
       sources.windrushRoots,
     ],
-    note: "Discuss the difference between legal status and treatment, and help students express the contrast clearly. The connection is not that every migrant had an identical status, but that imperial nationality and later rules created relationships an “unconnected outsider” story misses. Ena Clare Sullivan’s nationality registration of 3 December 1968 records her 1948 arrival and later working life; it is not a passenger list or evidence that she experienced the later scandal. The 2020 review answers a different question. Its quoted witness is unnamed on PDF p. 8; do not attribute those words to Sullivan or use them to represent all migrants.",
+    note: "The task now focuses on how “my beloved England” shapes the witness’s criticism. Connect the possessive “my” and affectionate “beloved” to an interpretation of attachment, then explain how the reported treatment makes that language significant. A reading of hurt, betrayal or an appeal to belonging should draw on the review’s findings and the colonial relationship, rather than simply call the language emotional. Imperial subjecthood helps explain a historical connection; it does not establish this unnamed person’s exact status, biography or feelings beyond the quoted words. Ena Clare Sullivan’s registration is a separate source: do not attribute the testimony to her or infer that she experienced the scandal. Neither source represents all migrants.",
     alternatives: [
-      "An answer can emphasise legal exclusion, social acceptance, cultural contribution or institutional failure, if it gives relevant evidence.",
-      "A student may distinguish citizenship from lawful residence rather than treating them as synonyms. That distinction can help the class understand the evidence.",
+      "A student may read the affection as intensifying a sense of betrayal: treatment by institutions conflicts with the attachment the speaker expresses.",
+      "A student may read the possessive and affection as an assertion of belonging, or as an appeal to the country to meet expectations. Support the interpretation through the wording, review findings and colonial context without claiming a single intended effect.",
     ],
     misconceptions: [
       "The 1948 Act had already taken effect when the Empire Windrush arrived in June.",
@@ -191,10 +191,10 @@ const keyDetails = {
   },
   "remembering-empire": {
     evidence: [sources.kenya, sources.hongKong],
-    note: "Invite students to explore the contrast between regret and the denial of liability, then explain how the two parts work together. The statement acknowledges suffering while maintaining a legal boundary. Claims and the official response continued after independence, but the source cannot measure present public opinion. Do not silently convert an expression of regret into an unlimited apology or admission of legal liability. Hong Kong is an optional comparison of constitutional change, not a second required case at this stop.",
+    note: "The task asks for a qualified judgement about meaningful recognition, not only identification of the contrast. Students can define what would make recognition meaningful and weigh the wording of both extracts alongside the £19.9 million settlement, including legal costs, for 5,228 claimants and support for a Nairobi memorial. Regret, material settlement and public commemoration can carry significance while denial of liability limits the legal acknowledgement. Different judgements are defensible. Do not treat the total as money divided equally among claimants, turn regret into an unlimited apology, or assume survivors all approved. Their views would help assess the settlement’s meaning. Hong Kong remains an optional comparison.",
     alternatives: [
-      "Students may stress that a settlement can both acknowledge harm and limit institutional responsibility.",
-      "An answer may conclude that political endings matter greatly, while showing that they do not end every memory, claim or connection.",
+      "Students may judge the recognition meaningful because regret is accompanied by a settlement and memorial support, while explaining how the liability denial limits that conclusion.",
+      "Students may judge the recognition insufficient because responsibility remains restricted, while acknowledging the settlement’s material and commemorative significance. The official statement alone cannot settle what survivors considered adequate.",
     ],
     misconceptions: [
       "The 2013 statement resolved every claim arising from colonial rule.",
@@ -208,12 +208,12 @@ const keyDetails = {
 };
 
 const possibleExamples = {
-  "profit-and-power": "The Company began as a chartered trader in 1600. Its 1765 revenue rights supplied tax income to finance troops and administration, helping it exercise and extend territorial power.",
-  "freedom-and-memory": "Enslaved people, including Samuel Sharpe’s supporters in Jamaica, resisted slavery. Abolition took effect in 1834, but compulsory apprenticeship continued until 1838, while slave-owners received compensation.",
+  "profit-and-power": "Helping Mir Jafar replace Bengal’s ruler in 1757 shows that the Company could influence political leadership. I find the 1765 tax-collecting rights stronger evidence of sustained political power: the museum describes officials and soldiers collecting revenue and policing territory, with tax income supporting further military action. Both developments go beyond trade, but 1765 shows a continuing capacity to govern as well as intervene.",
+  "freedom-and-memory": "Replacement label: Enslaved people in Jamaica resisted slavery, and colonial forces threatened them with death if they did not surrender. Parliament’s abolition law took effect in 1834, but compulsory apprenticeship continued until 1838, while compensation went to slave-owners. Freedom involved struggle and an incomplete legal transition. Editorial choice: I replaced “gave” because it makes enslaved people passive. Cotton’s threats reveal resistance to colonial control, while Parliament’s account shows why abolition did not immediately mean freedom from compulsory work.",
   "rule-and-resistance": "“Equal and impartial” presents Crown rule as fair and protective. After the uprising, this assurance could seek trust and loyalty among people in India. It establishes the official promise, but evidence of administration and people’s experiences is needed to judge whether it was fulfilled.",
-  "departure-and-division": "Independent India and Pakistan replaced British rule in 1947. Iqbal’s aunt recalls her family’s earlier displacement, showing a human experience invisible in the map’s colour change.",
-  "migration-and-belonging": "Caribbean colonial ties meant arrivals could be British subjects, yet this status did not guarantee acceptance. Williams’s review documents injustice towards lawful residents, showing how institutions could exclude people whose lives and belonging were already connected to Britain.",
-  "remembering-empire": "The phrase “sincerely regrets” recognises suffering, while “deny liability” rejects legal responsibility for the claims. This presents an acknowledgement of abuse alongside a legal defence. Addressing claimants in 2013 shows that consequences continued after Kenya’s independence; it does not reveal every Briton’s views.",
+  "departure-and-division": "Borders and independence dates show a change of states but can hide whose interests were heard and what losing a home meant. Singh’s concern that Sikh interests were being ignored points to uncertainty about representation; Iqbal’s aunt’s memory makes family displacement visible. Both concern the period before the final 1947 border: Singh wrote in 1946, and the later testimony recalls an earlier displacement. They therefore complicate a story that begins with the new boundary, but cannot prove that this boundary caused the family’s move or establish everyone’s experience.",
+  "migration-and-belonging": "“My” claims a personal connection to England, while “beloved” expresses affection. That attachment makes the witness’s disbelief sound like hurt or betrayal rather than simple rejection of the country. Williams’s findings of harm to lawful residents give this contrast an institutional context. Colonial subjecthood had already connected the Caribbean to Britain, so belonging cannot be understood only as arrival from somewhere unrelated. Yet this unnamed witness is not Ena Sullivan, and the quotation cannot tell us how all migrants felt.",
+  "remembering-empire": "I find the recognition meaningful but limited. “Sincerely regrets” publicly acknowledges the abuses, and the £19.9 million settlement for 5,228 claimants, including legal costs, gives the response material substance. Support for a Nairobi memorial also offers public commemoration. However, “We continue to deny liability” maintains a legal boundary around responsibility. Recognition therefore does not amount to accepting every claim. The statement establishes the government’s position; survivors’ accounts would be needed to assess whether they regarded this response as adequate.",
   "whose-britain": "A map cannot tell the whole story of Britain. Imperial history helps explain important, but different, experiences of belonging. In Jamaica, Sharpe’s supporters resisted slavery; Parliament’s account shows that compulsory apprenticeship continued after abolition. Together, these sources challenge a simple national story in which Britain gave freedom. Remembering whose actions mattered can change which experiences a public account recognises. Windrush offers a direct connection to belonging: colonial ties meant Caribbean arrivals could be British subjects, yet legal status did not guarantee fair treatment. Williams’s review documents how lawful residents later suffered injustice. Empire therefore helps explain both connection and exclusion. However, the review cannot tell us how everyone in Britain defines themselves. Region, class and personal experience also matter. We should use imperial history to explain particular relationships and question public stories, while recognising that it is one influence on plural identities rather than a complete explanation."
 };
 
@@ -268,7 +268,7 @@ function makeFinalKey(final) {
       "Invite students to explain, compare and revise their ideas. Discuss evidence and reasoning without turning the examples into a required answer.",
       "Offer one optional next step that helps a student develop their own idea, such as: ‘How does that historical detail help explain the connection you describe?’ Give the student time to revise if they wish.",
       "A source can be named naturally in a sentence: ‘Parliament’s account explains …’ or ‘The Williams review records …’. The notebook is optional, and formal citation formatting is unnecessary for this classroom activity.",
-      "For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. For the two tasks analysing language, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
+      "For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. When interpreting language or evaluating a speaker’s position, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.",
       "For English-language support, discuss one useful revision in audience, organisation or vocabulary. For example, replace an unclear ‘they’ with the group intended, or try ‘although’ to make a contrast visible. Keep factual clarification separate from language support.",
       "Work remains editable. Saving and downloading preserve a learning record; they do not lock a response or automatically judge its quality. The teacher material is openly accessible so students may use it as another support if that suits the lesson.",
     ],
@@ -276,7 +276,7 @@ function makeFinalKey(final) {
 }
 
 export const teacherGuide = {
-  id: "empire-echoes-teacher-guide-ungraded-2026-10-01",
+  id: "empire-echoes-teacher-guide-enquiry-analysis-2026-10-01",
   title: "Before the discussion",
   subtitle:
     "Q2 English: background, discussion examples and optional support for the Empire / Echoes learning enquiry.",
@@ -288,7 +288,7 @@ export const teacherGuide = {
     "The route samples South Asia, the Caribbean and Kenya, with comparisons to Canada and Hong Kong. It cannot represent every colony or community. The wider atlas and territory pages provide a route into further enquiries rather than a claim to completeness.",
   ],
   learningGoals: [
-    "Read selectively for an accurate claim and a usable, attributed detail; distinguish an original excerpt from an institutional account or editorial summary.",
+    "Compare evidence and defend an interpretation or judgement; distinguish an original excerpt from an institutional account or editorial summary, and explain how timing and perspective limit a claim.",
     "Analyse how a short quotation presents authority or responsibility: connect language choice, purpose, audience and a plausible effect rather than naming a device alone.",
     "Explain historical connections clearly in English, including colonised people’s agency and differences between legal status, lived belonging and public memory.",
     "Write a coherent school-magazine comment that develops two historical connections, weighs a complication or evidence limit and reaches a qualified judgement about plural British identities.",
@@ -301,8 +301,8 @@ export const teacherGuide = {
     "The route covers one Empire-to-postcolonial-Britain enquiry. It does not replace the full UK unit, the Elizabethan Age strand, or planned listening, viewing, mediation and extended speaking lessons. The primary plans assign distinct competences to those lessons; changing the medium changes the learning opportunity.",
   ],
   lessonIntegration: [
-    "0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse outline, analyse and comment; do not pre-teach the model answers.",
-    "5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses, including two focused analyses of original wording.",
+    "0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse how to support an interpretation or judgement with evidence; do not pre-teach the model answers.",
+    "5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses that compare evidence, explain editorial choices, analyse language and evaluate recognition.",
     "50–57 minutes: in pairs, each student defends one connection with a named source; the partner paraphrases it, then asks one question about scope or a counterpoint. Offer one question about evidence and one optional language suggestion. Give the writer time to respond or revise.",
     "57–60 minutes: students record a specific revision target and name a question to carry into the next class text. If the timetable offers only 45 minutes, orient navigation beforehand and move this discussion/transfer to the next lesson.",
     "Timing is a planning estimate, not a classroom trial. Use the prepared core cards and indicated passages. Unrestricted web research, all optional comparisons and a first encounter with the interface will require extra time. Adjust support or extend the lesson when needed rather than removing the final judgement.",
@@ -315,7 +315,7 @@ export const teacherGuide = {
     "Material titles and formats above are reported by the supplied research, not verified here from every licensed book or platform. Its own evidence/access limits appear on PDF p. 5. Check the school’s edition, page numbers, excerpt length, licence and media access before assigning anything. These class-copy links are optional follow-up; no full copyrighted classroom reading is required or reproduced in the app.",
   ],
   languageFeedback: [
-    "Outline: select the main relevant information in your own words. Analyse: quote briefly, explain what the choice does in its context, and link the possible effect to the task. Comment: state and develop a reasoned position, consider a complication and conclude for the stated audience.",
+    "Compare and judge: explain what each piece of evidence shows, choose a criterion and defend the judgement. Interpret: connect details to an argument while keeping their dates and scope clear. Analyse: quote briefly and explain how wording works in context. Evaluate and comment: weigh evidence, consider a complication and reach a qualified position for the stated audience.",
     "Model the chain: “The phrase … presents … as … . For this audience, it may … because … . However, it cannot show … .” An effect is a justified interpretation, not a claim that every reader reacted identically.",
     "For the school magazine, look for an accessible opening, two connected examples and a clear qualified judgement. Useful language includes “contributed to”, “helps explain”, “in this case”, “although” and “this does not establish”. Avoid deterministic claims about what all British people think.",
     "Feedback example: “Your Windrush detail supports the link between imperial status and later treatment. Explain that link before the next example. For language, replace ‘everyone’ with a precise group and use ‘although’ to connect legal status and unequal treatment.” Ask the student to make the revision immediately.",

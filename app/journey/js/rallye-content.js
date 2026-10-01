@@ -27,7 +27,7 @@ export const rallye = {
       minutes: 4,
       theme: "Commerce, wealth and power",
       context:
-        "The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.\n\nThis stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. You will compare the Company's position in 1600 and 1765, then use the evidence to explain how control of money could change what a trading business was able to do.",
+        "The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.\n\nThis stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. The source also describes its involvement in changing Bengal’s ruler in 1757. You will consider what these developments reveal about the Company’s political power.",
       mapFocus: {
         year: 1765,
         territoryId: "british-india",
@@ -38,14 +38,14 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "Explain how the East India Company gained more power in Bengal between 1600 and 1765. Use the source to connect its new right to collect taxes with its ability to govern.",
+          "Which development best shows that the East India Company had become a political power in Bengal? Compare its intervention in 1757 with its tax-collecting rights in 1765, and defend your choice using the source.",
         instructions: [],
-        operator: "Explain",
-        responsePurpose: "Your explanation",
+        operator: "Compare and judge",
+        responsePurpose: "Your judgement about power",
         support: {
           stems: [
-            "At first, the Company … . Later, it … .",
-            "This gave it more power because …",
+            "Both developments show …, but …",
+            "I find … more convincing evidence of political power because …",
           ],
           vocabulary: [
             {
@@ -63,14 +63,14 @@ export const rallye = {
           ],
         },
         discussionPrompts: [
-          "How can control over money help an organisation control a territory?",
-          "What might a taxpayer’s account add to the museum’s explanation?",
+          "What makes an action political rather than simply commercial?",
+          "Could a different definition of political power change your choice?",
         ],
       },
       essentialSourceIds: ["profit-company"],
       contextParagraphs: [
         "The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.",
-        "This stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. You will compare the Company's position in 1600 and 1765, then use the evidence to explain how control of money could change what a trading business was able to do.",
+        "This stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. The source also describes its involvement in changing Bengal’s ruler in 1757. You will consider what these developments reveal about the Company’s political power.",
       ],
     },
     {
@@ -92,14 +92,12 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "A museum label says: “Britain gave enslaved people their freedom.” Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.",
-        instructions: [
-          "Write the replacement label itself. You can choose a detail about abolition, compulsory apprenticeship or compensation.",
-        ],
+          "A museum label says: “Britain gave enslaved people their freedom.” Rewrite it for visitors your age, using both sources to decide what an accurate account needs to include. Explain the most important change you made.",
+        instructions: [],
         operator: "Rewrite",
         responsePurpose: "Your museum label",
         support: {
-          stems: ["Enslaved people …", "Although …, … continued."],
+          stems: ["Although …, …", "My label emphasises … because …"],
           vocabulary: [
             {
               term: "resistance",
@@ -205,7 +203,7 @@ export const rallye = {
       minutes: 4,
       theme: "Decolonisation and its human consequences",
       context:
-        "In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.\n\nA map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns or a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
+        "In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.\n\nA map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns and a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
       mapFocus: {
         year: 1947,
         territoryId: "british-india",
@@ -216,14 +214,15 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "Describe the political change in 1947: name the two new independent countries and say whose rule ended. Then use one detail from the source to show how people’s homes or concerns about their future were affected in the period around partition.",
-        instructions: [
-          "Keep the timing of your example clear. The letter was written in 1946, and the family testimony recalls displacement before partition.",
-        ],
-        operator: "Outline",
-        responsePurpose: "Your account of the change",
+          "How does the evidence change a story of partition told only through borders and independence dates? Develop an argument using Singh’s concern and the family memory, and explain why the timing of the events they describe matters.",
+        instructions: [],
+        operator: "Interpret evidence",
+        responsePurpose: "Your interpretation of partition",
         support: {
-          stems: ["In 1947, …", "The source adds the experience of …, who …"],
+          stems: [
+            "A border-based account emphasises …, whereas …",
+            "Because this account concerns …, it can/cannot show …",
+          ],
           vocabulary: [
             {
               term: "partition",
@@ -247,7 +246,7 @@ export const rallye = {
       essentialSourceIds: ["departure-partition"],
       contextParagraphs: [
         "In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.",
-        "A map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns or a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
+        "A map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns and a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.",
       ],
     },
     {
@@ -269,14 +268,14 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "Use a detail from the Windrush sources to explain how someone could have a legal right to live in Britain yet be treated as if they did not belong. Connect this example to Britain’s colonial relationship with the Caribbean.",
+          "Analyse how the words “my beloved England” shape the criticism in the Windrush testimony. Use the review’s findings and Britain’s colonial relationship with the Caribbean to explain your interpretation.",
         instructions: [],
-        operator: "Explain",
-        responsePurpose: "Your explanation of belonging",
+        operator: "Analyse language and context",
+        responsePurpose: "Your reading of belonging",
         support: {
           stems: [
-            "Although … had the right to …, …",
-            "The connection with empire matters because …",
+            "The choice of “…” suggests …",
+            "In the context of …, these words …",
           ],
           vocabulary: [
             {
@@ -323,16 +322,14 @@ export const rallye = {
       ],
       investigation: {
         prompt:
-          "Compare the words expressing regret with the words denying legal responsibility in the 2013 Kenya statement. Explain what the government acknowledges and what it refuses to accept. Then explain why this statement shows that the consequences of colonial rule continued after Kenya became independent.",
-        instructions: [
-          "Use a word or phrase from the quotation to explain your reading.",
-        ],
-        operator: "Analyse wording",
-        responsePurpose: "Your reading of the statement",
+          "Assess whether Hague’s statement offers meaningful recognition of colonial harm. Use the wording of both extracts and the settlement details to support a qualified judgement.",
+        instructions: [],
+        operator: "Evaluate",
+        responsePurpose: "Your judgement on recognition",
         support: {
           stems: [
-            "The words “…” acknowledge …, while “…” …",
-            "Although Kenya became independent in 1963, …",
+            "I find this recognition … because …",
+            "However, the words “…” suggest …",
           ],
           vocabulary: [
             {
@@ -346,6 +343,10 @@ export const rallye = {
             {
               term: "settlement",
               meaning: "an agreement intended to resolve a dispute",
+            },
+            {
+              term: "a qualified judgement",
+              meaning: "a judgement that recognises limits or considers a counterargument",
             },
           ],
         },
@@ -412,5 +413,5 @@ export const rallye = {
       "You have now encountered trade, resistance, government, independence, migration and public memory. Your comment will use selected evidence from these stops to explore how much imperial history helps explain identities today. Readers may know little about the events, so make each connection understandable. You can reach your own judgement, while considering another influence on identity or what your chosen sources cannot tell you. A comment presents and supports a point of view for its readers.",
     ],
   },
-  contentRevision: "ungraded-2026-10-01",
+  contentRevision: "enquiry-analysis-2026-10-01",
 };

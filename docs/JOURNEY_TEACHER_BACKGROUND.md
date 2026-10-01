@@ -14,7 +14,7 @@ The route samples South Asia, the Caribbean and Kenya, with comparisons to Canad
 
 ### What students are working towards
 
-- Read selectively for an accurate claim and a usable, attributed detail; distinguish an original excerpt from an institutional account or editorial summary.
+- Compare evidence and defend an interpretation or judgement; distinguish an original excerpt from an institutional account or editorial summary, and explain how timing and perspective limit a claim.
 
 - Analyse how a short quotation presents authority or responsibility: connect language choice, purpose, audience and a plausible effect rather than naming a device alone.
 
@@ -54,9 +54,9 @@ The route covers one Empire-to-postcolonial-Britain enquiry. It does not replace
 
 ### One 60-minute lesson
 
-- 0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse outline, analyse and comment; do not pre-teach the model answers.
+- 0–5 minutes: establish the enquiry and the distinction between original wording and summary. Demonstrate one source card, map return, optional notebook and download. Briefly rehearse how to support an interpretation or judgement with evidence; do not pre-teach the model answers.
 
-- 5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses, including two focused analyses of original wording.
+- 5–50 minutes: run the 45-minute enquiry. Protect the final 15 minutes: 2 to plan, 9 to write, 3 to revise and 1 to export. The first 30 minutes are station responses that compare evidence, explain editorial choices, analyse language and evaluate recognition.
 
 - 50–57 minutes: in pairs, each student defends one connection with a named source; the partner paraphrases it, then asks one question about scope or a counterpoint. Offer one question about evidence and one optional language suggestion. Give the writer time to respond or revise.
 
@@ -78,7 +78,7 @@ The route covers one Empire-to-postcolonial-Britain enquiry. It does not replace
 
 ### English language and feedback
 
-- Outline: select the main relevant information in your own words. Analyse: quote briefly, explain what the choice does in its context, and link the possible effect to the task. Comment: state and develop a reasoned position, consider a complication and conclude for the stated audience.
+- Compare and judge: explain what each piece of evidence shows, choose a criterion and defend the judgement. Interpret: connect details to an argument while keeping their dates and scope clear. Analyse: quote briefly and explain how wording works in context. Evaluate and comment: weigh evidence, consider a complication and reach a qualified position for the stated audience.
 
 - Model the chain: “The phrase … presents … as … . For this audience, it may … because … . However, it cannot show … .” An effect is a justified interpretation, not a claim that every reader reacted identically.
 
@@ -218,29 +218,29 @@ These examples open up possible lines of reasoning. Invite students to compare t
 
 The East India Company began as an English trading business run by merchants who wanted to make money from trade with Asia. In 1600, Queen Elizabeth I gave it a charter: an official document allowing the Company to operate. That permission did not make it the ruler of India. Over time, the Company became involved in wars and agreements with Indian rulers, as well as buying and selling goods.
 
-This stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. You will compare the Company's position in 1600 and 1765, then use the evidence to explain how control of money could change what a trading business was able to do.
+This stop takes you to Bengal, in the eastern part of the Indian subcontinent. By 1765, the Company had gained the right to collect taxes there. Tax income is called revenue. The source also describes its involvement in changing Bengal’s ruler in 1757. You will consider what these developments reveal about the Company’s political power.
 
 #### Student task
 
-Explain how the East India Company gained more power in Bengal between 1600 and 1765. Use the source to connect its new right to collect taxes with its ability to govern.
+Which development best shows that the East India Company had become a political power in Bengal? Compare its intervention in 1757 with its tax-collecting rights in 1765, and defend your choice using the source.
 
-Explain - Your explanation
+Compare and judge - Your judgement about power
 
 Map reference: british-india, 1765.
 
 #### One possible response
 
-The Company began as a chartered trader in 1600. Its 1765 revenue rights supplied tax income to finance troops and administration, helping it exercise and extend territorial power.
+Helping Mir Jafar replace Bengal’s ruler in 1757 shows that the Company could influence political leadership. I find the 1765 tax-collecting rights stronger evidence of sustained political power: the museum describes officials and soldiers collecting revenue and policing territory, with tax income supporting further military action. Both developments go beyond trade, but 1765 shows a continuing capacity to govern as well as intervene.
 
 #### Notes for the conversation
 
-Look for a causal connection between revenue, finance and governing capacity, not just the phrase “trade made Britain rich”. The two anchors should remain distinct: the 1600 charter authorised trade; the 1765 rights enabled revenue collection. An answer can explain how taxes financed troops or administration without claiming that taxation was the only source of finance. Focus the conversation on this causal connection.
+The task asks students to compare two kinds of political power and defend a choice. In 1757, the Company helped Mir Jafar replace Bengal’s ruler; in 1765, it acquired tax-collecting rights. Discuss the criterion behind the judgement: influence over who rules, or a continuing capacity to raise revenue and administer territory. Either choice can be convincing when the comparison explains what the other development also shows. Revenue could finance officials and troops, but taxation was not the only source of finance. Keep the earlier 1600 trading charter distinct from these developments.
 
 #### Other possible interpretations
 
-- A student may explain the connection through military finance or administrative capacity, provided the mechanism is clear.
+- A student may choose 1757 because helping replace a ruler demonstrates power over political leadership, while recognising the later importance of revenue rights.
 
-- A different interpretation may emphasise Indian intermediaries, contested authority or variation between territories, provided evidence is relevant.
+- A student may choose 1765 because tax collection and an administration show sustained governing capacity, while recognising the political intervention in 1757.
 
 #### Misconceptions to discuss
 
@@ -252,9 +252,9 @@ Look for a causal connection between revenue, finance and governing capacity, no
 
 #### Use in discussion
 
-- How can control over money help an organisation control a territory?
+- What makes an action political rather than simply commercial?
 
-- What might a taxpayer’s account add to the museum’s explanation?
+- Could a different definition of political power change your choice?
 
 #### Evidence to draw on
 
@@ -274,27 +274,25 @@ In the 1830s, resistance in Jamaica and decisions in Britain's Parliament formed
 
 #### Student task
 
-A museum label says: “Britain gave enslaved people their freedom.” Rewrite the label for visitors your age. Show that enslaved people resisted slavery, and use one detail from the sources about how slavery ended.
+A museum label says: “Britain gave enslaved people their freedom.” Rewrite it for visitors your age, using both sources to decide what an accurate account needs to include. Explain the most important change you made.
 
 Rewrite - Your museum label
-
-- Write the replacement label itself. You can choose a detail about abolition, compulsory apprenticeship or compensation.
 
 Map reference: jamaica, 1838.
 
 #### One possible response
 
-Enslaved people, including Samuel Sharpe’s supporters in Jamaica, resisted slavery. Abolition took effect in 1834, but compulsory apprenticeship continued until 1838, while slave-owners received compensation.
+Replacement label: Enslaved people in Jamaica resisted slavery, and colonial forces threatened them with death if they did not surrender. Parliament’s abolition law took effect in 1834, but compulsory apprenticeship continued until 1838, while compensation went to slave-owners. Freedom involved struggle and an incomplete legal transition. Editorial choice: I replaced “gave” because it makes enslaved people passive. Cotton’s threats reveal resistance to colonial control, while Parliament’s account shows why abolition did not immediately mean freedom from compulsory work.
 
 #### Notes for the conversation
 
-The task invites a replacement museum label for teenage visitors. Discuss the label itself. The initial label is an invented teaching example. The student’s primary evidence is Cotton’s military proclamation of 2 January 1832: it records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Accept multiple agents and a clear correction: resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.
+The task asks for a replacement museum label for teenage visitors and an explanation of the writer’s main editorial choice. Discuss how details from both sources change the story, rather than accepting a list of facts or a reversed slogan. Cotton’s military proclamation of 2 January 1832 records colonial threats against rebels, not an account in their own voice. Read it alongside Parliament’s account. Resistance supplies enslaved agency, while apprenticeship or compensation can complicate a gift-of-freedom narrative. Parliament’s action can still be recognised. The additional JIS profile helps with Sharpe’s organising but its Act passage date is imprecise: corroborate 1833/1834 with Parliament. A 1833 Act taking effect in 1834 is more precise than treating those as competing dates.
 
 #### Other possible interpretations
 
-- The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination.
+- The revised panel may foreground resistance, the incomplete transition from slavery, compensation to owners, or a combination; the explanation should show why that emphasis changes a visitor’s understanding.
 
-- A student may preserve a place for abolitionist pride while explaining why recognition of slavery and those resisting it is also necessary.
+- A student may preserve a place for abolitionist campaigning while using both sources to explain why enslaved people’s actions and the limits of the legal change also belong in the label.
 
 #### Misconceptions to discuss
 
@@ -384,31 +382,29 @@ Link a short phrase from the original wording to a purpose and a plausible audie
 
 In 1947, British rule in India ended after decades of political campaigning, resistance and negotiations. British India was divided into two independent countries, India and Pakistan. This division is called partition. New borders cut through Punjab and Bengal, regions where people from different religious communities lived. Millions of people fled or were forced to leave their homes, and violence affected many communities around the time of independence.
 
-A map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns or a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.
+A map can show the new countries and their borders. To understand what this period meant to people, you will also read evidence of an individual's concerns and a family's remembered experience. The sources come from different moments: one letter was written before partition, while later testimony looks back on an earlier displacement. Keep those dates in mind when explaining what the evidence shows.
 
 #### Student task
 
-Describe the political change in 1947: name the two new independent countries and say whose rule ended. Then use one detail from the source to show how people’s homes or concerns about their future were affected in the period around partition.
+How does the evidence change a story of partition told only through borders and independence dates? Develop an argument using Singh’s concern and the family memory, and explain why the timing of the events they describe matters.
 
-Outline - Your account of the change
-
-- Keep the timing of your example clear. The letter was written in 1946, and the family testimony recalls displacement before partition.
+Interpret evidence - Your interpretation of partition
 
 Map reference: british-india, 1947.
 
 #### One possible response
 
-Independent India and Pakistan replaced British rule in 1947. Iqbal’s aunt recalls her family’s earlier displacement, showing a human experience invisible in the map’s colour change.
+Borders and independence dates show a change of states but can hide whose interests were heard and what losing a home meant. Singh’s concern that Sikh interests were being ignored points to uncertainty about representation; Iqbal’s aunt’s memory makes family displacement visible. Both concern the period before the final 1947 border: Singh wrote in 1946, and the later testimony recalls an earlier displacement. They therefore complicate a story that begins with the new boundary, but cannot prove that this boundary caused the family’s move or establish everyone’s experience.
 
 #### Notes for the conversation
 
-Help students distinguish the 1947 political change from a source-supported human experience. A casualty total is unnecessary; students can develop a later connection in their final comment. The archive includes Santokh Singh’s letter of 1 June 1946 and, separately, later oral testimony in which Iqbal’s aunt recalls earlier family displacement. Do not conflate these sources, date either experience from the map, or redraft the letter as a response written after August 1947. The final comment is where a student may develop a qualified later connection.
+The task asks students to argue how a borders-and-dates account changes when read alongside both personal accounts. Singh’s concern about Sikh interests being ignored raises the question of whose voice counts in political decisions; the family memory makes losing a home visible. Students should connect those details to their argument and explain why chronology changes what can be claimed. Singh wrote on 1 June 1946, and the later oral testimony recalls displacement before partition. Neither account establishes displacement caused by the final 1947 boundary or is a response written after independence. Keep the date of the remembered experience separate from the later act of remembering, and avoid treating either perspective as universal.
 
 #### Other possible interpretations
 
-- An answer may use another accurate consequence supported by the supplied card, while keeping the evidence’s date and scope clear.
+- An argument may emphasise representation and insecurity, showing how Singh’s concern and the family’s loss complicate a story centred on sovereign states.
 
-- Students can name displacement or violence without inventing a precise casualty total or a single experience shared by all affected people.
+- An argument may emphasise chronology: concerns and displacement already existed before the final border, so independence dates cannot by themselves explain every experience. Both accounts still have limited individual scope.
 
 #### Misconceptions to discuss
 
@@ -442,25 +438,25 @@ Decades later, the Windrush scandal revealed that people who were lawfully livin
 
 #### Student task
 
-Use a detail from the Windrush sources to explain how someone could have a legal right to live in Britain yet be treated as if they did not belong. Connect this example to Britain’s colonial relationship with the Caribbean.
+Analyse how the words “my beloved England” shape the criticism in the Windrush testimony. Use the review’s findings and Britain’s colonial relationship with the Caribbean to explain your interpretation.
 
-Explain - Your explanation of belonging
+Analyse language and context - Your reading of belonging
 
 Map reference: jamaica, 1948.
 
 #### One possible response
 
-Caribbean colonial ties meant arrivals could be British subjects, yet this status did not guarantee acceptance. Williams’s review documents injustice towards lawful residents, showing how institutions could exclude people whose lives and belonging were already connected to Britain.
+“My” claims a personal connection to England, while “beloved” expresses affection. That attachment makes the witness’s disbelief sound like hurt or betrayal rather than simple rejection of the country. Williams’s findings of harm to lawful residents give this contrast an institutional context. Colonial subjecthood had already connected the Caribbean to Britain, so belonging cannot be understood only as arrival from somewhere unrelated. Yet this unnamed witness is not Ena Sullivan, and the quotation cannot tell us how all migrants felt.
 
 #### Notes for the conversation
 
-Discuss the difference between legal status and treatment, and help students express the contrast clearly. The connection is not that every migrant had an identical status, but that imperial nationality and later rules created relationships an “unconnected outsider” story misses. Ena Clare Sullivan’s nationality registration of 3 December 1968 records her 1948 arrival and later working life; it is not a passenger list or evidence that she experienced the later scandal. The 2020 review answers a different question. Its quoted witness is unnamed on PDF p. 8; do not attribute those words to Sullivan or use them to represent all migrants.
+The task now focuses on how “my beloved England” shapes the witness’s criticism. Connect the possessive “my” and affectionate “beloved” to an interpretation of attachment, then explain how the reported treatment makes that language significant. A reading of hurt, betrayal or an appeal to belonging should draw on the review’s findings and the colonial relationship, rather than simply call the language emotional. Imperial subjecthood helps explain a historical connection; it does not establish this unnamed person’s exact status, biography or feelings beyond the quoted words. Ena Clare Sullivan’s registration is a separate source: do not attribute the testimony to her or infer that she experienced the scandal. Neither source represents all migrants.
 
 #### Other possible interpretations
 
-- An answer can emphasise legal exclusion, social acceptance, cultural contribution or institutional failure, if it gives relevant evidence.
+- A student may read the affection as intensifying a sense of betrayal: treatment by institutions conflicts with the attachment the speaker expresses.
 
-- A student may distinguish citizenship from lawful residence rather than treating them as synonyms. That distinction can help the class understand the evidence.
+- A student may read the possessive and affection as an assertion of belonging, or as an appeal to the country to meet expectations. Support the interpretation through the wording, review findings and colonial context without claiming a single intended effect.
 
 #### Misconceptions to discuss
 
@@ -498,27 +494,25 @@ In 2013, Britain's Foreign Secretary, William Hague, announced a settlement of t
 
 #### Student task
 
-Compare the words expressing regret with the words denying legal responsibility in the 2013 Kenya statement. Explain what the government acknowledges and what it refuses to accept. Then explain why this statement shows that the consequences of colonial rule continued after Kenya became independent.
+Assess whether Hague’s statement offers meaningful recognition of colonial harm. Use the wording of both extracts and the settlement details to support a qualified judgement.
 
-Analyse wording - Your reading of the statement
-
-- Use a word or phrase from the quotation to explain your reading.
+Evaluate - Your judgement on recognition
 
 Map reference: kenya, 1963.
 
 #### One possible response
 
-The phrase “sincerely regrets” recognises suffering, while “deny liability” rejects legal responsibility for the claims. This presents an acknowledgement of abuse alongside a legal defence. Addressing claimants in 2013 shows that consequences continued after Kenya’s independence; it does not reveal every Briton’s views.
+I find the recognition meaningful but limited. “Sincerely regrets” publicly acknowledges the abuses, and the £19.9 million settlement for 5,228 claimants, including legal costs, gives the response material substance. Support for a Nairobi memorial also offers public commemoration. However, “We continue to deny liability” maintains a legal boundary around responsibility. Recognition therefore does not amount to accepting every claim. The statement establishes the government’s position; survivors’ accounts would be needed to assess whether they regarded this response as adequate.
 
 #### Notes for the conversation
 
-Invite students to explore the contrast between regret and the denial of liability, then explain how the two parts work together. The statement acknowledges suffering while maintaining a legal boundary. Claims and the official response continued after independence, but the source cannot measure present public opinion. Do not silently convert an expression of regret into an unlimited apology or admission of legal liability. Hong Kong is an optional comparison of constitutional change, not a second required case at this stop.
+The task asks for a qualified judgement about meaningful recognition, not only identification of the contrast. Students can define what would make recognition meaningful and weigh the wording of both extracts alongside the £19.9 million settlement, including legal costs, for 5,228 claimants and support for a Nairobi memorial. Regret, material settlement and public commemoration can carry significance while denial of liability limits the legal acknowledgement. Different judgements are defensible. Do not treat the total as money divided equally among claimants, turn regret into an unlimited apology, or assume survivors all approved. Their views would help assess the settlement’s meaning. Hong Kong remains an optional comparison.
 
 #### Other possible interpretations
 
-- Students may stress that a settlement can both acknowledge harm and limit institutional responsibility.
+- Students may judge the recognition meaningful because regret is accompanied by a settlement and memorial support, while explaining how the liability denial limits that conclusion.
 
-- An answer may conclude that political endings matter greatly, while showing that they do not end every memory, claim or connection.
+- Students may judge the recognition insufficient because responsibility remains restricted, while acknowledging the settlement’s material and commemorative significance. The official statement alone cannot settle what survivors considered adequate.
 
 #### Misconceptions to discuss
 
@@ -598,7 +592,7 @@ Read this as a comment for a school magazine. Invite students to develop their o
 
 - A source can be named naturally in a sentence: ‘Parliament’s account explains …’ or ‘The Williams review records …’. The notebook is optional, and formal citation formatting is unnecessary for this classroom activity.
 
-- For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. For the two tasks analysing language, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.
+- For contextual explanation, use the labelled summary or a teacher-issued equivalent if a link is blocked. When interpreting language or evaluating a speaker’s position, use the original wording printed in the source card or an equivalent original excerpt; an editorial summary cannot establish the original speaker’s language choices.
 
 - For English-language support, discuss one useful revision in audience, organisation or vocabulary. For example, replace an unclear ‘they’ with the group intended, or try ‘although’ to make a contrast visible. Keep factual clarification separate from language support.
 
