@@ -4,6 +4,16 @@ This is a static website: browser ES modules load the bundled map data, fonts,
 photographs and libraries. It needs HTTPS hosting with ordinary static files;
 it does not need server functions, API keys, a database or a runtime Node server.
 
+## Current publication
+
+Live classroom: https://ddaehling.github.io/empire-echoes/
+
+Repository: https://github.com/ddaehling/empire-echoes
+
+Preserved version: https://ddaehling.github.io/empire-echoes/snapshots/2026-10-01-before-simplification/app/journey/
+
+Runtime commit `98f23055a2725b57f0ff438da536660f779cbb28` deployed successfully through [Actions run 36915356157](https://github.com/ddaehling/empire-echoes/actions/runs/36915356157). Live browser checks and every hosted file hash passed; see `docs/learning-revision/LIVE_VERIFICATION.json`. The Pages workflow runs for changes to public inputs/build configuration, or by manual dispatch; documentation-only changes do not redeploy the same website.
+
 ## Public build
 
 Run with Node.js 22 or newer:

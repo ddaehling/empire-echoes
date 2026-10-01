@@ -1,0 +1,17 @@
+{
+  "base": "https://ddaehling.github.io/empire-echoes/",
+  "checkedAt": "2026-10-01T19:39:34.888Z",
+  "files": 534,
+  "bytes": 46557020,
+  "checks": [
+    "Every published file matches the verified production build",
+    "All nine student-approved runtime hashes are deployed",
+    "Live root redirect, seven tasks, anonymous start, unrestricted response, reload, download and mobile layout",
+    "Live globe focus and bundled historical photograph",
+    "Preserved pre-simplification version opens independently",
+    "Internal files excluded from public website"
+  ],
+  "browserErrors": [],
+  "failedResources": [],
+  "assetHashesCheckedAt": "2026-10-01T19:38:30.757Z"
+}

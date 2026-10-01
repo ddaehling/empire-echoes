@@ -14,7 +14,7 @@ Date: 1 October 2026. Content revision: `ungraded-2026-10-01`. This record super
 | Dedicate ten revision agents                                      | learning_author, context_writer, source_editor, interface_builder, visual_designer, progress_engine, teacher_revision, learning_qa, deployment_prep and accessibility_review. Each owns a report or verified deliverable.                                                                                            |
 | Five separate student-perspective reviews, iterated to acceptance | All five independently reviewed actual pages, rejected the baseline, accepted the redesign and rechecked the final shared nine-file hash manifest after refinements. Ratings below. These are simulated perspectives, not actual pupil participants.                                                                 |
 | Preserve current version                                          | Exact app/docs snapshot at `snapshots/2026-10-01-before-simplification/`, 314-file SHA-256 manifest, and Git tag `classroom-snapshot-2026-10-01` at initial commit `a337058`. Original v3 storage is never overwritten by the new enquiry.                                                                           |
-| Push to GitHub                                                    | Repository created at `https://github.com/ddaehling/empire-echoes`; initial snapshot commit and tag pushed. Final revision push and live publication recorded below.                                                                                                                                                 |
+| Push to GitHub                                                    | Repository created at `https://github.com/ddaehling/empire-echoes`; snapshot commit/tag and revised runtime commit pushed. Final live publication evidence appears below.                                                                                                                                            |
 | Publish for students or make Vercel-deployable                    | GitHub Pages configured for Actions; dependency-free static build and relative paths verified at both hosting root and `/empire-echoes/`. Vercel configuration builds the same allowlisted artifact. Live publication verification follows below.                                                                    |
 
 ## Independent simulated learner acceptance
@@ -54,10 +54,16 @@ All 231 earlier application files remain unchanged. All 314 frozen snapshot file
 
 Repository: https://github.com/ddaehling/empire-echoes
 
-Planned current address: https://ddaehling.github.io/empire-echoes/
+Current live address: https://ddaehling.github.io/empire-echoes/
 
 Preserved address: https://ddaehling.github.io/empire-echoes/snapshots/2026-10-01-before-simplification/app/journey/
 
-Status at candidate freeze: all local acceptance gates passed; final commit, Actions deployment and live HTTP/browser verification pending. This paragraph must be replaced with actual deployment evidence before the goal is marked complete.
+Published runtime commit: `98f23055a2725b57f0ff438da536660f779cbb28`.
+
+[GitHub Actions run 36915356157](https://github.com/ddaehling/empire-echoes/actions/runs/36915356157) completed both build and deployment successfully at 19:35 UTC. HTTPS is enforced. A live check verified **all 534 hosted files byte-for-byte** against the production manifest, including the nine student-approved runtime hashes and both teacher PDFs. A fresh Chromium context then checked the root/hash redirect, all seven live tasks, anonymous start, writing, reload, TXT download, 390px layout, original globe focus, historical photograph and the independent frozen version. There were **zero browser errors and missing resources**. Internal-document, package, environment and raw-download-metadata URLs returned 404.
+
+Actual hosted evidence and timestamps are recorded in `LIVE_VERIFICATION.json`; runtime hashes are in `reviewed-build.json`. The frozen app reports its original `q2-english-2026-10-01` revision and retains its original 40-point model, while the current app uses the new learning revision. GitHub source history includes both versions. Later documentation-only commits do not redeploy unchanged public runtime files.
+
+The local server on port 8777 also remains available. All requested implementation, review, snapshot, repository and live-publication gates are complete.
 
 GitHub Pages fits the static application. Vercel is an optional alternative, not required. Browser writing stays on the same origin/device; moving from localhost to the published site does not transfer it automatically. The earlier 45-minute estimate is not a pupil-tested duration, especially with expanded context. The flat map's documented date-line seam and approximate historical coverage remain unchanged.
