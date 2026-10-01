@@ -57,15 +57,20 @@ export const RALLYE_RESOURCES = {
       date: "2 January 1832",
       kind: "Public military order",
       url: "https://cdn.nationalarchives.gov.uk/documents/education/spotlight-on-baptist-war.pdf#page=6",
+      urlLabel: "Original poster and transcript (PDF)",
       summary:
         "Enslaved people in Jamaica rose against slavery in the rebellion associated with Samuel Sharpe. Cotton ordered them to surrender. His poster denied that the king had freed them and threatened those who continued the rebellion with death.",
-      excerpt: "All who hold out, will meet with certain death.",
-      excerptLabel: "Cotton’s original words",
+      excerpt:
+        "Some wicked persons have told you that the King has made you free, and that your Masters withhold your freedom from you. In the name of the King, I come amongst you, to tell you that you are misled. […] Surrender yourselves, and beg that your crime may be pardoned. All who yield themselves up at any Military Post immediately, provided they are not principals and chiefs in the burnings that have been committed, will receive His Majesty’s gracious pardon. All who hold out, will meet with certain death.",
+      excerptLabel: "Read here · selected words from Cotton’s poster",
+      excerptNote:
+        "The selection follows the original poster. […] marks an omitted passage. The heading, opening accusation and closing signature are not reproduced.",
       scope:
         "This is the commander’s response to the rebellion. It does not let the enslaved people explain their own aims or experiences.",
       context:
         "The National Archives reproduces the poster and a transcript, reference CO 137/181. Cotton wanted the rebels to surrender. The full original includes racist language.",
-      locator: "Original pack: PDF pages 6–7, poster and transcript.",
+      locator:
+        "The relevant wording is printed above. For the original layout only: PDF page 6 shows the poster; page 7 supplies the archive’s transcript.",
     }),
     source({
       id: "freedom-compensation",
@@ -91,18 +96,22 @@ export const RALLYE_RESOURCES = {
       date: "1 November 1858",
       kind: "Royal public announcement",
       url: "https://tamildigitallibrary.in/assets/docs/uploads/primary_files/book/TVA_BOK_0025134/TVA_BOK_0025134_speeches_in_India.pdf#page=178",
+      urlLabel: "View the original book scan (PDF, p. 178)",
       summary:
         "After the 1857 uprising, Victoria announced that the British Crown would take over the Company’s rule in India. The announcement promised equal legal protection regardless of religious belief and told officials not to interfere with worship. It also required loyalty to the Crown.",
       excerpt:
-        "all shall alike enjoy the equal and impartial protection of the Law",
-      excerptLabel: "Original words from Victoria’s announcement",
+        "We hold Ourselves bound to the Natives of Our Indian territories by the same Obligations of Duty which bind Us to all Our other Subjects; and these Obligations, by the Blessing of Almighty God, We shall faithfully and conscientiously fulfil.\n\nFirmly relying Ourselves on the truth of Christianity, and acknowledging with gratitude the solace of Religion, We disclaim alike the Right and the Desire to impose Our Conviction on any of Our Subjects. We declare it to be Our Royal Will and Pleasure that none be in anywise favoured, none molested or disquieted, by reason of their Religious Faith or Observances, but that all shall alike enjoy the equal and impartial protection of the Law; and We do strictly charge and enjoin all those who may be in authority under Us that they abstain from all interference with the Religious Belief or Worship of Our Subjects, on pain of Our highest Displeasure.",
+      excerptLabel: "Read the proclamation · original wording, 1858",
+      excerptNote:
+        "Two consecutive paragraphs transcribed from printed page xviii. Original wording and capitalisation retained; line-break hyphens removed. The full book is optional.",
       scope:
         "These are the ruler’s promises. The announcement alone cannot show whether people were treated as promised.",
       context:
         "A proclamation is an official public announcement. This text was addressed to India’s princes and people after the uprising. Tamil Digital Library preserves a later reproduction in His Majesty King George’s Speeches in India, Appendix E. The British Library catalogue is an additional provenance reference.",
       locator:
-        "Original scan: PDF page 178, printed page xviii. The large scan is optional; the extract above supplies the wording needed here.",
+        "His Majesty King George’s Speeches in India, Appendix E: PDF page 178, printed page xviii. Read the two paragraphs above for this assignment.",
       provenanceUrl: "https://searcharchives.bl.uk/catalog/041-000566434",
+      provenanceLabel: "View the British Library catalogue record (HTML)",
     }),
     source({
       id: "rule-canada",
@@ -126,6 +135,7 @@ export const RALLYE_RESOURCES = {
       date: "2 August 1858",
       kind: "Government of India Act",
       url: "https://www.legislation.gov.uk/ukpga/Vict/21-22/106/pdfs/ukpga_18580106_en.pdf#page=2",
+      urlLabel: "View the original Act (PDF, p. 2)",
       summary:
         "This law transferred the East India Company’s governing powers to the Crown. It gave major responsibilities to a British secretary of state, a government minister. The transfer did not give India independence.",
       excerpt: "India shall be governed by and in the Name of Her Majesty",
@@ -180,13 +190,20 @@ export const RALLYE_RESOURCES = {
       date: "3 December 1968; records her life from 1948",
       kind: "Official form preserved by The National Archives",
       url: "https://cdn.nationalarchives.gov.uk/documents/education/empire-windrush-caribbean-migration.pdf#page=19",
+      urlLabel: "Original registration form and transcript (PDF)",
       summary:
         "Ena Clare Sullivan travelled from Jamaica to Britain on Empire Windrush in 1948. Her nationality registration form, completed in 1968, records nursing and health work in London, Stoke-on-Trent and Manchester.",
+      excerpt:
+        "I, ENA CLARE SULLIVAN […]\n\nI have been in Crown service under Her Majesty’s government in the United Kingdom during the past five years as follows:\n\nHospital · S/N. · 1948–1957\nPublic Health · Health Visitor · 1957–1961\nHospital · Staff /N · 1961–1968",
+      excerptLabel: "Read here · entries from Sullivan’s form",
+      excerptNote:
+        "Selected entries; […] marks omissions. S/N and Staff /N mean staff nurse. Dots separate the form’s columns.",
       scope:
         "The form records parts of Sullivan’s life. It does not tell us all her feelings about Britain or represent every migrant’s experience.",
       context:
-        "The National Archives reference is HO 334/1406/110478. A nationality application records information required by officials. The pack’s transcript headings contain a naming error; the form identifies her as Ena Clare Sullivan. Someone’s work contributions do not determine their right to belong.",
-      locator: "Original pack: PDF pages 19–21, form and transcript.",
+        "The National Archives reference is HO 334/1406/110478. A nationality application records information required by officials. The pack’s transcript headings contain a naming error; the form identifies her as Ena Clare Sullivan. Selected entries come from sections 1 and 7(b). Employment rows show department, role and dates; the government column is omitted and date ranges are joined for reading. Although the printed question says “past five years”, Sullivan entered dates beginning in 1948. Someone’s work contributions do not determine their right to belong.",
+      locator:
+        "The relevant entries are printed above. For the handwriting only: PDF page 19 shows the form and employment table; pages 20–21 supply the archive’s transcript.",
     }),
     source({
       id: "migration-review",
@@ -195,6 +212,7 @@ export const RALLYE_RESOURCES = {
       date: "19 March 2020",
       kind: "Review of government actions",
       url: "https://www.gov.uk/government/publications/windrush-lessons-learned-review",
+      urlLabel: "Publication page and full report (PDF)",
       summary:
         "Williams investigated the Windrush scandal. She found that people legally living in Britain had been wrongly targeted by immigration controls. Some lost their jobs and suffered other serious harm. She linked this to failures in government policy and institutions, including poor understanding of history. Her report also quotes an affected person.",
       excerpt:
@@ -206,7 +224,7 @@ export const RALLYE_RESOURCES = {
       context:
         "The government commissioned Williams’s independent review, which used interviews and departmental records. The Home Office published it. One person’s words cannot establish what every migrant or British person believes.",
       locator:
-        "Accessible PDF: pages 7–8 for the summary and introduction; quotation on page 8. Recommendation 6, on page 15, concerns historical understanding.",
+        "The evidence needed for this task is included above. The publication page offers the full report as a PDF: pages 7–8 contain the summary and introduction, with the quotation on page 8. Recommendation 6, on page 15, concerns historical understanding.",
     }),
   ],
   "remembering-empire": [

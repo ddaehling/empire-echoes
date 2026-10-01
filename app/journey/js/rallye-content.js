@@ -165,6 +165,18 @@ export const rallye = {
               meaning: "treating different sides fairly",
             },
             {
+              term: "disclaim",
+              meaning: "to say that you do not claim a right or intention",
+            },
+            {
+              term: "conviction",
+              meaning: "a firmly held belief",
+            },
+            {
+              term: "molested or disquieted",
+              meaning: "here: harassed or disturbed because of religious belief",
+            },
+            {
               term: "proclamation",
               meaning: "a public announcement by a ruler or government",
             },

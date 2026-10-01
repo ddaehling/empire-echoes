@@ -17,6 +17,7 @@
     "test:journey:map": "node tools/journey-map-semantics-test.js && node tools/journey-map-experience-test.js",
     "validate:data": "node tools/validate-data.js",
     "test:journey:learning": "node tools/journey-learning-test.js",
+    "test:journey:sources": "node tools/journey-source-reading-test.js",
     "test:journey:progress": "node tools/journey-progress-test.js"
   },
   "keywords": [],

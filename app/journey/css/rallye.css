@@ -584,6 +584,23 @@
   font: 500 1.25rem/1.55 var(--serif, Georgia, serif);
   color: var(--ink, #18233b);
 }
+.ry-source blockquote p {
+  color: inherit;
+}
+.ry-source blockquote p + p {
+  margin-top: 1em;
+}
+.ry-source blockquote.ry-long-excerpt {
+  max-width: 68ch;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.ry-source-note {
+  color: var(--muted, #5c6676) !important;
+  line-height: 1.6;
+}
 .ry-source-context {
   margin-top: 12px;
 }
