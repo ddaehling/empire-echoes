@@ -63,7 +63,19 @@
 .word-help-match:hover { background: var(--blue-soft); }
 .word-help-match mark { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
 ::highlight(word-help) { background: #fae8df; color: #18233b; }
-[data-word-reading] { -webkit-touch-callout: none; }
+/* Set before a touch hold begins so Safari does not start text selection.
+   Pointer/keyboard input restores native selection for mouse users. */
+.word-help-touch [data-word-reading] {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.word-help-touch [data-word-reading] :is(a, button, input, textarea, select, label, summary, [contenteditable]),
+.word-help-touch [data-word-reading] :is(a, button, input, textarea, select, label, summary, [contenteditable]) * {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
+}
 .word-help-picking [data-word-reading] { cursor: help; }
 .atlas-fullscreen-open .reading-tools { visibility: hidden; }
 @media (max-width: 600px) {

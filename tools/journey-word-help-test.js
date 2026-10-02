@@ -53,8 +53,39 @@ async function fixture(page) {
     closed.id = "word-help-qa-closed";
     closed.innerHTML = '<summary>Closed source</summary><p class="ry-task-prompt">Invisibleword is inside a closed source.</p>';
     fixture.after(closed);
+    const controls = document.createElement("p");
+    controls.id = "word-help-qa-controls";
+    controls.className = "ry-task-prompt";
+    controls.innerHTML = '<a id="word-help-qa-link" href="#rallye">Ordinary source link</a> <input id="word-help-qa-input" value="Editable answer"><span id="word-help-qa-editable" contenteditable="true">Editable notes</span>';
+    closed.after(controls);
   });
   await page.locator("#word-help-qa-passage[data-word-reading]").waitFor();
+}
+async function mockHaptics(page) {
+  await page.addInitScript(() => {
+    window.__wordHelpVibrations = [];
+    Object.defineProperty(navigator, "vibrate", { configurable: true, value: duration => {
+      window.__wordHelpVibrations.push(duration);
+      return true;
+    } });
+  });
+}
+async function nativeCancelled(page, selector, type, useTextNode = false) {
+  return page.locator(selector).first().evaluate((node, { type, useTextNode }) => {
+    const rect = node.getBoundingClientRect();
+    const event = type === "contextmenu"
+      ? new MouseEvent(type, { bubbles: true, cancelable: true, button: 2, clientX: rect.left + 5, clientY: rect.top + 5 })
+      : new Event(type, { bubbles: true, cancelable: true });
+    (useTextNode ? node.firstChild : node).dispatchEvent(event);
+    return event.defaultPrevented;
+  }, { type, useTextNode });
+}
+async function syntheticPointer(page, p, type, properties = {}) {
+  return page.locator("#word-help-qa-passage").evaluate((node, { p, type, properties }) => {
+    const event = new PointerEvent(type, { bubbles: true, cancelable: true, pointerType: "touch", isPrimary: true, pointerId: 31, button: 0, clientX: p.x, clientY: p.y, ...properties });
+    node.dispatchEvent(event);
+    return event.defaultPrevented;
+  }, { p, type, properties });
 }
 async function search(page, word) {
   await page.locator(".word-help-toggle").click();
@@ -89,6 +120,7 @@ async function browserChecks(engine, origin) {
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: "reduce", acceptDownloads: true });
     page.on("pageerror", e => errors.push(e.message));
+    await mockHaptics(page);
     await page.route("**/word-help-config.js", route => route.fulfill({ contentType: "text/javascript", body: 'export const wordHelpEndpoint = "";' }));
     await ready(page, `${origin}/app/journey/#rallye`);
     await page.locator("[data-ry-start] button[type=submit]").click();
@@ -158,12 +190,15 @@ async function browserChecks(engine, origin) {
     await rightClick(page, ".ry-source blockquote p", "Subjects");
     assert.equal(await page.locator("#word-help-title").innerText(), "Our other Subjects");
     await closeHelp(page);
+    assert.deepEqual(await page.evaluate(() => window.__wordHelpVibrations), [], "mouse lookups never vibrate");
     ok(`${engine}: original archival source resolves the whole historical expression`);
 
     const touchPage = await browser.newPage({ viewport: { width: 768, height: 1024 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
     touchPage.on("pageerror", e => errors.push(e.message));
+    await mockHaptics(touchPage);
     await touchPage.route("**/word-help-config.js", route => route.fulfill({ contentType: "text/javascript", body: 'export const wordHelpEndpoint = "";' }));
     await ready(touchPage, `${origin}/app/journey/#rallye`);
+    assert.equal(await touchPage.evaluate(() => document.documentElement.classList.contains("word-help-touch")), true, "coarse-touch devices start with native text callouts disabled in reading");
     await touchPage.locator("[data-ry-start] button[type=submit]").click();
     await fixture(touchPage);
     const touchPoint = await point(touchPage, "#word-help-qa-passage", "gain", 1);
@@ -172,12 +207,96 @@ async function browserChecks(engine, origin) {
     assert.equal(await touchPage.locator(".word-help-dialog[open]").count(), 0);
     await touch(touchPage, await point(touchPage, "#word-help-qa-passage", "gain", 1), "move", engine);
     assert.equal(await touchPage.locator(".word-help-dialog[open]").count(), 0);
+    assert.deepEqual(await touchPage.evaluate(() => window.__wordHelpVibrations), [], "short tap and scroll do not vibrate");
+    assert.equal(await touchPage.locator("#word-help-qa-passage").evaluate(node => getComputedStyle(node).userSelect), "none");
+    assert.equal(await nativeCancelled(touchPage, "#word-help-qa-passage", "selectstart", true), true, "touch reading blocks native text selection");
+    for (const selector of ["#word-help-qa-link", "#word-help-qa-input", "#word-help-qa-editable", "#ry-answer"]) {
+      assert.notEqual(await touchPage.locator(selector).evaluate(node => getComputedStyle(node).userSelect), "none", `${selector} remains selectable`);
+      assert.equal(await nativeCancelled(touchPage, selector, "selectstart"), false, `${selector} keeps native selection`);
+      assert.equal(await nativeCancelled(touchPage, selector, "contextmenu"), false, `${selector} keeps native context menu`);
+    }
+    ok(`${engine}: native selection suppression is scoped to touch reading; links and editable text stay ordinary`);
     await touch(touchPage, await point(touchPage, "#word-help-qa-passage", "gain", 1), "hold", engine);
     await touchPage.locator(".word-help-dialog[open]").waitFor();
     assert.equal(await touchPage.locator("#word-help-title").innerText(), "gain power");
+    assert.deepEqual(await touchPage.evaluate(() => window.__wordHelpVibrations), [12], "one short haptic follows one successful hold");
+    assert.equal(await nativeCancelled(touchPage, "#word-help-qa-passage", "contextmenu"), true, "late native context menu is consumed after pointerup with the explanation open");
+    assert.equal(await nativeCancelled(touchPage, ".word-help-meaning", "selectstart", true), false, "explanation text remains selectable");
+    assert.equal(await nativeCancelled(touchPage, ".word-help-meaning", "contextmenu"), false, "explanation keeps its ordinary context menu");
+    assert.notEqual(await touchPage.locator(".word-help-meaning").evaluate(node => getComputedStyle(node).userSelect), "none");
+    assert.equal(await touchPage.evaluate(() => getSelection().toString()), "", "no native blue text selection remains after hold");
     await touchPage.screenshot({ path: `/tmp/word-help-${engine}-ipad.png` });
     await closeHelp(touchPage);
     ok(`${engine}: ${engine === "chromium" ? "real CDP" : "synthetic"} touch hold works; short tap/movement do not trigger`);
+
+    // A second finger must cancel the pending lookup, preserving pinch/scroll.
+    const secondTouchPoint = await point(touchPage, "#word-help-qa-passage", "gain", 1);
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerdown");
+    await touchPage.waitForTimeout(100);
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerdown", { pointerId: 32, isPrimary: false });
+    await touchPage.waitForTimeout(500);
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerup", { pointerId: 32, isPrimary: false });
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerup");
+    assert.equal(await touchPage.locator(".word-help-dialog[open]").count(), 0, "second finger cancels lookup");
+    assert.deepEqual(await touchPage.evaluate(() => window.__wordHelpVibrations), [12], "cancelled multi-touch never vibrates");
+    for (const cancel of ["pointercancel", "blur"]) {
+      await syntheticPointer(touchPage, secondTouchPoint, "pointerdown");
+      if (cancel === "blur") await touchPage.evaluate(() => window.dispatchEvent(new Event("blur")));
+      else await syntheticPointer(touchPage, secondTouchPoint, cancel);
+      await touchPage.waitForTimeout(500);
+      await syntheticPointer(touchPage, secondTouchPoint, "pointerup");
+      assert.equal(await touchPage.locator(".word-help-dialog[open]").count(), 0, `${cancel} cancels lookup`);
+    }
+    assert.deepEqual(await touchPage.evaluate(() => window.__wordHelpVibrations), [12]);
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerdown", { pointerType: "mouse" });
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerup", { pointerType: "mouse" });
+    assert.equal(await touchPage.evaluate(() => document.documentElement.classList.contains("word-help-touch")), false, "mouse restores ordinary selection on a touch-capable device");
+    assert.notEqual(await touchPage.locator("#word-help-qa-passage").evaluate(node => getComputedStyle(node).userSelect), "none");
+    assert.equal(await nativeCancelled(touchPage, "#word-help-qa-passage", "selectstart", true), false);
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerdown");
+    await syntheticPointer(touchPage, secondTouchPoint, "pointerup");
+    await touchPage.keyboard.press("Tab");
+    assert.equal(await touchPage.evaluate(() => document.documentElement.classList.contains("word-help-touch")), false, "keyboard restores ordinary selection too");
+    ok(`${engine}: second touch, pointer cancellation and blur cancel cleanly; mouse and keyboard restore selection`);
+
+    const prolongedPoint = await point(touchPage, "#word-help-qa-passage", "gain", 1);
+    // The preceding Tab may scroll the page; let its scroll-cancellation event
+    // finish before starting a new synthetic held gesture.
+    await touchPage.waitForTimeout(100);
+    await syntheticPointer(touchPage, prolongedPoint, "pointerdown");
+    await touchPage.locator(".word-help-dialog[open]").waitFor();
+    await touchPage.waitForTimeout(900);
+    const retargetedMenu = await touchPage.locator(".word-help-dialog").evaluate((node, p) => {
+      const event = new MouseEvent("contextmenu", { bubbles: true, cancelable: true, button: 2, clientX: p.x, clientY: p.y });
+      node.dispatchEvent(event);
+      return event.defaultPrevented;
+    }, prolongedPoint);
+    assert.equal(retargetedMenu, true, "a still-held finger consumes a delayed callout retargeted to the modal even after 800ms");
+    await syntheticPointer(touchPage, prolongedPoint, "pointerup");
+    assert.equal(await nativeCancelled(touchPage, "#word-help-qa-passage", "contextmenu"), true, "release keeps the late-callout guard briefly active");
+    assert.deepEqual(await touchPage.evaluate(() => window.__wordHelpVibrations), [12, 12], "a prolonged hold still gives exactly one haptic");
+    const freshDialogMenu = await touchPage.locator(".word-help-meaning").evaluate(node => {
+      const rect = node.getBoundingClientRect();
+      const init = { bubbles: true, cancelable: true, pointerType: "touch", isPrimary: true, pointerId: 40, button: 0, clientX: rect.left + 5, clientY: rect.top + 5 };
+      node.dispatchEvent(new PointerEvent("pointerdown", init));
+      const menu = new MouseEvent("contextmenu", { ...init, button: 2 });
+      node.dispatchEvent(menu);
+      node.dispatchEvent(new PointerEvent("pointerup", init));
+      return menu.defaultPrevented;
+    });
+    assert.equal(freshDialogMenu, false, "a fresh touch on the explanation starts an ordinary text gesture");
+    await closeHelp(touchPage);
+    ok(`${engine}: prolonged and retargeted callouts stay consumed; fresh explanation gestures retain native behaviour`);
+
+    // Browser support and browser policy are optional: neither may break lookup.
+    for (const vibration of ["missing", "throws"]) {
+      await touchPage.evaluate(mode => Object.defineProperty(navigator, "vibrate", { configurable: true, value: mode === "missing" ? undefined : () => { throw new Error("Vibration unavailable"); } }), vibration);
+      await touch(touchPage, await point(touchPage, "#word-help-qa-passage", "gain", 1), "hold", engine);
+      await touchPage.locator(".word-help-dialog[open]").waitFor();
+      assert.equal(await touchPage.locator("#word-help-title").innerText(), "gain power");
+      await closeHelp(touchPage);
+    }
+    ok(`${engine}: optional haptics cannot break word help when unsupported or blocked`);
     for (const width of [390, 320]) {
       await touchPage.setViewportSize({ width, height: 844 });
       await rightClick(touchPage, "#word-help-qa-passage", "gain", 1);

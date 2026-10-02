@@ -235,22 +235,58 @@ export function createWordHelp({ mount }) {
     const rect = dialog.getBoundingClientRect();
     if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
   });
-  let suppressClickUntil = 0;
+  let suppressClickUntil = 0, heldPointer = null, heldBlock = null, heldBounds = null;
+  const setTouchReading = value => document.documentElement.classList.toggle("word-help-touch", value);
+  setTouchReading(matchMedia("(any-pointer: coarse)").matches);
   const cancelPress = () => { clearTimeout(timer); timer = null; press = null; };
+  const resetPress = () => { cancelPress(); heldPointer = null; heldBlock = null; heldBounds = null; suppressClickUntil = 0; };
+  function activateHold(lookup, pointerId) {
+    cancelPress(); heldPointer = pointerId; heldBlock = lookup.block; heldBounds = lookup.range?.getBoundingClientRect();
+    suppressClickUntil = performance.now() + 800;
+    // Remove only native selection in this passage; the expression gets our
+    // own highlight. Never clear a student's selection in an answer field.
+    const selection = getSelection();
+    if (selection?.rangeCount && lookup.block.contains(selection.anchorNode) && lookup.block.contains(selection.focusNode)) selection.removeAllRanges();
+    // Safari/iPadOS has no Vibration API. Unsupported or denied haptics must
+    // never prevent the explanation from opening.
+    try { navigator.vibrate?.(12); } catch { /* Optional device feedback. */ }
+    explain(lookup);
+  }
+  function releasePress(event) {
+    if (event.pointerId === heldPointer) {
+      heldPointer = null; suppressClickUntil = performance.now() + 800;
+    }
+    cancelPress();
+  }
   document.addEventListener("pointerdown", event => {
-    if (event.pointerType === "mouse" || event.button !== 0 || !event.isPrimary || dialog.open) return;
+    if (event.isPrimary) resetPress();
+    setTouchReading(event.pointerType !== "mouse");
+    // A second finger starts a pinch/zoom gesture, never a word lookup.
+    if (event.pointerType === "mouse" || event.button !== 0 || !event.isPrimary || dialog.open) { cancelPress(); return; }
     cancelPress(); const lookup = lookupAtPoint(event.clientX, event.clientY); if (!lookup) return;
     press = { x: event.clientX, y: event.clientY, id: event.pointerId };
-    timer = setTimeout(() => { cancelPress(); suppressClickUntil = performance.now() + 800; explain(lookup); }, 460);
-  }, { passive: true });
+    timer = setTimeout(() => activateHold(lookup, event.pointerId), 460);
+  }, { passive: true, capture: true });
   document.addEventListener("pointermove", event => { if (press && (event.pointerId !== press.id || Math.hypot(event.clientX - press.x, event.clientY - press.y) > 10)) cancelPress(); }, { passive: true });
-  document.addEventListener("pointerup", cancelPress, { passive: true });
-  document.addEventListener("pointercancel", cancelPress, { passive: true });
+  document.addEventListener("pointerup", releasePress, { passive: true });
+  document.addEventListener("pointercancel", releasePress, { passive: true });
+  document.addEventListener("selectstart", event => {
+    if (document.documentElement.classList.contains("word-help-touch") && eligible(event.target)) event.preventDefault();
+  });
   document.addEventListener("contextmenu", event => {
+    // Mobile browsers may dispatch this after the hold has already opened the
+    // dialog. Hit testing then sees the modal instead of the original word.
+    if ((heldPointer !== null || performance.now() < suppressClickUntil) &&
+        (heldBlock?.contains(event.target) ||
+         (heldBounds && event.clientX >= heldBounds.left - 2 && event.clientX <= heldBounds.right + 2 && event.clientY >= heldBounds.top - 2 && event.clientY <= heldBounds.bottom + 2))) {
+      event.preventDefault(); return;
+    }
     if (dialog.open) return;
     const lookup = lookupAtPoint(event.clientX, event.clientY);
     if (!lookup) return;
-    event.preventDefault(); cancelPress(); explain(lookup);
+    event.preventDefault();
+    if (press) activateHold(lookup, press.id);
+    else { cancelPress(); explain(lookup); }
   });
   document.addEventListener("click", event => {
     if (dialog.contains(event.target) || mount.contains(event.target)) return;
@@ -259,11 +295,13 @@ export function createWordHelp({ mount }) {
     const lookup = lookupAtPoint(event.clientX, event.clientY);
     if (lookup) { event.preventDefault(); event.stopPropagation(); explain(lookup); }
   }, true);
-  document.addEventListener("keydown", event => { if (event.key === "Escape") setPicking(false); });
-  const closeForNavigation = () => { cancelPress(); setPicking(false); if (dialog.open) dialog.close(); };
+  document.addEventListener("keydown", event => { setTouchReading(false); cancelPress(); if (event.key === "Escape") setPicking(false); });
+  const closeForNavigation = () => { resetPress(); setPicking(false); if (dialog.open) dialog.close(); };
   window.addEventListener("hashchange", closeForNavigation);
   document.addEventListener("atlas:fullscreenchange", closeForNavigation);
   window.addEventListener("scroll", cancelPress, { passive: true, capture: true });
+  window.addEventListener("blur", resetPress);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) resetPress(); });
   window.addEventListener("resize", position);
   window.visualViewport?.addEventListener("resize", position);
   window.visualViewport?.addEventListener("scroll", position);
