@@ -48,6 +48,7 @@
   background: var(--surface);
   color: var(--ink);
   overflow: auto;
+  scrollbar-gutter: stable;
   overscroll-behavior: contain;
   scroll-padding-top: 90px;
   padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
@@ -100,6 +101,16 @@
   flex: none;
 }
 
+.atlas-experience.is-fullscreen #map-experience {
+  /* Changing summaries and an expanded ledger must not resize the globe or
+     move the slider underneath the pointer during a scrub. */
+  flex-basis: clamp(10rem, 22dvh, 14rem);
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
 .atlas-experience.is-fullscreen .context-panel {
   min-height: 0;
   overflow-y: auto;
@@ -139,6 +150,14 @@
     flex: none;
     height: clamp(285px, 53dvh, 600px);
     min-height: 285px;
+  }
+
+  .atlas-experience.is-fullscreen #map-experience {
+    /* Compact layouts already give the globe a stable height. Keep a single
+       page scroller for the timeline, changes and historical context. */
+    flex-basis: auto;
+    overflow: visible;
+    scrollbar-gutter: auto;
   }
 
   .atlas-experience.is-fullscreen .context-panel {
@@ -187,5 +206,10 @@
 
   .atlas-experience.is-fullscreen .experience-toolbar {
     position: static;
+  }
+
+  .atlas-experience.is-fullscreen #map-experience {
+    flex-basis: auto;
+    overflow: visible;
   }
 }

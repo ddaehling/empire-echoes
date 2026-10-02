@@ -116,11 +116,17 @@ async function settled(page) {
 async function createPage(
   browser,
   origin,
-  { mode = "native", width = 1440, height = 1000, integration = false } = {},
+  {
+    mode = "native",
+    width = 1440,
+    height = 1000,
+    integration = false,
+    reducedMotion = "reduce",
+  } = {},
 ) {
   const context = await browser.newContext({
     viewport: { width, height },
-    reducedMotion: "reduce",
+    reducedMotion,
   });
   await context.addInitScript((mode) => {
     window.nativeRequests = [];
@@ -786,6 +792,219 @@ async function integrationTests(browser, name, origin) {
   }
 }
 
+async function stabilityTests(browser, name, origin) {
+  for (const settings of [
+    { mode: "native", width: 1440, height: 1000, reducedMotion: "no-preference" },
+    { mode: "denied", width: 1440, height: 900 },
+    { mode: "missing", width: 390, height: 844 },
+    { mode: "missing", width: 900, height: 540 },
+  ]) {
+    const { page, context, errors } = await createPage(browser, origin, {
+      ...settings,
+      integration: true,
+    });
+    try {
+      await check(
+        `${name}: ${settings.mode} fullscreen ${settings.width}×${settings.height} keeps the globe steady while inspecting changes`,
+        async () => {
+          await enter(
+            page,
+            settings.mode === "native" ? undefined : "viewport",
+          );
+          await page.locator("#globe-container canvas").waitFor();
+          await settled(page);
+          await page.evaluate(() => {
+            const atlas = document.querySelector("#atlas-experience");
+            const scene = document.querySelector("#scene-stage");
+            const canvas = document.querySelector("#globe-container canvas");
+            const slider = document.querySelector("#year-slider");
+            const rect = (node) => {
+              const box = node.getBoundingClientRect();
+              const origin = atlas.getBoundingClientRect();
+              return {
+                x: box.x - origin.x + atlas.scrollLeft,
+                y: box.y - origin.y + atlas.scrollTop,
+                width: box.width,
+                height: box.height,
+              };
+            };
+            const probe = (window.fullscreenLayoutProbe = {
+              phase: "initial",
+              samples: [],
+              resizing: [],
+              visibility: new Set(),
+              stopped: false,
+            });
+            probe.sample = () => {
+              probe.samples.push({
+                phase: probe.phase,
+                year: document.querySelector("#year-slider").value,
+                stage: rect(scene),
+                canvas: rect(canvas),
+                slider: rect(slider),
+                buffer: { width: canvas.width, height: canvas.height },
+              });
+              probe.visibility.add(
+                !document.querySelector(".map-change-details").hidden,
+              );
+            };
+            probe.observer = new ResizeObserver(() => {
+              probe.resizing.push({ phase: probe.phase, stage: rect(scene) });
+            });
+            probe.observer.observe(scene);
+            probe.observer.observe(canvas);
+            const tick = () => {
+              if (probe.stopped) return;
+              probe.sample();
+              probe.frame = requestAnimationFrame(tick);
+            };
+            tick();
+          });
+          const setYear = async (year) => {
+            await page.locator("#year-slider").evaluate((slider, year) => {
+              window.fullscreenLayoutProbe.phase = `year ${year}`;
+              slider.value = String(year);
+              slider.dispatchEvent(new Event("input", { bubbles: true }));
+            }, year);
+            await settled(page);
+          };
+          // Adjacent quiet years hide the disclosure; larger jumps show one or
+          // several change types, milestones and differently wrapped headings.
+          for (const year of [
+            1600, 1601, 1602, 1757, 1758, 1765, 1858, 1922, 1923, 1947,
+          ])
+            await setYear(year);
+          await page.locator(".map-change-disclosure").focus();
+          await page.evaluate(() => {
+            window.fullscreenLayoutProbe.phase = "open details";
+          });
+          await page.keyboard.press("Enter");
+          await settled(page);
+          assert.equal(
+            await page.locator(".map-change-details").evaluate((node) => node.open),
+            true,
+          );
+          const more = page.locator(".map-change-show-all");
+          if (await more.count()) {
+            await page.evaluate(() => {
+              window.fullscreenLayoutProbe.phase = "show all changes";
+            });
+            await more.click();
+            await settled(page);
+          }
+          if (await page.evaluate(() => innerWidth > 760 && innerHeight > 620)) {
+            await page.locator(".map-change-disclosure").focus();
+            await page.locator("#map-experience").evaluate((node) => {
+              node.scrollTop = 0;
+            });
+            await page.evaluate(() => {
+              window.fullscreenLayoutProbe.phase = "keyboard ledger scroll";
+            });
+            await page.keyboard.press("PageDown");
+            await page.waitForFunction(() =>
+              document.querySelector("#map-experience").scrollTop > 0,
+            );
+          }
+          // The open ledger must remain usable without borrowing map height.
+          const lastPlace = page.locator("[data-map-change-place]").last();
+          await lastPlace.scrollIntoViewIfNeeded();
+          await settled(page);
+          assert.equal(
+            await lastPlace.evaluate((node) => {
+              const box = node.getBoundingClientRect();
+              return node.contains(document.elementFromPoint(
+                box.x + box.width / 2,
+                box.y + box.height / 2,
+              ));
+            }),
+            true,
+            "The expanded ledger can scroll to its last named place",
+          );
+          for (const year of [1948, 1963, 1964, 1997, 1996, 1601, 1602, 1947])
+            await setYear(year);
+          await page.locator(".map-change-disclosure").focus();
+          await page.evaluate(() => {
+            window.fullscreenLayoutProbe.phase = "close details";
+          });
+          await page.keyboard.press("Enter");
+          await settled(page);
+          assert.equal(
+            await page.locator(".map-change-details").evaluate((node) => node.open),
+            false,
+          );
+          // Exercise real range-pointer input too: a moving track can otherwise
+          // make the drag miss the control after the first year changes.
+          await page.locator("#year-slider").scrollIntoViewIfNeeded();
+          const slider = await page.locator("#year-slider").boundingBox();
+          await page.evaluate(() => {
+            window.fullscreenLayoutProbe.phase = "pointer scrub";
+          });
+          await page.mouse.move(slider.x + 10, slider.y + slider.height / 2);
+          await page.mouse.down();
+          await page.mouse.move(
+            slider.x + slider.width - 10,
+            slider.y + slider.height / 2,
+            { steps: 24 },
+          );
+          await page.mouse.up();
+          await settled(page);
+          const recorded = await page.evaluate(() => {
+            const probe = window.fullscreenLayoutProbe;
+            probe.sample();
+            probe.stopped = true;
+            cancelAnimationFrame(probe.frame);
+            probe.observer.disconnect();
+            return {
+              samples: probe.samples,
+              resizing: probe.resizing,
+              visibility: [...probe.visibility],
+            };
+          });
+          assert.deepEqual(
+            recorded.visibility.sort(),
+            [false, true],
+            "The regression must exercise both hidden and visible change disclosures",
+          );
+          assert.ok(
+            recorded.samples.length > 20,
+            "Capture layout throughout the interaction, including intermediate frames",
+          );
+          const initial = recorded.samples[0];
+          const changes = recorded.samples.flatMap((sample) => {
+            const result = [];
+            for (const element of ["stage", "canvas", "buffer", "slider"])
+              for (const dimension of element === "buffer"
+                ? ["width", "height"]
+                : ["x", "y", "width", "height"])
+                if (
+                  Math.abs(sample[element][dimension] - initial[element][dimension]) > 1
+                )
+                  result.push(
+                    `${sample.phase}: ${element}.${dimension} ${initial[element][dimension]} → ${sample[element][dimension]}`,
+                  );
+            return result;
+          });
+          assert.deepEqual(
+            [...new Set(changes)].slice(0, 20),
+            [],
+            "Scrubbing and expanding details must not resize or shift the scene, canvas or slider",
+          );
+          for (const sample of recorded.resizing)
+            assert.ok(
+              Math.abs(sample.stage.width - initial.stage.width) <= 1 &&
+                Math.abs(sample.stage.height - initial.stage.height) <= 1,
+              `ResizeObserver saw a transient scene resize during ${sample.phase}`,
+            );
+          assert.deepEqual(errors, []);
+          await exit(page, true);
+        },
+      );
+    } finally {
+      await context.close();
+    }
+  }
+}
+
 (async () => {
   await fs.mkdir(ARTIFACTS, { recursive: true });
   const { server, origin } = await startServer();
@@ -800,9 +1019,13 @@ async function integrationTests(browser, name, origin) {
       const browser = await browsers[name].launch(launch);
       console.log(`INFO Browser ${name} ${browser.version()}`);
       try {
-        await fixtureTests(browser, name, origin);
-        if (process.env.FULLSCREEN_FIXTURE_ONLY !== "1")
-          await integrationTests(browser, name, origin);
+        if (process.env.FULLSCREEN_STABILITY_ONLY !== "1")
+          await fixtureTests(browser, name, origin);
+        if (process.env.FULLSCREEN_FIXTURE_ONLY !== "1") {
+          if (process.env.FULLSCREEN_STABILITY_ONLY !== "1")
+            await integrationTests(browser, name, origin);
+          await stabilityTests(browser, name, origin);
+        }
       } finally {
         await browser.close();
       }
