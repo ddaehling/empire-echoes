@@ -3,6 +3,7 @@ import { createMap, MAP_LEGEND } from "./flat-map.js";
 import { eras } from "../../js/classroom/content.js";
 import { createYearEndData } from "./map-change-data.js";
 import { createTerritoryFocus } from "./territory-focus.js";
+import { createWordHelp } from "./word-help.js";
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
 const $$ = (selector, parent = document) => [
@@ -797,6 +798,7 @@ async function boot() {
     wireEvents();
     reflectProgress(rallye.getProgress());
     await renderRoute({ initial: true });
+    createWordHelp({ mount: $("#reading-tools") });
     $("#atlas-experience").setAttribute("aria-busy", "false");
     $("#boot-error").hidden = true;
     document.documentElement.dataset.ready = "true";

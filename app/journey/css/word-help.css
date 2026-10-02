@@ -1,0 +1,74 @@
+.reading-tools {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 8px clamp(20px, 3.4vw, 64px) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 20px;
+}
+.word-help-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 4px;
+  color: var(--blue);
+  background: transparent;
+  font-weight: 600;
+  font-size: 15px;
+}
+.word-help-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.word-help-toggle[aria-pressed="true"] { color: var(--accent); }
+.word-help-instruction { margin: 0; font-size: 14px; color: var(--text); flex: 1 1 270px; }
+.word-help-instruction:empty { display: none; }
+.word-help-dialog {
+  position: fixed;
+  inset: auto;
+  width: min(460px, calc(100vw - 24px));
+  max-height: min(660px, calc(100dvh - 32px));
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  color: var(--ink);
+}
+.word-help-dialog::backdrop { background: rgb(24 35 59 / 16%); }
+.word-help-head { display: flex; align-items: flex-start; gap: 12px; justify-content: space-between; }
+.word-help-dialog h2 { margin: 0 0 14px; font: 600 30px/1.15 var(--serif); overflow-wrap: anywhere; }
+.word-help-dialog h3 { font: 600 16px/1.4 var(--sans); margin: 20px 0 6px; }
+.word-help-close { flex: none; min-width: 44px; min-height: 44px; padding: 8px; margin: -10px -10px 0 0; background: transparent; color: var(--text); font-size: 25px; line-height: 1; }
+.word-help-dialog p { margin: 0 0 12px; line-height: 1.55; }
+.word-help-meaning { font-size: 19px; }
+.word-help-context { padding: 12px 14px; margin: 14px 0 0; background: var(--bg); border-radius: 5px; font-size: 15px; line-height: 1.55; overflow-wrap: anywhere; }
+.word-help-examples { padding-left: 22px; margin: 0 0 16px; }
+.word-help-examples li + li { margin-top: 6px; }
+.word-help-footnote, .word-help-status { color: var(--muted); font-size: 14px; }
+.word-help-actions { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 20px; }
+.word-help-primary, .word-help-secondary { min-height: 44px; padding: 10px 15px; border-radius: 5px; font-weight: 600; }
+.word-help-primary { background: var(--blue); color: white; }
+.word-help-secondary { background: var(--blue-soft); color: var(--blue); }
+.word-help-primary:disabled { background: var(--bg); color: var(--muted); cursor: default; }
+.word-help-dialog a { color: var(--blue); }
+.word-help-find { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.word-help-find label { display: block; margin-bottom: 8px; font-weight: 600; }
+.word-help-find-row { display: flex; gap: 8px; }
+.word-help-find input { width: 100%; min-width: 0; min-height: 44px; border: 1px solid var(--line); border-radius: 5px; padding: 9px 12px; background: white; }
+.word-help-matches { display: grid; gap: 8px; margin-top: 16px; }
+.word-help-match { text-align: left; padding: 12px; border-radius: 5px; background: var(--bg); color: var(--text); line-height: 1.5; font-size: 15px; }
+.word-help-match:hover { background: var(--blue-soft); }
+.word-help-match mark { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+::highlight(word-help) { background: #fae8df; color: #18233b; }
+[data-word-reading] { -webkit-touch-callout: none; }
+.word-help-picking [data-word-reading] { cursor: help; }
+.atlas-fullscreen-open .reading-tools { visibility: hidden; }
+@media (max-width: 600px) {
+  .reading-tools { padding-inline: 20px; gap: 0 20px; }
+  .word-help-dialog { max-height: calc(85dvh - env(safe-area-inset-bottom, 0px)); padding: 22px; padding-bottom: max(22px, env(safe-area-inset-bottom, 0px)); }
+  .word-help-dialog h2 { font-size: 28px; }
+}
+@media print { .reading-tools, .word-help-dialog { display: none !important; } }

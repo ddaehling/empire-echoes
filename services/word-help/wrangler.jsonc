@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "empire-echoes-word-help",
+  "account_id": "64275110b49ae19dca209151f92e533d",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-02",
+  "workers_dev": true,
+  "preview_urls": false,
+  "send_metrics": false,
+  "observability": { "enabled": false },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://ddaehling.github.io,http://localhost:8777,http://127.0.0.1:8777",
+    "OPENAI_MODEL": "gpt-6-luna",
+    "DAILY_REQUEST_LIMIT": "1000",
+    "MINUTE_REQUEST_LIMIT": "300",
+    "CACHE_MAX_ENTRIES": "2000"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "WORD_HELP", "class_name": "WordHelpService" }]
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "OPENAI_API_KEY",
+      "store_id": "1bdd75ca082246ecb72900394056b1b0",
+      "secret_name": "OPENAI_API_KEY"
+    }
+  ],
+  "exports": {
+    "WordHelpService": { "type": "durable-object", "storage": "sqlite" }
+  },
+  "env": {
+    "local": {
+      "vars": {
+        "ALLOWED_ORIGINS": "http://localhost:8777,http://127.0.0.1:8777",
+        "OPENAI_MODEL": "gpt-6-luna",
+        "DAILY_REQUEST_LIMIT": "1000",
+        "MINUTE_REQUEST_LIMIT": "300",
+        "CACHE_MAX_ENTRIES": "2000"
+      },
+      "durable_objects": {
+        "bindings": [{ "name": "WORD_HELP", "class_name": "WordHelpService" }]
+      },
+      "secrets_store_secrets": []
+    }
+  }
+}

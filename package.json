@@ -20,7 +20,10 @@
     "test:journey:sources": "node tools/journey-source-reading-test.js",
     "test:journey:progress": "node tools/journey-progress-test.js",
     "test:journey:recovery": "node tools/journey-revision-recovery-test.js",
-    "test:journey:identities": "node tools/journey-identity-preparation-test.js"
+    "test:journey:identities": "node tools/journey-identity-preparation-test.js",
+    "test:journey:words": "node tools/journey-word-glossary-test.js && node tools/journey-word-help-test.js",
+    "test:journey:vocabulary": "node tools/journey-vocabulary-test.js",
+    "test:word-help:service": "npm --prefix services/word-help test"
   },
   "keywords": [],
   "author": "",

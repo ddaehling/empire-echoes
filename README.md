@@ -158,6 +158,27 @@ The full research atlas remains accessible through the footer. Its original arch
 modules and documentation are retained; see [docs/RESEARCH_ATLAS.md](docs/RESEARCH_ATLAS.md).
 The classroom redesign's rationale and scope are in [docs/CLASSROOM_DESIGN.md](docs/CLASSROOM_DESIGN.md).
 
+## Word help and personal vocabulary
+
+In the current journey, press and hold a word on an iPad or right-click it with a mouse.
+Word help expands useful expressions such as **gain power**, explains their meaning in
+the passage, and gives two easy examples. The **Word help** control also offers tap-to-choose
+and keyboard-accessible search through the visible reading text. Answers and notes are
+excluded from lookups.
+
+Students can save explanations to **My vocabulary**, then **Download PDF**. Their list
+stays in the browser on that device; the PDF is created locally. A prepared glossary
+supports common expressions when the live service is unavailable.
+
+The GitHub Pages frontend calls a Cloudflare Worker using GPT-6 Luna. The existing
+`OPENAI_API_KEY` stays in Cloudflare Secrets Store. Setup, key rotation, costs, request
+limits and deployment commands are in [the service guide](services/word-help/README.md).
+
+Run `npm run test:journey:words`, `npm run test:journey:vocabulary`, and
+`npm run test:word-help:service` for these features. The word-help suite uses Chromium
+and WebKit; install both with `npx playwright install chromium webkit`, or set
+`BROWSER=chromium` for a Chromium-only run.
+
 ## Verify
 
 Install development dependencies and Playwright's Chromium once if not already present:
