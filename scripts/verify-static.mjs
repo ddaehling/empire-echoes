@@ -10,6 +10,17 @@ const manifest = JSON.parse(
   await readFile(path.join(output, "build-manifest.json"), "utf8"),
 );
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const localGuideFiles = [
+  "app/journey/js/teacher.js",
+  "app/journey/js/teacher-content.js",
+  "app/journey/css/teacher.css",
+  "app/journey/assets/teacher-handout.pdf",
+];
+for (const file of localGuideFiles) {
+  assert((await stat(path.join(root, file))).size > 0, `Local guide missing: ${file}`);
+  assert(!manifest.files[file], `Current teacher guide published: ${file}`);
+  assert(manifest.files[`${manifest.snapshot}/${file}`], `Frozen guide missing: ${file}`);
+}
 const appDocuments = new Set([
   "vendor/README.md",
   "next/vendor/README.md",
@@ -181,7 +192,6 @@ for (const prefix of ["app", `${manifest.snapshot}/app`]) {
     "next/index.html",
     "journey/index.html",
     "journey/js/main.js",
-    "journey/assets/teacher-handout.pdf",
     "data/geo/units-coarse.topo.json",
     "assets/fonts/source-sans-3-var-roman-latin.woff2",
   ]) {

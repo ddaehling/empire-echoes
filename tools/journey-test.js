@@ -8,6 +8,7 @@ const crypto = require("node:crypto");
 const {
   startServer: privateServer,
   noAssessment,
+  localTeacherDocument,
 } = require("./qa/learning-harness.js");
 const { chromium } = require("playwright");
 const ROOT = path.resolve(__dirname, "..");
@@ -128,8 +129,11 @@ async function main() {
           await page
             .locator(".main-nav [data-view]")
             .evaluateAll((ns) => ns.map((n) => n.dataset.view)),
-          ["explore", "rallye", "teacher"],
+          ["explore", "rallye"],
         );
+        assert.equal(await page.locator('#teacher-view, a[href="#teacher"]').count(), 0);
+        await route(page, "teacher", "explore");
+        assert.equal(await page.locator("canvas[data-globe-ready=true]").count(), 1);
         for (const url of ["../next/", "../"]) {
           const response = await page.request.get(
             new global.URL(url, URL).href,
@@ -375,7 +379,7 @@ async function main() {
       },
     );
     await check(
-      "all four destinations fit desktop, tablet and mobile",
+      "all three destinations fit desktop, tablet and mobile",
       async () => {
         for (const width of [390, 768, 1440]) {
           await page.setViewportSize({
@@ -386,7 +390,6 @@ async function main() {
             ["explore", "explore"],
             ["territory?id=hong-kong&year=1997", "territory"],
             ["rallye", "rallye"],
-            ["teacher", "teacher"],
           ]) {
             await route(page, hash, view);
             await noOverflow(page);
@@ -399,17 +402,9 @@ async function main() {
       },
     );
     await check(
-      "teacher handout contains exact rallye prompts, all station keys and complete downloads",
+      "retained local teacher handout contains exact rallye prompts and all station keys",
       async () => {
-        const guide = await page.evaluate(async () => {
-          const { teacherGuide } = await import("./js/teacher-content.js");
-          const { renderTeacherDocument, teacherGuideText } =
-            await import("./js/teacher.js");
-          return {
-            html: renderTeacherDocument(teacherGuide),
-            text: teacherGuideText(teacherGuide),
-          };
-        });
+        const guide = await localTeacherDocument();
         assert.ok(
           stages.every((s) => guide.text.includes(s.investigation.prompt)),
         );

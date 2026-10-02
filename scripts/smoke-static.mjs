@@ -56,13 +56,17 @@ try {
     const page = await context.newPage();
     const errors = [],
       missing = [],
-      external = [];
+      external = [],
+      teacherRequests = [];
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("response", (response) => {
       if (response.status() >= 400)
         missing.push(`${response.status()} ${response.url()}`);
     });
     page.on("request", (request) => {
+      if (/\/app\/journey\/(?:js\/teacher(?:-content)?\.js|css\/teacher\.css|assets\/teacher-handout\.pdf)$/.test(new URL(request.url()).pathname) &&
+          !request.url().includes("/snapshots/"))
+        teacherRequests.push(request.url());
       if (
         !request.url().startsWith(origin) &&
         !/^(?:data|blob):/.test(request.url())
@@ -78,11 +82,9 @@ try {
     assert.equal(new URL(page.url()).pathname, `${prefix}/app/journey/`);
     assert.equal(new URL(page.url()).hash, "#rallye");
     await go("/app/journey/#teacher");
-    const pdf = await page.request.get(
-      `${origin}${prefix}/app/journey/assets/teacher-handout.pdf`,
-    );
-    assert.equal(pdf.status(), 200);
-    assert((await pdf.body()).subarray(0, 5).equals(Buffer.from("%PDF-")));
+    await page.locator("#explore-view").waitFor({ state: "visible" });
+    assert.equal(await page.locator('#teacher-view, [data-view="teacher"], a[href="#teacher"]').count(), 0);
+    assert.deepEqual(teacherRequests, [], "Student page requested a teacher guide asset");
     await go("/app/journey/#territory?id=british-india&year=1930");
     const photograph = page.locator("#territory-view img").first();
     await photograph.waitFor();
@@ -90,6 +92,11 @@ try {
     assert(await photograph.evaluate((image) => image.naturalWidth > 0));
     await go("/snapshots/2026-10-01-before-simplification/app/journey/#rallye");
     await page.locator("#rallye-view").waitFor({ state: "visible" });
+    const frozenPDF = await page.request.get(
+      `${origin}${prefix}/snapshots/2026-10-01-before-simplification/app/journey/assets/teacher-handout.pdf`,
+    );
+    assert.equal(frozenPDF.status(), 200);
+    assert((await frozenPDF.body()).subarray(0, 5).equals(Buffer.from("%PDF-")));
     await go("/app/next/");
     await page.goto(`${origin}${prefix}/app/`);
     await page.waitForLoadState("networkidle");
@@ -105,6 +112,10 @@ try {
       ".env",
       "snapshots/2026-10-01-before-simplification/docs/unit-alignment/SOURCES.md",
       "app/journey/assets/territories/download-metadata.json",
+      "app/journey/js/teacher.js",
+      "app/journey/js/teacher-content.js",
+      "app/journey/css/teacher.css",
+      "app/journey/assets/teacher-handout.pdf",
     ]) {
       assert.equal(
         (await page.request.get(`${origin}${prefix}/${privatePath}`)).status(),
@@ -124,7 +135,7 @@ try {
       `Unexpected runtime network at ${prefix || "/"}`,
     );
     console.log(
-      `PASS ${prefix || "/"}: root/hash, enquiry, teacher PDF, photograph, frozen enquiry, older apps, licences and privacy exclusions; no browser errors, missing resources or external requests.`,
+      `PASS ${prefix || "/"}: root/hash, enquiry, legacy teacher URL fallback, photograph, frozen enquiry and PDF, older apps, licences and current guide exclusions; no browser errors, missing resources or external requests.`,
     );
     await context.close();
   }

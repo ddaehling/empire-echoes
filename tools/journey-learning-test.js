@@ -14,6 +14,7 @@ const {
   startServer,
   ready,
   download,
+  localTeacherDocument,
 } = require("./qa/learning-harness.js");
 const ARTIFACTS = process.env.QA_ARTIFACT_DIR || "/tmp/empire-learning-qa";
 const failures = [];
@@ -87,7 +88,11 @@ async function preserveSnapshot() {
     });
     const page = await context.newPage();
     page.setDefaultTimeout(12000);
-    const errors = [];
+    const errors = [], teacherRequests = [];
+    page.on("request", (request) => {
+      if (/\/app\/journey\/(?:js\/teacher(?:-content)?\.js|css\/teacher\.css|assets\/teacher-handout\.pdf)$/.test(new URL(request.url()).pathname))
+        teacherRequests.push(request.url());
+    });
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("response", (response) => {
       if (response.status() >= 400 && response.url().startsWith(origin))
@@ -334,25 +339,15 @@ async function preserveSnapshot() {
       },
     );
     await check(
-      "teacher UI and downloads contain current prompts and no contradictory assessment guidance",
+      "student page omits the teacher guide; retained local exports preserve current prompts",
       async () => {
         await page.evaluate(() => {
           location.hash = "teacher";
         });
-        await page.locator("#teacher-view").waitFor({ state: "visible" });
-        noAssessment(
-          await page.locator("#teacher-view").innerText(),
-          "teacher UI",
-        );
-        const guide = await page.evaluate(async () => {
-          const { teacherGuide } = await import("./js/teacher-content.js");
-          const { renderTeacherDocument, teacherGuideText } =
-            await import("./js/teacher.js");
-          return {
-            html: renderTeacherDocument(teacherGuide),
-            text: teacherGuideText(teacherGuide),
-          };
-        });
+        await page.locator("#explore-view").waitFor({ state: "visible" });
+        assert.equal(await page.locator('#teacher-view, [data-view="teacher"], a[href="#teacher"]').count(), 0);
+        assert.deepEqual(teacherRequests, [], "Current page must not request teacher material");
+        const guide = await localTeacherDocument();
         noAssessment(guide.text, "teacher text");
         noAssessment(guide.html, "teacher HTML");
         for (const stage of stages)

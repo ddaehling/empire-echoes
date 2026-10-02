@@ -35,6 +35,14 @@ const publicFiles = [
   "licenses/source-serif-4-OFL.txt",
   "licenses/ibm-plex-mono-OFL.txt",
 ];
+// Retain the current guide in the workspace, but keep it off the student site.
+// Use exact paths so the frozen versions remain unchanged.
+const localOnlyFiles = new Set([
+  "app/journey/js/teacher.js",
+  "app/journey/js/teacher-content.js",
+  "app/journey/css/teacher.css",
+  "app/journey/assets/teacher-handout.pdf",
+]);
 
 async function appFiles(directory, relative = "") {
   const files = [];
@@ -62,6 +70,7 @@ async function appFiles(directory, relative = "") {
 const inputs = [{ source: "index.html", destination: "index.html" }];
 for (const appRoot of ["app", `${snapshot}/app`]) {
   for (const file of await appFiles(path.join(root, appRoot))) {
+    if (localOnlyFiles.has(`${appRoot}/${file}`)) continue;
     inputs.push({
       source: `${appRoot}/${file}`,
       destination: `${appRoot}/${file}`,

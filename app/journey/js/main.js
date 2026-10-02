@@ -24,7 +24,6 @@ let data,
   territoryPage,
   territoryFocus,
   focusSession,
-  teacher,
   fullscreen,
   mapExperience;
 let previousYear = 1922,
@@ -409,7 +408,7 @@ async function renderRoute({ initial = false } = {}) {
   }
   const [path, query = ""] = location.hash.slice(1).split("?");
   const parameters = new URLSearchParams(query);
-  const nextView = ["rallye", "teacher", "territory"].includes(path)
+  const nextView = ["rallye", "territory"].includes(path)
     ? path
     : "explore";
   const previousView = activeView;
@@ -447,9 +446,8 @@ async function renderRoute({ initial = false } = {}) {
       selectedId = focusSession.selectedId;
     }
   }
-  if (previousView === "teacher" && nextView !== previousView) teacher.hide?.();
   activeView = nextView;
-  for (const view of ["explore", "rallye", "territory", "teacher"])
+  for (const view of ["explore", "rallye", "territory"])
     $("#" + view + "-view").hidden =
       view === "explore"
         ? !["explore", "territory"].includes(activeView)
@@ -512,9 +510,6 @@ async function renderRoute({ initial = false } = {}) {
   if (activeView === "rallye") {
     rallye.show();
     document.title = "The Empire Rallye · Empire / Echoes";
-  } else if (activeView === "teacher") {
-    teacher.show();
-    document.title = "Teacher guide · Empire / Echoes";
   } else {
     returningToRallye = parameters.get("return") === "rallye";
     $("#rallye-map-return").hidden = !returningToRallye;
@@ -701,13 +696,11 @@ async function boot() {
     const [
       { createRallye },
       { createTerritory },
-      { createTeacher },
       { createFullscreen },
       { createMapExperience },
     ] = await Promise.all([
       import("./rallye.js"),
       import("./territory.js"),
-      import("./teacher.js"),
       import("./fullscreen.js"),
       import("./map-experience.js"),
     ]);
@@ -744,10 +737,6 @@ async function boot() {
       onNavigate: (id, wantedYear = year) => {
         location.hash = territoryHash(id, wantedYear);
       },
-    });
-    teacher = await createTeacher($("#teacher-view"), {
-      data,
-      onExplore: (options) => explore(options),
     });
     mapExperience = createMapExperience($("#map-experience"), {
       data,

@@ -80,6 +80,18 @@ async function download(page, selector) {
   await button.click();
   return fs.readFile(await (await pending).path(), "utf8");
 }
+// Teacher material remains an editable local artifact; never fetch it through
+// the student page just to exercise its document export.
+async function localTeacherDocument() {
+  const moduleURL = (source) =>
+    `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`;
+  const source = (file) => fs.readFile(path.join(ROOT, "app/journey/js", file), "utf8");
+  const rallyeURL = moduleURL(await source("rallye-content.js"));
+  const contentURL = moduleURL((await source("teacher-content.js")).replace('"./rallye-content.js"', JSON.stringify(rallyeURL)));
+  const documentURL = moduleURL((await source("teacher.js")).replace('"./teacher-content.js"', JSON.stringify(contentURL)));
+  const { renderTeacherDocument, teacherGuideText } = await import(documentURL);
+  return { html: renderTeacherDocument(), text: teacherGuideText() };
+}
 module.exports = {
   ROOT,
   noAssessment,
@@ -87,4 +99,5 @@ module.exports = {
   startServer,
   ready,
   download,
+  localTeacherDocument,
 };
