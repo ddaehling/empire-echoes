@@ -23,7 +23,8 @@
     "test:journey:identities": "node tools/journey-identity-preparation-test.js",
     "test:journey:words": "node tools/journey-word-glossary-test.js && node tools/journey-word-help-test.js",
     "test:journey:vocabulary": "node tools/journey-vocabulary-test.js",
-    "test:word-help:service": "npm --prefix services/word-help test"
+    "test:word-help:service": "npm --prefix services/word-help test",
+    "test:reader": "node tools/reader-test.js"
   },
   "keywords": [],
   "author": "",

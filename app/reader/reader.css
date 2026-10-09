@@ -1,0 +1,93 @@
+.reader-masthead, .reader-layout { width: min(100% - 80px, 1240px); margin-inline: auto; }
+.reader-masthead { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 88px; border-bottom: 1px solid var(--border-default); }
+.reader-brand { font-family: var(--font-serif); font-size: 23px; font-weight: 600; color: var(--accent-2-ink); }
+.reader-saved-link { font-size: 15px; color: var(--accent-2-ink); text-decoration: none; }
+.reader-saved-link:hover { text-decoration: underline; }
+.reader-saved-link .num { margin-left: 8px; }
+.reader-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: clamp(40px, 6vw, 88px); align-items: start; padding-block: 62px 90px; }
+.reading { min-width: 0; }
+.reading-header h1 { max-width: 20ch; font-size: clamp(34px, 3.8vw, 50px); font-weight: 600; letter-spacing: -.025em; }
+#reading-source { margin-top: 20px; font-size: 15px; color: var(--text-secondary); }
+#reading-source { overflow-wrap: anywhere; white-space: pre-line; }
+#reading-parts { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 22px; font-size: 15px; }
+#reading-parts a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-2-ink); text-underline-offset: .2em; }
+#reading-text .reading-part-title { margin: 2em 0 .75em; font: 600 17px/1.4 var(--font-sans); color: var(--accent-2-ink); letter-spacing: 0; scroll-margin-top: 24px; }
+#reading-text .reading-part-title:first-child { margin-top: 0; }
+.reading-guidance { margin-top: 26px; color: var(--accent-2-ink); font-size: 17px; }
+.keyboard-help { margin-top: 8px; color: var(--text-secondary); font-size: 14px; }
+.keyboard-help summary { cursor: pointer; width: fit-content; text-underline-offset: .2em; }
+.keyboard-help summary:hover { text-decoration: underline; }
+.keyboard-help p { max-width: 60ch; margin-top: 8px; }
+#reading-text { margin-top: 36px; max-width: 66ch; font-family: var(--font-serif); font-size: clamp(20px, 1.7vw, 23px); line-height: 1.78; font-weight: 400; }
+#reading-text p + p { margin-top: 1.25em; }
+.reading-word { display: inline; margin: 0; padding: 0; color: inherit; font: inherit; line-height: inherit; border-radius: 2px; text-align: inherit; vertical-align: baseline; overflow-wrap: anywhere; }
+.reading-word:hover { color: var(--accent-2-ink); background: var(--surface-well); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
+.reading-word[aria-pressed="true"] { color: var(--accent-2-ink); background: var(--surface-well); box-shadow: inset 0 -2px var(--accent-2-ink); }
+.reading-word:focus-visible { outline: 2px solid var(--accent-2-ink); outline-offset: 2px; }
+.reading-empty { padding-block: 28px; border-top: 1px solid var(--border-default); color: var(--text-secondary); font-size: 20px; }
+.reader-rail { position: sticky; top: 32px; margin-top: 0; min-width: 0; }
+.word-panel { padding-block: 18px 25px; border-top: 2px solid var(--accent-2-ink); border-bottom: 1px solid var(--border-default); }
+.word-heading { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+.word-heading h2 { margin-top: 0; padding-top: 6px; font-size: 28px; color: var(--accent-2-ink); overflow-wrap: anywhere; }
+.icon-button { flex: 0 0 44px; width: 44px; height: 44px; display: grid; place-items: center; color: var(--text-secondary); }
+.icon-button:hover { background: var(--surface-well); color: var(--text-body); }
+.icon-button svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.7; fill: none; }
+#word-body { margin-top: 17px; font-family: var(--font-serif); font-size: 18px; line-height: 1.5; }
+#word-body h3 { font: 600 14px/1.4 var(--font-sans); letter-spacing: 0; margin-top: 24px; }
+#word-body h3 + p, #word-body h3 + ol { margin-top: 6px; }
+#word-body ol { padding-left: 22px; }
+#word-body li + li { margin-top: 10px; }
+#word-body .word-context { font-size: 16px; color: var(--text-secondary); }
+#word-body details { margin-top: 20px; font-family: var(--font-sans); font-size: 14px; }
+#word-body details summary { cursor: pointer; }
+#word-body blockquote { margin-top: 8px; font-family: var(--font-serif); font-size: 17px; }
+.panel-introduction { color: var(--text-secondary); }
+.reader-button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 15px; background: var(--accent-2-ink); color: var(--surface-panel); font: 600 15px/1.35 var(--font-sans); border: 1px solid var(--accent-2-ink); border-radius: var(--radius-md); text-align: center; }
+.reader-button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.reader-button:disabled { background: var(--surface-well); color: var(--text-secondary); border-color: var(--border-default); cursor: default; text-decoration: none; }
+.reader-button-secondary { background: transparent; color: var(--accent-2-ink); }
+#save-word, #download-vocabulary { margin-top: 22px; width: 100%; }
+.reader-status { color: var(--text-secondary); font-size: 14px; line-height: 1.4; margin-top: 12px; }
+.reader-status:empty { display: none; }
+.vocabulary { margin-top: 24px; }
+.vocabulary > summary { min-height: 44px; padding-block: 10px; font-weight: 600; font-size: 17px; cursor: pointer; }
+.vocabulary-note, #vocabulary-empty { margin-top: 10px; font-size: 14px; color: var(--text-secondary); }
+.saved-words { margin-top: 12px; }
+.saved-words li { padding-block: 15px; border-top: 1px solid var(--border-default); }
+.saved-words h3 { margin-top: 0; font-size: 21px; }
+.saved-words p { margin-top: 6px; font: 17px/1.45 var(--font-serif); }
+.saved-words .remove-word { min-height: 40px; color: var(--text-secondary); text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }
+.reader-privacy { margin-top: 28px; color: var(--text-secondary); font-size: 13px; line-height: 1.5; }
+.reader-skip { position: fixed; top: -100px; left: 16px; padding: 12px 16px; z-index: var(--z-max); background: var(--surface-panel); }
+.reader-skip:focus { top: 16px; }
+[hidden] { display: none !important; }
+@media (max-width: 950px) {
+  .reader-masthead, .reader-layout { width: min(100% - 48px, 760px); }
+  .reader-layout { grid-template-columns: 1fr; gap: 36px; padding-top: 38px; }
+  .reader-rail { position: static; }
+  .word-panel:not(.is-active) { display: none; }
+  .word-panel.is-active { position: fixed; bottom: 0; left: 0; right: 0; z-index: var(--z-panel); background: var(--surface-panel); padding: 18px max(24px, calc((100vw - 700px) / 2)) max(24px, env(safe-area-inset-bottom)); max-height: 54dvh; overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 -12px 32px color-mix(in srgb, var(--text-body) 12%, transparent); }
+  body.has-word-help { padding-bottom: 56dvh; }
+  .word-panel.is-active .word-heading { position: sticky; top: -18px; padding-top: 6px; padding-bottom: 10px; margin-top: -6px; background: var(--surface-panel); }
+  #word-body { margin-top: 10px; }
+  .vocabulary { padding-top: 12px; border-top: 1px solid var(--border-default); }
+  .reader-privacy { max-width: 60ch; }
+}
+@media (max-width: 480px) {
+  .reader-masthead, .reader-layout { width: calc(100% - 36px); }
+  .reader-masthead { min-height: 74px; gap: 12px; }
+  .reader-brand { font-size: 20px; }
+  .reader-saved-link { font-size: 14px; }
+  .reading-header h1 { font-size: 35px; }
+  #reading-text { margin-top: 30px; }
+}
+@media (forced-colors: active) {
+  .reading-word[aria-pressed="true"] { outline: 2px solid Highlight; }
+  .word-panel { border: 1px solid CanvasText; }
+}
+@media print {
+  .reader-masthead, .reader-rail, .reading-guidance, .keyboard-help, .reader-skip { display: none; }
+  .reader-layout { display: block; width: 100%; padding: 0; }
+  #reading-text { max-width: none; font-size: 12pt; }
+  .reading-word[aria-pressed="true"] { box-shadow: none; background: none; color: inherit; }
+}
